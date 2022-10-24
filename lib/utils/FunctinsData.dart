@@ -132,27 +132,27 @@ class AppFunction {
 
   static var teachers = [
     'Students',
-    'Academic',
+    // 'Academic',
     'Attendance',
     'Leave',
-    'Contents',
+    // 'Contents',
     'Notice',
     'Library',
-    'Homework',
-    'About',
+    // 'Homework',
+    // 'About',
     'Settings',
   ];
 
   static var teachersIcons = [
     'assets/images/students.png',
-    'assets/images/academics.png',
+    // 'assets/images/academics.png',
     'assets/images/attendance.png',
     'assets/images/leave.png',
-    'assets/images/contents.png',
+    // 'assets/images/contents.png',
     'assets/images/notice.png',
     'assets/images/library.png',
-    'assets/images/homework.png',
-    'assets/images/about.png',
+    // 'assets/images/homework.png',
+    // 'assets/images/about.png',
     'assets/images/addhw.png',
   ];
 
