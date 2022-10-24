@@ -56,34 +56,30 @@ class _PushReportState extends State<PushReport> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Align(
-              child: Text(
-                widget.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              alignment: Alignment.center,
+          Align(
+            child: Text(
+              widget.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
+            alignment: Alignment.center,
           ),
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Align(
-              child: Text(
-                "Mood",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              alignment: Alignment.center,
+          Align(
+            child: Text(
+              "Mood",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
+            alignment: Alignment.center,
           ),
           SizedBox(
             height: 20,
@@ -235,18 +231,16 @@ class _PushReportState extends State<PushReport> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Align(
-              child: Text(
-                "FOOD",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              alignment: Alignment.center,
+          Align(
+            child: Text(
+              "FOOD",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
+            alignment: Alignment.center,
           ),
           SizedBox(
             height: 20,
@@ -397,18 +391,16 @@ class _PushReportState extends State<PushReport> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Align(
-              child: Text(
-                "Drinks",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              alignment: Alignment.center,
+          Align(
+            child: Text(
+              "Drinks",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
+            alignment: Alignment.center,
           ),
           SizedBox(
             height: 20,
@@ -559,18 +551,16 @@ class _PushReportState extends State<PushReport> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Align(
-              child: Text(
-                "OTHERS",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              alignment: Alignment.center,
+          Align(
+            child: Text(
+              "OTHERS",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
+            alignment: Alignment.center,
           ),
           SizedBox(
             height: 20,
@@ -588,9 +578,9 @@ class _PushReportState extends State<PushReport> {
                     child: TextField(
                       controller: Hygiene,
                       decoration: new InputDecoration(
-                        
                         fillColor: Color(0xFFFFFFFF),
-                        border: new OutlineInputBorder(borderRadius: BorderRadius.circular(10),
+                        border: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                             borderSide: new BorderSide(color: Colors.teal)),
                       ),
                     ),
@@ -613,7 +603,7 @@ class _PushReportState extends State<PushReport> {
                     decoration: new InputDecoration(
                       fillColor: Color(0xFFFFFFFF),
                       border: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: new BorderSide(color: Colors.teal)),
                     ),
                   ),
@@ -635,7 +625,7 @@ class _PushReportState extends State<PushReport> {
                     decoration: new InputDecoration(
                       fillColor: Color(0xFFFFFFFF),
                       border: new OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: new BorderSide(color: Colors.teal)),
                     ),
                   ),
@@ -666,7 +656,6 @@ class _PushReportState extends State<PushReport> {
               style: TextStyle(
                   color: Color(0xff93cfc4),
                   fontSize: 20,
-                  
                   fontWeight: FontWeight.w700),
             ),
             SizedBox(
@@ -678,12 +667,9 @@ class _PushReportState extends State<PushReport> {
                 decoration: new InputDecoration(
                   fillColor: Color(0xFFFFFFFF),
                   border: new OutlineInputBorder(
-                borderRadius: BorderRadius
-                      .circular(10),
+                      borderRadius: BorderRadius.circular(10),
                       borderSide: new BorderSide(color: Colors.teal)),
-                
                 ),
-                
                 maxLines: 5,
               ),
               margin: EdgeInsets.all(5),
