@@ -1,0 +1,68 @@
+{
+    "project_info": {
+        "project_number": "1018885557108",
+        "project_id": "kashkol-e29b5",
+        "storage_bucket": "kashkol-e29b5.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1018885557108:android:e4222a0d64734e67767a21",
+                "android_client_info": {
+                    "package_name": "com.edu.infix.infixedu.tolba"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "1018885557108-l8qd7k43jquufe8trv4sfe61li2koqkc.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBAVBwGFHiZFD85lIRi-WCi9wSCp-e5I68"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "1018885557108-l8qd7k43jquufe8trv4sfe61li2koqkc.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1018885557108:android:25890a85457437b9767a21",
+                "android_client_info": {
+                    "package_name": "store.elma3rd.kashkol"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "1018885557108-l8qd7k43jquufe8trv4sfe61li2koqkc.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBAVBwGFHiZFD85lIRi-WCi9wSCp-e5I68"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "1018885557108-l8qd7k43jquufe8trv4sfe61li2koqkc.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

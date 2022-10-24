@@ -1,0 +1,239 @@
+{
+    "success": true,
+    "data": {
+        "students": [
+            {
+                "id": 1,
+                "student_photo": "public/uploads/student/222b8dc20d16798d17d78820cbe115a9.png",
+                "full_name": "Gerardo Waters",
+                "roll_no": 39987,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 8
+            },
+            {
+                "id": 2,
+                "student_photo": "",
+                "full_name": "Jimmy Wiza",
+                "roll_no": 39931,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "A",
+                "user_id": 10
+            },
+            {
+                "id": 1,
+                "student_photo": "",
+                "full_name": "Quinn Price",
+                "roll_no": 77541,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 12
+            },
+            {
+                "id": 4,
+                "student_photo": "",
+                "full_name": "Bryon Keebler",
+                "roll_no": 80819,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "A",
+                "user_id": 14
+            },
+            {
+                "id": 5,
+                "student_photo": "",
+                "full_name": "Gus Rempel",
+                "roll_no": 11700,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "A",
+                "user_id": 16
+            },
+            {
+                "id": 6,
+                "student_photo": "",
+                "full_name": "Cristina Kassulke",
+                "roll_no": 15583,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 18
+            },
+            {
+                "id": 7,
+                "student_photo": "",
+                "full_name": "Houston Torphy",
+                "roll_no": 21965,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 20
+            },
+            {
+                "id": 8,
+                "student_photo": "",
+                "full_name": "Dylan Hagenes",
+                "roll_no": 80136,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 22
+            },
+            {
+                "id": 9,
+                "student_photo": "",
+                "full_name": "Stephon Emard",
+                "roll_no": 50398,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 24
+            },
+            {
+                "id": 10,
+                "student_photo": "",
+                "full_name": "Gerard Hayes",
+                "roll_no": 49191,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 26
+            },
+            {
+                "id": 11,
+                "student_photo": "",
+                "full_name": "Jerry Walter",
+                "roll_no": 30250,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 28
+            },
+            {
+                "id": 12,
+                "student_photo": "public/uploads/student/755ef9a7ccba67f68bff0a499f8752a5.png",
+                "full_name": "Randi Spencer",
+                "roll_no": 36244,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 30
+            },
+            {
+                "id": 13,
+                "student_photo": "",
+                "full_name": "Corbin Aufderhar",
+                "roll_no": 15633,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "A",
+                "user_id": 32
+            },
+            {
+                "id": 14,
+                "student_photo": "",
+                "full_name": "Leif Spinka",
+                "roll_no": 74437,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 34
+            },
+            {
+                "id": 15,
+                "student_photo": "",
+                "full_name": "Geoffrey Lindgren",
+                "roll_no": 69037,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 36
+            },
+            {
+                "id": 16,
+                "student_photo": "",
+                "full_name": "Lewis Towne",
+                "roll_no": 85334,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 38
+            },
+            {
+                "id": 17,
+                "student_photo": "",
+                "full_name": "Reuben Oberbrunner",
+                "roll_no": 76401,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 40
+            },
+            {
+                "id": 18,
+                "student_photo": "",
+                "full_name": "Orlando VonRueden",
+                "roll_no": 42889,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 42
+            },
+            {
+                "id": 19,
+                "student_photo": "",
+                "full_name": "Green Schmeler",
+                "roll_no": 76688,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 44
+            },
+            {
+                "id": 20,
+                "student_photo": "",
+                "full_name": "Clifford Dach",
+                "roll_no": 34938,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 46
+            },
+            {
+                "id": 21,
+                "student_photo": null,
+                "full_name": "Gus McMillan",
+                "roll_no": 85335,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "P",
+                "user_id": 48
+            },
+            {
+                "id": 22,
+                "student_photo": null,
+                "full_name": "Mr Imm",
+                "roll_no": 85336,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "A",
+                "user_id": 50
+            },
+            {
+                "id": 23,
+                "student_photo": null,
+                "full_name": "AAddd DDrrr",
+                "roll_no": 85337,
+                "class_name": "One 1",
+                "section_name": "A 1",
+                "attendance_type": "L",
+                "user_id": 52
+            }
+        ],
+        "date": "2021-04-11"
+    },
+    "message": "Student Found"
+}
