@@ -25,7 +25,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         // exiting the screen
         Navigator.of(context).pop();
       }
-    });
+    } as void Function(Null)?);
   }
 
   @override
@@ -44,7 +44,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           ),
         ),
         onWillPop: () {
-          return _webViewPlugin.close();
+          return _webViewPlugin.close().then((value) => value as bool);
         }
     );
   }

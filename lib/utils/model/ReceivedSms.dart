@@ -17,10 +17,10 @@ class ReceivedSms {
     this.deviceId,
   });
 
-  String phoneNumber;
-  String title;
-  String body;
-  String deviceId;
+  String? phoneNumber;
+  String? title;
+  String? body;
+  String? deviceId;
 
   factory ReceivedSms.fromJson(Map<String, dynamic> json) => ReceivedSms(
     phoneNumber: json["phone_number"],

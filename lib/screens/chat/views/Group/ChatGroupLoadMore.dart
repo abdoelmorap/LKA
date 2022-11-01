@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:f_logs/model/flog/flog.dart';
 import 'package:get/get.dart' as GETx;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infixedu/screens/chat/controller/chat_controller.dart';
@@ -9,27 +10,26 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/screens/chat/models/ChatGroupOpenModel.dart';
 import 'package:infixedu/screens/chat/models/GroupThread.dart';
-import 'package:let_log/let_log.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
-class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
-  final String groupId;
+class ChatGroupLoadMore extends LoadingMoreBase<GroupThread?> {
+  final String? groupId;
   ChatGroupLoadMore(this.groupId, this.chatGroupOpenController);
   int pageIndex = 1;
   bool _hasMore = true;
   bool forceRefresh = false;
-  int productsLength = 0;
+  int? productsLength = 0;
 
-  dynamic source;
+  late dynamic source;
 
-  final ChatGroupOpenController chatGroupOpenController;
+  final ChatGroupOpenController? chatGroupOpenController;
 
   final ChatController _chatController = GETx.Get.put(ChatController());
 
   Dio _dio = Dio();
 
   @override
-  void add(GroupThread element) {
+  void add(GroupThread? element) {
     super.add(element);
   }
 
@@ -37,7 +37,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
   bool get hasMore => _hasMore;
 
   @override
-  void onStateChanged(LoadingMoreBase<GroupThread> source) {
+  void onStateChanged(LoadingMoreBase<GroupThread?> source) {
     print("stateChange");
     super.onStateChanged(source);
   }
@@ -58,7 +58,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      String _token = "";
+      String? _token = "";
       await Utils.getStringValue('token').then((value) async {
         _token = value;
         //to show loading more clearly, in your app,remove this
@@ -78,7 +78,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
             data: jsonEncode(
               {
                 "ids":
-                    chatGroupOpenController.msgIds.toSet().toList().toString(),
+                    chatGroupOpenController!.msgIds.toSet().toList().toString(),
                 "group_id": groupId,
               },
             ),
@@ -86,12 +86,12 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
               headers: Utils.setHeader(_token.toString()),
             ),
           );
-          Logger.net(
-            InfixApi.chatGroupMsgLoadMore,
-            data: jsonEncode(
+          FLog.fatal(
+            text: InfixApi.chatGroupMsgLoadMore,
+            exception: jsonEncode(
               {
                 "ids":
-                    chatGroupOpenController.msgIds.toSet().toList().toString(),
+                    chatGroupOpenController!.msgIds.toSet().toList().toString(),
                 "group_id": groupId,
               },
             ),
@@ -104,15 +104,15 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
         if (this.length == 0) {
           source = ChatGroupOpenModel.fromJson(data);
           if (source.group.threads.length != 0) {
-            if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+            if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
                 "pusher") {
-              chatGroupOpenController.lastThreadId.value =
+              chatGroupOpenController!.lastThreadId.value =
                   source.group.threads.first.id;
             }
           } else {
-            if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+            if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
                 "pusher") {
-              chatGroupOpenController.lastThreadId.value = null;
+              chatGroupOpenController!.lastThreadId.value = null;
             }
           }
         } else {
@@ -130,7 +130,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
               source.group.threads.length != 0) {
             productsLength = source.group.threads.length;
             source.group.threads.forEach((value) {
-              chatGroupOpenController.msgIds.add(value.id);
+              chatGroupOpenController!.msgIds.add(value.id);
             });
             for (var item in source.group.threads) {
               this.add(item);
@@ -141,7 +141,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
               source.singleThreads.length != 0) {
             productsLength = source.singleThreads.length;
             source.singleThreads.forEach((value) {
-              chatGroupOpenController.msgIds.add(value.id);
+              chatGroupOpenController!.msgIds.add(value.id);
             });
             for (var item in source.singleThreads.reversed) {
               this.add(item);
@@ -183,19 +183,19 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
   }
 
   Future checkNewMsg() async {
-    ChatGroupCheckMsgModel data;
+    ChatGroupCheckMsgModel? data;
 
     try {
       Map jsonData = {
-        "user_id": chatGroupOpenController.id.value,
-        "last_thread_id": chatGroupOpenController.lastThreadId.value,
+        "user_id": chatGroupOpenController!.id.value,
+        "last_thread_id": chatGroupOpenController!.lastThreadId.value,
         "group_id": groupId,
       };
-      Logger.debug('jsonCHECK', jsonData);
+      FLog.debug(text: 'jsonCHECK', exception: jsonData);
       final response = await _dio.post(
         InfixApi.chatGroupMsgCheck,
         options: Options(
-          headers: Utils.setHeader(chatGroupOpenController.token.toString()),
+          headers: Utils.setHeader(chatGroupOpenController!.token.toString()),
         ),
         data: jsonEncode(jsonData),
       );
@@ -207,13 +207,13 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
       if (response.statusCode == 200) {
         // print(msgCheckResultData['message']);
 
-        Logger.debug('NOT NULL CHECK $msgCheckResultData');
+        FLog.debug(text: 'NOT NULL CHECK $msgCheckResultData');
 
         data = ChatGroupCheckMsgModel.fromJson(response.data);
-        insert(0, data.messages.entries.first.value);
+        insert(0, data.messages!.entries.first.value);
 
-        chatGroupOpenController.msgIds
-            .insert(0, data.messages.entries.first.value.id);
+        chatGroupOpenController!.msgIds
+            .insert(0, data.messages!.entries.first.value.id);
 
         onStateChanged(this);
         // await chatGroupOpenController.getAll();
@@ -226,7 +226,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
     return data;
   }
 
-  Future deleteGroupMessage(int threadId) async {
+  Future deleteGroupMessage(int? threadId) async {
     EasyLoading.show(status: 'Deleting...');
     try {
       Map jsonData = {
@@ -239,7 +239,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
         InfixApi.chatGroupMessageDelete,
         options: Options(
           headers:
-              Utils.setHeader(chatGroupOpenController.token.value.toString()),
+              Utils.setHeader(chatGroupOpenController!.token.value.toString()),
         ),
         data: jsonEncode(jsonData),
       );
@@ -247,7 +247,7 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
       final msgCheckResultData = new Map<String, dynamic>.from(response.data);
 
       if (response.statusCode == 200) {
-        Logger.debug('AFTER DELETE CHECK $msgCheckResultData');
+        FLog.debug(text: 'AFTER DELETE CHECK $msgCheckResultData');
       } else {
         throw Exception('failed to load');
       }
@@ -258,7 +258,8 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
     }
   }
 
-  Future submitText({Map data, bool hasFile, FormData formData}) async {
+  Future submitText(
+      {Map? data, required bool hasFile, FormData? formData}) async {
     print(jsonEncode(data));
 
     try {
@@ -266,14 +267,14 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
         InfixApi.submitChatGroupText,
         options: Options(
           headers:
-              Utils.setHeader(chatGroupOpenController.token.value.toString()),
+              Utils.setHeader(chatGroupOpenController!.token.value.toString()),
         ),
         data: hasFile ? formData : jsonEncode(data),
       );
       print("SUBMIT TEXT RESPONSE => ${response.data}");
       print("SUBMIT TEXT STATUSCODE => ${response.statusCode}");
       if (response.statusCode == 200) {
-        if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+        if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
             'pusher') {
           final msgCheckResultData =
               new Map<String, dynamic>.from(response.data);
@@ -281,11 +282,11 @@ class ChatGroupLoadMore extends LoadingMoreBase<GroupThread> {
 
           insert(0, thread);
 
-          chatGroupOpenController.msgIds.insert(0, thread.id);
-          print(chatGroupOpenController.msgIds);
+          chatGroupOpenController!.msgIds.insert(0, thread.id);
+          print(chatGroupOpenController!.msgIds);
 
           onStateChanged(this);
-          chatGroupOpenController.lastThreadId.value = thread.id;
+          chatGroupOpenController!.lastThreadId.value = thread.id;
         }
       } else {
         throw Exception('failed to load');

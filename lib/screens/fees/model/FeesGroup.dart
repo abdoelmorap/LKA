@@ -1,13 +1,13 @@
 class FeeGroup {
-  int id;
-  String name;
+  int? id;
+  String? name;
   dynamic description;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   FeeGroup({
     this.id,

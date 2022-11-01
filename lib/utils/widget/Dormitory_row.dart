@@ -31,11 +31,11 @@ class _DormitoryScreenState extends State<DormitoryRow> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              dormitory.dormitoryName,
+              dormitory.dormitoryName!,
               textAlign: TextAlign.start,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(fontSize: ScreenUtil().setSp(15.0)),
             ),
             Padding(
@@ -51,7 +51,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -74,7 +74,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -97,7 +97,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -120,7 +120,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -162,7 +162,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white),
           ),
         ),
@@ -179,7 +179,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white),
           ),
         ),

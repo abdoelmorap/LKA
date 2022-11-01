@@ -1,10 +1,10 @@
 class BookIssued {
-  String title;
-  String author;
-  String issuedDate;
-  String returnDate;
-  String bookNo;
-  String status;
+  String? title;
+  String? author;
+  String? issuedDate;
+  String? returnDate;
+  String? bookNo;
+  String? status;
 
   BookIssued(
       {this.title,

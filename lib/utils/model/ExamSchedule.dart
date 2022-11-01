@@ -16,8 +16,8 @@ class ExamSchedule {
         this.studentDetail,
     });
 
-    List<ExamType> examTypes;
-    StudentDetail studentDetail;
+    List<ExamType>? examTypes;
+    StudentDetail? studentDetail;
 
     factory ExamSchedule.fromJson(Map<String, dynamic> json) => ExamSchedule(
         examTypes: List<ExamType>.from(json["exam_types"].map((x) => ExamType.fromJson(x))),
@@ -25,8 +25,8 @@ class ExamSchedule {
     );
 
     Map<String, dynamic> toJson() => {
-        "exam_types": List<dynamic>.from(examTypes.map((x) => x.toJson())),
-        "student_detail": studentDetail.toJson(),
+        "exam_types": List<dynamic>.from(examTypes!.map((x) => x.toJson())),
+        "student_detail": studentDetail!.toJson(),
     };
 }
 
@@ -40,7 +40,7 @@ class StudentDetail {
     });
 
     dynamic id;
-    String fullName;
+    String? fullName;
     dynamic classId;
     dynamic sectionId;
     dynamic userId;

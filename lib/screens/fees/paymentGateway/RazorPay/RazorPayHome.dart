@@ -75,7 +75,7 @@ class _RazorPaymentState extends State<RazorPayment> {
                       'Make Payment',
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(color: Colors.white),
                     ),
                   ),
@@ -103,7 +103,7 @@ class AddRazorAmount extends StatefulWidget {
 
 class _AddRazorAmountState extends State<AddRazorAmount> {
   FeeElement fee;
-  String amount;
+  String? amount;
   var options;
   TextEditingController amountController = TextEditingController();
   // static const platform = const MethodChannel("razorpay_flutter"); // ** test Razorpay
@@ -111,7 +111,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
 
   _AddRazorAmountState(this.fee) {
     amount = '${absoluteAmount(fee.balance.toString())}';
-    amountController.text = amount;
+    amountController.text = amount!;
   }
 
   @override
@@ -135,8 +135,8 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
                   keyboardType: TextInputType.text,
                   style: Theme.of(context).textTheme.headline6,
                   controller: amountController,
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
                       return 'please enter a valid amount';
                     }
                     return value;
@@ -164,7 +164,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
                     child: Center(
                       child: Text(
                         "Enter amount",
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w700),
                       ),
                     ),
@@ -210,7 +210,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
     try {
 //      _razorpay.open(options);
     } catch (e) {
-      debugPrint(e);
+      // debugPrint(e);
     }
   }
 
@@ -248,7 +248,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
     }
   }
 
-  Future<bool> isPaymentSuccesful() async {
+  Future<bool?> isPaymentSuccesful() async {
     final response = await http.get(Uri.parse(InfixApi.studentFeePayment(
         widget.id,
         int.parse(widget.fee.feesTypeId.toString()),

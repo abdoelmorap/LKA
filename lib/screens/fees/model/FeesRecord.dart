@@ -1,16 +1,16 @@
 class FeesRecord {
-  int id;
-  double amount;
-  double weaver;
-  double fine;
-  double paidAmount;
-  double subTotal;
-  double balance;
-  String student;
-  String recordClass;
-  String section;
-  String status;
-  String date;
+  int? id;
+  double? amount;
+  double? weaver;
+  double? fine;
+  double? paidAmount;
+  double? subTotal;
+  double? balance;
+  String? student;
+  String? recordClass;
+  String? section;
+  String? status;
+  String? date;
 
   FeesRecord({
     this.id,
@@ -46,7 +46,7 @@ class FeesRecord {
 }
 
 class FeesRecordList {
-  List<FeesRecord> feesRecords;
+  List<FeesRecord>? feesRecords;
 
   FeesRecordList({this.feesRecords});
 

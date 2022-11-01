@@ -12,15 +12,15 @@ import 'package:infixedu/screens/fees/model/FeeInvoiceDetailsModel.dart';
 import 'package:intl/intl.dart';
 
 class FeeInvoiceViewStudent extends StatefulWidget {
-  final int invoiceId;
+  final int? invoiceId;
   FeeInvoiceViewStudent({this.invoiceId});
   @override
   _FeeInvoiceViewStudentState createState() => _FeeInvoiceViewStudentState();
 }
 
 class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
-  Future<FeeInvoiceDetailsModel> fees;
-  String _token;
+  Future<FeeInvoiceDetailsModel>? fees;
+  String? _token;
 
   FeeInvoiceDetailsModel feeInvoiceDetailsModel = FeeInvoiceDetailsModel();
 
@@ -65,7 +65,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
             return Center(child: CupertinoActivityIndicator());
           } else {
             if (snapshot.hasData) {
-              FeeInvoiceDetailsModel _feesModel = snapshot.data;
+              FeeInvoiceDetailsModel _feesModel = snapshot.data!;
               return ListView(
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -85,29 +85,29 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                         children: [
                           Text(
                             'Invoice'.tr +
-                                ": ${feeInvoiceDetailsModel.invoiceInfo.invoiceId}",
+                                ": ${feeInvoiceDetailsModel.invoiceInfo!.invoiceId}",
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
                             'Create Date'.tr +
-                                ": ${DateFormat.yMMMd().format(feeInvoiceDetailsModel.invoiceInfo.createDate)}",
+                                ": ${DateFormat.yMMMd().format(feeInvoiceDetailsModel.invoiceInfo!.createDate!)}",
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
                             'Due Date'.tr +
-                                ": ${DateFormat.yMMMd().format(feeInvoiceDetailsModel.invoiceInfo.dueDate)}",
+                                ": ${DateFormat.yMMMd().format(feeInvoiceDetailsModel.invoiceInfo!.dueDate!)}",
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -123,10 +123,10 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                     separatorBuilder: (context, index) {
                       return Divider();
                     },
-                    itemCount: _feesModel.invoiceDetails.length,
+                    itemCount: _feesModel.invoiceDetails!.length,
                     itemBuilder: (context, index) {
                       InvoiceDetail feeRecord =
-                          _feesModel.invoiceDetails[index];
+                          _feesModel.invoiceDetails![index];
 
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
@@ -134,7 +134,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                           feeRecord.typeName ?? 'NA',
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(fontSize: 14),
                         ),
                         subtitle: Column(
@@ -153,7 +153,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -179,7 +179,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -206,7 +206,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -233,7 +233,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -260,7 +260,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -304,7 +304,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -313,7 +313,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -329,7 +329,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -338,7 +338,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -354,7 +354,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -363,7 +363,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -379,7 +379,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -388,7 +388,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -404,7 +404,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -416,7 +416,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -432,7 +432,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
@@ -441,7 +441,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -451,7 +451,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                       ),
                     ],
                   ),
-                  feeInvoiceDetailsModel.banks.length > 0
+                  feeInvoiceDetailsModel.banks!.length > 0
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -462,7 +462,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                               "Bank",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(fontSize: 16),
                             ),
                             ListView.separated(
@@ -470,14 +470,14 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                               shrinkWrap: true,
                               itemBuilder: (context, bankIndex) {
                                 FeeBank bank =
-                                    feeInvoiceDetailsModel.banks[bankIndex];
+                                    feeInvoiceDetailsModel.banks![bankIndex];
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                    bank.bankName,
+                                    bank.bankName!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(fontSize: 14),
                                   ),
                                   subtitle: Column(
@@ -498,7 +498,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith(
                                                             fontWeight:
                                                                 FontWeight
@@ -527,7 +527,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith(
                                                             fontWeight:
                                                                 FontWeight
@@ -558,7 +558,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith(
                                                             fontWeight:
                                                                 FontWeight
@@ -587,7 +587,7 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
                               separatorBuilder: (context, bankIndex) {
                                 return Divider();
                               },
-                              itemCount: feeInvoiceDetailsModel.banks.length,
+                              itemCount: feeInvoiceDetailsModel.banks!.length,
                             ),
                           ],
                         )
@@ -605,24 +605,24 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
 
   getTotalFine() {
     double amount = 0.0;
-    feeInvoiceDetailsModel.invoiceDetails.forEach((element) {
-      amount += element.fine;
+    feeInvoiceDetailsModel.invoiceDetails!.forEach((element) {
+      amount += element.fine!;
     });
     return amount;
   }
 
   getTotalWeiver() {
     double amount = 0.0;
-    feeInvoiceDetailsModel.invoiceDetails.forEach((element) {
-      amount += element.weaver;
+    feeInvoiceDetailsModel.invoiceDetails!.forEach((element) {
+      amount += element.weaver!;
     });
     return amount;
   }
 
   getTotalPaidAmount() {
     double amount = 0.0;
-    feeInvoiceDetailsModel.invoiceDetails.forEach((element) {
-      amount += element.subTotal;
+    feeInvoiceDetailsModel.invoiceDetails!.forEach((element) {
+      amount += element.subTotal!;
     });
     return amount;
   }
@@ -630,8 +630,8 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
   getGrandTotalAmount() {
     double amount = 0.0;
 
-    feeInvoiceDetailsModel.invoiceDetails.forEach((element) {
-      amount += element.amount;
+    feeInvoiceDetailsModel.invoiceDetails!.forEach((element) {
+      amount += element.amount!;
     });
     return amount;
   }
@@ -639,8 +639,8 @@ class _FeeInvoiceViewStudentState extends State<FeeInvoiceViewStudent> {
   getDueBalance() {
     double amount = 0.0;
 
-    feeInvoiceDetailsModel.invoiceDetails.forEach((element) {
-      amount += element.total;
+    feeInvoiceDetailsModel.invoiceDetails!.forEach((element) {
+      amount += element.total!;
     });
     return amount;
   }

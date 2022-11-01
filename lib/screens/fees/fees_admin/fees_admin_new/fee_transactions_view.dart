@@ -10,15 +10,15 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/screens/fees/model/FeeTransactions.dart';
 
 class FeeTransactionView extends StatefulWidget {
-  final int invoiceId;
+  final int? invoiceId;
   FeeTransactionView({this.invoiceId});
   @override
   _FeeTransactionViewState createState() => _FeeTransactionViewState();
 }
 
 class _FeeTransactionViewState extends State<FeeTransactionView> {
-  Future<FeeTransactionsList> fees;
-  String _token;
+  Future<FeeTransactionsList>? fees;
+  String? _token;
 
   @override
   void initState() {
@@ -65,10 +65,10 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: snapshot.data.feeTransactions.length,
+                itemCount: snapshot.data!.feeTransactions.length,
                 itemBuilder: (context, index) {
                   FeesTranscation transactions =
-                      snapshot.data.feeTransactions[index];
+                      snapshot.data!.feeTransactions[index];
 
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -76,7 +76,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                       transactions.date ?? 'NA',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 14),
                     ),
                     subtitle: Column(
@@ -94,7 +94,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -118,7 +118,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -142,7 +142,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -167,7 +167,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -192,7 +192,7 @@ class _FeeTransactionViewState extends State<FeeTransactionView> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),

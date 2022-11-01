@@ -1,6 +1,6 @@
 class VehicleRoute {
   dynamic id;
-  String title;
+  String? title;
   dynamic far;
   dynamic activeStatus;
 

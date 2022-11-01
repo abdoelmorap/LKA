@@ -21,8 +21,8 @@ class OnlineExaminationHome extends StatefulWidget {
 }
 
 class _HomeState extends State<OnlineExaminationHome> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 
@@ -54,7 +54,7 @@ class _HomeState extends State<OnlineExaminationHome> {
                 setState(() {
                   currentSelectedIndex = index;
 
-                  if (_systemController.systemSettings.value.data.onlineExam ==
+                  if (_systemController.systemSettings.value.data!.onlineExam ==
                       false) {
                     AppFunction.getOnlineExaminationDashboardPage(
                         context, _titles[index],

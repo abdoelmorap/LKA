@@ -1,9 +1,9 @@
 class Student {
   dynamic id;
   dynamic uid;
-  String photo;
-  String name;
-  String classSection;
+  String? photo;
+  String? name;
+  String? classSection;
 
   Student({
     this.id,

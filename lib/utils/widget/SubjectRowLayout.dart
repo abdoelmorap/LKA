@@ -20,16 +20,16 @@ class SubjectRowLayout extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  subject.subjectName + " (${subject.subjectCode})",
-                  style: Theme.of(context).textTheme.headline4.copyWith(
+                  subject.subjectName! + " (${subject.subjectCode})",
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 16,
                       ),
                 ),
               ),
               Expanded(
                 child: Text(
-                  subject.teacherName,
-                  style: Theme.of(context).textTheme.headline4.copyWith(
+                  subject.teacherName!,
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 16,
                       ),
                 ),
@@ -37,7 +37,7 @@ class SubjectRowLayout extends StatelessWidget {
               Expanded(
                 child: Text(
                   subject.subjectType == 'T' ? 'Theory'.tr : 'Lab'.tr,
-                  style: Theme.of(context).textTheme.headline4.copyWith(
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 16,
                       ),
                 ),

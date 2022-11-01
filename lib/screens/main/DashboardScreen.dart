@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 import 'package:infixedu/controller/system_controller.dart';
 import 'package:infixedu/controller/user_controller.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:remixicon/remixicon.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:themify_flutter/themify_flutter.dart';
 
 // Project imports:
 import 'package:infixedu/controller/notification_controller.dart';
@@ -48,14 +48,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   PersistentTabController persistentTabController =
       PersistentTabController(initialIndex: 0);
 
-  String _id;
+  String? _id;
 
   static Future<bool> _popCamera(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.red,
             ),
@@ -67,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.green,
             ),
@@ -99,7 +99,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Future.value(false);
   }
 
-  int _studentId;
+  int? _studentId;
   Future initate() async {
     print("ROLE ID ${widget.role} ${widget.role.runtimeType}");
 
@@ -182,11 +182,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 items: [
                   PersistentBottomNavBarItem(
                     inactiveIcon: Icon(
-                      Themify.home,
+                      Remix.home_3_line,
                       size: 18.sp,
                     ),
                     icon: Icon(
-                      Themify.home,
+                      Remix.home_3_line,
                       size: 18.sp,
                     ),
                     title: "Home".tr,
@@ -201,14 +201,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             '0',
                             style: Theme.of(context)
                                 .textTheme
-                                .button
+                                .button!
                                 .copyWith(color: Colors.white),
                           ),
                           badgeColor: Color(-811350).withOpacity(0.8),
                           animationType: BadgeAnimationType.fade,
                           toAnimate: false,
                           child: Icon(
-                            Themify.bell,
+                            Remix.notification_2_fill,
                             size: 22.sp,
                             color: Colors.grey.withOpacity(0.9),
                           ),
@@ -219,13 +219,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           '${controller.notificationCount.value}',
                           style: Theme.of(context)
                               .textTheme
-                              .button
+                              .button!
                               .copyWith(color: Colors.white),
                         ),
                         badgeColor: Color(-811350),
                         animationType: BadgeAnimationType.fade,
                         child: Icon(
-                          Themify.bell,
+                          Remix.notification_2_fill,
                           size: 22.sp,
                           color: Colors.grey.withOpacity(0.9),
                         ),
@@ -239,7 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           animationType: BadgeAnimationType.fade,
                           toAnimate: false,
                           child: Icon(
-                            Themify.bell,
+                            Remix.notification_2_fill,
                             size: 22.sp,
                             color: Color(-811350).withOpacity(0.9),
                           ),
@@ -250,13 +250,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           '${controller.notificationCount.value}',
                           style: Theme.of(context)
                               .textTheme
-                              .button
+                              .button!
                               .copyWith(color: Colors.white),
                         ),
                         badgeColor: Color(-811350),
                         animationType: BadgeAnimationType.fade,
                         child: Icon(
-                          Themify.bell,
+                          Remix.notification_2_fill,
                           size: 22.sp,
                           color: Color(-811350).withOpacity(0.9),
                         ),

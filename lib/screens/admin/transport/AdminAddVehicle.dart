@@ -29,14 +29,14 @@ class _AddVehicleState extends State<AddVehicle> {
   TextEditingController vehicleModelController = TextEditingController();
   TextEditingController yearMadeModelController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-  Future<StaffList> staffs;
-  Response response;
+  Future<StaffList>? staffs;
+  late Response response;
   Dio dio = Dio();
-  Future vehicles;
+  Future? vehicles;
 
-  String selectedDriver;
+  String? selectedDriver;
   dynamic selectedId;
-  String _token;
+  String? _token;
   bool staffFound = false;
 
   static List<Tab> tabs = <Tab>[
@@ -57,7 +57,7 @@ class _AddVehicleState extends State<AddVehicle> {
       });
       vehicles = getAllVehicles();
       staffs = getAllStaff();
-      staffs.then((staffVal) {
+      staffs!.then((staffVal) {
         setState(() {
           if (staffVal.staffs.length < 0) {
             staffFound = false;
@@ -86,7 +86,7 @@ class _AddVehicleState extends State<AddVehicle> {
           child: Builder(
             builder: (context) {
               final TabController tabController =
-                  DefaultTabController.of(context);
+                  DefaultTabController.of(context)!;
               tabController.addListener(() {
                 if (tabController.indexIsChanging) {
                   setState(() {
@@ -129,12 +129,12 @@ class _AddVehicleState extends State<AddVehicle> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         child: FutureBuilder<AssignVehicleList>(
-            future: vehicles,
+            future: vehicles?.then((value) => value as AssignVehicleList),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data.assignVehicle.length > 0) {
+                if (snapshot.data!.assignVehicle.length > 0) {
                   return ListView.separated(
-                      itemCount: snapshot.data.assignVehicle.length,
+                      itemCount: snapshot.data!.assignVehicle.length,
                       separatorBuilder: (context, index) {
                         return BottomLine();
                       },
@@ -153,7 +153,7 @@ class _AddVehicleState extends State<AddVehicle> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -161,8 +161,8 @@ class _AddVehicleState extends State<AddVehicle> {
                                         height: 5.0,
                                       ),
                                       Text(
-                                        snapshot.data.assignVehicle[index]
-                                            .vehicleModel,
+                                        snapshot.data!.assignVehicle[index]
+                                            .vehicleModel!,
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
@@ -180,7 +180,7 @@ class _AddVehicleState extends State<AddVehicle> {
                                         'Number'.tr,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -188,8 +188,8 @@ class _AddVehicleState extends State<AddVehicle> {
                                         height: 5.0,
                                       ),
                                       Text(
-                                        snapshot
-                                            .data.assignVehicle[index].vehicleNo
+                                        snapshot.data!.assignVehicle[index]
+                                            .vehicleNo
                                             .toString(),
                                         style: Theme.of(context)
                                             .textTheme
@@ -207,7 +207,7 @@ class _AddVehicleState extends State<AddVehicle> {
                                         'Made Year'.tr,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -216,7 +216,7 @@ class _AddVehicleState extends State<AddVehicle> {
                                       ),
                                       Text(
                                         snapshot
-                                            .data.assignVehicle[index].madeYear
+                                            .data!.assignVehicle[index].madeYear
                                             .toString(),
                                         style: Theme.of(context)
                                             .textTheme
@@ -242,7 +242,7 @@ class _AddVehicleState extends State<AddVehicle> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -250,7 +250,8 @@ class _AddVehicleState extends State<AddVehicle> {
                                         height: 5.0,
                                       ),
                                       Text(
-                                        snapshot.data.assignVehicle[index].note,
+                                        snapshot
+                                            .data!.assignVehicle[index].note!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4,
@@ -309,7 +310,7 @@ class _AddVehicleState extends State<AddVehicle> {
               if (snapshot.hasData) {
                 return Padding(
                   padding: EdgeInsets.only(left: 10),
-                  child: getDriverDropdown(context, snapshot.data.staffs),
+                  child: getDriverDropdown(context, snapshot.data!.staffs),
                 );
               } else {
                 return Container();
@@ -376,14 +377,14 @@ class _AddVehicleState extends State<AddVehicle> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedDriver = value;
             selectedId = getCode(driverList, value);
@@ -419,9 +420,9 @@ class _AddVehicleState extends State<AddVehicle> {
     }
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(T t, String? title) {
+    int? code;
+    for (var cls in t as Iterable) {
       if (cls.name == title) {
         code = cls.id;
         break;

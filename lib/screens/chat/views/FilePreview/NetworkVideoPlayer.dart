@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class NetworkVideoPlayerView extends StatefulWidget {
-  final String videoUrl;
+  final String? videoUrl;
 
   NetworkVideoPlayerView({this.videoUrl});
 
@@ -13,7 +13,7 @@ class NetworkVideoPlayerView extends StatefulWidget {
 }
 
 class _NetworkVideoPlayerViewState extends State<NetworkVideoPlayerView> {
-  BetterPlayerController _betterPlayerController;
+  late BetterPlayerController _betterPlayerController;
   GlobalKey _betterPlayerKey = GlobalKey();
 
   @override
@@ -30,7 +30,7 @@ class _NetworkVideoPlayerViewState extends State<NetworkVideoPlayerView> {
     );
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      widget.videoUrl,
+      widget.videoUrl!,
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);

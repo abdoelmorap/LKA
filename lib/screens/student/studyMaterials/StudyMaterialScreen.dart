@@ -20,8 +20,8 @@ class DownloadsHome extends StatefulWidget {
 }
 
 class _DownloadsHomeState extends State<DownloadsHome> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
   var sId;

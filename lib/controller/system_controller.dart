@@ -8,13 +8,13 @@ class SystemController extends GetxController {
   Rx<SystemSettings> systemSettings = SystemSettings().obs;
   Rx<bool> isLoading = false.obs;
 
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _schoolId = "".obs;
+  Rx<String?> _schoolId = "".obs;
 
-  Rx<String> get schoolId => this._schoolId;
+  Rx<String?> get schoolId => this._schoolId;
 
   Future getSystemSettings() async {
     try {

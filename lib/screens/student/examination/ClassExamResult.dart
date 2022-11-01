@@ -32,19 +32,19 @@ class ClassExamResultScreen extends StatefulWidget {
 
 class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
   final UserController _userController = Get.put(UserController());
-  Future<ClassExamResultList> results;
+  Future<ClassExamResultList>? results;
   var id;
   dynamic examId;
   var _selected;
-  String _token;
+  String? _token;
 
-  Future<ExamSchedule> examSchedule;
-  int examTypeId;
+  Future<ExamSchedule>? examSchedule;
+  int? examTypeId;
 
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     Utils.getStringValue('token').then((value) {
       _token = value;
     });
@@ -60,15 +60,15 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
 
         examSchedule = getStudentExamSchedule(id);
 
-        examSchedule.then((val) {
+        examSchedule!.then((val) {
           setState(() {
-            _selected = val.examTypes.length != 0 ? val.examTypes[0].title : '';
-            examTypeId = val.examTypes.length != 0 ? val.examTypes[0].id : 0;
-            examId = getExamCode(val.examTypes, val.examTypes[0].title);
+            _selected = val.examTypes!.length != 0 ? val.examTypes![0].title : '';
+            examTypeId = val.examTypes!.length != 0 ? val.examTypes![0].id : 0;
+            examId = getExamCode(val.examTypes!, val.examTypes![0].title);
             results = getAllClassExamResult(
               id,
               examTypeId,
-              _userController.studentRecord.value.records.first.id,
+              _userController.studentRecord.value.records!.first.id,
             );
           });
         });
@@ -85,10 +85,10 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
         future: examSchedule,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.examTypes.length > 0) {
+            if (snapshot.data!.examTypes!.length > 0) {
               return Column(
                 children: <Widget>[
-                  getDropdown(snapshot.data.examTypes),
+                  getDropdown(snapshot.data!.examTypes!),
                   Expanded(child: getExamResultList())
                 ],
               );
@@ -119,23 +119,23 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
           return DropdownMenuItem<String>(
             value: item.title,
             child: Text(
-              item.title,
-              style: Theme.of(context).textTheme.subtitle1.copyWith(),
+              item.title!,
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15.0),
+        onChanged: (dynamic value) {
           setState(() {
             _userController.selectedRecord.value =
-                _userController.studentRecord.value.records.first;
+                _userController.studentRecord.value.records!.first;
             _selected = value;
 
             examId = getExamCode(exams, value);
             results = getAllClassExamResult(
               id,
               examId,
-              _userController.studentRecord.value.records.first.id,
+              _userController.studentRecord.value.records!.first.id,
             );
 
             getExamResultList();
@@ -147,7 +147,7 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
   }
 
   Future<ClassExamResultList> getAllClassExamResult(
-      var id, dynamic examId, int recordId) async {
+      var id, dynamic examId, int? recordId) async {
     print(Uri.parse(InfixApi.getStudentClassExamResult(id, examId, recordId)));
     final response = await http.get(
         Uri.parse(InfixApi.getStudentClassExamResult(id, examId, recordId)),
@@ -160,8 +160,8 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
     }
   }
 
-  int getExamCode(List<ExamType> exams, String title) {
-    int code;
+  int? getExamCode(List<ExamType> exams, String? title) {
+    int? code;
 
     for (ExamType exam in exams) {
       if (exam.title == title) {
@@ -201,7 +201,7 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
               ),
               itemBuilder: (context, recordIndex) {
                 Record record =
-                    _userController.studentRecord.value.records[recordIndex];
+                    _userController.studentRecord.value.records![recordIndex];
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
@@ -242,7 +242,7 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
                     ),
                     child: Text(
                       "${record.className} (${record.sectionName})",
-                      style: Get.textTheme.subtitle1.copyWith(
+                      style: Get.textTheme.subtitle1!.copyWith(
                         fontSize: 14,
                         color: _userController.selectedRecord.value == record
                             ? Colors.white
@@ -252,7 +252,7 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
                   ),
                 );
               },
-              itemCount: _userController.studentRecord.value.records.length,
+              itemCount: _userController.studentRecord.value.records!.length,
             ),
           ),
           SizedBox(
@@ -268,13 +268,13 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
                   );
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.results.length > 0) {
+                    if (snapshot.data!.results.length > 0) {
                       return ListView.builder(
-                        itemCount: snapshot.data.results.length,
+                        itemCount: snapshot.data!.results.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return ClassExamResultRow(
-                              snapshot.data.results[index]);
+                              snapshot.data!.results[index]);
                         },
                       );
                     } else {

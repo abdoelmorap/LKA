@@ -5,6 +5,7 @@ import 'package:infixedu/config/app_config.dart';
 // Project imports:
 import 'package:infixedu/screens/student/Profile.dart';
 import 'package:infixedu/screens/student/StudentAttendance.dart';
+import 'package:infixedu/screens/teacher/PostImage.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/Student.dart';
 import 'ScaleRoute.dart';
@@ -12,8 +13,8 @@ import 'ScaleRoute.dart';
 // ignore: must_be_immutable
 class StudentRow extends StatefulWidget {
   Student student;
-  String status;
-  String token;
+  String? status;
+  String? token;
 
   StudentRow(this.student, {this.status, this.token});
 
@@ -24,8 +25,8 @@ class StudentRow extends StatefulWidget {
 
 class _StudentRowState extends State<StudentRow> {
   Student student;
-  String status;
-  String token;
+  String? status;
+  String? token;
 
   _StudentRowState(this.student, {this.status, this.token});
 
@@ -39,7 +40,7 @@ class _StudentRowState extends State<StudentRow> {
   Widget build(BuildContext context) {
     String image = student.photo == null || student.photo == ''
         ? '${AppConfig.domainName}/public/uploads/staff/demo/staff.jpg'
-        : InfixApi.root + student.photo;
+        : InfixApi.root + student.photo!;
     return InkWell(
       onTap: () {
         if (status == 'attendance') {
@@ -61,8 +62,8 @@ class _StudentRowState extends State<StudentRow> {
         }
       },
       splashColor: Colors.purple.shade200,
-      child: Column(
-        children: <Widget>[
+      child: Stack(
+        children: [
           ListTile(
             leading: CircleAvatar(
               radius: 25.0,
@@ -70,24 +71,36 @@ class _StudentRowState extends State<StudentRow> {
               backgroundColor: Colors.grey,
             ),
             title: Text(
-              student.name,
+              student.name!,
               style: Theme.of(context).textTheme.headline6,
             ),
             subtitle: Text('${student.classSection}',
                 style: Theme.of(context).textTheme.headline4),
           ),
-          Container(
-            height: 0.5,
-            margin: EdgeInsets.only(top: 10.0),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerRight,
-                  end: Alignment.centerLeft,
-                  colors: [Colors.purple, Colors.deepPurple]),
+          Positioned(
+            child: IconButton(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                Navigator.push(context, ScaleRoute(page: ImagePst()));
+              },
+              color: Colors.cyan,
             ),
+            right: 0,
           )
         ],
       ),
+      // Container(
+      //   height: 0.5,
+      //   margin: EdgeInsets.only(top: 10.0),
+      //   decoration: BoxDecoration(
+      //     gradient: LinearGradient(
+      //         begin: Alignment.centerRight,
+      //         end: Alignment.centerLeft,
+      //         colors: [Colors.purple, Colors.deepPurple]),
+      //   ),
+      // )
+      // ],
+      // ),
     );
   }
 }

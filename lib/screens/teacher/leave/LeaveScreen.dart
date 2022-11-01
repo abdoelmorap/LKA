@@ -18,8 +18,8 @@ class LeaveHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<LeaveHomeScreen> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

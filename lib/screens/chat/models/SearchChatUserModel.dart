@@ -13,8 +13,8 @@ class SearchChatUserModel {
     this.users,
   });
 
-  String keywords;
-  List<ChatUser> users;
+  String? keywords;
+  List<ChatUser>? users;
 
   factory SearchChatUserModel.fromJson(Map<String, dynamic> json) =>
       SearchChatUserModel(
@@ -25,6 +25,6 @@ class SearchChatUserModel {
 
   Map<String, dynamic> toJson() => {
         "keywords": keywords,
-        "users": List<dynamic>.from(users.map((x) => x.toJson())),
+        "users": List<dynamic>.from(users!.map((x) => x.toJson())),
       };
 }

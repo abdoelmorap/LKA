@@ -31,13 +31,13 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends State<ScheduleScreen> {
   var _selected;
 
-  Future<ExamSchedule> examSchedule;
-  Future<ExamRoutineReport> examRoutine;
-  int examTypeId;
+  Future<ExamSchedule>? examSchedule;
+  Future<ExamRoutineReport>? examRoutine;
+  int? examTypeId;
   var id;
   dynamic examId;
 
-  String _token;
+  String? _token;
 
   _ScheduleScreenState({this.id});
 
@@ -57,9 +57,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         id = id != null ? id : value;
         examSchedule = getStudentExamSchedule(id);
 
-        examSchedule.then((val) {
-          _selected = val.examTypes.length != 0 ? val.examTypes[0].title : '';
-          examTypeId = val.examTypes.length != 0 ? val.examTypes[0].id : 0;
+        examSchedule!.then((val) {
+          _selected = val.examTypes!.length != 0 ? val.examTypes![0].title : '';
+          examTypeId = val.examTypes!.length != 0 ? val.examTypes![0].id : 0;
           examRoutine = getExamRoutineReport(examTypeId);
         });
       });
@@ -75,10 +75,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         future: examSchedule,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.examTypes.length > 0) {
+            if (snapshot.data!.examTypes!.length > 0) {
               return Column(
                 children: <Widget>[
-                  getDropdown(snapshot.data.examTypes),
+                  getDropdown(snapshot.data!.examTypes!),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -112,13 +112,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           return DropdownMenuItem<String>(
             value: item.title,
             child: Text(
-              item.title,
-              style: Theme.of(context).textTheme.subtitle1.copyWith(),
+              item.title!,
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15.0),
+        onChanged: (dynamic value) {
           setState(() {
             _selected = value;
 
@@ -144,12 +144,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         } else {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data.examRoutines.length,
+              itemCount: snapshot.data!.examRoutines!.length,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 10),
               itemBuilder: (context, index) {
                 List<ExamRoutine> value =
-                    snapshot.data.examRoutines.values.elementAt(index);
+                    snapshot.data!.examRoutines!.values.elementAt(index);
                 return Column(
                   children: [
                     Row(
@@ -160,11 +160,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           'Date'.tr + ': ',
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          DateFormat.yMMMEd().format(value[0].date),
+                          DateFormat.yMMMEd().format(value[0].date!),
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
@@ -186,7 +186,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                   'Subject'.tr + ': ',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .subtitle1!
                                       .copyWith(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
@@ -196,7 +196,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                     '${value[scheduleIndex].subject}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16),
@@ -215,7 +215,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                   'Time'.tr + ': ',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .subtitle1!
                                       .copyWith(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14),
@@ -225,7 +225,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                     '${value[scheduleIndex].startTime} - ${value[scheduleIndex].endTime}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14),
@@ -248,7 +248,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -256,7 +256,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                         height: 10.0,
                                       ),
                                       Text(
-                                        value[scheduleIndex].room,
+                                        value[scheduleIndex].room!,
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
@@ -275,7 +275,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -302,7 +302,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -310,7 +310,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                         height: 10.0,
                                       ),
                                       Text(
-                                        value[scheduleIndex].teacher,
+                                        value[scheduleIndex].teacher!,
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
@@ -340,8 +340,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
-  int getExamCode(List<ExamType> exams, String title) {
-    int code;
+  int? getExamCode(List<ExamType> exams, String? title) {
+    int? code;
 
     for (ExamType exam in exams) {
       if (exam.title == title) {

@@ -8,9 +8,9 @@ import '../../src/helper/model_helpers.dart';
 
 class PaymentConfirmationRequestModel extends KhaltiRequestModel {
   PaymentConfirmationRequestModel({
-    @required this.confirmationCode,
-    @required this.token,
-    @required this.transactionPin,
+    required this.confirmationCode,
+    required this.token,
+    required this.transactionPin,
   });
 
   final String confirmationCode;
@@ -18,7 +18,7 @@ class PaymentConfirmationRequestModel extends KhaltiRequestModel {
   final String transactionPin;
 
   @override
-  Map<String, Object> toMap() {
+  Map<String, Object?> toMap() {
     return {
       'confirmation_code': confirmationCode,
       'public_key': KhaltiService.publicKey,
@@ -35,13 +35,13 @@ class PaymentConfirmationRequestModel extends KhaltiRequestModel {
 
 class PaymentConfirmationResponseModel {
   PaymentConfirmationResponseModel({
-    @required this.idx,
-    @required this.amount,
-    @required this.mobile,
-    @required this.productIdentity,
-    @required this.productName,
-    @required this.token,
-    @required this.additionalData,
+    required this.idx,
+    required this.amount,
+    required this.mobile,
+    required this.productIdentity,
+    required this.productName,
+    required this.token,
+    required this.additionalData,
   });
 
   final String idx;

@@ -18,10 +18,10 @@ import 'RoutineRowWidget.dart';
 // ignore: must_be_immutable
 class RoutineRow extends StatefulWidget {
 
-  String title;
+  String? title;
   dynamic classCode;
   dynamic sectionCode;
-  String id;
+  String? id;
 
 
   RoutineRow({this.title, this.classCode, this.sectionCode,this.id});
@@ -32,11 +32,11 @@ class RoutineRow extends StatefulWidget {
 
 class _ClassRoutineState extends State<RoutineRow> {
 
-  String title;
+  String? title;
   dynamic classCode;
   dynamic sectionCode;
-  Future<ScheduleList> routine;
-  String _token;
+  Future<ScheduleList>? routine;
+  String? _token;
 
 
   _ClassRoutineState(this.title, this.classCode, this.sectionCode);
@@ -55,9 +55,9 @@ class _ClassRoutineState extends State<RoutineRow> {
     Utils.getStringValue('id').then((value) {
       setState(() {
         if(classCode == null && sectionCode == null){
-          routine = fetchRoutine(int.parse(widget.id!= null ? widget.id : value), title);
+          routine = fetchRoutine(int.parse(widget.id!= null ? widget.id! : value!), title);
         }else{
-          routine = fetchRoutineByClsSec(int.parse(value), title);
+          routine = fetchRoutineByClsSec(int.parse(value!), title);
         }
       });
 
@@ -73,13 +73,13 @@ class _ClassRoutineState extends State<RoutineRow> {
         builder: (context,snapshot){
           print(snapshot.data);
          if(snapshot.hasData){
-           if(snapshot.data.schedules.length > 0){
+           if(snapshot.data!.schedules.length > 0){
              return Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: <Widget>[
                  Padding(
                    padding: const EdgeInsets.only(bottom:8.0),
-                   child: Text(title,style:Theme.of(context).textTheme.headline6.copyWith()),
+                   child: Text(title!,style:Theme.of(context).textTheme.headline6!.copyWith()),
                  ),
                  Padding(
                    padding: const EdgeInsets.only(bottom:5.0),
@@ -87,24 +87,24 @@ class _ClassRoutineState extends State<RoutineRow> {
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: <Widget>[
                        Expanded(
-                         child:  Text('Time',style:Theme.of(context).textTheme.headline4.copyWith()),
+                         child:  Text('Time',style:Theme.of(context).textTheme.headline4!.copyWith()),
                        ),
                        Expanded(
-                         child:  Text('Subject',style:Theme.of(context).textTheme.headline4.copyWith()),
+                         child:  Text('Subject',style:Theme.of(context).textTheme.headline4!.copyWith()),
                        ),
                        Expanded(
-                         child:  Text('Room',style:Theme.of(context).textTheme.headline4.copyWith()),
+                         child:  Text('Room',style:Theme.of(context).textTheme.headline4!.copyWith()),
                        ),
                      ],
                    ),
                  ),
                  ListView.builder(
                    physics: NeverScrollableScrollPhysics(),
-                   itemCount: snapshot.data.schedules.length,
+                   itemCount: snapshot.data!.schedules.length,
                    shrinkWrap: true,
                    itemBuilder: (context,index){
-                     return RoutineRowDesign(AppFunction.getAmPm(snapshot.data.schedules[index].startTime)+'-'+AppFunction.getAmPm(snapshot.data.schedules[index].endTime),
-                     snapshot.data.schedules[index].subject, snapshot.data.schedules[index].room
+                     return RoutineRowDesign(AppFunction.getAmPm(snapshot.data!.schedules[index].startTime!)+'-'+AppFunction.getAmPm(snapshot.data!.schedules[index].endTime!),
+                     snapshot.data!.schedules[index].subject, snapshot.data!.schedules[index].room
                      );
                    },
                  ),
@@ -134,7 +134,7 @@ class _ClassRoutineState extends State<RoutineRow> {
     );
   }
 
-  Future<ScheduleList> fetchRoutine(dynamic id,String title) async {
+  Future<ScheduleList> fetchRoutine(dynamic id,String? title) async {
     final response =
     await http.get(Uri.parse(InfixApi.getRoutineUrl(id)),headers: Utils.setHeader(_token.toString()));
 
@@ -150,7 +150,7 @@ class _ClassRoutineState extends State<RoutineRow> {
     }
   }
 
-  Future<ScheduleList> fetchRoutineByClsSec(dynamic id,String title) async {
+  Future<ScheduleList> fetchRoutineByClsSec(dynamic id,String? title) async {
     final response =
     await http.get(Uri.parse(InfixApi.getRoutineByClassAndSection(id,classCode,sectionCode)),headers: Utils.setHeader(_token.toString()));
 

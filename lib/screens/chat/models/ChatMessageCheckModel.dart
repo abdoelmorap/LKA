@@ -16,8 +16,8 @@ class ChatMessageCheckModel {
         this.messages,
     });
 
-    bool invalid;
-    List<ChatMessage> messages;
+    bool? invalid;
+    List<ChatMessage>? messages;
 
     factory ChatMessageCheckModel.fromJson(Map<String, dynamic> json) => ChatMessageCheckModel(
         invalid: json["invalid"],
@@ -26,6 +26,6 @@ class ChatMessageCheckModel {
 
     Map<String, dynamic> toJson() => {
         "invalid": invalid,
-        "messages": List<dynamic>.from(messages.map((x) => x)),
+        "messages": List<dynamic>.from(messages!.map((x) => x)),
     };
 }

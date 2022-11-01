@@ -19,7 +19,7 @@ class AdminDormitoryHome extends StatefulWidget {
 }
 
 class _AdminDormitoryHomeState extends State<AdminDormitoryHome> {
-  int currentSelectedIndex;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

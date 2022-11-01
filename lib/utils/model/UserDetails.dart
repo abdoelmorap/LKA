@@ -79,39 +79,39 @@ class UserDetails {
   dynamic id;
   dynamic admissionNo;
   dynamic rollNo;
-  String firstName;
-  String lastName;
-  String fullName;
-  DateTime dateOfBirth;
-  String caste;
-  String email;
-  String mobile;
-  DateTime admissionDate;
-  String studentPhoto;
+  String? firstName;
+  String? lastName;
+  String? fullName;
+  DateTime? dateOfBirth;
+  String? caste;
+  String? email;
+  String? mobile;
+  DateTime? admissionDate;
+  String? studentPhoto;
   dynamic age;
-  String height;
-  String weight;
-  String currentAddress;
-  String permanentAddress;
-  String driverId;
-  String nationalIdNo;
-  String localIdNo;
-  String bankAccountNo;
-  String bankName;
-  String previousSchoolDetails;
-  String aditionalNotes;
-  String ifscCode;
-  String documentTitle1;
+  String? height;
+  String? weight;
+  String? currentAddress;
+  String? permanentAddress;
+  String? driverId;
+  String? nationalIdNo;
+  String? localIdNo;
+  String? bankAccountNo;
+  String? bankName;
+  String? previousSchoolDetails;
+  String? aditionalNotes;
+  String? ifscCode;
+  String? documentTitle1;
   dynamic documentFile1;
-  String documentTitle2;
+  String? documentTitle2;
   dynamic documentFile2;
-  String documentTitle3;
+  String? documentTitle3;
   dynamic documentFile3;
-  String documentTitle4;
+  String? documentTitle4;
   dynamic documentFile4;
   dynamic activeStatus;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   dynamic bloodgroupId;
   dynamic religionId;
   dynamic routeListId;
@@ -131,25 +131,25 @@ class UserDetails {
   dynamic updatedBy;
   dynamic schoolId;
   dynamic academicId;
-  String fathersName;
-  String fathersMobile;
-  String fathersOccupation;
-  String fathersPhoto;
-  String mothersName;
-  String mothersMobile;
-  String mothersOccupation;
-  String mothersPhoto;
+  String? fathersName;
+  String? fathersMobile;
+  String? fathersOccupation;
+  String? fathersPhoto;
+  String? mothersName;
+  String? mothersMobile;
+  String? mothersOccupation;
+  String? mothersPhoto;
   dynamic relation;
-  String guardiansName;
-  String guardiansMobile;
-  String guardiansEmail;
-  String guardiansOccupation;
-  String guardiansRelation;
-  String guardiansPhoto;
-  String guardiansAddress;
+  String? guardiansName;
+  String? guardiansMobile;
+  String? guardiansEmail;
+  String? guardiansOccupation;
+  String? guardiansRelation;
+  String? guardiansPhoto;
+  String? guardiansAddress;
   dynamic isGuardian;
-  String className;
-  String sectionName;
+  String? className;
+  String? sectionName;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
     id: json["id"],
@@ -235,11 +235,11 @@ class UserDetails {
     "first_name": firstName,
     "last_name": lastName,
     "full_name": fullName,
-    "date_of_birth": "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
+    "date_of_birth": "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
     "caste": caste,
     "email": email,
     "mobile": mobile,
-    "admission_date": "${admissionDate.year.toString().padLeft(4, '0')}-${admissionDate.month.toString().padLeft(2, '0')}-${admissionDate.day.toString().padLeft(2, '0')}",
+    "admission_date": "${admissionDate!.year.toString().padLeft(4, '0')}-${admissionDate!.month.toString().padLeft(2, '0')}-${admissionDate!.day.toString().padLeft(2, '0')}",
     "student_photo": studentPhoto,
     "age": age,
     "height": height,
@@ -263,8 +263,8 @@ class UserDetails {
     "document_title_4": documentTitle4,
     "document_file_4": documentFile4,
     "active_status": activeStatus,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
     "bloodgroup_id": bloodgroupId,
     "religion_id": religionId,
     "route_list_id": routeListId,

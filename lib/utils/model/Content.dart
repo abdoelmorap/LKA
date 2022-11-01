@@ -1,12 +1,12 @@
 class Content {
-  int id;
-  String contentTitle;
-  String contentType;
-  String availableFor;
-  String uploadDate;
+  int? id;
+  String? contentTitle;
+  String? contentType;
+  String? availableFor;
+  String? uploadDate;
   dynamic description;
   dynamic sourceUrl;
-  String uploadFile;
+  String? uploadFile;
 
   Content({
     this.id,

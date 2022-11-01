@@ -1,9 +1,9 @@
 class ClassRoutine {
-  final String startTime;
-  final String endTime;
-  final String subject;
-  final String room;
-  final String period;
+  final String? startTime;
+  final String? endTime;
+  final String? subject;
+  final String? room;
+  final String? period;
 
   ClassRoutine({this.startTime, this.endTime, this.subject, this.room,this.period});
 

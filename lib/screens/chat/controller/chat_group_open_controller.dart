@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:f_logs/model/flog/flog.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infixedu/screens/chat/controller/chat_controller.dart';
@@ -8,36 +9,35 @@ import 'package:infixedu/screens/chat/models/ChatGroupOpenModel.dart';
 import 'package:infixedu/screens/chat/models/GroupThread.dart';
 import 'package:http/http.dart' as http;
 import 'package:infixedu/screens/chat/models/ChatUser.dart';
-import 'package:let_log/let_log.dart';
 
 class ChatGroupOpenController extends GetxController {
-  final String groupId;
+  final String? groupId;
   ChatGroupOpenController(this.groupId);
   var isLoading = false.obs;
 
-  RxList<GroupThread> chatMsgSearch = <GroupThread>[].obs;
+  RxList<GroupThread?> chatMsgSearch = <GroupThread>[].obs;
 
   Rx<bool> courseSearchStarted = false.obs;
 
   Rx<GroupThread> selectedChatMsg = GroupThread().obs;
 
-  Rx<String> _token = "".obs;
-  Rx<String> get token => this._token;
+  Rx<String?> _token = "".obs;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _id = "".obs;
-  Rx<String> get id => this._id;
+  Rx<String?> _id = "".obs;
+  Rx<String?> get id => this._id;
 
-  Rx<String> imageUrl = "".obs;
+  Rx<String?> imageUrl = "".obs;
 
-  Rx<int> lastThreadId = 0.obs;
+  Rx<int?> lastThreadId = 0.obs;
 
-  RxList<int> msgIds = <int>[].obs;
+  RxList<int?> msgIds = <int>[].obs;
 
-  Rx<ChatGroupOpenModel> chatGroupModel = ChatGroupOpenModel().obs;
+  Rx<ChatGroupOpenModel?> chatGroupModel = ChatGroupOpenModel().obs;
 
-  Rx<ChatUser> selectedUser = ChatUser().obs;
+  Rx<ChatUser?> selectedUser = ChatUser().obs;
 
-  Rx<GroupRole> selectedGroupRole = GroupRole().obs;
+  Rx<GroupRole?> selectedGroupRole = GroupRole().obs;
 
   final List<GroupRole> groupRoles = [
     GroupRole(name: "User", role: 0),
@@ -60,9 +60,9 @@ class ChatGroupOpenController extends GetxController {
     });
   }
 
-  Future<ChatGroupOpenModel> getAll() async {
-    Logger.warn(groupId);
-    ChatGroupOpenModel sourceData;
+  Future<ChatGroupOpenModel?> getAll() async {
+    FLog.warning(text: groupId!);
+    ChatGroupOpenModel? sourceData;
     try {
       final result = await http.get(
         Uri.parse("${InfixApi.chatGroupOpen}/$groupId"),
@@ -73,15 +73,16 @@ class ChatGroupOpenController extends GetxController {
 
         sourceData = ChatGroupOpenModel.fromJson(resultData);
 
-        Logger.warn("MY ROLE => ${sourceData.group.toJson().toString()}");
+        FLog.warning(
+            text: "MY ROLE => ${sourceData.group!.toJson().toString()}");
 
         chatGroupModel.value = sourceData;
 
-        selectedUser.value = chatGroupModel.value.group.users.first;
+        selectedUser.value = chatGroupModel.value!.group!.users!.first;
 
         selectedGroupRole.value = groupRoles.first;
 
-        Logger.error(sourceData.group.users.length);
+        FLog.warning(text: sourceData.group!.users!.length.toString());
 
         // if (sourceData.group.threads.length > 0) {
         //   lastThreadId.value = sourceData.group.threads.first.id;
@@ -97,23 +98,23 @@ class ChatGroupOpenController extends GetxController {
 
   RxList<ChatUser> members = <ChatUser>[].obs;
 
-  Rx<ChatUser> selectedAddUser = ChatUser().obs;
+  Rx<ChatUser?> selectedAddUser = ChatUser().obs;
 
   void getAddPeopleDialog() {
     members.clear();
     final ChatController _chatController = Get.put(ChatController());
 
-    List<int> usersOne = [];
-    List<int> usersTwo = [];
+    List<int?> usersOne = [];
+    List<int?> usersTwo = [];
 
-    _chatController.chatModel.value.users.forEach((users) {
+    _chatController.chatModel.value.users!.forEach((users) {
       usersOne.add(users.id);
     });
-    chatGroupModel.value.group.users.forEach((groupUsers) {
+    chatGroupModel.value!.group!.users!.forEach((groupUsers) {
       usersTwo.add(groupUsers.id);
     });
     usersOne.removeWhere((element) => usersTwo.contains(element));
-    _chatController.chatModel.value.users.forEach((element) {
+    _chatController.chatModel.value.users!.forEach((element) {
       if (usersOne.contains(element.id)) {
         members.add(element);
       }
@@ -155,9 +156,9 @@ class ChatGroupOpenController extends GetxController {
     EasyLoading.show(status: 'Updating...');
     try {
       Map jsonData = {
-        "role_id": selectedGroupRole.value.role,
+        "role_id": selectedGroupRole.value!.role,
         "group_id": groupId,
-        "user_id": selectedUser.value.id,
+        "user_id": selectedUser.value!.id,
       };
 
       print(jsonData);
@@ -228,7 +229,7 @@ class ChatGroupOpenController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Logger.warn(response.body);
+        FLog.warning(text: response.body);
         await getAll();
       } else {
         throw Exception('failed to load');
@@ -245,7 +246,7 @@ class ChatGroupOpenController extends GetxController {
     try {
       Map jsonData = {
         "group_id": groupId,
-        "user_id": selectedAddUser.value.id,
+        "user_id": selectedAddUser.value!.id,
       };
 
       print(jsonData);
@@ -345,8 +346,8 @@ class ChatGroupOpenController extends GetxController {
 }
 
 class GroupRole {
-  final int role;
-  final String name;
+  final int? role;
+  final String? name;
 
   GroupRole({this.role, this.name});
 }

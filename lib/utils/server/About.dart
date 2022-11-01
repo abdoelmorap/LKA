@@ -15,7 +15,7 @@ class About {
   List<InfixMap> infixMap = [];
   // static String _token;
 
-  Future<AboutData> fetchAboutServices(String token) async {
+  Future<AboutData> fetchAboutServices(String? token) async {
     final response = await http.get(Uri.parse(InfixApi.about),
         headers: Utils.setHeader(token.toString()));
 
@@ -37,11 +37,11 @@ class About {
     // return infixMap;
   }
 
-  static Future<int> phonePermission(token) async {
+  static Future<int?> phonePermission(token) async {
     final response = await http.get(Uri.parse(InfixApi.currentPermission),
         headers: Utils.setHeader(token.toString()));
     var jsonData = json.decode(response.body);
-    int no = jsonData['data']['phone_number_privacy'];
+    int? no = jsonData['data']['phone_number_privacy'];
     return no;
   }
 }

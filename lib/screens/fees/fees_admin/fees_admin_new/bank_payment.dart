@@ -20,17 +20,17 @@ class FeeBankPaymentSearch extends StatefulWidget {
 
 class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
   final TextEditingController datePickerController = TextEditingController();
-  String _token;
-  String rule;
-  String _id;
-  Future classes;
-  Future<SectionList> sections;
-  Future<FeeBankPaymentModel> bankPayment;
+  String? _token;
+  String? rule;
+  String? _id;
+  Future? classes;
+  Future<SectionList>? sections;
+  Future<FeeBankPaymentModel>? bankPayment;
   dynamic classId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
-  String _selectedStatus;
+  String? _selectedClass;
+  String? _selectedSection;
+  String? _selectedStatus;
 
   bool showSearch = false;
 
@@ -51,12 +51,12 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
           _id = idValue;
           Utils.getStringValue('rule').then((ruleValue) {
             rule = ruleValue;
-            classes = getAllClass(int.parse(_id));
-            classes.then((value) {
+            classes = getAllClass(int.parse(_id!));
+            classes!.then((value) {
               _selectedClass = value.classes[0].name;
               classId = value.classes[0].id;
-              sections = getAllSection(int.parse(_id), classId);
-              sections.then((sectionValue) {
+              sections = getAllSection(int.parse(_id!), classId);
+              sections!.then((sectionValue) {
                 _selectedSection = sectionValue.sections[0].name;
                 sectionId = sectionValue.sections[0].id;
               });
@@ -98,6 +98,8 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
         throw Exception('Failed to load');
       }
     } catch (e) {
+      throw Exception('Failed to load $e');
+
       print(e);
     }
   }
@@ -154,7 +156,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                           GestureDetector(
                             onTap: () async {
                               final initialDate = DateTime.now();
-                              final DateTimeRange picked =
+                              final DateTimeRange? picked =
                                   await showDateRangePicker(
                                 context: context,
                                 helpText: 'Select start and End Date',
@@ -165,7 +167,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                     initialDate.day),
                                 lastDate: DateTime(2100, initialDate.month + 1,
                                     initialDate.day),
-                                builder: (BuildContext context, Widget child) {
+                                builder: (BuildContext context, Widget? child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
                                       primaryColor: Colors.deepPurple,
@@ -173,7 +175,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                         color: Colors.deepPurple,
                                       ),
                                     ),
-                                    child: child,
+                                    child: child!,
                                   );
                                 },
                               );
@@ -204,7 +206,8 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                           SizedBox(
                             height: 10,
                           ),
-                          getClassDropdown(snapshot.data.classes),
+                          getClassDropdown(
+                              (snapshot.data as ClassList).classes),
                           SizedBox(
                             height: 10,
                           ),
@@ -213,7 +216,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                             builder: (context, secSnap) {
                               if (secSnap.hasData) {
                                 return getSectionDropdown(
-                                    secSnap.data.sections);
+                                    secSnap.data!.sections);
                               } else {
                                 return Center(
                                     child: CupertinoActivityIndicator());
@@ -239,14 +242,12 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                   "Search".tr,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           color: Colors.white, fontSize: 14),
                                 ),
                               ),
                               onTap: () {
-                                
-
                                 Map data = {
                                   'payment_date': datePickerController.text,
                                   'class': classId,
@@ -273,7 +274,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                       return Center(child: CupertinoActivityIndicator());
                     } else {
                       if (snapshot.hasData) {
-                        if (snapshot.data.feesPayments.length == 0) {
+                        if (snapshot.data!.feesPayments!.length == 0) {
                           return Utils.noDataWidget();
                         } else {
                           return ListView.separated(
@@ -282,17 +283,17 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                             separatorBuilder: (context, index) {
                               return Divider();
                             },
-                            itemCount: snapshot.data.feesPayments.length,
+                            itemCount: snapshot.data!.feesPayments!.length,
                             itemBuilder: (context, index) {
                               FeesPayment feePayment =
-                                  snapshot.data.feesPayments[index];
+                                  snapshot.data!.feesPayments![index];
 
                               return ListTile(
                                 title: Text(
-                                  feePayment.feeStudentInfo.fullName ?? 'NA',
+                                  feePayment.feeStudentInfo!.fullName ?? 'NA',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .subtitle1!
                                       .copyWith(fontSize: 14),
                                 ),
                                 subtitle: Column(
@@ -301,10 +302,10 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "${DateFormat.yMMMd().format(feePayment.createdAt)}",
+                                            "${DateFormat.yMMMd().format(feePayment.createdAt!)}",
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline6
+                                                .headline6!
                                                 .copyWith(fontSize: 12),
                                             maxLines: 1,
                                           ),
@@ -352,9 +353,9 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                   bankPayment =
                                                       getBankPayments();
                                                 });
-                                                return true;
+                                                // return true;
                                               } else {
-                                                return false;
+                                                // return false;
                                               }
                                             } else {
                                               final response = await http.post(
@@ -375,9 +376,9 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                   bankPayment =
                                                       getBankPayments();
                                                 });
-                                                return true;
+                                                // return true;
                                               } else {
-                                                return false;
+                                                // return false;
                                               }
                                             }
                                           },
@@ -398,7 +399,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                   maxLines: 1,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .headline4
+                                                      .headline4!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.w500),
@@ -527,7 +528,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith(
                                                             fontWeight:
                                                                 FontWeight
@@ -557,7 +558,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                   maxLines: 1,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .headline4
+                                                      .headline4!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.w500),
@@ -585,7 +586,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
                                                   maxLines: 1,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .headline4
+                                                      .headline4!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.w500),
@@ -637,7 +638,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
     );
   }
 
-  Widget getStatus(String status) {
+  Widget getStatus(String? status) {
     if (status == "approve") {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -650,7 +651,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -667,7 +668,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -684,7 +685,7 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -697,8 +698,8 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
   getPaidAmount(FeesPayment feesPayment) {
     double amount = 0.0;
 
-    feesPayment.transcationDetails.forEach((element) {
-      amount += element.paidAmount;
+    feesPayment.transcationDetails!.forEach((element) {
+      amount += element.paidAmount!;
     });
 
     return amount;
@@ -718,14 +719,14 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
               child: Text(
-                item.capitalizeFirst,
+                item.capitalizeFirst!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedStatus = value;
           });
@@ -756,14 +757,14 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
             classId = getCode(classes, value);
 
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
             });
@@ -790,20 +791,20 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
             sectionId = getCode(sectionlist, value);
 
-            sections = getAllSection(int.parse(_id), classId);
+            sections = getAllSection(int.parse(_id!), classId);
 
             debugPrint('User select section $sectionId');
           });
@@ -813,9 +814,9 @@ class _FeeBankPaymentSearchState extends State<FeeBankPaymentSearch> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(T t, String? title) {
+    int? code;
+    for (var cls in t as Iterable) {
       if (cls.name == title) {
         code = cls.id;
         break;
@@ -833,11 +834,11 @@ class FeesBankPaymentResultScreen extends StatefulWidget {
 
 class _FeesBankPaymentResultScreenState
     extends State<FeesBankPaymentResultScreen> {
-  Future<FeeBankPaymentModel> fees;
+  Future<FeeBankPaymentModel>? fees;
 
-  String _token;
+  String? _token;
 
-  TextEditingController titleController, descripController;
+  TextEditingController? titleController, descripController;
 
   @override
   void initState() {
@@ -881,13 +882,13 @@ class _FeesBankPaymentResultScreenState
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: snapshot.data.feesPayments.length,
+                itemCount: snapshot.data!.feesPayments!.length,
                 itemBuilder: (context, index) {
-                  FeesPayment feesPayment = snapshot.data.feesPayments[index];
+                  FeesPayment feesPayment = snapshot.data!.feesPayments![index];
 
                   return ListTile(
                     title: Text(
-                      feesPayment.feeStudentInfo.fullName ?? 'NA',
+                      feesPayment.feeStudentInfo!.fullName ?? 'NA',
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     subtitle: Text(

@@ -19,8 +19,8 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  String id;
-  String _token;
+  String? id;
+  String? _token;
 
   bool isResponse = false;
 
@@ -64,9 +64,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     style: Theme.of(context).textTheme.headline6,
                     controller: _currentPasswordController,
                     obscureText: true,
-                    validator: (String value) {
+                    validator: (String? value) {
                       // RegExp regExp = new RegExp(r'^[0-9]*$');
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter your current password'.tr;
                       }
                       if (value.length < 6) {
@@ -93,9 +93,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     style: Theme.of(context).textTheme.headline6,
                     controller: _newPasswordController,
                     obscureText: true,
-                    validator: (String value) {
+                    validator: (String? value) {
                       // RegExp regExp = new RegExp(r'^[0-9]*$');
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please enter a new password'.tr;
                       }
                       if (value.length < 6) {
@@ -122,9 +122,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     style: Theme.of(context).textTheme.headline6,
                     controller: _confirmPasswordController,
                     obscureText: true,
-                    validator: (String value) {
+                    validator: (String? value) {
                       // RegExp regExp = new RegExp(r'^[0-9]*$');
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Please confirm your password'.tr;
                       }
                       if (value.length < 6) {
@@ -161,12 +161,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                         "Save".tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline5
+                            .headline5!
                             .copyWith(color: Colors.white),
                       ),
                     ),
                     onTap: () async {
-                      if (_formKey.currentState.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         setState(() {
                           isResponse = true;
                         });
@@ -181,7 +181,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                         if (response.statusCode == 200) {
                           Map<String, dynamic> data =
-                              jsonDecode(response.body) as Map;
+                              (jsonDecode(response.body) as Map) as Map<String, dynamic>;
 
                           if (data['success'] == true) {
                             Utils.showToast('Password changed successfully'.tr);
@@ -199,7 +199,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           });
                         } else if (response.statusCode == 404) {
                           Map<String, dynamic> data =
-                              jsonDecode(response.body) as Map;
+                              (jsonDecode(response.body) as Map) as Map<String, dynamic>;
 
                           if (data['success'] == false) {
                             Utils.showToast(

@@ -22,8 +22,8 @@ class MySubjectScreen extends StatefulWidget {
 }
 
 class _MySubjectScreenState extends State<MySubjectScreen> {
-  Future<TeacherSubjectList> subjects;
-  String _token;
+  Future<TeacherSubjectList>? subjects;
+  String? _token;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -33,7 +33,7 @@ class _MySubjectScreenState extends State<MySubjectScreen> {
       });
       Utils.getStringValue('id').then((value) {
         setState(() {
-          subjects = getAllSubject(int.parse(value));
+          subjects = getAllSubject(int.parse(value!));
         });
       });
     });
@@ -56,21 +56,21 @@ class _MySubjectScreenState extends State<MySubjectScreen> {
                     child: Text('Subject'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500)),
                   ),
                   Expanded(
                     child: Text('Code'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500)),
                   ),
                   Expanded(
                     child: Text('Type'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500)),
                   ),
                 ],
@@ -82,10 +82,10 @@ class _MySubjectScreenState extends State<MySubjectScreen> {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: snapshot.data.subjects.length,
+                    itemCount: snapshot.data!.subjects.length,
                     itemBuilder: (context, index) {
                       return TeacherSubjectRowLayout(
-                          snapshot.data.subjects[index]);
+                          snapshot.data!.subjects[index]);
                     },
                   );
                 } else {

@@ -28,7 +28,7 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 class CustomAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBarWidget({this.title});
 
-  String title;
+  String? title;
 
   @override
   _CustomAppBarWidgetState createState() => _CustomAppBarWidgetState();
@@ -39,16 +39,16 @@ class CustomAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
   int i = 0;
-  Future notificationCount;
+  Future? notificationCount;
 
-  int rtlValue;
-  String email;
-  String password;
-  String rule;
-  String _id;
-  String schoolId;
-  String isAdministrator;
-  String _token;
+  int? rtlValue;
+  String? email;
+  String? password;
+  String? rule;
+  String? _id;
+  String? schoolId;
+  String? isAdministrator;
+  String? _token;
 
   void navigateToPreviousPage(BuildContext context) {
     Navigator.pop(context);
@@ -88,7 +88,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                           future: getNotifications(int.parse(id)),
                           builder: (context, snapshot) {
                             if (snapshot.hasData && snapshot.data != null) {
-                              if (snapshot.data.userNotifications.length == 0) {
+                              if (snapshot.data!.userNotifications!.length == 0) {
                                 return Container(
                                   child: Text(
                                     "No new notifications",
@@ -104,10 +104,10 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                       child: ListView.builder(
                                         shrinkWrap: false,
                                         itemCount: snapshot
-                                            .data.userNotifications.length,
+                                            .data!.userNotifications!.length,
                                         itemBuilder: (context, index) {
                                           final item = snapshot
-                                              .data.userNotifications[index];
+                                              .data!.userNotifications![index];
                                           return Material(
                                             color: Colors.transparent,
                                             clipBehavior: Clip.antiAlias,
@@ -148,8 +148,8 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                           .readMyNotifications(
                                                               int.parse(id),
                                                               snapshot
-                                                                  .data
-                                                                  .userNotifications[
+                                                                  .data!
+                                                                  .userNotifications![
                                                                       index]
                                                                   .id)),
                                                       headers: Utils.setHeader(
@@ -159,17 +159,17 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                       200) {
                                                     Map<String, dynamic>
                                                         notifications =
-                                                        jsonDecode(
+                                                        (jsonDecode(
                                                                 response.body)
-                                                            as Map;
-                                                    bool status =
+                                                            as Map) as Map<String, dynamic>;
+                                                    bool? status =
                                                         notifications['data']
                                                             ['status'];
                                                     if (status == true) {
                                                       setState(() {
                                                         print("Index :$index");
-                                                        snapshot.data
-                                                            .userNotifications
+                                                        snapshot.data!
+                                                            .userNotifications!
                                                             .removeAt(index);
                                                       });
                                                     }
@@ -180,7 +180,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                   setState(() {
                                                     notificationCount =
                                                         getNotificationCount(
-                                                            int.parse(_id));
+                                                            int.parse(_id!));
                                                   });
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(SnackBar(
@@ -209,13 +209,13 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          item.message,
+                                                          item.message!,
                                                           textAlign:
                                                               TextAlign.end,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .headline5
+                                                                  .headline5!
                                                                   .copyWith(
                                                                     fontSize: ScreenUtil()
                                                                         .setSp(
@@ -224,13 +224,13 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                         ),
                                                         Text(
                                                           timeago.format(
-                                                              item.createdAt),
+                                                              item.createdAt!),
                                                           textAlign:
                                                               TextAlign.end,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .headline5
+                                                                  .headline5!
                                                                   .copyWith(
                                                                     fontSize: ScreenUtil()
                                                                         .setSp(
@@ -252,7 +252,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        snapshot.data.userNotifications
+                                        snapshot.data!.userNotifications!
                                             .forEach((element) async {
                                           var response = await http.get(
                                               Uri.parse(
@@ -263,9 +263,9 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                                   _token.toString()));
                                           if (response.statusCode == 200) {
                                             Map<String, dynamic> notifications =
-                                                jsonDecode(response.body)
-                                                    as Map;
-                                            bool status =
+                                                (jsonDecode(response.body)
+                                                    as Map) as Map<String, dynamic>;
+                                            bool? status =
                                                 notifications['data']['status'];
                                             if (status == true) {
                                               setState(() {
@@ -279,7 +279,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                         setState(() {
                                           notificationCount =
                                               getNotificationCount(
-                                                  int.parse(_id));
+                                                  int.parse(_id!));
                                           Navigator.of(context).pop();
                                         });
                                       },
@@ -287,7 +287,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                         'Mark all as read',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
+                                            .headline5!
                                             .copyWith(
                                               fontSize: ScreenUtil().setSp(12),
                                               color: Colors.white,
@@ -321,7 +321,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.red,
             ),
@@ -333,14 +333,14 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.green,
             ),
       ),
       onPressed: () async {
         Utils.clearAllValue();
-        Utils.saveIntValue('locale', rtlValue);
+        Utils.saveIntValue('locale', rtlValue!);
         Route route = MaterialPageRoute(builder: (context) => MyApp());
         Navigator.pushAndRemoveUntil(context, route, ModalRoute.withName('/'));
 
@@ -546,10 +546,10 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
       BuildContext context, String email, String password, String rule) {
     return FutureBuilder(
       future: Utils.getStringValue('image'),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
         if (snapshot.hasData) {
           // print('Profile Image: ${snapshot.data}');
-          Utils.saveStringValue('image', snapshot.data);
+          Utils.saveStringValue('image', snapshot.data!);
           return GestureDetector(
             onTap: () {
               rule == '2'
@@ -561,7 +561,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
               child: CircleAvatar(
                 radius: ScreenUtil().setSp(22),
                 child: CachedNetworkImage(
-                  imageUrl: InfixApi.root + snapshot.data,
+                  imageUrl: InfixApi.root + snapshot.data!,
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -631,27 +631,27 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
         headers: Utils.setHeader(_token.toString()));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> user = jsonDecode(response.body) as Map;
+      Map<String, dynamic>? user = (jsonDecode(response.body) as Map?) as Map<String, dynamic>?;
       if (rule == '2')
-        image = InfixApi.root + user['data']['userDetails']['student_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['student_photo'];
       else if (rule == '3')
-        image = InfixApi.root + user['data']['userDetails']['fathers_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['fathers_photo'];
       else
-        image = InfixApi.root + user['data']['userDetails']['staff_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['staff_photo'];
     }
     return image == InfixApi.root
         ? 'http://saskolhmg.com/images/studentprofile.png'
         : '$image';
   }
 
-  Future<int> getNotificationCount(int id) async {
-    var count = 0;
+  Future<int?> getNotificationCount(int id) async {
+    int? count = 0;
 
     var response = await http.get(Uri.parse(InfixApi.getMyNotifications(id)),
         headers: Utils.setHeader(_token.toString()));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> notifications = jsonDecode(response.body) as Map;
+      Map<String, dynamic> notifications = (jsonDecode(response.body) as Map) as Map<String, dynamic>;
       count = notifications['data']['unread_notification'];
       // count = 120;
     } else {
@@ -710,7 +710,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.red,
             ),
@@ -722,7 +722,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.green,
             ),
@@ -826,8 +826,8 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 0.0),
                       child: Text(
-                        widget.title,
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        widget.title!,
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
                               fontSize: 18.sp,
                               color: Colors.white,
                             ),

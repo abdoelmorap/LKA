@@ -63,7 +63,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
                           child: ListTile(
                             title: Text(
                               "${chatUser.fullName ?? chatUser.email}",
-                              style: Get.textTheme.subtitle1
+                              style: Get.textTheme.subtitle1!
                                   .copyWith(fontSize: 14),
                             ),
                             leading: CachedNetworkImage(
@@ -99,7 +99,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
                                     borderRadius: BorderRadius.circular(5)),
                                 child: Text(
                                   "Unblock",
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     fontSize: 14,
                                     color: Colors.white,
                                   ),

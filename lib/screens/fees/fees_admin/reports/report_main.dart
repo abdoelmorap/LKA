@@ -19,7 +19,7 @@ class AdminFeesReportMain extends StatefulWidget {
 }
 
 class _AdminFeesReportMainState extends State<AdminFeesReportMain> {
-  bool isTapped;
+  bool? isTapped;
   dynamic currentSelectedIndex;
   var _titles;
   var _images;

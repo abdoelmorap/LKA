@@ -17,8 +17,8 @@ import 'package:infixedu/utils/exception/DioException.dart';
 import 'package:infixedu/utils/model/StudentHomework.dart';
 
 class UploadHomework extends StatefulWidget {
-  final Homework homework;
-  final String userID;
+  final Homework? homework;
+  final String? userID;
 
   UploadHomework({this.homework, this.userID});
 
@@ -29,21 +29,21 @@ class UploadHomework extends StatefulWidget {
 class _UploadHomeworkState extends State<UploadHomework> {
   // File _file;
 
-  List<File> files;
+  List<File>? files;
   List<String> fileNames = [];
-  String _token;
+  String? _token;
   bool isResponse = false;
 
   // double progress = 0.0;
 
   Future pickDocument(context) async {
-    FilePickerResult result = await FilePicker.platform
+    FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: true, type: FileType.image);
     print(result);
     if (result != null) {
       setState(() {
-        files = result.paths.map((path) => File(path)).toList();
-        files.forEach((element) {
+        files = result.paths.map((path) => File(path!)).toList();
+        files!.forEach((element) {
           fileNames.add(element.path.toString().split('/').last);
         });
       });
@@ -105,7 +105,7 @@ class _UploadHomeworkState extends State<UploadHomework> {
                                             'Select Homework file',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline4
+                                                .headline4!
                                                 .copyWith(),
                                             maxLines: 2,
                                           )
@@ -115,12 +115,12 @@ class _UploadHomeworkState extends State<UploadHomework> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: List.generate(
-                                                files.length,
+                                                files!.length,
                                                 (index) => Text(
                                                       '$index - ${fileNames[index]}',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(),
                                                     )),
                                           ),
@@ -130,7 +130,7 @@ class _UploadHomeworkState extends State<UploadHomework> {
                                   'Browse',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                         decoration: TextDecoration.underline,
                                       ),
@@ -154,14 +154,14 @@ class _UploadHomeworkState extends State<UploadHomework> {
                             });
                             List<MultipartFile> multipart = [];
 
-                            for (int i = 0; i < files.length; i++) {
+                            for (int i = 0; i < files!.length; i++) {
                               multipart.add(await MultipartFile.fromFile(
-                                  files[i].path,
-                                  filename: files[i].path));
+                                  files![i].path,
+                                  filename: files![i].path));
                             }
                             FormData formData = FormData.fromMap({
                               "user_id": widget.userID,
-                              "homework_id": widget.homework.id,
+                              "homework_id": widget.homework!.id,
                               'files[]': multipart,
                             });
 
@@ -234,7 +234,7 @@ class _UploadHomeworkState extends State<UploadHomework> {
                                 "Submit",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline5!
                                     .copyWith(color: Colors.white),
                               ),
                             ],

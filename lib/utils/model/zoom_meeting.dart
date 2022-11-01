@@ -4,7 +4,7 @@ class ZoomMeeting {
   final password;
   final startDate;
   final startTime;
-  DateTime endTime;
+  DateTime? endTime;
   final topic;
   final description;
 
@@ -33,7 +33,7 @@ class ZoomMeeting {
 }
 
 class ZoomMeetingList {
-  final List<ZoomMeeting> meetings;
+  final List<ZoomMeeting>? meetings;
 
   ZoomMeetingList({this.meetings});
 

@@ -16,7 +16,7 @@ class ChatMessageOpenModel {
   });
 
   dynamic messages;
-  ChatUser activeUser;
+  ChatUser? activeUser;
 
   factory ChatMessageOpenModel.fromJson(Map<String, dynamic> json) =>
       ChatMessageOpenModel(
@@ -31,7 +31,7 @@ class ChatMessageOpenModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "activeUser": activeUser.toJson(),
+        "activeUser": activeUser!.toJson(),
         "messages": Map.from(messages)
             .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
       };

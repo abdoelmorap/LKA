@@ -21,15 +21,15 @@ class PlanDetails {
         this.subTopicEnabled,
     });
 
-    String day;
-    String room;
-    String subject;
-    String teacher;
-    String startTime;
-    String endTime;
-    String planDetailBreak;
-    Plan plan;
-    bool subTopicEnabled;
+    String? day;
+    String? room;
+    String? subject;
+    String? teacher;
+    String? startTime;
+    String? endTime;
+    String? planDetailBreak;
+    Plan? plan;
+    bool? subTopicEnabled;
 
     factory PlanDetails.fromJson(Map<String, dynamic> json) => PlanDetails(
         day: json["day"],
@@ -51,7 +51,7 @@ class PlanDetails {
         "start_time": startTime,
         "end_time": endTime,
         "break": planDetailBreak,
-        "plan": plan.toJson(),
+        "plan": plan!.toJson(),
         "subTopicEnabled": subTopicEnabled,
     };
 }
@@ -96,19 +96,19 @@ class Plan {
         this.lessonName,
     });
 
-    int id;
-    int day;
-    int activeStatus;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int lessonId;
+    int? id;
+    int? day;
+    int? activeStatus;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    int? lessonId;
     dynamic topicId;
-    int lessonDetailId;
-    int topicDetailId;
+    int? lessonDetailId;
+    int? topicDetailId;
     dynamic subTopic;
-    String lectureYouubeLink;
+    String? lectureYouubeLink;
     dynamic lectureVedio;
-    String attachment;
+    String? attachment;
     dynamic teachingMethod;
     dynamic generalObjectives;
     dynamic previousKnowlege;
@@ -116,22 +116,22 @@ class Plan {
     dynamic zoomSetup;
     dynamic presentation;
     dynamic note;
-    DateTime lessonDate;
+    DateTime? lessonDate;
     dynamic competedDate;
     dynamic completedStatus;
     dynamic roomId;
-    int teacherId;
+    int? teacherId;
     dynamic classPeriodId;
-    int subjectId;
-    int classId;
-    int sectionId;
-    int createdBy;
-    int updatedBy;
-    int routineId;
-    int schoolId;
-    int academicId;
-    List<Topic> topics;
-    LessonName lessonName;
+    int? subjectId;
+    int? classId;
+    int? sectionId;
+    int? createdBy;
+    int? updatedBy;
+    int? routineId;
+    int? schoolId;
+    int? academicId;
+    List<Topic>? topics;
+    LessonName? lessonName;
 
     factory Plan.fromJson(Map<String, dynamic> json) => Plan(
         id: json["id"],
@@ -176,8 +176,8 @@ class Plan {
         "id": id,
         "day": day,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "lesson_id": lessonId,
         "topic_id": topicId,
         "lesson_detail_id": lessonDetailId,
@@ -193,7 +193,7 @@ class Plan {
         "zoom_setup": zoomSetup,
         "presentation": presentation,
         "note": note,
-        "lesson_date": "${lessonDate.year.toString().padLeft(4, '0')}-${lessonDate.month.toString().padLeft(2, '0')}-${lessonDate.day.toString().padLeft(2, '0')}",
+        "lesson_date": "${lessonDate!.year.toString().padLeft(4, '0')}-${lessonDate!.month.toString().padLeft(2, '0')}-${lessonDate!.day.toString().padLeft(2, '0')}",
         "competed_date": competedDate,
         "completed_status": completedStatus,
         "room_id": roomId,
@@ -207,8 +207,8 @@ class Plan {
         "routine_id": routineId,
         "school_id": schoolId,
         "academic_id": academicId,
-        "topics": List<dynamic>.from(topics.map((x) => x.toJson())),
-        "lesson_name": lessonName.toJson(),
+        "topics": List<dynamic>.from(topics!.map((x) => x.toJson())),
+        "lesson_name": lessonName!.toJson(),
     };
 }
 
@@ -227,17 +227,17 @@ class LessonName {
         this.updatedAt,
     });
 
-    int id;
-    String lessonTitle;
-    int activeStatus;
-    int classId;
-    int sectionId;
-    int subjectId;
-    int schoolId;
-    int academicId;
-    int userId;
-    DateTime createdAt;
-    DateTime updatedAt;
+    int? id;
+    String? lessonTitle;
+    int? activeStatus;
+    int? classId;
+    int? sectionId;
+    int? subjectId;
+    int? schoolId;
+    int? academicId;
+    int? userId;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     factory LessonName.fromJson(Map<String, dynamic> json) => LessonName(
         id: json["id"],
@@ -263,8 +263,8 @@ class LessonName {
         "school_id": schoolId,
         "academic_id": academicId,
         "user_id": userId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
     };
 }
 
@@ -279,13 +279,13 @@ class Topic {
         this.topicName,
     });
 
-    int id;
-    String subTopicTitle;
-    int topicId;
-    int lessonPlannerId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    TopicName topicName;
+    int? id;
+    String? subTopicTitle;
+    int? topicId;
+    int? lessonPlannerId;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    TopicName? topicName;
 
     factory Topic.fromJson(Map<String, dynamic> json) => Topic(
         id: json["id"],
@@ -302,9 +302,9 @@ class Topic {
         "sub_topic_title": subTopicTitle,
         "topic_id": topicId,
         "lesson_planner_id": lessonPlannerId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "topic_name": topicName.toJson(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "topic_name": topicName!.toJson(),
     };
 }
 
@@ -326,20 +326,20 @@ class TopicName {
         this.updatedAt,
     });
 
-    int id;
-    int lessonId;
-    String topicTitle;
+    int? id;
+    int? lessonId;
+    String? topicTitle;
     dynamic completedStatus;
     dynamic competedDate;
-    int activeStatus;
-    int topicId;
-    int createdBy;
-    int updatedBy;
-    int schoolId;
-    int academicId;
+    int? activeStatus;
+    int? topicId;
+    int? createdBy;
+    int? updatedBy;
+    int? schoolId;
+    int? academicId;
     dynamic userId;
-    DateTime createdAt;
-    DateTime updatedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     factory TopicName.fromJson(Map<String, dynamic> json) => TopicName(
         id: json["id"],
@@ -371,7 +371,7 @@ class TopicName {
         "school_id": schoolId,
         "academic_id": academicId,
         "user_id": userId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
     };
 }

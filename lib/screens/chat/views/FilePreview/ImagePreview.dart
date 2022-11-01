@@ -3,8 +3,8 @@ import 'package:infixedu/utils/CustomAppBarWidget.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImagePreviewPage extends StatefulWidget {
-  final String imageUrl;
-  final String title;
+  final String? imageUrl;
+  final String? title;
   ImagePreviewPage({this.imageUrl, this.title});
 
   @override
@@ -20,7 +20,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         title: "",
       ),
       body: PhotoView(
-        imageProvider: NetworkImage(widget.imageUrl),
+        imageProvider: NetworkImage(widget.imageUrl!),
         backgroundDecoration: BoxDecoration(
           color: Colors.white,
         ),

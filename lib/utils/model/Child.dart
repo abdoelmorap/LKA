@@ -1,9 +1,9 @@
 class Child {
   dynamic id;
   dynamic uid;
-  String photo;
-  String name;
-  List<String> classSections;
+  String? photo;
+  String? name;
+  List<String>? classSections;
 
   Child({
     this.id,

@@ -21,14 +21,14 @@ import 'package:infixedu/utils/custom_widgets/CustomRadioButton/custom_radio_but
 import 'package:infixedu/utils/widget/Line.dart';
 
 class EvaluateScreen extends StatefulWidget {
-  final String studentName;
-  final String marks;
-  final String teacherComment;
-  final String status;
+  final String? studentName;
+  final String? marks;
+  final String? teacherComment;
+  final String? status;
   final dynamic studentId;
   final dynamic homeworkId;
-  final List<String> files;
-  final String totalMarks;
+  final List<String>? files;
+  final String? totalMarks;
 
   EvaluateScreen(
       {this.studentName,
@@ -48,13 +48,13 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
   TextEditingController marksController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String selectedComment = '';
-  String selectedStatus = '';
+  String? selectedComment = '';
+  String? selectedStatus = '';
 
   String evaluationDate = '';
   bool isResponse = false;
 
-  Response response;
+  Response? response;
   Dio dio = Dio();
 
   String getAbsoluteDate(int date) {
@@ -66,7 +66,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
 
   @override
   void initState() {
-    marksController.text = widget.marks;
+    marksController.text = widget.marks!;
     selectedComment = widget.teacherComment;
     selectedStatus = widget.status;
     evaluationDate =
@@ -108,15 +108,15 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                       decimal: false, signed: false),
                   style: Theme.of(context).textTheme.headline6,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String value) {
+                  validator: (String? value) {
                     RegExp regExp = new RegExp(r'^[0-9]*$');
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter a valid mark';
                     }
                     if (!regExp.hasMatch(value)) {
                       return 'Please enter a number';
                     }
-                    if (int.tryParse(value) > int.tryParse(widget.totalMarks)) {
+                    if (int.tryParse(value)! > int.tryParse(widget.totalMarks!)!) {
                       return 'Marks must not greater than total marks';
                     }
                     return null;
@@ -169,7 +169,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                               unSelectedColor: Color(0xff415094),
                               textStyle:
                                   TextStyle(fontSize: ScreenUtil().setSp(14))),
-                          radioButtonValue: (value) {
+                          radioButtonValue: (dynamic value) {
                             setState(() {
                               selectedComment = value;
                             });
@@ -228,7 +228,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                                 unSelectedColor: Color(0xff415094),
                                 textStyle: TextStyle(
                                     fontSize: ScreenUtil().setSp(14))),
-                            radioButtonValue: (value) {
+                            radioButtonValue: (dynamic value) {
                               setState(() {
                                 selectedStatus = value;
                               });
@@ -267,7 +267,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                         "Evaluate",
                         style: Theme.of(context)
                             .textTheme
-                            .headline5
+                            .headline5!
                             .copyWith(color: Colors.white),
                       ),
                     ),
@@ -284,12 +284,12 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                 ),
                 ListView.separated(
                     shrinkWrap: true,
-                    itemCount: widget.files.length,
+                    itemCount: widget.files!.length,
                     separatorBuilder: (context, index) {
                       return BottomLine();
                     },
                     itemBuilder: (context, index) {
-                      return widget.files[index].contains('.pdf')
+                      return widget.files![index].contains('.pdf')
                           ? Container(
                               child: InkWell(
                                 onTap: () {
@@ -297,14 +297,14 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                                       builder: (context) => DownloadViewer(
                                             title: 'PDF',
                                             filePath: InfixApi.root +
-                                                widget.files[index],
+                                                widget.files![index],
                                           )));
                                 },
                                 child: Stack(
                                   fit: StackFit.loose,
                                   children: [
                                     PDF.network(
-                                      InfixApi.root + widget.files[index],
+                                      InfixApi.root + widget.files![index],
                                       height: 300,
                                       width: double.maxFinite,
                                     ),
@@ -321,7 +321,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                                             'View',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline4
+                                                .headline4!
                                                 .copyWith(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 20),
@@ -334,7 +334,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
                               ),
                             )
                           : ExtendedImage.network(
-                              InfixApi.root + widget.files[index],
+                              InfixApi.root + widget.files![index],
                               fit: BoxFit.fill,
                               cache: true,
                               mode: ExtendedImageMode.gesture,
@@ -363,7 +363,7 @@ class _EvaluateScreenState extends State<EvaluateScreen> {
   }
 
   void evaluateSubmit() async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       setState(() {
         isResponse = true;
       });

@@ -25,7 +25,7 @@ import 'package:infixedu/utils/model/StudentRecord.dart';
 // ignore: must_be_immutable
 class StudentAttendanceScreen extends StatefulWidget {
   dynamic id;
-  String schoolId;
+  String? schoolId;
   var token;
 
   StudentAttendanceScreen({this.id, this.token, this.schoolId});
@@ -38,9 +38,9 @@ class StudentAttendanceScreen extends StatefulWidget {
 class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   final UserController _userController = Get.put(UserController());
   var id;
-  String token;
-  String schoolId;
-  Future<StudentAttendanceList> attendances;
+  String? token;
+  String? schoolId;
+  Future<StudentAttendanceList>? attendances;
 
   _StudentAttendanceScreenState({this.id, this.token, this.schoolId});
 
@@ -76,7 +76,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   void didChangeDependencies() async {
     await Utils.getStringValue('id').then((idValue) async {
       setState(() {
-        id = int.parse(idValue);
+        id = int.parse(idValue!);
       });
     });
     if (id != null) {
@@ -86,17 +86,17 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         });
       }).then((value) async {
         await getProfile(id).then((value) async {
-          _userController.studentId.value = value.studentData.userDetails.id;
+          _userController.studentId.value = value.studentData!.userDetails!.id;
 
           await _userController.getStudentRecord().then((value) {
             DateTime date = DateTime.now();
             attendances = getAllStudentAttendance(
                 id,
-                _userController.studentRecord.value.records.first.id,
+                _userController.studentRecord.value.records!.first.id,
                 date.month,
                 date.year,
                 token,
-                int.parse(schoolId));
+                int.parse(schoolId!));
           });
         });
       });
@@ -104,7 +104,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
       _userController.isLoading.value = false;
       await Utils.getStringValue('id').then((value) async {
         setState(() {
-          id = int.parse(value);
+          id = int.parse(value!);
         });
         await Utils.getStringValue('schoolId').then((schoolVal) {
           setState(() {
@@ -114,11 +114,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
           DateTime date = DateTime.now();
           attendances = getAllStudentAttendance(
               id,
-              _userController.studentRecord.value.records.first.id,
+              _userController.studentRecord.value.records!.first.id,
               date.month,
               date.year,
               token,
-              int.parse(schoolId));
+              int.parse(schoolId!));
         });
       });
     }
@@ -160,7 +160,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                   date.month,
                                   date.year,
                                   token,
-                                  int.parse(schoolId));
+                                  int.parse(schoolId!));
                             },
                           );
                         },
@@ -183,7 +183,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                               date.month,
                               date.year,
                               token,
-                              int.parse(schoolId));
+                              int.parse(schoolId!));
                         });
                       },
                       weekendTextStyle: Theme.of(context).textTheme.headline6,
@@ -192,11 +192,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                       showOnlyCurrentMonthDate: false,
                       headerTextStyle: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(fontSize: ScreenUtil().setSp(15.0)),
                       weekdayTextStyle: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(
                               fontSize: ScreenUtil().setSp(15.0),
                               fontWeight: FontWeight.w500),
@@ -218,8 +218,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                             if (snapshot.hasData) {
                               //Utils.showToast(getAttendanceStatus(day.day, snapshot.data.attendances));
 
-                              String status = getAttendanceStatus(
-                                  day.day, snapshot.data.attendances);
+                              String? status = getAttendanceStatus(
+                                  day.day, snapshot.data!.attendances);
 
                               if (isThisMonthDay) {
                                 if (isToday) {
@@ -245,7 +245,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                           Text(day.day.toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4
+                                                  .headline4!
                                                   .copyWith(
                                                     color: Color(0xFF5F75EF),
                                                     fontSize: ScreenUtil()
@@ -278,7 +278,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                             day.day.toString(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline4
+                                                .headline4!
                                                 .copyWith(
                                                   color: Color(0xFF727FC8),
                                                   fontSize:
@@ -312,7 +312,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                         Text(day.day.toString(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline4
+                                                .headline4!
                                                 .copyWith(
                                                     fontSize: ScreenUtil()
                                                         .setSp(14.0),
@@ -333,7 +333,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                       Text(day.day.toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   color: Color(0xFF727FC8))),
                                     ],
@@ -352,7 +352,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                       todayBorderColor: Colors.transparent,
                       todayTextStyle: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(color: Colors.white)),
                 ),
                 Container(
@@ -398,10 +398,10 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                 Expanded(
                     child: Text(
                   title,
-                  style: Theme.of(context).textTheme.headline5.copyWith(
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: Colors.black45, fontWeight: FontWeight.w500),
                 )),
-                Text(getStatusCount(titleVal, snapshot.data.attendances),
+                Text(getStatusCount(titleVal, snapshot.data!.attendances),
                     style: Theme.of(context).textTheme.headline5),
               ],
             );
@@ -412,7 +412,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   Future<StudentAttendanceList> getAllStudentAttendance(dynamic id,
-      int recordId, int month, int year, String token, int schoolId) async {
+      int? recordId, int month, int year, String? token, int schoolId) async {
     setState(() {
       isLoading = true;
     });
@@ -433,22 +433,22 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     }
   }
 
-  String getAttendanceStatus(int date, List<StudentAttendance> attendances) {
+  String? getAttendanceStatus(int date, List<StudentAttendance> attendances) {
     return getStatus(0, attendances.length - 1, attendances, date);
   }
 
-  String getStatus(
+  String? getStatus(
       int i, int j, List<StudentAttendance> attendances, int date) {
-    String status;
+    String? status;
     for (int a = i; a <= j; a++) {
-      if (int.parse(AppFunction.getDay(attendances[a].date)) == date) {
+      if (int.parse(AppFunction.getDay(attendances[a].date!)) == date) {
         status = attendances[a].type;
       }
     }
     return status;
   }
 
-  getStatusColor(String status) {
+  getStatusColor(String? status) {
     switch (status) {
       case 'P':
         return Colors.green;

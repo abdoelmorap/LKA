@@ -1,15 +1,15 @@
 class Book {
-  String title;
-  String author;
-  String publication;
-  String subjectName;
-  String bookNo;
-  String reckNo;
+  String? title;
+  String? author;
+  String? publication;
+  String? subjectName;
+  String? bookNo;
+  String? reckNo;
   dynamic quantity;
   dynamic price;
-  String postDate;
-  String details;
-  String categoryName;
+  String? postDate;
+  String? details;
+  String? categoryName;
 
   Book(
       {this.title,

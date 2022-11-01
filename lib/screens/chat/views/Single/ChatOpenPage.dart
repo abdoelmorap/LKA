@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart' as DIO;
+import 'package:f_logs/model/flog/flog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ import 'package:infixedu/utils/CustomSnackBars.dart';
 import 'package:infixedu/utils/LoadMoreIndicator.dart';
 import 'package:infixedu/utils/MediaUtils.dart';
 import 'package:infixedu/utils/Utils.dart';
-import 'package:let_log/let_log.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -31,10 +31,10 @@ import 'ChatLoadMore.dart';
 import 'ChatMessageWidget.dart';
 
 class ChatOpenPage extends StatefulWidget {
-  final String avatarUrl;
-  final String chatTitle;
-  final int userId;
-  final int onlineStatus;
+  final String? avatarUrl;
+  final String? chatTitle;
+  final int? userId;
+  final int? onlineStatus;
   ChatOpenPage(
       {this.avatarUrl, this.chatTitle, this.userId, this.onlineStatus});
 
@@ -46,7 +46,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
   // PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   final _focusNode = FocusNode();
-  ChatOpenController _chatOpenController;
+  ChatOpenController? _chatOpenController;
 
   ChatController _chatController = Get.put(ChatController());
 
@@ -54,14 +54,14 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
 
   final ScrollController scrollController = ScrollController();
   final PusherController _pusherController = Get.put(PusherController());
-  Future chatOpen;
+  Future? chatOpen;
 
   bool scrolling = false;
   bool showSend = false;
   bool replyClick = false;
   bool searchClicked = false;
 
-  ChatLoadMore source;
+  ChatLoadMore? source;
 
   bool showMenu = false;
   bool showPortal = false;
@@ -74,7 +74,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
     source = ChatLoadMore(widget.userId, _chatOpenController);
     _focusNode.addListener(_focusNodeListener);
 
-    if (_chatController.chatSettings.value.chatSettings.chatMethod ==
+    if (_chatController.chatSettings.value.chatSettings!.chatMethod ==
         "pusher") {
       // _pusherController.chatOpenId = widget.userId;
       Future.delayed(Duration(seconds: 3), () {
@@ -148,10 +148,10 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
     return "";
   }
 
-  File file;
+  File? file;
 
   Future openFilePicker() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowCompression: true,
       allowMultiple: false,
       allowedExtensions: [
@@ -170,7 +170,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
 
     if (result != null) {
       setState(() {
-        file = File(result.files.single.path);
+        file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast("Cancelled");
@@ -178,13 +178,13 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
   }
 
   Widget fileShowWidget() {
-    if (MediaUtils.isImage(file.path)) {
+    if (MediaUtils.isImage(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
             Image.file(
-              file,
+              file!,
               width: 100,
               height: 100,
               alignment: Alignment.centerLeft,
@@ -204,7 +204,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isPdf(file.path)) {
+    } else if (MediaUtils.isPdf(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -215,9 +215,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
               width: 5,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -240,7 +240,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isWord(file.path)) {
+    } else if (MediaUtils.isWord(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -251,9 +251,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
               width: 5,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -276,7 +276,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isVideo(file.path)) {
+    } else if (MediaUtils.isVideo(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -287,9 +287,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
               width: 10,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -319,8 +319,8 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
 
   @override
   void dispose() {
-    source.dispose();
-    _chatOpenController.onClose();
+    source!.dispose();
+    _chatOpenController!.onClose();
     // _pusherController.pusher.disconnect();
 
     _pusherController.pusher
@@ -328,7 +328,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
 
     _pusherController.pusher.unsubscribe(
         channelName:
-            'private-single-chat' + '.${int.parse(_chatController.id.value)}');
+            'private-single-chat' + '.${int.parse(_chatController.id.value!)}');
     super.dispose();
   }
 
@@ -346,11 +346,11 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
             children: [
               Obx(() {
                 if (_chatController
-                        .chatSettings.value.chatSettings.chatMethod !=
+                        .chatSettings.value.chatSettings!.chatMethod !=
                     "pusher") {
                   return StreamBuilder<Object>(
                       stream: Stream.periodic(
-                          Duration(seconds: 5), (_) => source.checkNewMsg()),
+                          Duration(seconds: 5), (_) => source!.checkNewMsg()),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return SizedBox.shrink();
@@ -369,8 +369,8 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                   Expanded(
                     child: Stack(
                       children: [
-                        LoadingMoreList<ChatMessage>(
-                          ListConfig<ChatMessage>(
+                        LoadingMoreList<ChatMessage?>(
+                          ListConfig<ChatMessage?>(
                             keyboardDismissBehavior:
                                 ScrollViewKeyboardDismissBehavior.onDrag,
                             controller: scrollController,
@@ -384,25 +384,25 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                             ).buildIndicator,
                             addAutomaticKeepAlives: true,
                             itemBuilder: (BuildContext c,
-                                ChatMessage chatMessage, int index) {
+                                ChatMessage? chatMessage, int index) {
                               return MessageItemWidget(
                                   chatMessage: chatMessage,
                                   name: widget.chatTitle,
                                   avatarUrl: widget.avatarUrl,
-                                  currentUserId: _chatOpenController.id.value,
+                                  currentUserId: _chatOpenController!.id.value,
                                   menuVisible: false,
                                   showActions: true,
-                                  activeStatus: _chatOpenController
-                                      .activeUser.value.activeStatus,
+                                  activeStatus: _chatOpenController!
+                                      .activeUser.value!.activeStatus,
                                   onTapMenu: () {
                                     onMenuPress(
                                       context: context,
                                       showActions: false,
-                                      chatMessage: chatMessage,
+                                      chatMessage: chatMessage!,
                                     );
                                   });
                             },
-                            sourceList: source,
+                            sourceList: source!,
                           ),
                           key: const Key('homePageLoadMoreKey'),
                         ),
@@ -453,10 +453,10 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Obx(() {
-                      if (_chatOpenController.isLoading.value) {
+                      if (_chatOpenController!.isLoading.value) {
                         return Container();
                       } else {
-                        if (_chatOpenController.activeUser.value.block) {
+                        if (_chatOpenController!.activeUser.value!.block!) {
                           return SizedBox.shrink();
                         } else {
                           return Column(
@@ -481,9 +481,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Replying to ${_chatOpenController.selectedChatMsg.value.fromId.toString() == _chatOpenController.id.value ? "yourself" : _chatOpenController.selectedChatMsg.value.fromUser.fullName} ",
+                                                    "Replying to ${_chatOpenController!.selectedChatMsg.value.fromId.toString() == _chatOpenController!.id.value ? "yourself" : _chatOpenController!.selectedChatMsg.value.fromUser!.fullName} ",
                                                     style: Get
-                                                        .textTheme.subtitle1
+                                                        .textTheme.subtitle1!
                                                         .copyWith(
                                                       fontSize: 10,
                                                       fontWeight:
@@ -491,12 +491,12 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    "${_chatOpenController.selectedChatMsg.value.message}",
+                                                    "${_chatOpenController!.selectedChatMsg.value.message}",
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: Get
-                                                        .textTheme.subtitle1
+                                                        .textTheme.subtitle1!
                                                         .copyWith(
                                                       overflow:
                                                           TextOverflow.clip,
@@ -511,7 +511,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                                 setState(() {
                                                   replyClick = false;
                                                 });
-                                                _chatOpenController
+                                                _chatOpenController!
                                                     .selectedChatMsg
                                                     .value = ChatMessage();
                                               },
@@ -547,20 +547,21 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                               var formData =
                                                   DIO.FormData.fromMap({
                                                 'from_id': int.parse(
-                                                    _chatOpenController
-                                                        .id.value),
+                                                    _chatOpenController!
+                                                        .id.value!),
                                                 'to_id': widget.userId,
                                                 'message':
                                                     _chatMessageCtrl.text,
                                                 'file_attach': await DIO
                                                     .MultipartFile.fromFile(
-                                                  file.path,
-                                                  filename:
-                                                      file.path.split('/').last,
+                                                  file!.path,
+                                                  filename: file!.path
+                                                      .split('/')
+                                                      .last,
                                                 )
                                               });
 
-                                              await source
+                                              await source!
                                                   .submitText(
                                                       hasFile: true,
                                                       formData: formData)
@@ -588,7 +589,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                     child: Obx(() {
                                       return CachedNetworkImage(
                                         imageUrl:
-                                            "${AppConfig.domainName}/${_chatOpenController.imageUrl.value}",
+                                            "${AppConfig.domainName}/${_chatOpenController!.imageUrl.value}",
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(
@@ -630,7 +631,8 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                         textInputAction:
                                             TextInputAction.newline,
                                         scrollPhysics: BouncingScrollPhysics(),
-                                        style: Get.textTheme.subtitle1.copyWith(
+                                        style:
+                                            Get.textTheme.subtitle1!.copyWith(
                                           fontSize: 13,
                                         ),
                                         decoration: InputDecoration(
@@ -662,19 +664,19 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                                     if (replyClick) {
                                                       Map data = {
                                                         'reply':
-                                                            _chatOpenController
+                                                            _chatOpenController!
                                                                 .selectedChatMsg
                                                                 .value
                                                                 .id,
                                                         'from_id': int.parse(
-                                                            _chatOpenController
-                                                                .id.value),
+                                                            _chatOpenController!
+                                                                .id.value!),
                                                         'to_id': widget.userId,
                                                         'message':
                                                             _chatMessageCtrl
                                                                 .text,
                                                       };
-                                                      await source
+                                                      await source!
                                                           .submitText(
                                                               data: data,
                                                               hasFile: false)
@@ -688,14 +690,14 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                                     } else {
                                                       Map data = {
                                                         'from_id': int.parse(
-                                                            _chatOpenController
-                                                                .id.value),
+                                                            _chatOpenController!
+                                                                .id.value!),
                                                         'to_id': widget.userId,
                                                         'message':
                                                             _chatMessageCtrl
                                                                 .text,
                                                       };
-                                                      await source
+                                                      await source!
                                                           .submitText(
                                                               data: data,
                                                               hasFile: false)
@@ -758,9 +760,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
   final TextEditingController forwardMessageCtrl = TextEditingController();
 
   onForwardClick(
-      {BuildContext context,
-      bool showActions,
-      ChatMessage chatMessage,
+      {BuildContext? context,
+      bool? showActions,
+      ChatMessage? chatMessage,
       bool menuVisible = true}) {
     final ChatController chatController = Get.put(ChatController());
 
@@ -787,7 +789,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                     Center(
                       child: Text(
                         "Forward Message",
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -815,11 +817,11 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                     children: <Widget>[
                       MessageItemWidget(
                         chatMessage: chatMessage,
-                        currentUserId: _chatOpenController.id.value,
+                        currentUserId: _chatOpenController!.id.value,
                         menuVisible: menuVisible,
                         showActions: showActions,
                         activeStatus:
-                            _chatOpenController.activeUser.value.activeStatus,
+                            _chatOpenController!.activeUser.value!.activeStatus,
                       ),
                       Padding(
                         padding:
@@ -835,7 +837,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "Type a message here (optional)",
-                            hintStyle: Get.textTheme.subtitle1.copyWith(
+                            hintStyle: Get.textTheme.subtitle1!.copyWith(
                               fontSize: 12.sp,
                             ),
                           ),
@@ -843,7 +845,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                       ),
                       ListView.separated(
                           itemCount:
-                              chatController.chatModel.value.users.length,
+                              chatController.chatModel.value.users!.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           separatorBuilder: (context, index) {
@@ -853,7 +855,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                               EdgeInsets.symmetric(horizontal: 35, vertical: 5),
                           itemBuilder: (context, index) {
                             ChatUser chatUser =
-                                chatController.chatModel.value.users[index];
+                                chatController.chatModel.value.users![index];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -862,7 +864,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                               child: ListTile(
                                 title: Text(
                                   "${chatUser.fullName ?? ""}",
-                                  style: Get.textTheme.subtitle1
+                                  style: Get.textTheme.subtitle1!
                                       .copyWith(fontSize: 14),
                                 ),
                                 leading: CachedNetworkImage(
@@ -889,13 +891,13 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                 trailing: IconButton(
                                   onPressed: () async {
                                     Map data = {
-                                      'from_id': _chatOpenController.id.value,
+                                      'from_id': _chatOpenController!.id.value,
                                       'to_id': chatUser.id,
                                       'message': forwardMessageCtrl.text,
-                                      'forward': chatMessage.id,
+                                      'forward': chatMessage!.id,
                                     };
 
-                                    await _chatOpenController
+                                    await _chatOpenController!
                                         .forwardMessage(data, false)
                                         .then((value) {
                                       forwardMessageCtrl.clear();
@@ -912,7 +914,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                           }),
                       ListView.separated(
                           itemCount:
-                              chatController.chatModel.value.groups.length,
+                              chatController.chatModel.value.groups!.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           separatorBuilder: (context, index) {
@@ -922,7 +924,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                               EdgeInsets.symmetric(horizontal: 35, vertical: 5),
                           itemBuilder: (context, groupIndex) {
                             ChatGroup chatGroup = chatController
-                                .chatModel.value.groups[groupIndex];
+                                .chatModel.value.groups![groupIndex];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -931,7 +933,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                               child: ListTile(
                                 title: Text(
                                   "${chatGroup.name ?? ""}",
-                                  style: Get.textTheme.subtitle1
+                                  style: Get.textTheme.subtitle1!
                                       .copyWith(fontSize: 14),
                                 ),
                                 leading: CachedNetworkImage(
@@ -958,13 +960,13 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                 trailing: IconButton(
                                   onPressed: () async {
                                     Map data = {
-                                      'user_id': _chatOpenController.id.value,
+                                      'user_id': _chatOpenController!.id.value,
                                       'group_id': chatGroup.id,
                                       'message': forwardMessageCtrl.text,
-                                      'forward': chatMessage.id,
+                                      'forward': chatMessage!.id,
                                     };
 
-                                    await _chatOpenController
+                                    await _chatOpenController!
                                         .forwardMessage(data, true)
                                         .then((value) {
                                       forwardMessageCtrl.clear();
@@ -1025,9 +1027,9 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
   }
 
   onMenuPress(
-      {BuildContext context,
-      bool showActions,
-      ChatMessage chatMessage,
+      {BuildContext? context,
+      bool? showActions,
+      required ChatMessage chatMessage,
       bool menuVisible = true}) {
     final child = Center(
       child: Padding(
@@ -1035,36 +1037,36 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment:
-              chatMessage.fromId.toString() == _chatOpenController.id.value
+              chatMessage.fromId.toString() == _chatOpenController!.id.value
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
           children: <Widget>[
             MessageItemWidget(
               name: widget.chatTitle,
               chatMessage: chatMessage,
-              currentUserId: _chatOpenController.id.value,
+              currentUserId: _chatOpenController!.id.value,
               menuVisible: menuVisible,
               showActions: showActions,
-              activeStatus: _chatOpenController.activeUser.value.activeStatus,
+              activeStatus: _chatOpenController!.activeUser.value!.activeStatus,
             ),
             Container(
               margin: EdgeInsets.only(
                 left: chatMessage.fromId.toString() ==
-                        _chatOpenController.id.value
+                        _chatOpenController!.id.value
                     ? 10
                     : 35,
                 right: chatMessage.fromId.toString() ==
-                        _chatOpenController.id.value
+                        _chatOpenController!.id.value
                     ? 10
                     : 35,
               ),
               child: Text(
-                "${timeago.format(chatMessage.createdAt)}",
+                "${timeago.format(chatMessage.createdAt!)}",
                 textAlign: chatMessage.fromId.toString() ==
-                        _chatOpenController.id.value
+                        _chatOpenController!.id.value
                     ? TextAlign.right
                     : TextAlign.left,
-                style: Get.textTheme.subtitle1.copyWith(
+                style: Get.textTheme.subtitle1!.copyWith(
                   color: Colors.grey.shade200,
                   fontSize: 8.sp,
                 ),
@@ -1074,11 +1076,11 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
             Container(
               margin: EdgeInsets.only(
                 left: chatMessage.fromId.toString() ==
-                        _chatOpenController.id.value
+                        _chatOpenController!.id.value
                     ? 10
                     : 35,
                 right: chatMessage.fromId.toString() ==
-                        _chatOpenController.id.value
+                        _chatOpenController!.id.value
                     ? 10
                     : 35,
               ),
@@ -1094,7 +1096,8 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
-                        _chatOpenController.selectedChatMsg.value = chatMessage;
+                        _chatOpenController!.selectedChatMsg.value =
+                            chatMessage;
                         setState(() {
                           replyClick = true;
                         });
@@ -1144,16 +1147,16 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                       ),
                     ),
                   ),
-                  chatMessage.fromId.toString() == _chatOpenController.id.value
+                  chatMessage.fromId.toString() == _chatOpenController!.id.value
                       ? Divider()
                       : SizedBox.shrink(),
-                  chatMessage.fromId.toString() == _chatOpenController.id.value
+                  chatMessage.fromId.toString() == _chatOpenController!.id.value
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () async {
-                              Logger.warn(chatMessage.id);
-                              await source
+                              FLog.warning(text: chatMessage.id);
+                              await source!
                                   .deleteSingleMessage(chatMessage)
                                   .then((value) => Get.back());
                             },
@@ -1304,7 +1307,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                   maxLines: 2,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .subtitle1!
                                       .copyWith(
                                         fontSize: 15,
                                         color: Colors.white,
@@ -1315,7 +1318,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                   maxLines: 2,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .subtitle1!
                                       .copyWith(
                                         fontSize: 15,
                                         color: Colors.white,
@@ -1341,7 +1344,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                   ),
                                   Text(
                                     getStatusTitle(widget.onlineStatus),
-                                    style: Get.textTheme.subtitle1.copyWith(
+                                    style: Get.textTheme.subtitle1!.copyWith(
                                       color: Colors.white,
                                       fontSize: 10,
                                     ),
@@ -1353,12 +1356,12 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                     ),
                   ),
                   Obx(() {
-                    if (_chatOpenController.isLoading.value) {
+                    if (_chatOpenController!.isLoading.value) {
                       return Container();
                     } else {
-                      if (_chatOpenController.activeUser.value.block) {
+                      if (_chatOpenController!.activeUser.value!.block!) {
                         return PopupMenuButton(
-                          onSelected: (value) async {
+                          onSelected: (dynamic value) async {
                             if (value == 1) {
                               Get.to(
                                 () => ChatFilesPage(
@@ -1377,7 +1380,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                         );
                       } else {
                         return PopupMenuButton(
-                          onSelected: (value) async {
+                          onSelected: (dynamic value) async {
                             if (value == 1) {
                               Get.to(
                                 () => ChatFilesPage(
@@ -1386,7 +1389,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
                                 ),
                               );
                             } else if (value == 2) {
-                              await _chatOpenController.blockUser("block");
+                              await _chatOpenController!.blockUser("block");
                             }
                           },
                           itemBuilder: (context) => [
@@ -1416,14 +1419,14 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
 }
 
 class MessageItemWidget extends StatelessWidget {
-  final ChatMessage chatMessage;
-  final String name;
-  final String avatarUrl;
-  final String currentUserId;
-  final bool menuVisible;
-  final bool showActions;
-  final Function onTapMenu;
-  final int activeStatus;
+  final ChatMessage? chatMessage;
+  final String? name;
+  final String? avatarUrl;
+  final String? currentUserId;
+  final bool? menuVisible;
+  final bool? showActions;
+  final Function? onTapMenu;
+  final int? activeStatus;
   MessageItemWidget({
     this.chatMessage,
     this.name,
@@ -1432,25 +1435,25 @@ class MessageItemWidget extends StatelessWidget {
     this.menuVisible,
     this.showActions,
     this.onTapMenu,
-    @required this.activeStatus,
+    required this.activeStatus,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: menuVisible ? 10 : 5,
-        bottom: menuVisible ? 10 : 5,
+        top: menuVisible! ? 10 : 5,
+        bottom: menuVisible! ? 10 : 5,
       ),
       child: Row(
-        mainAxisAlignment: chatMessage.fromId.toString() != currentUserId
+        mainAxisAlignment: chatMessage!.fromId.toString() != currentUserId
             ? MainAxisAlignment.start
             : MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.only(top: 4),
-            child: chatMessage.fromId.toString() != currentUserId
+            child: chatMessage!.fromId.toString() != currentUserId
                 ? CachedNetworkImage(
                     imageUrl: "${AppConfig.domainName}/$avatarUrl",
                     imageBuilder: (context, imageProvider) => Container(
@@ -1480,7 +1483,7 @@ class MessageItemWidget extends StatelessWidget {
               ? ChatMessageWidget(
                   name: name,
                   chatMessage: chatMessage,
-                  id: int.parse(currentUserId),
+                  id: int.parse(currentUserId!),
                   menuVisible: menuVisible,
                   onTapMenu: onTapMenu,
                   showActions: showActions,

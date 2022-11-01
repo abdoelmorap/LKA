@@ -21,7 +21,7 @@ import 'StudentListScreen.dart';
 
 // ignore: must_be_immutable
 class StudentSearch extends StatefulWidget {
-  String status;
+  String? status;
 
   StudentSearch({this.status});
 
@@ -30,19 +30,19 @@ class StudentSearch extends StatefulWidget {
 }
 
 class _StudentSearchState extends State<StudentSearch> {
-  String _id;
+  String? _id;
   dynamic classId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
+  String? _selectedClass;
+  String? _selectedSection;
   TextEditingController nameController = TextEditingController();
   TextEditingController rollController = TextEditingController();
-  Future classes;
-  Future<SectionList> sections;
-  String url;
-  String status;
-  String _token;
-  String rule;
+  Future? classes;
+  Future<SectionList>? sections;
+  String? url;
+  String? status;
+  String? _token;
+  String? rule;
 
   _StudentSearchState({this.status});
 
@@ -60,12 +60,12 @@ class _StudentSearchState extends State<StudentSearch> {
           Utils.getStringValue('id').then((value) {
             setState(() {
               _id = value;
-              classes = getAllClass(int.parse(_id));
-              classes.then((value) {
+              classes = getAllClass(int.parse(_id!));
+              classes!.then((value) {
                 _selectedClass = value.classes[0].name;
                 classId = value.classes[0].id;
-                sections = getAllSection(int.parse(_id), classId);
-                sections.then((sectionValue) {
+                sections = getAllSection(int.parse(_id!), classId);
+                sections!.then((sectionValue) {
                   _selectedSection = sectionValue.sections[0].name;
                   sectionId = sectionValue.sections[0].id;
                 });
@@ -92,14 +92,16 @@ class _StudentSearchState extends State<StudentSearch> {
             future: classes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                ClassList? mwdata = snapshot.data as ClassList?;
+                var classes = mwdata!.classes!;
                 return ListView(
                   children: <Widget>[
-                    getClassDropdown(snapshot.data.classes),
+                    getClassDropdown(classes),
                     FutureBuilder<SectionList>(
                       future: sections,
                       builder: (context, secSnap) {
                         if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data.sections);
+                          return getSectionDropdown(secSnap.data!.sections);
                         } else {
                           return Center(child: CupertinoActivityIndicator());
                         }
@@ -161,7 +163,7 @@ class _StudentSearchState extends State<StudentSearch> {
             decoration: Utils.gradientBtnDecoration,
             child: Text(
               "Search".tr,
-              style: Theme.of(context).textTheme.headline4.copyWith(
+              style: Theme.of(context).textTheme.headline4!.copyWith(
                   color: Colors.white, fontSize: ScreenUtil().setSp(14)),
             ),
           ),
@@ -262,15 +264,15 @@ class _StudentSearchState extends State<StudentSearch> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
             classId = getCode(classes, value);
 
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
             });
@@ -296,7 +298,7 @@ class _StudentSearchState extends State<StudentSearch> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -304,15 +306,15 @@ class _StudentSearchState extends State<StudentSearch> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
             sectionId = getCode(sectionlist, value);
 
-            sections = getAllSection(int.parse(_id), classId);
+            sections = getAllSection(int.parse(_id!), classId);
 
             debugPrint('User select section $sectionId');
           });
@@ -322,9 +324,9 @@ class _StudentSearchState extends State<StudentSearch> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(T t, String? title) {
+    int? code;
+    for (var cls in t as Iterable) {
       if (cls.name == title) {
         code = cls.id;
         break;

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class RoutineRowDesign extends StatelessWidget {
   String time;
-  String subject;
-  String room;
+  String? subject;
+  String? room;
 
   RoutineRowDesign(
     this.time,
@@ -47,10 +47,10 @@ class RoutineRowDesign extends StatelessWidget {
 // ignore: must_be_immutable
 class RoutineRowDesignTeacher extends StatelessWidget {
   String time;
-  String subject;
-  String room;
-  String classRoutineClass;
-  String section;
+  String? subject;
+  String? room;
+  String? classRoutineClass;
+  String? section;
 
   RoutineRowDesignTeacher(this.time, this.subject, this.room,
       {this.classRoutineClass, this.section});

@@ -14,20 +14,20 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:timeago/timeago.dart' as time;
 
 class ChatFilesPage extends StatefulWidget {
-  final String chatId;
-  final bool isGroup;
+  final String? chatId;
+  final bool? isGroup;
   ChatFilesPage({this.chatId, this.isGroup});
   @override
   _ChatFilesPageState createState() => _ChatFilesPageState();
 }
 
 class _ChatFilesPageState extends State<ChatFilesPage> {
-  ChatFilesController _chatFilesController;
+  late ChatFilesController _chatFilesController;
 
   @override
   void initState() {
     print(widget.chatId);
-    if (widget.isGroup) {
+    if (widget.isGroup!) {
       _chatFilesController =
           Get.put(ChatFilesController(widget.chatId, 'group'));
     } else {
@@ -89,12 +89,12 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
               );
             },
             itemBuilder: (context, index) {
-              MessageFile chatMessage = widget.isGroup
+              MessageFile chatMessage = widget.isGroup!
                   ? _chatFilesController.chatFilesModel.value.messages[index]
                   : _chatFilesController.chatFilesModel.value.messages.entries
                       .elementAt(index)
                       .value;
-              var timeago = time.format(chatMessage.createdAt);
+              var timeago = time.format(chatMessage.createdAt!);
               if (chatMessage.messageType == 1) {
                 //** png jpg jpeg
                 return Container(
@@ -127,7 +127,7 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
                       ),
                       Text(
                         "$timeago",
-                        style: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                        style: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
@@ -152,7 +152,7 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
                   ),
                   subtitle: Text(
                     "$timeago",
-                    style: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    style: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   leading: Icon(getLeadingIcon(chatMessage),
                       color: Get.theme.primaryColor),
@@ -180,7 +180,7 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
                   ),
                   subtitle: Text(
                     "$timeago",
-                    style: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    style: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   leading: Icon(getLeadingIcon(chatMessage),
                       color: Get.theme.primaryColor),
@@ -208,7 +208,7 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
                   ),
                   subtitle: Text(
                     "$timeago",
-                    style: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    style: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   leading: Icon(getLeadingIcon(chatMessage),
                       color: Get.theme.primaryColor),
@@ -231,7 +231,7 @@ class _ChatFilesPageState extends State<ChatFilesPage> {
                   ),
                   subtitle: Text(
                     "$timeago",
-                    style: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    style: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   leading: Icon(getLeadingIcon(chatMessage),
                       color: Get.theme.primaryColor),

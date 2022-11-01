@@ -9,9 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 class DeviceUtil {
-  AndroidDeviceInfo _androidDeviceInfo;
-  IosDeviceInfo _iosDeviceInfo;
-  WebBrowserInfo _webBrowserInfo;
+  late AndroidDeviceInfo _androidDeviceInfo;
+  late IosDeviceInfo _iosDeviceInfo;
+  late WebBrowserInfo _webBrowserInfo;
 
   Future<void> init() async {
     try {
@@ -30,7 +30,7 @@ class DeviceUtil {
 
   /// The device manufacturer name.
   String get deviceManufacturer {
-    String manufacturer;
+    String? manufacturer;
     if (kIsWeb) {
       manufacturer = _webBrowserInfo.vendor;
     } else {
@@ -45,7 +45,7 @@ class DeviceUtil {
 
   /// The device's operating system version.
   String get osVersion {
-    String version;
+    String? version;
     if (kIsWeb) {
       version = _webBrowserInfo.productSub;
     } else {
@@ -60,7 +60,7 @@ class DeviceUtil {
 
   /// The device's model.
   String get deviceModel {
-    String model;
+    String? model;
     if (kIsWeb) {
       model = _webBrowserInfo.userAgent;
     } else {

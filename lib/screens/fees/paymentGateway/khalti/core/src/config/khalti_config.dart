@@ -17,12 +17,12 @@ class KhaltiConfig {
   final String packageVersion;
 
   KhaltiConfig({
-    @required this.source,
-    @required this.osVersion,
-    @required this.deviceModel,
-    @required this.deviceManufacturer,
-    @required this.packageName,
-    @required this.packageVersion,
+    required this.source,
+    required this.osVersion,
+    required this.deviceModel,
+    required this.deviceManufacturer,
+    required this.packageName,
+    required this.packageVersion,
   });
 
   factory KhaltiConfig.sourceOnly() {

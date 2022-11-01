@@ -10,7 +10,7 @@ import 'package:infixedu/screens/fees/fees_student/StudentFeesNew.dart';
 import 'package:infixedu/screens/fees/fees_student/StudentFeesOld.dart';
 
 class DBStudentFees extends StatefulWidget {
-  final String id;
+  final String? id;
 
   DBStudentFees({this.id});
 
@@ -23,7 +23,7 @@ class _DBStudentFeesState extends State<DBStudentFees> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (systemController.systemSettings.value.data.feesStatus == 0) {
+      if (systemController.systemSettings.value.data!.feesStatus == 0) {
         return StudentFeesOld(
           id: widget.id,
         );

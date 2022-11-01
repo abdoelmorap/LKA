@@ -15,8 +15,8 @@ class TeacherRoutine {
     this.classRoutines,
   });
 
-  StaffDetail staffDetail;
-  List<ClassRoutine> classRoutines;
+  StaffDetail? staffDetail;
+  List<ClassRoutine>? classRoutines;
 
   factory TeacherRoutine.fromJson(Map<String, dynamic> json) => TeacherRoutine(
         staffDetail: StaffDetail.fromJson(json["staff_detail"]),
@@ -25,9 +25,9 @@ class TeacherRoutine {
       );
 
   Map<String, dynamic> toJson() => {
-        "staff_detail": staffDetail.toJson(),
+        "staff_detail": staffDetail!.toJson(),
         "class_routines":
-            List<dynamic>.from(classRoutines.map((x) => x.toJson())),
+            List<dynamic>.from(classRoutines!.map((x) => x.toJson())),
       };
 }
 
@@ -45,16 +45,16 @@ class ClassRoutine {
     this.classRoutineBreak,
   });
 
-  int id;
-  String day;
-  String room;
-  String subject;
-  String teacher;
-  String classRoutineClass;
-  String section;
-  String startTime;
-  String endTime;
-  String classRoutineBreak;
+  int? id;
+  String? day;
+  String? room;
+  String? subject;
+  String? teacher;
+  String? classRoutineClass;
+  String? section;
+  String? startTime;
+  String? endTime;
+  String? classRoutineBreak;
 
   factory ClassRoutine.fromJson(Map<String, dynamic> json) => ClassRoutine(
         id: json["id"],
@@ -88,8 +88,8 @@ class StaffDetail {
     this.fullName,
   });
 
-  int id;
-  String fullName;
+  int? id;
+  String? fullName;
 
   factory StaffDetail.fromJson(Map<String, dynamic> json) => StaffDetail(
         id: json["id"],

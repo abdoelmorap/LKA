@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  final String title;
-  final List<Widget> children;
+  final String? title;
+  final List<Widget>? children;
   final double initialChildSize;
   CustomBottomSheet({
     this.title,
@@ -75,7 +75,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     SizedBox(
                       height: 20,
                     ),
-                    ...widget.children,
+                    ...widget.children!,
                   ],
                 ),
               ),

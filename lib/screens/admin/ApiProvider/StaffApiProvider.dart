@@ -12,7 +12,7 @@ import 'package:infixedu/utils/model/LibraryCategoryMember.dart';
 import 'package:infixedu/utils/model/Staff.dart';
 
 class StaffApiProvider {
-  String token;
+  String? token;
 
   Future<LibraryMemberList> getAllCategory() async {
     await Utils.getStringValue('token').then((value) {

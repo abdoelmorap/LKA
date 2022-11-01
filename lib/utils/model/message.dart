@@ -7,7 +7,7 @@ class Message {
   final String body;
 
   Message({
-    @required this.title,
-    @required this.body,
+    required this.title,
+    required this.body,
   });
 }

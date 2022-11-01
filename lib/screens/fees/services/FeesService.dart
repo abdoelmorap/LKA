@@ -16,14 +16,14 @@ import '../../../utils/Utils.dart';
 
 class FeeService {
   int _id;
-  String _token;
+  String? _token;
 
   FeeService(this._id, this._token);
 
   List<FeeElement> feeMap = [];
   List<double> totalMap = [];
 
-  bool isNullOrEmpty(Object o) => o == null || "" == o;
+  bool isNullOrEmpty(Object? o) => o == null || "" == o;
 
   Future<List<FeeElement>> fetchFee() async {
     try{
@@ -40,7 +40,7 @@ class FeeService {
       var data = feeFromJson(response.body);
 
       if (isSuccess) {
-        for (var f in data.data.fees) {
+        for (var f in data.data!.fees!) {
           feeMap.add(FeeElement(
               feesName: f.feesName,
               dueDate: f.dueDate,
@@ -51,7 +51,7 @@ class FeeService {
               this.isNullOrEmpty(f.discountAmount) ? 0 : f.discountAmount,
               fine: f.fine,
               feesTypeId: f.feesTypeId,
-              currencySymbol: data.data.currencySymbol.currencySymbol));
+              currencySymbol: data.data!.currencySymbol!.currencySymbol));
         }
       } else {
         Utils.showToast('try again later');
@@ -79,7 +79,7 @@ class FeeService {
       final data = feeFromJson(response.body);
 
       if (isSuccess) {
-        data.data.fees.forEach((element) {
+        data.data!.fees!.forEach((element) {
           _amount = _amount + double.parse(element.amount.toString());
 
           element.paid == 0

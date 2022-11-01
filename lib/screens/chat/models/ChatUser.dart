@@ -17,16 +17,16 @@ class ChatUser {
     this.activeStatus,
   });
 
-  int id;
-  String fullName;
-  String username;
-  String email;
-  String firstName;
-  String avatarUrl;
-  bool blockedByMe;
-  bool block;
-  String lastMessage;
-  ChatRoles roles;
+  int? id;
+  String? fullName;
+  String? username;
+  String? email;
+  String? firstName;
+  String? avatarUrl;
+  bool? blockedByMe;
+  bool? block;
+  String? lastMessage;
+  ChatRoles? roles;
   dynamic activeStatus;
 
   factory ChatUser.fromJson(Map<String, dynamic> json) => ChatUser(
@@ -60,7 +60,7 @@ class ChatUser {
         "blocked_by_me": blockedByMe == null ? null : blockedByMe,
         "block": block == null ? null : block,
         "last_message": lastMessage == null ? null : lastMessage,
-        "roles": roles == null ? null : roles.toJson(),
+        "roles": roles == null ? null : roles!.toJson(),
         "active_status": activeStatus,
       };
 

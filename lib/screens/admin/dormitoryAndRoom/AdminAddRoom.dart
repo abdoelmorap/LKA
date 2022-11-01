@@ -27,16 +27,16 @@ class _AddRoomState extends State<AddRoom> {
   TextEditingController noOfBedController = TextEditingController();
   TextEditingController costPerBedController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-  Future<AdminDormitoryList> dormitories;
-  Future<AdminRoomTypeList> rooms;
-  Response response;
+  Future<AdminDormitoryList>? dormitories;
+  Future<AdminRoomTypeList>? rooms;
+  late Response response;
   Dio dio = Dio();
 
-  String selectedDormitory;
+  String? selectedDormitory;
   dynamic selectedDormitoryId;
-  String selectedRoom;
+  String? selectedRoom;
   dynamic selectedRoomId;
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -45,14 +45,14 @@ class _AddRoomState extends State<AddRoom> {
       setState(() {
         _token = value;
         dormitories = getAllDormitory();
-        dormitories.then((dormiVal) {
+        dormitories!.then((dormiVal) {
           setState(() {
             selectedDormitory = dormiVal.dormitories[0].title;
             selectedDormitoryId = dormiVal.dormitories[0].id;
           });
         });
         rooms = getAllRoomType();
-        rooms.then((roomVal) {
+        rooms!.then((roomVal) {
           setState(() {
             selectedRoom = roomVal.rooms[0].title;
             selectedRoomId = roomVal.rooms[0].id;
@@ -104,7 +104,7 @@ class _AddRoomState extends State<AddRoom> {
                   return Padding(
                     padding: EdgeInsets.only(left: 10),
                     child: getDormitoryDropdown(
-                        context, snapshot.data.dormitories),
+                        context, snapshot.data!.dormitories),
                   );
                 } else {
                   return Container();
@@ -117,7 +117,7 @@ class _AddRoomState extends State<AddRoom> {
                 if (snapshot.hasData) {
                   return Padding(
                     padding: EdgeInsets.only(left: 10),
-                    child: getRoomTypeDropdown(context, snapshot.data.rooms),
+                    child: getRoomTypeDropdown(context, snapshot.data!.rooms),
                   );
                 } else {
                   return Container();
@@ -180,14 +180,14 @@ class _AddRoomState extends State<AddRoom> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                item.title,
+                item.title!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedRoom = value;
             selectedRoomId = getCode(roomList, value);
@@ -211,14 +211,14 @@ class _AddRoomState extends State<AddRoom> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                item.title,
+                item.title!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedDormitory = value;
             selectedDormitoryId = getCode(dormitoryList, value);
@@ -270,9 +270,9 @@ class _AddRoomState extends State<AddRoom> {
     return false;
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(T t, String? title) {
+    int? code;
+    for (var cls in t as Iterable) {
       if (cls.title == title) {
         code = cls.id;
         break;

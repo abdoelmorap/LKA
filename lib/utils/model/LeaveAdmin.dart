@@ -1,14 +1,14 @@
 class LeaveAdmin{
 
   dynamic id;
-  String applyDate;
-  String leaveFrom;
-  String leaveTo;
-  String reason;
-  String status;
-  String type;
-  String file;
-  String fullName;
+  String? applyDate;
+  String? leaveFrom;
+  String? leaveTo;
+  String? reason;
+  String? status;
+  String? type;
+  String? file;
+  String? fullName;
 
   LeaveAdmin({this.id, this.applyDate, this.leaveFrom, this.leaveTo, this.reason,
       this.status,this.type,this.file,this.fullName});

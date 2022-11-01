@@ -16,8 +16,8 @@ import 'package:infixedu/utils/widget/Line.dart';
 class UploadedFilesView extends StatefulWidget {
   UploadedFilesView({this.files, this.fileName});
 
-  final List<String> files;
-  final String fileName;
+  final List<String>? files;
+  final String? fileName;
 
   @override
   _UploadedFilesViewState createState() => _UploadedFilesViewState();
@@ -33,12 +33,12 @@ class _UploadedFilesViewState extends State<UploadedFilesView> {
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: ListView.separated(
-            itemCount: widget.files.length,
+            itemCount: widget.files!.length,
             separatorBuilder: (context, index) {
               return BottomLine();
             },
             itemBuilder: (context, index) {
-              return widget.files[index].contains('.pdf')
+              return widget.files![index].contains('.pdf')
                   ? Container(
                       child: InkWell(
                         onTap: () {
@@ -46,14 +46,14 @@ class _UploadedFilesViewState extends State<UploadedFilesView> {
                               builder: (context) => DownloadViewer(
                                     title: 'PDF',
                                     filePath:
-                                        InfixApi.root + widget.files[index],
+                                        InfixApi.root + widget.files![index],
                                   )));
                         },
                         child: Stack(
                           fit: StackFit.loose,
                           children: [
                             PDF.network(
-                              InfixApi.root + widget.files[index],
+                              InfixApi.root + widget.files![index],
                               height: 300,
                               width: double.maxFinite,
                             ),
@@ -70,7 +70,7 @@ class _UploadedFilesViewState extends State<UploadedFilesView> {
                                     'View',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 20),
@@ -83,7 +83,7 @@ class _UploadedFilesViewState extends State<UploadedFilesView> {
                       ),
                     )
                   : ExtendedImage.network(
-                      InfixApi.root + widget.files[index],
+                      InfixApi.root + widget.files![index],
                       fit: BoxFit.fill,
                       cache: true,
                       mode: ExtendedImageMode.gesture,

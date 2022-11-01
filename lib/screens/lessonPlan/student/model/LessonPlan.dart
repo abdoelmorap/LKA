@@ -15,7 +15,7 @@ class LessonPlan {
     });
 
     dynamic thisWeek;
-    List<Week> weeks;
+    List<Week>? weeks;
 
     factory LessonPlan.fromJson(Map<String, dynamic> json) => LessonPlan(
         thisWeek: json["this_week"],
@@ -24,7 +24,7 @@ class LessonPlan {
 
     Map<String, dynamic> toJson() => {
         "this_week": thisWeek,
-        "weeks": List<dynamic>.from(weeks.map((x) => x.toJson())),
+        "weeks": List<dynamic>.from(weeks!.map((x) => x.toJson())),
     };
 }
 
@@ -36,10 +36,10 @@ class Week {
         this.date,
     });
 
-    int id;
-    String name;
-    int isWeekend;
-    String date;
+    int? id;
+    String? name;
+    int? isWeekend;
+    String? date;
 
     factory Week.fromJson(Map<String, dynamic> json) => Week(
         id: json["id"],

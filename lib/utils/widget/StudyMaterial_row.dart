@@ -52,8 +52,8 @@ class StudyMaterialListRow extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    uploadedContent.contentTitle,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    uploadedContent.contentTitle!,
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
                           fontSize: 16,
                         ),
                   ),
@@ -67,7 +67,7 @@ class StudyMaterialListRow extends StatelessWidget {
                     : Container(
                         child: Text(
                           'Download',
-                          style: Theme.of(context).textTheme.headline6.copyWith(
+                          style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontSize: 15,
                               color: Colors.deepPurpleAccent,
                               decoration: TextDecoration.underline),
@@ -116,7 +116,7 @@ class StudyMaterialListRow extends StatelessWidget {
                                   onTap: () async {
                                     // ignore: deprecated_member_use
                                     if (!await launch(
-                                        uploadedContent.sourceUrl))
+                                        uploadedContent.sourceUrl!))
                                       throw 'Could not launch ${uploadedContent.sourceUrl}';
                                   },
                                   child: Container(
@@ -127,7 +127,7 @@ class StudyMaterialListRow extends StatelessWidget {
                                       "Click here",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle1
+                                          .subtitle1!
                                           .copyWith(
                                               color: Colors.white,
                                               fontSize: 12),
@@ -179,7 +179,7 @@ class StudyMaterialListRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        uploadedContent.contentTitle,
+                        uploadedContent.contentTitle!,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Padding(
@@ -195,7 +195,7 @@ class StudyMaterialListRow extends StatelessWidget {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
@@ -224,7 +224,7 @@ class StudyMaterialListRow extends StatelessWidget {
                             Text(
                               uploadedContent.description == null
                                   ? ''
-                                  : uploadedContent.description,
+                                  : uploadedContent.description!,
                               textAlign: TextAlign.left,
                               style: Theme.of(context).textTheme.headline4,
                             ),
@@ -242,7 +242,7 @@ class StudyMaterialListRow extends StatelessWidget {
     );
   }
 
-  showDownloadAlertDialog(BuildContext context, String title) {
+  showDownloadAlertDialog(BuildContext context, String? title) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(
@@ -257,7 +257,7 @@ class StudyMaterialListRow extends StatelessWidget {
       child: Text("Download", style: Theme.of(context).textTheme.headline4),
       onPressed: () {
         uploadedContent.uploadFile != null
-            ? downloadFile(uploadedContent.uploadFile, context, title)
+            ? downloadFile(uploadedContent.uploadFile!, context, title)
             : Utils.showToast('no file found');
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
@@ -286,7 +286,7 @@ class StudyMaterialListRow extends StatelessWidget {
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";

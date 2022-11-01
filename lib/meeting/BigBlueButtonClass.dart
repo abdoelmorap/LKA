@@ -11,8 +11,8 @@ import 'package:url_launcher/url_launcher.dart';
 // Project imports:
 
 class BigBlueButtonTest extends StatefulWidget {
-  final String meetingUrl;
-  final String meetingName;
+  final String? meetingUrl;
+  final String? meetingName;
 
   BigBlueButtonTest({this.meetingUrl,this.meetingName});
 
@@ -23,7 +23,7 @@ class BigBlueButtonTest extends StatefulWidget {
 class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
   final GlobalKey webViewKey = GlobalKey();
 
-  InAppWebViewController webViewController;
+  InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
           useShouldOverrideUrlLoading: true,
@@ -37,8 +37,8 @@ class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
         allowsInlineMediaPlayback: true,
       ));
 
-  PullToRefreshController pullToRefreshController;
-  String url = "";
+  PullToRefreshController? pullToRefreshController;
+  String? url = "";
   double progress = 0;
 
   @override
@@ -78,7 +78,7 @@ class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
                   children: [
                     InAppWebView(
                       key: webViewKey,
-                      initialUrlRequest: URLRequest(url: Uri.parse(url)),
+                      initialUrlRequest: URLRequest(url: Uri.parse(url!)),
                       initialOptions: options,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) {
@@ -98,7 +98,7 @@ class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
-                        var uri = navigationAction.request.url;
+                        var uri = navigationAction.request.url!;
 
                         if (![
                           "http",
@@ -110,11 +110,11 @@ class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
                           "about"
                         ].contains(uri.scheme)) {
                           // ignore: deprecated_member_use
-                          if (await canLaunch(url)) {
+                          if (await canLaunch(url!)) {
                             // Launch the App
                             // ignore: deprecated_member_use
                             await launch(
-                              url,
+                              url!,
                             );
                             // and cancel the request
                             return NavigationActionPolicy.CANCEL;
@@ -124,17 +124,17 @@ class _BigBlueButtonTestState extends State<BigBlueButtonTest> {
                         return NavigationActionPolicy.ALLOW;
                       },
                       onLoadStop: (controller, url) async {
-                        pullToRefreshController.endRefreshing();
+                        pullToRefreshController!.endRefreshing();
                         setState(() {
                           this.url = url.toString();
                         });
                       },
                       onLoadError: (controller, url, code, message) {
-                        pullToRefreshController.endRefreshing();
+                        pullToRefreshController!.endRefreshing();
                       },
                       onProgressChanged: (controller, progress) {
                         if (progress == 100) {
-                          pullToRefreshController.endRefreshing();
+                          pullToRefreshController!.endRefreshing();
                         }
                         setState(() {
                           this.progress = progress / 100;

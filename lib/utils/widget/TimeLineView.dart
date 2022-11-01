@@ -61,18 +61,18 @@ class TimeLineView extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text(
-                timeline.title,
+                timeline.title!,
                 maxLines: 1,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headline6!
                     .copyWith(fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                timeline.date,
+                timeline.date!,
                 maxLines: 1,
                 style: Theme.of(context).textTheme.headline4,
               ),
@@ -80,7 +80,7 @@ class TimeLineView extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                timeline.description,
+                timeline.description!,
                 maxLines: 5,
                 style: Theme.of(context).textTheme.headline4,
               ),
@@ -136,7 +136,7 @@ class TimeLineView extends StatelessWidget {
       child: Text("Download"),
       onPressed: () {
         timeline.file != null && timeline.file != ""
-            ? downloadFile(timeline.file)
+            ? downloadFile(timeline.file!)
             : Utils.showToast('no file found');
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },

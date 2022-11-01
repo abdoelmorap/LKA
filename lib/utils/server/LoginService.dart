@@ -18,12 +18,12 @@ class Login {
 
   Login(this.email, this.password);
 
-  Future<String> getLogin(BuildContext context) async {
-    bool isSuccess = false;
+  Future<String?> getLogin(BuildContext context) async {
+    bool? isSuccess = false;
     dynamic id;
     dynamic rule;
     dynamic schoolId;
-    String image;
+    String? image;
     dynamic isAdministrator;
     dynamic zoom;
     dynamic token;
@@ -32,7 +32,7 @@ class Login {
     dynamic fullName;
     dynamic phone;
 
-    bool isNullOrEmpty(Object o) => o == null || o == "";
+    bool isNullOrEmpty(Object? o) => o == null || o == "";
 
     try {
       DIO.Dio dio = DIO.Dio();
@@ -74,7 +74,7 @@ class Login {
               ? 'public/uploads/staff/demo/staff.jpg'
               : user['data']['userDetails']['guardian_photo'].toString();
         }
-        if (isSuccess) {
+        if (isSuccess!) {
           saveBooleanValue('isLogged', isSuccess);
           saveStringValue('email', email);
           saveStringValue('phone', phone);

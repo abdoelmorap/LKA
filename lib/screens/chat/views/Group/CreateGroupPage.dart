@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:f_logs/model/flog/flog.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,9 @@ import 'package:infixedu/utils/exception/DioException.dart';
 import 'package:infixedu/screens/chat/models/ChatUser.dart';
 import 'package:infixedu/utils/permission_check.dart';
 import 'package:dio/dio.dart' as DIO;
-import 'package:let_log/let_log.dart';
 
 class CreateGroupPage extends StatefulWidget {
-  final List<ChatUser> chatUsers;
+  final List<ChatUser>? chatUsers;
   CreateGroupPage({this.chatUsers});
   @override
   _CreateGroupPageState createState() => _CreateGroupPageState();
@@ -27,9 +27,9 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
 
   final ChatController _chatController = Get.put(ChatController());
 
-  Map<ChatUser, bool> values = {};
+  Map<ChatUser, bool?> values = {};
 
-  List<int> tmpArray = [];
+  List<int?> tmpArray = [];
 
   List<ChatUser> selectedUsers = [];
 
@@ -37,15 +37,15 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
 
   DIO.Dio dio = new DIO.Dio();
 
-  File _file;
+  File? _file;
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
     );
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled');
@@ -55,7 +55,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
   @override
   void initState() {
     PermissionCheck().checkPermissions(context);
-    widget.chatUsers.forEach((element) {
+    widget.chatUsers!.forEach((element) {
       final Map<ChatUser, bool> mapEntry = {element: false};
       values.addAll(mapEntry);
     });
@@ -95,8 +95,8 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                   style: Theme.of(context).textTheme.headline6,
                   controller: groupNameController,
                   autovalidateMode: AutovalidateMode.disabled,
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
                       return 'Please enter a group name';
                     }
                     return null;
@@ -132,7 +132,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                     decoration: InputDecoration(
                       labelText: _file == null
                           ? 'Select image'
-                          : _file.path.split('/').last,
+                          : _file!.path.split('/').last,
                       errorStyle:
                           TextStyle(color: Colors.pinkAccent, fontSize: 15.0),
                       border: OutlineInputBorder(
@@ -145,7 +145,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
               _file == null
                   ? SizedBox.shrink()
                   : Image.file(
-                      _file,
+                      _file!,
                       width: Get.width * 0.1,
                       height: Get.height * 0.1,
                     ),
@@ -188,7 +188,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                     value: values[key],
                     activeColor: Get.theme.primaryColor,
                     checkColor: Colors.white,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
                         values[key] = value;
                       });
@@ -227,7 +227,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                         decoration: Utils.gradientBtnDecoration,
                         child: ElevatedButton(
                             onPressed: () async {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 if (_file == null) {
                                   Utils.showToast("Please add a group photo");
                                   return;
@@ -286,7 +286,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                                       "created_by": _chatController.id.value,
                                       "group_photo":
                                           await DIO.MultipartFile.fromFile(
-                                              _file.path),
+                                              _file!.path),
                                     };
                                     print(data);
                                     DIO.FormData formData =
@@ -296,7 +296,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                                       "created_by": _chatController.id.value,
                                       "group_photo":
                                           await DIO.MultipartFile.fromFile(
-                                              _file.path),
+                                              _file!.path),
                                     });
                                     var response = await dio.post(
                                       InfixApi.chatGroupCreate,
@@ -326,13 +326,14 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                                       Utils.showToast(errorMessage);
                                     });
 
-                                    Logger.log(response.statusCode);
-                                    Logger.log(response.data);
+                                    FLog.warning(
+                                        text: response.statusCode!.toString());
+                                    FLog.warning(text: response.data);
                                     if (response.statusCode == 200) {
                                       Utils.showToast(
                                           '${response.data['success']}');
 
-                                      _chatController.chatModel.value.groups
+                                      _chatController.chatModel.value.groups!
                                           .clear();
 
                                       await _chatController.getAllChats();
@@ -358,7 +359,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                               "Create",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5
+                                  .headline5!
                                   .copyWith(color: Colors.white),
                             ))),
                   ),

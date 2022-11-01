@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -9,10 +10,10 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 
 class PushReport extends StatefulWidget {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
 
-  const PushReport({Key key, this.id, this.name}) : super(key: key);
+  const PushReport({Key? key, this.id, this.name}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _PushReportState();
@@ -20,22 +21,22 @@ class PushReport extends StatefulWidget {
 }
 
 class _PushReportState extends State<PushReport> {
-  String mood = "1";
-  String noon = "1";
+  String? mood = "1";
+  String? noon = "1";
 
-  String afterNoon = "1";
+  String? afterNoon = "1";
 
-  String Breakfast = "1";
+  String? Breakfast = "1";
 
-  String Lunch = "1";
+  String? Lunch = "1";
 
-  String Snack = "1";
+  String? Snack = "1";
 
-  String water = "1";
+  String? water = "1";
 
-  String milk = "1";
+  String? milk = "1";
 
-  String juice = "1";
+  String? juice = "1";
 
   TextEditingController Hygiene = TextEditingController();
 
@@ -58,7 +59,7 @@ class _PushReportState extends State<PushReport> {
           ),
           Align(
             child: Text(
-              widget.name,
+              widget.name!,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Color(0xff93cfc4),
@@ -104,7 +105,7 @@ class _PushReportState extends State<PushReport> {
                           height: 2,
                           color: Color(0xff93cfc4),
                         ),
-                        onChanged: (String value) {
+                        onChanged: (String? value) {
                           // This is called when the user selects an item.
                           setState(() {
                             mood = value;
@@ -150,7 +151,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           noon = value;
@@ -192,7 +193,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           afterNoon = value;
@@ -266,7 +267,7 @@ class _PushReportState extends State<PushReport> {
                           height: 2,
                           color: Color(0xff93cfc4),
                         ),
-                        onChanged: (String value) {
+                        onChanged: (String? value) {
                           // This is called when the user selects an item.
                           setState(() {
                             Breakfast = value;
@@ -310,7 +311,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           Lunch = value;
@@ -352,7 +353,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           Snack = value;
@@ -426,7 +427,7 @@ class _PushReportState extends State<PushReport> {
                           height: 2,
                           color: Color(0xff93cfc4),
                         ),
-                        onChanged: (String value) {
+                        onChanged: (String? value) {
                           // This is called when the user selects an item.
                           setState(() {
                             water = value;
@@ -470,7 +471,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           milk = value;
@@ -512,7 +513,7 @@ class _PushReportState extends State<PushReport> {
                         height: 2,
                         color: Color(0xff93cfc4),
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
                           juice = value;
@@ -679,8 +680,9 @@ class _PushReportState extends State<PushReport> {
           Container(
             child: ElevatedButton(
                 onPressed: () async {
-                  String _token = "";
-                  _token = await Utils.getStringValue('token');
+                  String? _token = "";
+                  _token =
+                      await (Utils.getStringValue('token') as FutureOr<String>);
                   final response = await http.post(
                       Uri.parse(
                         InfixApi.SendStudentStatus + "/${widget.id}",

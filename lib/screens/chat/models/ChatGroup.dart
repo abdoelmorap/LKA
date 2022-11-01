@@ -15,16 +15,16 @@ class ChatGroup {
     this.users,
   });
 
-  String id;
-  String name;
+  String? id;
+  String? name;
   dynamic description;
-  String photoUrl;
+  String? photoUrl;
   dynamic privacy;
   dynamic readOnly;
   dynamic groupType;
   dynamic createdBy;
-  List<GroupThread> threads;
-  List<ChatUser> users;
+  List<GroupThread>? threads;
+  List<ChatUser>? users;
 
   factory ChatGroup.fromJson(Map<String, dynamic> json) => ChatGroup(
         id: json["id"],
@@ -56,9 +56,9 @@ class ChatGroup {
         "created_by": createdBy,
         "threads": threads == null
             ? null
-            : List<dynamic>.from(threads.map((x) => x.toJson())),
+            : List<dynamic>.from(threads!.map((x) => x.toJson())),
         "users": users == null
             ? null
-            : List<dynamic>.from(users.map((x) => x.toJson())),
+            : List<dynamic>.from(users!.map((x) => x.toJson())),
       };
 }

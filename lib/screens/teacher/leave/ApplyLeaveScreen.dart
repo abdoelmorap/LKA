@@ -30,25 +30,25 @@ class ApplyLeaveScreen extends StatefulWidget {
 }
 
 class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
-  String _id;
-  String applyDate;
-  String fromDate;
-  String toDate;
-  String leaveType;
+  String? _id;
+  String? applyDate;
+  String? fromDate;
+  String? toDate;
+  String? leaveType;
   dynamic leaveId;
   TextEditingController reasonController = TextEditingController();
-  DateTime date;
+  late DateTime date;
   String maxDateTime = '2031-11-25';
   String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
-  DateTime _dateTime;
+  DateTime? _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
-  File _file;
+  File? _file;
   bool isResponse = false;
-  Response response;
+  late Response response;
   Dio dio = new Dio();
-  Future<LeaveList> leaves;
-  String _token;
+  Future<LeaveList>? leaves;
+  String? _token;
   bool leaveAvailable = true;
 
   @override
@@ -66,7 +66,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
           _dateTime = DateTime.parse(initDateTime);
           leaves = getAllLeaveType(_id);
-          leaves.then((value) {
+          leaves!.then((value) {
             setState(() {
               if (value.types.length != 0) {
                 leaveAvailable = true;
@@ -114,7 +114,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                       decoration: Utils.gradientBtnDecoration,
                       child: Text(
                         "Save".tr,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             color: Colors.white,
                             fontSize: ScreenUtil().setSp(14)),
                       ),
@@ -123,7 +123,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   onTap: () {
                     String reason = reasonController.text;
 
-                    if (reason.isNotEmpty && _file.path.isNotEmpty) {
+                    if (reason.isNotEmpty && _file!.path.isNotEmpty) {
                       setState(() {
                         isResponse = true;
                       });
@@ -164,7 +164,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    getLeaveTypeDropdown(snapshot.data.types),
+                    getLeaveTypeDropdown(snapshot.data!.types),
                     SizedBox(
                       height: 20,
                     ),
@@ -195,9 +195,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                               setState(() {
                                 _dateTime = dateTime;
                                 print(
-                                    '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
+                                    '${_dateTime!.year}-0${_dateTime!.month}-${_dateTime!.day}');
                                 applyDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -214,10 +214,10 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                                 child: Text(
                                   applyDate == null
                                       ? 'Apply Date'.tr
-                                      : applyDate,
+                                      : applyDate!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12.0)),
                                 ),
@@ -271,9 +271,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                               setState(() {
                                 _dateTime = dateTime;
                                 print(
-                                    '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
+                                    '${_dateTime!.year}-0${_dateTime!.month}-${_dateTime!.day}');
                                 fromDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -288,10 +288,10 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
-                                  fromDate == null ? 'From Date'.tr : fromDate,
+                                  fromDate == null ? 'From Date'.tr : fromDate!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12.0)),
                                 ),
@@ -345,7 +345,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                               setState(() {
                                 _dateTime = dateTime;
                                 toDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -360,10 +360,10 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
-                                  toDate == null ? 'To Date'.tr : toDate,
+                                  toDate == null ? 'To Date'.tr : toDate!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12.0)),
                                 ),
@@ -404,10 +404,10 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                                 child: Text(
                                   _file == null
                                       ? 'Select file'.tr
-                                      : _file.path.split('/').last,
+                                      : _file!.path.split('/').last,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12.0)),
                                   maxLines: 2,
@@ -417,7 +417,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                             Text('Browse'.tr,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(
                                         decoration: TextDecoration.underline)),
                           ],
@@ -476,7 +476,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0, bottom: 10),
                     child: Text(
-                      item.type,
+                      item.type!,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
@@ -484,9 +484,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               }).toList(),
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontSize: 15.0),
-              onChanged: (value) {
+              onChanged: (dynamic value) {
                 setState(() {
                   leaveType = value;
                   leaveId = getLeaveId(leaves, value);
@@ -498,9 +498,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
         : Container();
   }
 
-  int getLeaveId<T>(T t, String type) {
-    int code;
-    for (var s in t) {
+  int? getLeaveId<T>(T t, String? type) {
+    int? code;
+    for (var s in t as Iterable) {
       if (s.type == type) {
         code = s.id;
       }
@@ -533,7 +533,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       "leave_to": toDate,
       "login_id": _id,
       "reason": reasonController.text,
-      "attach_file": await MultipartFile.fromFile(_file.path),
+      "attach_file": await MultipartFile.fromFile(_file!.path),
     });
     response = await dio.post(
       InfixApi.userApplyLeaveStore,
@@ -572,7 +572,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   }
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       dialogTitle: "Select File",
       allowCompression: true,
       allowMultiple: false,
@@ -581,7 +581,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
     );
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled');
@@ -590,7 +590,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
 
   void addLeaveData() async {
     response = await dio.get(InfixApi.sendLeaveData('$applyDate', '$leaveId',
-        '$fromDate', '$toDate', _id, reasonController.text, _file.path));
+        '$fromDate', '$toDate', _id, reasonController.text, _file!.path));
     if (response.statusCode == 200) {
       Utils.showToast('Leave sent successful'.tr);
       sentNotificationTo();

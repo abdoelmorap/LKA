@@ -1,7 +1,7 @@
 class AdminFees {
   dynamic id;
-  String name;
-  String description;
+  String? name;
+  String? description;
 
   AdminFees({this.id, this.name, this.description});
 

@@ -41,7 +41,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
   Random random = Random();
 
   GlobalKey _globalKey = GlobalKey();
-  String id;
+  String? id;
 
   @override
   void initState() {
@@ -72,10 +72,10 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      widget.homework.subjectName,
+                      widget.homework.subjectName!,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(fontSize: ScreenUtil().setSp(14)),
                       maxLines: 1,
                     ),
@@ -84,7 +84,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                     child: Text(
                       'Evaluation',
                       textAlign: TextAlign.end,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
                           color: Colors.deepPurpleAccent,
                           decoration: TextDecoration.underline),
                     ),
@@ -104,7 +104,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -113,7 +113,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                           Text(
                             widget.homework.homeworkDate == null
                                 ? 'not assigned'
-                                : widget.homework.homeworkDate,
+                                : widget.homework.homeworkDate!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -129,7 +129,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -138,7 +138,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                           Text(
                             widget.homework.submissionDate == null
                                 ? 'not assigned'
-                                : widget.homework.submissionDate,
+                                : widget.homework.submissionDate!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -154,7 +154,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -163,7 +163,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                           Text(
                             widget.homework.evaluationDate == null
                                 ? 'not assigned'
-                                : widget.homework.evaluationDate,
+                                : widget.homework.evaluationDate!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -179,7 +179,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -240,12 +240,12 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              widget.homework.subjectName,
+                              widget.homework.subjectName!,
                               style: Theme.of(context).textTheme.headline5,
                             ),
                           ),
                           Text(
-                            "Marks: " + widget.homework.marks,
+                            "Marks: " + widget.homework.marks!,
                             style: Theme.of(context).textTheme.headline5,
                             maxLines: 1,
                           ),
@@ -264,14 +264,14 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    widget.homework.homeworkDate,
+                                    widget.homework.homeworkDate!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -288,14 +288,14 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    widget.homework.submissionDate,
+                                    widget.homework.submissionDate!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -312,7 +312,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
@@ -321,7 +321,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                                   Text(
                                     widget.homework.evaluationDate == null
                                         ? 'not assigned'
-                                        : widget.homework.evaluationDate,
+                                        : widget.homework.evaluationDate!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -344,10 +344,10 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                               Text(
                                 widget.homework.description == null
                                     ? ''
-                                    : widget.homework.description,
+                                    : widget.homework.description!,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(fontSize: 16),
                               ),
                             ],
@@ -387,7 +387,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
                                             progress,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5
+                                                .headline5!
                                                 .copyWith(color: Colors.white),
                                           ),
                                         ],
@@ -430,7 +430,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -447,7 +447,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -457,7 +457,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
     }
   }
 
-  showDownloadAlertDialog(BuildContext context, String title) {
+  showDownloadAlertDialog(BuildContext context, String? title) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("No"),
@@ -469,7 +469,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
       child: Text("Download"),
       onPressed: () {
         widget.homework.fileUrl != null
-            ? downloadFile(widget.homework.fileUrl, context, title)
+            ? downloadFile(widget.homework.fileUrl!, context, title)
             : Utils.showToast('no file found');
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
@@ -498,7 +498,7 @@ class _TeacherHomeworkRowState extends State<TeacherHomeworkRow> {
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";

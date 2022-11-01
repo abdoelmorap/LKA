@@ -15,7 +15,7 @@ class FeeBankPaymentModel {
     this.feesPayments,
   });
 
-  List<FeesPayment> feesPayments;
+  List<FeesPayment>? feesPayments;
 
   factory FeeBankPaymentModel.fromJson(Map<String, dynamic> json) =>
       FeeBankPaymentModel(
@@ -24,7 +24,7 @@ class FeeBankPaymentModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "feesPayments": List<dynamic>.from(feesPayments.map((x) => x.toJson())),
+        "feesPayments": List<dynamic>.from(feesPayments!.map((x) => x.toJson())),
       };
 }
 
@@ -50,27 +50,27 @@ class FeesPayment {
     this.transcationDetails,
   });
 
-  int id;
+  int? id;
   dynamic invoiceNumber;
-  int studentId;
-  int userId;
-  String paymentMethod;
+  int? studentId;
+  int? userId;
+  String? paymentMethod;
   dynamic bankId;
-  int addWalletMoney;
-  String paymentNote;
-  String file;
-  String paidStatus;
-  int feesInvoiceId;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int recordId;
-  FeeStudentInfo feeStudentInfo;
-  List<TranscationDetail> transcationDetails;
+  int? addWalletMoney;
+  String? paymentNote;
+  String? file;
+  String? paidStatus;
+  int? feesInvoiceId;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? recordId;
+  FeeStudentInfo? feeStudentInfo;
+  List<TranscationDetail>? transcationDetails;
 
   factory FeesPayment.fromJson(Map<String, dynamic> json) => FeesPayment(
-        id: json["id"] ?? "",
+        id: json["id"] ?? "" as int?,
         invoiceNumber: json["invoice_number"] ?? "",
         studentId: json["student_id"],
         userId: json["user_id"],
@@ -109,12 +109,12 @@ class FeesPayment {
         "fees_invoice_id": feesInvoiceId,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "record_id": recordId,
-        "fee_student_info": feeStudentInfo.toJson(),
+        "fee_student_info": feeStudentInfo!.toJson(),
         "transcation_details":
-            List<dynamic>.from(transcationDetails.map((x) => x.toJson())),
+            List<dynamic>.from(transcationDetails!.map((x) => x.toJson())),
       };
 }
 
@@ -124,8 +124,8 @@ class FeeStudentInfo {
     this.fullName,
   });
 
-  int id;
-  String fullName;
+  int? id;
+  String? fullName;
 
   factory FeeStudentInfo.fromJson(Map<String, dynamic> json) => FeeStudentInfo(
         id: json["id"],
@@ -143,7 +143,7 @@ class TranscationDetail {
     this.paidAmount,
   });
 
-  double paidAmount;
+  double? paidAmount;
 
   factory TranscationDetail.fromJson(Map<String, dynamic> json) =>
       TranscationDetail(
@@ -171,18 +171,18 @@ class TranscationFeesType {
     this.updatedAt,
   });
 
-  int id;
-  String name;
-  String description;
+  int? id;
+  String? name;
+  String? description;
   dynamic feesGroupId;
-  String type;
+  String? type;
   dynamic courseId;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory TranscationFeesType.fromJson(Map<String, dynamic> json) =>
       TranscationFeesType(
@@ -211,7 +211,7 @@ class TranscationFeesType {
         "updated_by": updatedBy,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }

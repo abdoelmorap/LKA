@@ -26,7 +26,7 @@ class ChatPageMain extends StatefulWidget {
 class _ChatPageMainState extends State<ChatPageMain>
     with SingleTickerProviderStateMixin {
   final ChatController _chatController = Get.put(ChatController());
-  TabController tabController;
+  TabController? tabController;
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Chats'),
@@ -95,7 +95,7 @@ class _ChatPageMainState extends State<ChatPageMain>
                         "Chat",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .subtitle1!
                             .copyWith(fontSize: 18.sp, color: Colors.white),
                       ),
                     ),
@@ -104,7 +104,7 @@ class _ChatPageMainState extends State<ChatPageMain>
                     width: 5,
                   ),
                   Obx(() {
-                    if (_chatController.selectedStatus.value.title == null) {
+                    if (_chatController.selectedStatus.value!.title == null) {
                       return CupertinoActivityIndicator();
                     } else {
                       return DropdownButtonHideUnderline(
@@ -137,8 +137,8 @@ class _ChatPageMainState extends State<ChatPageMain>
                                       ),
                                       SizedBox(width: 10),
                                       Text(
-                                        item.title,
-                                        style: Get.textTheme.subtitle1.copyWith(
+                                        item.title!,
+                                        style: Get.textTheme.subtitle1!.copyWith(
                                           color: Colors.white,
                                           fontSize: 14.sp,
                                         ),
@@ -147,13 +147,13 @@ class _ChatPageMainState extends State<ChatPageMain>
                                   ),
                                 );
                               }).toList(),
-                              onChanged: (ChatStatus value) async {
+                              onChanged: (ChatStatus? value) async {
                                 _chatController.selectedStatus.value = value;
 
                                 print(
-                                    "Selected => ${_chatController.selectedStatus.value.title}");
+                                    "Selected => ${_chatController.selectedStatus.value!.title}");
                                 await _chatController
-                                    .changeActiveStatus(value.status)
+                                    .changeActiveStatus(value!.status)
                                     .then((status) async {
                                   if (status) {
                                     await _chatController.getUserStatus();
@@ -169,7 +169,7 @@ class _ChatPageMainState extends State<ChatPageMain>
                   }),
                   SizedBox(width: 15),
                   PopupMenuButton(
-                    onSelected: (value) {
+                    onSelected: (dynamic value) {
                       print("VAL $value");
                       if (value == 1) {
                         print(value);
@@ -208,9 +208,9 @@ class _ChatPageMainState extends State<ChatPageMain>
                     indicator: Get.theme.tabBarTheme.indicator,
                     automaticIndicatorColorAdjustment: true,
                     isScrollable: false,
-                    labelStyle: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    labelStyle: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                     unselectedLabelStyle:
-                        Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                        Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   Expanded(
                     child: TabBarView(
@@ -238,9 +238,9 @@ class _ChatPageMainState extends State<ChatPageMain>
                     indicator: Get.theme.tabBarTheme.indicator,
                     automaticIndicatorColorAdjustment: true,
                     isScrollable: false,
-                    labelStyle: Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                    labelStyle: Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                     unselectedLabelStyle:
-                        Get.textTheme.subtitle1.copyWith(fontSize: 12),
+                        Get.textTheme.subtitle1!.copyWith(fontSize: 12),
                   ),
                   Expanded(
                     child: TabBarView(
@@ -305,7 +305,7 @@ class _ChatListPageState extends State<ChatListPage> {
               if (_chatController.chatModel.value.users == null) {
                 return ChatShimmerList();
               } else {
-                if (_chatController.chatModel.value.users.length == 0) {
+                if (_chatController.chatModel.value.users!.length == 0) {
                   return Center(
                     child: Text(
                       "No users found",
@@ -321,10 +321,10 @@ class _ChatListPageState extends State<ChatListPage> {
                     },
                     physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15),
-                    itemCount: _chatController.chatModel.value.users.length,
+                    itemCount: _chatController.chatModel.value.users!.length,
                     itemBuilder: (context, index) {
                       ChatUser chatUser =
-                          _chatController.chatModel.value.users[index];
+                          _chatController.chatModel.value.users![index];
                       return ListTile(
                         onTap: () {
                           Get.to(() => ChatOpenPage(
@@ -479,13 +479,13 @@ class _GroupListPageState extends State<GroupListPage> {
                 child: ListView.separated(
                   physics: BouncingScrollPhysics(),
                   padding: customPadding,
-                  itemCount: _chatController.chatModel.value.groups.length,
+                  itemCount: _chatController.chatModel.value.groups!.length,
                   separatorBuilder: (context, index) {
                     return SizedBox(height: 10);
                   },
                   itemBuilder: (context, groupIndex) {
                     ChatGroup chatGroup =
-                        _chatController.chatModel.value.groups[groupIndex];
+                        _chatController.chatModel.value.groups![groupIndex];
                     return ListTile(
                       contentPadding: EdgeInsets.zero,
                       onTap: () {
@@ -542,7 +542,7 @@ class _GroupListPageState extends State<GroupListPage> {
           return Container();
         } else {
           return _chatController
-                      .chatSettings.value.permissionSettings.chatCanMakeGroup ==
+                      .chatSettings.value.permissionSettings!.chatCanMakeGroup ==
                   "yes"
               ? FloatingActionButton(
                   backgroundColor: Get.theme.primaryColor,

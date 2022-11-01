@@ -10,7 +10,7 @@ import 'package:infixedu/screens/fees/model/FeesRecord.dart';
 // ignore: must_be_immutable
 class FeesRowNew extends StatefulWidget {
   FeesRecord fee;
-  String id;
+  String? id;
 
   FeesRowNew(this.fee, this.id);
 
@@ -36,7 +36,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
           children: <Widget>[
             Expanded(
               child: Text(
-                widget.fee.date,
+                widget.fee.date!,
                 style: Theme.of(context).textTheme.headline5,
                 maxLines: 1,
               ),
@@ -51,7 +51,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                   Icon(
                     Icons.arrow_downward,
                     size: 16,
-                    color: Theme.of(context).textTheme.headline4.color,
+                    color: Theme.of(context).textTheme.headline4!.color,
                   ),
                 ],
               ),
@@ -99,7 +99,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
@@ -122,7 +122,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
@@ -146,7 +146,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
@@ -170,7 +170,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
@@ -245,7 +245,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -270,7 +270,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -297,7 +297,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -322,7 +322,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -347,7 +347,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -379,9 +379,9 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                 controller: amountController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                validator: (String value) {
+                                validator: (String? value) {
                                   RegExp regExp = new RegExp(r'^[0-9]*$');
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter a valid amount';
                                   }
                                   if (int.tryParse(value) == 0) {
@@ -390,9 +390,9 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                   if (!regExp.hasMatch(value)) {
                                     return 'Please enter a number';
                                   }
-                                  if (int.tryParse(value) >
+                                  if (int.tryParse(value)! >
                                       int.tryParse(
-                                          widget.fee.balance.toString())) {
+                                          widget.fee.balance.toString())!) {
                                     return 'Amount must not greater than balance';
                                   }
                                   return null;
@@ -412,10 +412,10 @@ class _FeesRowNewState extends State<FeesRowNew> {
                             ),
                           ),
                         ),
-                        widget.fee.balance > 0
+                        widget.fee.balance! > 0
                             ? GestureDetector(
                                 onTap: () {
-                                  if (_formKey.currentState.validate()) {}
+                                  if (_formKey.currentState!.validate()) {}
                                 },
                                 child: Container(
                                   margin: EdgeInsets.symmetric(
@@ -432,7 +432,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
                                       'Continue',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6
+                                          .headline6!
                                           .copyWith(
                                               color: Colors.white,
                                               fontSize: 16.0),
@@ -466,14 +466,14 @@ class _FeesRowNewState extends State<FeesRowNew> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
       );
     } else if ((widget.fee.paidAmount == 0
             ? widget.fee.paidAmount
-            : double.parse(widget.fee.paidAmount.toString())) >
+            : double.parse(widget.fee.paidAmount.toString()))! >
         0.0) {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -486,7 +486,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -503,7 +503,7 @@ class _FeesRowNewState extends State<FeesRowNew> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

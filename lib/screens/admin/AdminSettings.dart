@@ -21,12 +21,12 @@ class AdminSettings extends StatefulWidget {
 }
 
 class _AdminSettingsState extends State<AdminSettings> {
-  Response response;
+  late Response response;
   Dio dio = Dio();
-  int id;
-  int perm;
+  int? id;
+  int? perm;
   GlobalKey _scaffold = GlobalKey();
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _AdminSettingsState extends State<AdminSettings> {
       Utils.getStringValue('token').then((value) {
         _token = value;
       });
-      id = int.parse(value);
+      id = int.parse(value!);
       About.phonePermission(_token).then((val) {
         setState(() {
           perm = val;
@@ -71,7 +71,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             ),
             trailing: GestureDetector(
               onTap: () {
-                showAlertDialog(_scaffold.currentContext);
+                showAlertDialog(_scaffold.currentContext!);
               },
               child: Container(
                   decoration: BoxDecoration(
@@ -83,7 +83,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       perm == 1 ? 'Enable' : 'Disable',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: Colors.white),
                     ),
                   )),
@@ -109,7 +109,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             ),
             trailing: GestureDetector(
               onTap: () {
-                showChangeLanguageAlert(_scaffold.currentContext);
+                showChangeLanguageAlert(_scaffold.currentContext!);
               },
               child: Container(
                   decoration: BoxDecoration(
@@ -121,7 +121,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       'Language',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: Colors.white),
                     ),
                   )),

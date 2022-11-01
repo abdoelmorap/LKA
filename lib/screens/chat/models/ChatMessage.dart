@@ -24,7 +24,7 @@ class ChatMessage {
   dynamic id;
   dynamic fromId;
   dynamic toId;
-  String message;
+  String? message;
   dynamic status;
   dynamic messageType;
   dynamic fileName;
@@ -33,10 +33,10 @@ class ChatMessage {
   dynamic reply;
   dynamic forward;
   dynamic deletedByTo;
-  DateTime createdAt;
-  ReplyMessage forwardFrom;
-  FromToUser fromUser;
-  FromToUser toUser;
+  DateTime? createdAt;
+  ReplyMessage? forwardFrom;
+  FromToUser? fromUser;
+  FromToUser? toUser;
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
         id: json["id"],
@@ -77,9 +77,9 @@ class ChatMessage {
         "reply": reply == null ? null : reply.toJson(),
         "forward": forward == null ? null : forward,
         "deleted_by_to": deletedByTo,
-        "created_at": createdAt.toIso8601String(),
-        "forward_from": forwardFrom == null ? null : forwardFrom.toJson(),
-        "from_user": fromUser == null ? null : fromUser.toJson(),
-        "to_user": toUser == null ? null : toUser.toJson(),
+        "created_at": createdAt!.toIso8601String(),
+        "forward_from": forwardFrom == null ? null : forwardFrom!.toJson(),
+        "from_user": fromUser == null ? null : fromUser!.toJson(),
+        "to_user": toUser == null ? null : toUser!.toJson(),
       };
 }

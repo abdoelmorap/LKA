@@ -16,8 +16,8 @@ class AboutSchool {
     this.message,
   });
 
-  bool success;
-  AboutData data;
+  bool? success;
+  AboutData? data;
   dynamic message;
 
   factory AboutSchool.fromJson(Map<String, dynamic> json) => AboutSchool(
@@ -28,7 +28,7 @@ class AboutSchool {
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": data.toJson(),
+    "data": data!.toJson(),
     "message": message,
   };
 }
@@ -48,16 +48,16 @@ class AboutData {
     this.copyrightText,
   });
 
-  String mainDescription;
-  String schoolName;
-  String siteTitle;
+  String? mainDescription;
+  String? schoolName;
+  String? siteTitle;
   dynamic schoolCode;
-  String address;
+  String? address;
   dynamic phone;
-  String email;
-  String logo;
-  String languageName;
-  String session;
+  String? email;
+  String? logo;
+  String? languageName;
+  String? session;
   dynamic copyrightText;
 
   factory AboutData.fromJson(Map<String, dynamic> json) => AboutData(

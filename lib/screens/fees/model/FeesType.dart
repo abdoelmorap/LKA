@@ -1,15 +1,15 @@
 class FeeType {
-  int id;
-  String name;
+  int? id;
+  String? name;
   dynamic description;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int feesGroupId;
-  String type;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? feesGroupId;
+  String? type;
   dynamic courseId;
 
   FeeType({

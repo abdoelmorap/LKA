@@ -23,7 +23,7 @@ class AboutScreen extends StatefulWidget {
 class _AboutScreenState extends State<AboutScreen> {
   About about = About();
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class _AboutScreenState extends State<AboutScreen> {
                             )),
                     Text(
                       'The Little Kingdom Academy',
-                      style: Theme.of(context).textTheme.headline1.copyWith(
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
                           fontSize: ScreenUtil().setSp(18),
                           fontWeight: FontWeight.bold,
                           color: Color(0xff494949),
@@ -103,8 +103,8 @@ class _AboutScreenState extends State<AboutScreen> {
                       height: 20.h,
                     ),
                     Text(
-                      '${snapshot.data.mainDescription}',
-                      style: Theme.of(context).textTheme.headline4.copyWith(
+                      '${snapshot.data!.mainDescription}',
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                           fontSize: ScreenUtil().setSp(15),
                           color: Color(0xff494949),
                           fontWeight: FontWeight.normal,
@@ -125,7 +125,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               "Address".tr + " : ",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontWeight: FontWeight.w700,
                                     fontSize: ScreenUtil().setSp(13),
@@ -137,11 +137,11 @@ class _AboutScreenState extends State<AboutScreen> {
                           width: 15.w,
                         ),
                         Expanded(
-                          child: Text(snapshot.data.address ?? "N/A",
+                          child: Text(snapshot.data!.address ?? "N/A",
                               textAlign: TextAlign.start,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontSize: ScreenUtil().setSp(14),
                                   )),
@@ -163,7 +163,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               "Phone" + " : ".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontWeight: FontWeight.w700,
                                     fontSize: ScreenUtil().setSp(14),
@@ -175,11 +175,11 @@ class _AboutScreenState extends State<AboutScreen> {
                           width: 15.w,
                         ),
                         Expanded(
-                          child: Text(snapshot.data.phone ?? "N/A",
+                          child: Text(snapshot.data!.phone ?? "N/A",
                               textAlign: TextAlign.start,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontSize: ScreenUtil().setSp(14),
                                   )),
@@ -201,7 +201,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               "Email".tr + " : ",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontWeight: FontWeight.w700,
                                     fontSize: ScreenUtil().setSp(14),
@@ -213,11 +213,11 @@ class _AboutScreenState extends State<AboutScreen> {
                           width: 15.w,
                         ),
                         Expanded(
-                          child: Text(snapshot.data.email ?? "N/A",
+                          child: Text(snapshot.data!.email ?? "N/A",
                               textAlign: TextAlign.start,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                     fontSize: ScreenUtil().setSp(14),
                                   )),

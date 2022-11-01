@@ -21,9 +21,9 @@ class TransportScreen extends StatefulWidget {
 }
 
 class _TransportState extends State<TransportScreen> {
-  Future<TransportList> transports;
+  Future<TransportList>? transports;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -47,12 +47,12 @@ class _TransportState extends State<TransportScreen> {
           future: transports,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.transports.length > 0) {
+              if (snapshot.data!.transports.length > 0) {
                 return ListView.builder(
-                  itemCount: snapshot.data.transports.length,
+                  itemCount: snapshot.data!.transports.length,
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   itemBuilder: (context, index) {
-                    return TransportRow(snapshot.data.transports[index]);
+                    return TransportRow(snapshot.data!.transports[index]);
                   },
                 );
               } else {

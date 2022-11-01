@@ -1,9 +1,9 @@
 class OnlineExamResult {
-  String subject;
+  String? subject;
   dynamic marks;
   dynamic passMarks;
   dynamic obtains;
-  String grade;
+  String? grade;
 
   OnlineExamResult({this.subject, this.marks, this.obtains, this.passMarks, this.grade});
 

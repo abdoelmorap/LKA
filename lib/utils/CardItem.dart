@@ -9,16 +9,16 @@ class CustomWidget extends StatefulWidget {
   final int index;
   final bool isSelected;
   final VoidCallback onSelect;
-  final String headline;
-  final String icon;
+  final String? headline;
+  final String? icon;
 
   const CustomWidget({
-    Key key,
-    @required this.index,
-    @required this.isSelected,
-    @required this.onSelect,
-    @required this.headline,
-    @required this.icon,
+    Key? key,
+    required this.index,
+    required this.isSelected,
+    required this.onSelect,
+    required this.headline,
+    required this.icon,
   })  : assert(index != null),
         assert(isSelected != null),
         assert(onSelect != null),
@@ -29,7 +29,7 @@ class CustomWidget extends StatefulWidget {
 }
 
 class _CustomWidgetState extends State<CustomWidget> {
-  String title;
+  String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _CustomWidgetState extends State<CustomWidget> {
                   height: 35.h,
                 ),
                 Text(
-                  widget.headline.tr,
+                  widget.headline!.tr,
                   style: TextStyle(
                     color: widget.isSelected ? Colors.white : Colors.grey,
                     fontSize: ScreenUtil().setSp(14),

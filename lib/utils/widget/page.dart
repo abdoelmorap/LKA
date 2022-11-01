@@ -25,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   final LanguageController languageController = Get.put(LanguageController());
   final CustomController controller = Get.put(CustomController());
-  bool isRTL;
+  bool? isRTL;
 
   @override
   void initState() {

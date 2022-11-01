@@ -22,7 +22,7 @@ class _ChatPeopleSearchPageState extends State<ChatPeopleSearchPage> {
 
   final ChatController _chatController = Get.put(ChatController());
 
-  Timer debounce;
+  Timer? debounce;
 
   bool search = false;
 
@@ -72,8 +72,8 @@ class _ChatPeopleSearchPageState extends State<ChatPeopleSearchPage> {
               style: Theme.of(context).textTheme.headline6,
               controller: searchController,
               autovalidateMode: AutovalidateMode.disabled,
-              validator: (String value) {
-                if (value.isEmpty) {
+              validator: (String? value) {
+                if (value!.isEmpty) {
                   return 'Please enter name';
                 }
                 return null;
@@ -110,7 +110,7 @@ class _ChatPeopleSearchPageState extends State<ChatPeopleSearchPage> {
                         ),
                       );
                     } else {
-                      if (_chatController.searchUserModel.value.users.length >
+                      if (_chatController.searchUserModel.value.users!.length >
                           0) {
                         return ListView.separated(
                           separatorBuilder: (context, index) {
@@ -122,10 +122,10 @@ class _ChatPeopleSearchPageState extends State<ChatPeopleSearchPage> {
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           shrinkWrap: true,
                           itemCount: _chatController
-                              .searchUserModel.value.users.length,
+                              .searchUserModel.value.users!.length,
                           itemBuilder: (context, searchIndex) {
                             ChatUser chatUser = _chatController
-                                .searchUserModel.value.users[searchIndex];
+                                .searchUserModel.value.users![searchIndex];
                             return ListTile(
                               onTap: () async {
                                 await _chatController

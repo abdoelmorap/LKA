@@ -1,11 +1,11 @@
 class Leave{
   dynamic id;
-  String type;
-  String status;
-  String from;
-  String to;
-  String apply;
-  String reason;
+  String? type;
+  String? status;
+  String? from;
+  String? to;
+  String? apply;
+  String? reason;
   dynamic days;
 
   Leave({this.id, this.type, this.status, this.from, this.to, this.apply,this.reason,this.days});

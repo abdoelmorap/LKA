@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 
 // Dart imports:
+import 'dart:async';
 import 'dart:convert';
 
 // Flutter imports:
@@ -30,14 +31,14 @@ class _AddRouteState extends State<AddRoute> {
 
   TextEditingController fareController = TextEditingController();
 
-  String _token;
-  String id;
+  String? _token;
+  String? id;
 
-  Response response;
+  late Response response;
 
   Dio dio = Dio();
 
-  Future getRoute;
+  Future? getRoute;
 
   static List<Tab> tabs = <Tab>[
     Tab(
@@ -78,7 +79,7 @@ class _AddRouteState extends State<AddRoute> {
           child: Builder(
             builder: (context) {
               final TabController tabController =
-                  DefaultTabController.of(context);
+                  DefaultTabController.of(context)!;
               tabController.addListener(() {
                 if (tabController.indexIsChanging) {
                   print(tabController.index);
@@ -120,12 +121,12 @@ class _AddRouteState extends State<AddRoute> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         child: FutureBuilder<VehicleRouteList>(
-            future: getRoute,
+            future: getRoute?.then((value) => value as VehicleRouteList),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data.routes.length > 0) {
+                if (snapshot.data!.routes.length > 0) {
                   return ListView.separated(
-                      itemCount: snapshot.data.routes.length,
+                      itemCount: snapshot.data!.routes.length,
                       separatorBuilder: (context, index) {
                         return Divider();
                       },
@@ -141,14 +142,14 @@ class _AddRouteState extends State<AddRoute> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    snapshot.data.routes[index].title,
+                                    snapshot.data!.routes[index].title!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -164,14 +165,14 @@ class _AddRouteState extends State<AddRoute> {
                                     'Fare'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    snapshot.data.routes[index].far.toString(),
+                                    snapshot.data!.routes[index].far.toString(),
                                     style:
                                         Theme.of(context).textTheme.headline4,
                                   ),
@@ -215,7 +216,7 @@ class _AddRouteState extends State<AddRoute> {
                 primary: Colors.deepPurpleAccent,
               ),
               onPressed: () {
-                addRouteData(titleController.text, fareController.text, id)
+                addRouteData(titleController.text, fareController.text, id!)
                     .then((value) {
                   if (value) {
                     titleController.text = '';
@@ -233,12 +234,13 @@ class _AddRouteState extends State<AddRoute> {
 
   // ignore: missing_return
   Future<VehicleRouteList> getRouteList() async {
-    final response = await http.get(
-        Uri.parse(InfixApi.transportRoute),
+    final response = await http.get(Uri.parse(InfixApi.transportRoute),
         headers: Utils.setHeader(_token.toString()));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       return VehicleRouteList.fromJson(data['data']);
+    } else {
+      return VehicleRouteList.fromJson([]);
     }
   }
 

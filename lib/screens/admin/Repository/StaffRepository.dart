@@ -11,7 +11,7 @@ class StaffRepository {
     return _provider.getAllCategory();
   }
 
-  Future<StaffList> getStaffList(int id) {
+  Future<StaffList> getStaffList(int? id) {
     return _provider.getAllStaff(id);
   }
 

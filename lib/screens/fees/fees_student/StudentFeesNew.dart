@@ -19,7 +19,7 @@ import 'package:infixedu/utils/server/LogoutService.dart';
 import 'package:infixedu/screens/fees/fees_student/fees_student_new/fees_new_row_layout.dart';
 
 class StudentFeesNew extends StatefulWidget {
-  final String id;
+  final String? id;
 
   StudentFeesNew({this.id});
   @override
@@ -35,7 +35,7 @@ class _StudentFeesNewState extends State<StudentFeesNew> {
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     super.initState();
   }
 
@@ -67,7 +67,7 @@ class _StudentFeesNewState extends State<StudentFeesNew> {
                       "Fees".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),
@@ -125,7 +125,7 @@ class _StudentFeesNewState extends State<StudentFeesNew> {
                       );
                     } else {
                       if (_studentFeesController
-                              .feesRecordList.value.feesRecords.length ==
+                              .feesRecordList.value.feesRecords!.length ==
                           0) {
                         return Utils.noDataWidget();
                       } else {
@@ -135,10 +135,10 @@ class _StudentFeesNewState extends State<StudentFeesNew> {
                           ),
                           padding: EdgeInsets.symmetric(vertical: 10),
                           itemCount: _studentFeesController
-                              .feesRecordList.value.feesRecords.length,
+                              .feesRecordList.value.feesRecords!.length,
                           itemBuilder: (context, index) {
                             FeesRecord feesRecord = _studentFeesController
-                                .feesRecordList.value.feesRecords[index];
+                                .feesRecordList.value.feesRecords![index];
 
                             return FeesRowNew(
                               feesRecord,

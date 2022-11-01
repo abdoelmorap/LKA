@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
-import 'package:age/age.dart';
 import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/server/age.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
@@ -13,20 +13,20 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/InfixMap.dart';
 
 class ProfileService {
-  String email;
-  String password;
-  String id;
-  String token;
+  String? email;
+  String? password;
+  String? id;
+  String? token;
 
-  ProfileService({this.email, this.password, this.id,this.token});
+  ProfileService({this.email, this.password, this.id, this.token});
 
   List<InfixMap> infixMap = [];
 
   Future<List<InfixMap>> fetchPersonalServices(int index) async {
-
     infixMap.clear();
 
-    final response = await http.get(Uri.parse(InfixApi.getChildren(id)),headers: id == null ? null : Utils.setHeader(token.toString()));
+    final response = await http.get(Uri.parse(InfixApi.getChildren(id)),
+        headers: id == null ? null : Utils.setHeader(token.toString()));
 
     print(response.statusCode);
     var jsonData = json.decode(response.body);
@@ -38,7 +38,8 @@ class ProfileService {
     String dob = details['date_of_birth'];
     String replaced = dob.replaceAll('-', '/');
     var formatted = DateFormat('y/M/d').parse(replaced);
-    DateTime birthday = DateTime(formatted.year,formatted.month,formatted.day);
+    DateTime birthday =
+        DateTime(formatted.year, formatted.month, formatted.day);
     DateTime today = DateTime.now();
     AgeDuration age;
     age = Age.dateDifference(
@@ -61,9 +62,9 @@ class ProfileService {
       case 1:
         details['fathers_photo'] != null
             ? infixMap
-            .add(InfixMap('Fathers\'s Photo', details['fathers_photo']))
+                .add(InfixMap('Fathers\'s Photo', details['fathers_photo']))
             : infixMap.add(InfixMap(
-            'Fathers\'s Photo', "https://i.imgur.com/7PqjiH7.jpg"));
+                'Fathers\'s Photo', "https://i.imgur.com/7PqjiH7.jpg"));
         infixMap.add(InfixMap('Father\'s name', details['fathers_name']));
         infixMap.add(InfixMap('Father\'s phone', details['fathers_mobile']));
         infixMap.add(
@@ -79,9 +80,9 @@ class ProfileService {
             InfixMap('Mother\'s occupation', details['mothers_occupation']));
         details['guardians_photo'] != null
             ? infixMap
-            .add(InfixMap('Guardians\'s Photo', details['guardians_photo']))
+                .add(InfixMap('Guardians\'s Photo', details['guardians_photo']))
             : infixMap.add(InfixMap(
-            'Guardians\'s Photo', "https://i.imgur.com/7PqjiH7.jpg"));
+                'Guardians\'s Photo', "https://i.imgur.com/7PqjiH7.jpg"));
         infixMap.add(InfixMap('Guardian\'s name', details['guardians_name']));
         infixMap.add(InfixMap('Guardian\'s email', details['guardians_email']));
         infixMap.add(InfixMap(

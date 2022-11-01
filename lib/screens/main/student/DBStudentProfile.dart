@@ -30,8 +30,8 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
 // ignore: must_be_immutable
 class DBStudentProfile extends StatefulWidget {
-  String id;
-  String image;
+  String? id;
+  String? image;
 
   DBStudentProfile({this.id, this.image});
 
@@ -46,11 +46,11 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
   bool isTransport = false;
   bool isOthers = false;
   String section = 'personal';
-  String id;
-  String image;
-  String schoolId;
-  String _token;
-  ProfileService profileService;
+  String? id;
+  String? image;
+  String? schoolId;
+  String? _token;
+  ProfileService? profileService;
   var progress = "";
   var received;
 
@@ -74,7 +74,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
     ),
   ];
 
-  Future profile;
+  Future? profile;
 
   StudentDetailsModel _studentDetails = StudentDetailsModel();
 
@@ -138,7 +138,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                       "Profile".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),
@@ -169,7 +169,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<StudentDetailsModel>(
-          future: profile,
+          future: profile!.then((value) => value as StudentDetailsModel),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -198,7 +198,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                               backgroundColor: Color(0xFF93CFC4),
                               child: CachedNetworkImage(
                                 imageUrl:
-                                    "${InfixApi.root}/${_studentDetails.studentData.user.studentPhoto}",
+                                    "${InfixApi.root}/${_studentDetails.studentData!.user!.studentPhoto}",
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
                                   decoration: BoxDecoration(
@@ -252,7 +252,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                           child: Builder(
                             builder: (context) {
                               final TabController tabController =
-                                  DefaultTabController.of(context);
+                                  DefaultTabController.of(context)!;
                               tabController.addListener(() {
                                 if (tabController.indexIsChanging) {
                                   print(tabController.index);
@@ -274,14 +274,14 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                                     physics: BouncingScrollPhysics(),
                                     labelStyle: Theme.of(context)
                                         .textTheme
-                                        .headline6
+                                        .headline6!
                                         .copyWith(
                                             color: Color(0xFF93CFC4),
                                             fontSize: ScreenUtil().setSp(11),
                                             fontWeight: FontWeight.bold),
                                     unselectedLabelStyle: Theme.of(context)
                                         .textTheme
-                                        .headline6
+                                        .headline6!
                                         .copyWith(
                                             color: Color(0xFF93CFC4),
                                             fontSize: ScreenUtil().setSp(11),
@@ -349,7 +349,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
               "Father".tr,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .subtitle2!
                   .copyWith(color: Color(0xff727fc8)),
             ),
           ),
@@ -366,13 +366,13 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                   radius: ScreenUtil().setSp(25),
                   child: CachedNetworkImage(
                     imageUrl: _studentDetails
-                                    .studentData.user.parents.fathersPhoto ==
+                                    .studentData!.user!.parents!.fathersPhoto ==
                                 null ||
                             _studentDetails
-                                    .studentData.user.parents.fathersPhoto ==
+                                    .studentData!.user!.parents!.fathersPhoto ==
                                 ''
                         ? "https://i.imgur.com/7PqjiH7.jpeg"
-                        : "${InfixApi.root}/${_studentDetails.studentData.user.parents.fathersPhoto}",
+                        : "${InfixApi.root}/${_studentDetails.studentData!.user!.parents!.fathersPhoto}",
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -396,29 +396,29 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                   children: [
                     ParentsDetailsRow(
                       title: "Name".tr,
-                      value:
-                          _studentDetails.studentData.user.parents.fathersName,
+                      value: _studentDetails
+                          .studentData!.user!.parents!.fathersName,
                     ),
                     GestureDetector(
                       onTap: () async {
                         // ignore: deprecated_member_use
                         await canLaunch(
-                                'tel:${_studentDetails.studentData.user.parents.fathersMobile}')
+                                'tel:${_studentDetails.studentData!.user!.parents!.fathersMobile}')
                             // ignore: deprecated_member_use
                             ? await launch(
-                                'tel:${_studentDetails.studentData.user.parents.fathersMobile}')
-                            : throw 'Could not launch ${_studentDetails.studentData.user.parents.fathersMobile}';
+                                'tel:${_studentDetails.studentData!.user!.parents!.fathersMobile}')
+                            : throw 'Could not launch ${_studentDetails.studentData!.user!.parents!.fathersMobile}';
                       },
                       child: ParentsDetailsRow(
                         title: "Phone".tr,
                         value: _studentDetails
-                            .studentData.user.parents.fathersMobile,
+                            .studentData!.user!.parents!.fathersMobile,
                       ),
                     ),
                     ParentsDetailsRow(
                       title: "Occupation".tr,
                       value: _studentDetails
-                          .studentData.user.parents.fathersOccupation,
+                          .studentData!.user!.parents!.fathersOccupation,
                     ),
                   ],
                 ),
@@ -434,7 +434,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
               "Mother".tr,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .subtitle2!
                   .copyWith(color: Color(0xff727fc8)),
             ),
           ),
@@ -451,13 +451,13 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                   radius: ScreenUtil().setSp(25),
                   child: CachedNetworkImage(
                     imageUrl: _studentDetails
-                                    .studentData.user.parents.mothersPhoto ==
+                                    .studentData!.user!.parents!.mothersPhoto ==
                                 null ||
                             _studentDetails
-                                    .studentData.user.parents.mothersPhoto ==
+                                    .studentData!.user!.parents!.mothersPhoto ==
                                 ''
                         ? "https://i.imgur.com/7PqjiH7.jpeg"
-                        : "${InfixApi.root}/${_studentDetails.studentData.user.parents.mothersPhoto}",
+                        : "${InfixApi.root}/${_studentDetails.studentData!.user!.parents!.mothersPhoto}",
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -481,29 +481,29 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                   children: [
                     ParentsDetailsRow(
                       title: "Name".tr,
-                      value:
-                          _studentDetails.studentData.user.parents.mothersName,
+                      value: _studentDetails
+                          .studentData!.user!.parents!.mothersName,
                     ),
                     GestureDetector(
                       onTap: () async {
                         // ignore: deprecated_member_use
                         await canLaunch(
-                                'tel:${_studentDetails.studentData.user.parents.mothersMobile}')
+                                'tel:${_studentDetails.studentData!.user!.parents!.mothersMobile}')
                             // ignore: deprecated_member_use
                             ? await launch(
-                                'tel:${_studentDetails.studentData.user.parents.mothersMobile}')
-                            : throw 'Could not launch ${_studentDetails.studentData.user.parents.mothersMobile}';
+                                'tel:${_studentDetails.studentData!.user!.parents!.mothersMobile}')
+                            : throw 'Could not launch ${_studentDetails.studentData!.user!.parents!.mothersMobile}';
                       },
                       child: ParentsDetailsRow(
                         title: "Phone".tr,
                         value: _studentDetails
-                            .studentData.user.parents.mothersMobile,
+                            .studentData!.user!.parents!.mothersMobile,
                       ),
                     ),
                     ParentsDetailsRow(
                       title: "Occupation".tr,
                       value: _studentDetails
-                          .studentData.user.parents.mothersOccupation,
+                          .studentData!.user!.parents!.mothersOccupation,
                     ),
                   ],
                 ),
@@ -519,7 +519,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
               "Guardian".tr,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .subtitle2!
                   .copyWith(color: Color(0xff727fc8)),
             ),
           ),
@@ -536,7 +536,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                   radius: ScreenUtil().setSp(25),
                   child: CachedNetworkImage(
                     imageUrl: buildGuardianPhoto(
-                        _studentDetails.studentData.user.parents),
+                        _studentDetails.studentData!.user!.parents!),
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -561,49 +561,49 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                     ParentsDetailsRow(
                       title: "Name".tr,
                       value: _studentDetails
-                          .studentData.user.parents.guardiansName,
+                          .studentData!.user!.parents!.guardiansName,
                     ),
                     GestureDetector(
                       onTap: () async {
                         // ignore: deprecated_member_use
                         await canLaunch(
-                                'mailto:${_studentDetails.studentData.user.parents.guardiansEmail}')
+                                'mailto:${_studentDetails.studentData!.user!.parents!.guardiansEmail}')
                             // ignore: deprecated_member_use
                             ? await launch(
-                                'mailto:${_studentDetails.studentData.user.parents.guardiansEmail}')
-                            : throw 'Could not launch ${_studentDetails.studentData.user.parents.guardiansEmail}';
+                                'mailto:${_studentDetails.studentData!.user!.parents!.guardiansEmail}')
+                            : throw 'Could not launch ${_studentDetails.studentData!.user!.parents!.guardiansEmail}';
                       },
                       child: ParentsDetailsRow(
                         title: "Email".tr,
                         value: _studentDetails
-                            .studentData.user.parents.guardiansEmail,
+                            .studentData!.user!.parents!.guardiansEmail,
                       ),
                     ),
                     GestureDetector(
                       onTap: () async {
                         // ignore: deprecated_member_use
                         await canLaunch(
-                                'tel:${_studentDetails.studentData.user.parents.guardiansMobile}')
+                                'tel:${_studentDetails.studentData!.user!.parents!.guardiansMobile}')
                             // ignore: deprecated_member_use
                             ? await launch(
-                                'tel:${_studentDetails.studentData.user.parents.guardiansMobile}')
-                            : throw 'Could not launch ${_studentDetails.studentData.user.parents.guardiansMobile}';
+                                'tel:${_studentDetails.studentData!.user!.parents!.guardiansMobile}')
+                            : throw 'Could not launch ${_studentDetails.studentData!.user!.parents!.guardiansMobile}';
                       },
                       child: ParentsDetailsRow(
                         title: "Phone".tr,
                         value: _studentDetails
-                            .studentData.user.parents.guardiansMobile,
+                            .studentData!.user!.parents!.guardiansMobile,
                       ),
                     ),
                     ParentsDetailsRow(
                       title: "Occupation".tr,
                       value: _studentDetails
-                          .studentData.user.parents.guardiansOccupation,
+                          .studentData!.user!.parents!.guardiansOccupation,
                     ),
                     ParentsDetailsRow(
                       title: "Relation".tr,
                       value: _studentDetails
-                          .studentData.user.parents.guardiansRelation,
+                          .studentData!.user!.parents!.guardiansRelation,
                     ),
                   ],
                 ),
@@ -648,38 +648,38 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
           children: [
             ProfileRowList(
               "Date of birth".tr,
-              _studentDetails.studentData.user.dateOfBirth.toString(),
+              _studentDetails.studentData!.user!.dateOfBirth.toString(),
             ),
             ProfileRowList(
               "Age".tr,
-              _studentDetails.studentData.user.age.toString(),
+              _studentDetails.studentData!.user!.age.toString(),
             ),
-            _studentDetails.studentData.religion != null
+            _studentDetails.studentData!.religion != null
                 ? ProfileRowList(
                     "Religion".tr,
-                    _studentDetails.studentData.religion.name.toString(),
+                    _studentDetails.studentData!.religion!.name.toString(),
                   )
                 : SizedBox.shrink(),
             ProfileRowList(
               "Phone number".tr,
-              _studentDetails.studentData.userDetails.phoneNumber.toString(),
+              _studentDetails.studentData!.userDetails!.phoneNumber.toString(),
             ),
             ProfileRowList(
               "Email address".tr,
-              _studentDetails.studentData.user.email.toString(),
+              _studentDetails.studentData!.user!.email.toString(),
             ),
             ProfileRowList(
               "Present address".tr,
-              _studentDetails.studentData.user.currentAddress.toString(),
+              _studentDetails.studentData!.user!.currentAddress.toString(),
             ),
             ProfileRowList(
               "Permanent address".tr,
-              _studentDetails.studentData.user.permanentAddress.toString(),
+              _studentDetails.studentData!.user!.permanentAddress.toString(),
             ),
-            _studentDetails.studentData.bloodGroup != null
+            _studentDetails.studentData!.bloodGroup != null
                 ? ProfileRowList(
                     "Blood group".tr,
-                    _studentDetails.studentData.bloodGroup.name.toString(),
+                    _studentDetails.studentData!.bloodGroup!.name.toString(),
                   )
                 : SizedBox.shrink(),
           ]),
@@ -691,27 +691,29 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
       height: MediaQuery.of(context).size.height,
       margin: EdgeInsets.symmetric(horizontal: 22),
       color: Colors.white,
-      child: _studentDetails.studentData.transport != null
+      child: _studentDetails.studentData!.transport != null
           ? ListView(
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.symmetric(vertical: 30),
               children: [
                   ProfileRowList(
                     "Drivers name".tr,
-                    _studentDetails.studentData.transport.driverName.toString(),
+                    _studentDetails.studentData!.transport!.driverName
+                        .toString(),
                   ),
                   ProfileRowList(
                     "Car no".tr,
-                    _studentDetails.studentData.transport.vehicleNo.toString(),
+                    _studentDetails.studentData!.transport!.vehicleNo
+                        .toString(),
                   ),
                   ProfileRowList(
                     "Car model".tr,
-                    _studentDetails.studentData.transport.vehicleModel
+                    _studentDetails.studentData!.transport!.vehicleModel
                         .toString(),
                   ),
                   ProfileRowList(
                     "Car info".tr,
-                    _studentDetails.studentData.transport.note.toString(),
+                    _studentDetails.studentData!.transport!.note.toString(),
                   ),
                 ])
           : SizedBox.shrink(),
@@ -729,27 +731,27 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
         children: [
           ProfileRowList(
             "Height".tr,
-            _studentDetails.studentData.user.height.toString(),
+            _studentDetails.studentData!.user!.height.toString(),
           ),
           ProfileRowList(
             "Weight".tr,
-            _studentDetails.studentData.user.weight.toString(),
+            _studentDetails.studentData!.user!.weight.toString(),
           ),
           ProfileRowList(
             "National ID Number".tr,
-            _studentDetails.studentData.user.nationalIdNo.toString(),
+            _studentDetails.studentData!.user!.nationalIdNo.toString(),
           ),
           ProfileRowList(
             "Local ID Number".tr,
-            _studentDetails.studentData.user.localIdNo.toString(),
+            _studentDetails.studentData!.user!.localIdNo.toString(),
           ),
           ProfileRowList(
             "Bank Name".tr,
-            _studentDetails.studentData.user.bankName.toString(),
+            _studentDetails.studentData!.user!.bankName.toString(),
           ),
           ProfileRowList(
             "Bank Account Number".tr,
-            _studentDetails.studentData.user.bankAccountNo.toString(),
+            _studentDetails.studentData!.user!.bankAccountNo.toString(),
           ),
         ],
       ),
@@ -765,15 +767,15 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(vertical: 30),
         children: [
-          _studentDetails.studentData.user.documentFile1 == null ||
-                  _studentDetails.studentData.user.documentFile1 == ""
+          _studentDetails.studentData!.user!.documentFile1 == null ||
+                  _studentDetails.studentData!.user!.documentFile1 == ""
               ? SizedBox.shrink()
               : GestureDetector(
                   onTap: () {
                     showDownloadAlertDialog(
                       context,
-                      _studentDetails.studentData.user.documentTitle1,
-                      _studentDetails.studentData.user.documentFile1,
+                      _studentDetails.studentData!.user!.documentTitle1,
+                      _studentDetails.studentData!.user!.documentFile1,
                     );
                   },
                   child: Row(
@@ -787,11 +789,11 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                         width: 10,
                       ),
                       Text(
-                        isNullOrEmpty(
-                                _studentDetails.studentData.user.documentTitle1)
+                        isNullOrEmpty(_studentDetails
+                                .studentData!.user!.documentTitle1)
                             ? ""
-                            : _studentDetails.studentData.user.documentTitle1,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            : _studentDetails.studentData!.user!.documentTitle1,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: Color(0xff727fc8),
                               fontWeight: FontWeight.normal,
                               fontSize: 12,
@@ -803,15 +805,15 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
           SizedBox(
             height: 15,
           ),
-          _studentDetails.studentData.user.documentFile2 == null ||
-                  _studentDetails.studentData.user.documentFile2 == ""
+          _studentDetails.studentData!.user!.documentFile2 == null ||
+                  _studentDetails.studentData!.user!.documentFile2 == ""
               ? SizedBox.shrink()
               : GestureDetector(
                   onTap: () {
                     showDownloadAlertDialog(
                       context,
-                      _studentDetails.studentData.user.documentTitle2,
-                      _studentDetails.studentData.user.documentFile2,
+                      _studentDetails.studentData!.user!.documentTitle2,
+                      _studentDetails.studentData!.user!.documentFile2,
                     );
                   },
                   child: Row(
@@ -825,11 +827,11 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                         width: 10,
                       ),
                       Text(
-                        isNullOrEmpty(
-                                _studentDetails.studentData.user.documentTitle2)
+                        isNullOrEmpty(_studentDetails
+                                .studentData!.user!.documentTitle2)
                             ? ""
-                            : _studentDetails.studentData.user.documentTitle2,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            : _studentDetails.studentData!.user!.documentTitle2,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: Color(0xff727fc8),
                               fontWeight: FontWeight.normal,
                               fontSize: 12,
@@ -841,15 +843,15 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
           SizedBox(
             height: 15,
           ),
-          _studentDetails.studentData.user.documentFile3 == null ||
-                  _studentDetails.studentData.user.documentFile3 == ""
+          _studentDetails.studentData!.user!.documentFile3 == null ||
+                  _studentDetails.studentData!.user!.documentFile3 == ""
               ? SizedBox.shrink()
               : GestureDetector(
                   onTap: () {
                     showDownloadAlertDialog(
                       context,
-                      _studentDetails.studentData.user.documentTitle3,
-                      _studentDetails.studentData.user.documentFile3,
+                      _studentDetails.studentData!.user!.documentTitle3,
+                      _studentDetails.studentData!.user!.documentFile3,
                     );
                   },
                   child: Row(
@@ -863,11 +865,11 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                         width: 10,
                       ),
                       Text(
-                        isNullOrEmpty(
-                                _studentDetails.studentData.user.documentTitle3)
+                        isNullOrEmpty(_studentDetails
+                                .studentData!.user!.documentTitle3)
                             ? ""
-                            : _studentDetails.studentData.user.documentTitle3,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            : _studentDetails.studentData!.user!.documentTitle3,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: Color(0xff727fc8),
                               fontWeight: FontWeight.normal,
                               fontSize: 12,
@@ -879,15 +881,15 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
           SizedBox(
             height: 15,
           ),
-          _studentDetails.studentData.user.documentFile4 == null ||
-                  _studentDetails.studentData.user.documentFile4 == ""
+          _studentDetails.studentData!.user!.documentFile4 == null ||
+                  _studentDetails.studentData!.user!.documentFile4 == ""
               ? SizedBox.shrink()
               : GestureDetector(
                   onTap: () {
                     showDownloadAlertDialog(
                       context,
-                      _studentDetails.studentData.user.documentTitle4,
-                      _studentDetails.studentData.user.documentFile4,
+                      _studentDetails.studentData!.user!.documentTitle4,
+                      _studentDetails.studentData!.user!.documentFile4,
                     );
                   },
                   child: Row(
@@ -901,11 +903,11 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
                         width: 10,
                       ),
                       Text(
-                        isNullOrEmpty(
-                                _studentDetails.studentData.user.documentTitle4)
+                        isNullOrEmpty(_studentDetails
+                                .studentData!.user!.documentTitle4)
                             ? ""
-                            : _studentDetails.studentData.user.documentTitle4,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            : _studentDetails.studentData!.user!.documentTitle4,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: Color(0xFFF39EAA),
                               fontWeight: FontWeight.normal,
                               fontSize: 12,
@@ -924,8 +926,8 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          _studentDetails.studentData.userDetails.fullName,
-          style: Theme.of(context).textTheme.headline5.copyWith(
+          _studentDetails.studentData!.userDetails!.fullName!,
+          style: Theme.of(context).textTheme.headline5!.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: ScreenUtil().setSp(14),
               ),
@@ -935,12 +937,12 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
         ),
         Wrap(
           children: List.generate(
-            _studentDetails.studentData.userDetails.classSection.length,
+            _studentDetails.studentData!.userDetails!.classSection!.length,
             (index) => Text(
-              _studentDetails.studentData.userDetails.classSection[index]
+              _studentDetails.studentData!.userDetails!.classSection![index]
                   .toString()
                   .replaceAll(',', ''),
-              style: Theme.of(context).textTheme.headline6.copyWith(
+              style: Theme.of(context).textTheme.headline6!.copyWith(
                     color: Color(0xFF93CFC4),
                     fontWeight: FontWeight.normal,
                     fontSize: 12,
@@ -954,8 +956,8 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
         Text(
           'Admission'.tr +
               ' : ' +
-              _studentDetails.studentData.userDetails.admissionNo.toString(),
-          style: Theme.of(context).textTheme.headline6.copyWith(
+              _studentDetails.studentData!.userDetails!.admissionNo.toString(),
+          style: Theme.of(context).textTheme.headline6!.copyWith(
                 color: Color(0xFFF39EAA),
                 fontWeight: FontWeight.normal,
                 fontSize: 12,
@@ -969,7 +971,8 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
     Navigator.pop(context);
   }
 
-  showDownloadAlertDialog(BuildContext context, String title, String fileUrl) {
+  showDownloadAlertDialog(
+      BuildContext context, String? title, String? fileUrl) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("No".tr),
@@ -980,7 +983,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
     Widget yesButton = TextButton(
       child: Text("Download".tr),
       onPressed: () {
-        downloadFile(fileUrl, context, title);
+        downloadFile(fileUrl!, context, title);
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
@@ -1008,7 +1011,7 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";
@@ -1061,8 +1064,8 @@ class _DBStudentProfileState extends State<DBStudentProfile> {
 }
 
 class ParentsDetailsRow extends StatelessWidget {
-  final String title;
-  final String value;
+  final String? title;
+  final String? value;
 
   ParentsDetailsRow({this.title, this.value});
 
@@ -1082,7 +1085,7 @@ class ParentsDetailsRow extends StatelessWidget {
                 Text(
                   title ?? "",
                   textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
                         color: Color(0xFFF39EAA),
                         fontWeight: FontWeight.normal,
                         fontSize: ScreenUtil().setSp(12),
@@ -1110,9 +1113,9 @@ class ParentsDetailsRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isNullOrEmpty(value) ? "" : value,
+                  isNullOrEmpty(value) ? "" : value!,
                   textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
                         color: Color(0xFFF39EAA),
                         fontWeight: FontWeight.normal,
                         fontSize: ScreenUtil().setSp(12),
@@ -1137,4 +1140,4 @@ class ParentsDetailsRow extends StatelessWidget {
   }
 }
 
-bool isNullOrEmpty(Object o) => o == null || o == "";
+bool isNullOrEmpty(Object? o) => o == null || o == "";

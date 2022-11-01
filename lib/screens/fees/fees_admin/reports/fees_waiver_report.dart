@@ -17,9 +17,9 @@ class AdminFeesWaiverReport extends StatefulWidget {
 }
 
 class _AdminFeesWaiverReportState extends State<AdminFeesWaiverReport> {
-  String _token;
+  String? _token;
 
-  Future searchData;
+  Future? searchData;
 
   Future<FeeWaiverReportModel> getSearchData(Map data) async {
     final response = await http.post(Uri.parse(InfixApi.adminFeesWaiverSearch),
@@ -69,18 +69,18 @@ class _AdminFeesWaiverReportState extends State<AdminFeesWaiverReport> {
             },
           ),
           FutureBuilder<FeeWaiverReportModel>(
-            future: searchData,
+            future: searchData!.then((value) => value as FeeWaiverReportModel),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CupertinoActivityIndicator());
               } else {
                 if (snapshot.hasData) {
-                  if (snapshot.data.waiverReport.length == 0) {
+                  if (snapshot.data!.waiverReport!.length == 0) {
                     return Utils.noDataWidget();
                   } else {
                     var total = 0.0;
-                    snapshot.data.waiverReport.values.forEach((element) {
-                      total += element.waiver;
+                    snapshot.data!.waiverReport!.values.forEach((element) {
+                      total += element.waiver!;
                     });
 
                     return Column(
@@ -94,7 +94,7 @@ class _AdminFeesWaiverReportState extends State<AdminFeesWaiverReport> {
                                 "${double.parse(total.toString()).toStringAsFixed(2)}",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(
                                     fontWeight: FontWeight.w500, fontSize: 12),
                           ),
@@ -105,10 +105,10 @@ class _AdminFeesWaiverReportState extends State<AdminFeesWaiverReport> {
                           separatorBuilder: (context, index) {
                             return Divider();
                           },
-                          itemCount: snapshot.data.waiverReport.length,
+                          itemCount: snapshot.data!.waiverReport!.length,
                           itemBuilder: (context, index) {
                             WaiverReport report = snapshot
-                                .data.waiverReport.values
+                                .data!.waiverReport!.values
                                 .elementAt(index);
 
                             return FineReportWidget(report);
@@ -139,7 +139,7 @@ class FineReportWidget extends StatelessWidget {
     return ListTile(
       title: Text(
         fineReport.name ?? 'NA',
-        style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 14),
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 14),
       ),
       subtitle: Column(
         children: <Widget>[
@@ -154,7 +154,7 @@ class FineReportWidget extends StatelessWidget {
                       Text(
                         'Admission No.'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -164,7 +164,7 @@ class FineReportWidget extends StatelessWidget {
                         fineReport.admissionNo.toString(),
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -177,7 +177,7 @@ class FineReportWidget extends StatelessWidget {
                       Text(
                         'Roll'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -187,7 +187,7 @@ class FineReportWidget extends StatelessWidget {
                         fineReport.rollNo ?? "",
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -200,7 +200,7 @@ class FineReportWidget extends StatelessWidget {
                       Text(
                         'Waiver'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -211,7 +211,7 @@ class FineReportWidget extends StatelessWidget {
                             .toStringAsFixed(2),
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -224,17 +224,17 @@ class FineReportWidget extends StatelessWidget {
                       Text(
                         'Due Date'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        fineReport.dueDate,
+                        fineReport.dueDate!,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],

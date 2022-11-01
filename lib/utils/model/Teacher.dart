@@ -1,7 +1,7 @@
 class Teacher {
-  String teacherName;
-  String teacherEmail;
-  String teacherPhone;
+  String? teacherName;
+  String? teacherEmail;
+  String? teacherPhone;
 
   Teacher({this.teacherName, this.teacherEmail,this.teacherPhone});
 

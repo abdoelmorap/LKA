@@ -25,14 +25,14 @@ class _AddDormitoryState extends State<AddDormitory> {
   TextEditingController intakeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-  Future<AdminDormitoryList> dormitories;
-  Future<AdminRoomTypeList> rooms;
-  Response response;
+  Future<AdminDormitoryList>? dormitories;
+  Future<AdminRoomTypeList>? rooms;
+  late Response response;
   Dio dio = Dio();
-  String _token;
-  String _schoolId;
+  String? _token;
+  String? _schoolId;
 
-  String selectedType;
+  String? selectedType;
 
   var types = ['Boys', 'Girls'];
 
@@ -107,7 +107,7 @@ class _AddDormitoryState extends State<AddDormitory> {
                           intakeController.text,
                           addressController.text,
                           noteController.text,
-                          selectedType.substring(0, 1))
+                          selectedType!.substring(0, 1))
                       .then((value) {
                     if (value) {
                       nameController.text = '';
@@ -144,8 +144,8 @@ class _AddDormitoryState extends State<AddDormitory> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedType = value;
           });

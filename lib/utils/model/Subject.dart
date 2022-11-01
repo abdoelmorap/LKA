@@ -1,8 +1,8 @@
 class Subject {
-  String subjectName;
-  String teacherName;
-  String subjectType;
-  String subjectCode;
+  String? subjectName;
+  String? teacherName;
+  String? subjectType;
+  String? subjectCode;
 
   Subject({
     this.subjectName,

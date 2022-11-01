@@ -14,9 +14,9 @@ class KhaltiService {
   final KhaltiClient _client;
 
   static bool enableDebugging = false;
-  static String _publicKey;
+  static String? _publicKey;
 
-  static String get publicKey {
+  static String? get publicKey {
     assert(
       _publicKey != null,
       'Provide a public key using "KhaltiService.publicKey = <khalti-pk>;"',
@@ -24,14 +24,14 @@ class KhaltiService {
     return _publicKey;
   }
 
-  static set publicKey(String key) => _publicKey = key;
+  static set publicKey(String? key) => _publicKey = key;
 
   static KhaltiConfig config = KhaltiConfig.sourceOnly();
 
-  KhaltiService({@required KhaltiClient client}) : _client = client;
+  KhaltiService({required KhaltiClient client}) : _client = client;
 
   Future<BankListModel> getBanks(
-      {@required BankPaymentType paymentType}) async {
+      {required BankPaymentType paymentType}) async {
     final params = {
       'page': '1',
       'page_size': '200',
@@ -48,14 +48,14 @@ class KhaltiService {
     if (response is HTTPResponse.ExceptionHttpResponse) {
       throw response.message;
     } else if (response is HTTPResponse.FailureHttpResponse) {
-      throw response.data;
+      throw response.data!;
     } else {
-      return BankListModel.fromMap(response.data as Map<String, dynamic>);
+      return BankListModel.fromMap((response.data as Map<String, dynamic>) as Map<String, Object>);
     }
   }
 
   Future<PaymentInitiationResponseModel> initiatePayment({
-    @required PaymentInitiationRequestModel request,
+    required PaymentInitiationRequestModel request,
   }) async {
     final url = _buildUrl(initiateTransaction);
     final logger = _Logger('POST', url);
@@ -67,16 +67,16 @@ class KhaltiService {
     if (response is HTTPResponse.ExceptionHttpResponse) {
       throw response.message;
     } else if (response is HTTPResponse.FailureHttpResponse) {
-      throw response.data;
+      throw response.data!;
     } else {
       return PaymentInitiationResponseModel.fromMap(
-        response.data as Map<String, dynamic>,
+        (response.data as Map<String, dynamic>) as Map<String, Object>,
       );
     }
   }
 
   Future<PaymentConfirmationResponseModel> confirmPayment({
-    @required PaymentConfirmationRequestModel request,
+    required PaymentConfirmationRequestModel request,
   }) async {
     final url = _buildUrl(confirmTransaction);
     final logger = _Logger('POST', url);
@@ -88,22 +88,22 @@ class KhaltiService {
     if (response is HTTPResponse.ExceptionHttpResponse) {
       throw response.message;
     } else if (response is HTTPResponse.FailureHttpResponse) {
-      throw response.data;
+      throw response.data!;
     } else {
       return PaymentConfirmationResponseModel.fromMap(
-        response.data as Map<String, dynamic>,
+        (response.data as Map<String, dynamic>) as Map<String, Object>,
       );
     }
   }
 
   String buildBankUrl({
-    @required String bankId,
-    @required String mobile,
-    @required int amount,
-    @required String productIdentity,
-    @required String productName,
-    @required BankPaymentType paymentType,
-    @required String returnUrl,
+    required String bankId,
+    required String mobile,
+    required int amount,
+    required String productIdentity,
+    required String productName,
+    required BankPaymentType paymentType,
+    required String returnUrl,
   }) {
     final params = {
       'bank': bankId,
@@ -150,7 +150,7 @@ class _Logger {
 
   void _logHeading() => _log(url, name: method);
 
-  void _log(String message, {@required String name}) {
+  void _log(String message, {required String name}) {
     if (KhaltiService.enableDebugging) print('[$name] $message');
   }
 

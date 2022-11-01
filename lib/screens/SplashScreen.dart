@@ -21,8 +21,8 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
-  Animation animation;
-  AnimationController controller;
+  late Animation animation;
+  late AnimationController controller;
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Text(
                         'Welcome to'.tr,
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 20,
                           color: Color(0xffFFD402),
                         ),
@@ -117,7 +117,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                       padding: const EdgeInsets.only(bottom: 60.0),
                       child: Text(
                         '${AppConfig.appName}',
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 18,
                           color: Color(0xffFFD402),
                         ),

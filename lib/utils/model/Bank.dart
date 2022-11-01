@@ -1,8 +1,8 @@
 class Banks {
   dynamic id;
-  String bankName;
-  String accountName;
-  String accountNumber;
+  String? bankName;
+  String? accountName;
+  String? accountNumber;
 
   Banks({this.id, this.bankName, this.accountName,this.accountNumber});
 

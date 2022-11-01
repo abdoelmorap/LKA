@@ -1,6 +1,6 @@
 class Dormitory {
-  String dormitoryName;
-  String roomNumber;
+  String? dormitoryName;
+  String? roomNumber;
   dynamic numberOfBed;
   dynamic costPerBed;
   dynamic activeStatus;

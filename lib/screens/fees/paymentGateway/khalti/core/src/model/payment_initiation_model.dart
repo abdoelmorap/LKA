@@ -8,11 +8,11 @@ import '../../src/helper/model_helpers.dart';
 
 class PaymentInitiationRequestModel extends KhaltiRequestModel {
   PaymentInitiationRequestModel({
-    @required this.amount,
-    @required this.mobile,
-    @required this.productIdentity,
-    @required this.productName,
-    @required this.transactionPin,
+    required this.amount,
+    required this.mobile,
+    required this.productIdentity,
+    required this.productName,
+    required this.transactionPin,
     this.productUrl,
     this.additionalData,
   });
@@ -22,11 +22,11 @@ class PaymentInitiationRequestModel extends KhaltiRequestModel {
   final String productIdentity;
   final String productName;
   final String transactionPin;
-  final String productUrl;
-  final Map<String, Object> additionalData;
+  final String? productUrl;
+  final Map<String, Object>? additionalData;
 
   @override
-  Map<String, Object> toMap() {
+  Map<String, Object?> toMap() {
     return {
       'amount': amount.toString(),
       'mobile': mobile,
@@ -35,7 +35,7 @@ class PaymentInitiationRequestModel extends KhaltiRequestModel {
       'public_key': KhaltiService.publicKey,
       'transaction_pin': transactionPin,
       if (productUrl != null) 'product_url': productUrl,
-      if (additionalData != null) ...additionalData.map(_addMerchantPrefix),
+      if (additionalData != null) ...additionalData!.map(_addMerchantPrefix),
     };
   }
 
@@ -51,9 +51,9 @@ class PaymentInitiationRequestModel extends KhaltiRequestModel {
 
 class PaymentInitiationResponseModel {
   PaymentInitiationResponseModel({
-    @required this.token,
-    @required this.pinCreated,
-    @required this.pinCreatedMessage,
+    required this.token,
+    required this.pinCreated,
+    required this.pinCreatedMessage,
   });
 
   final String token;

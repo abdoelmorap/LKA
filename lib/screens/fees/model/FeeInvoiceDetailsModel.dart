@@ -19,13 +19,13 @@ class FeeInvoiceDetailsModel {
         this.totalFine,
     });
 
-    InvoiceInfo invoiceInfo;
-    List<InvoiceDetail> invoiceDetails;
-    List<FeeBank> banks;
-    double totalAmount;
-    double totalWeaver;
-    double totalPaidAmount;
-    double totalFine;
+    InvoiceInfo? invoiceInfo;
+    List<InvoiceDetail>? invoiceDetails;
+    List<FeeBank>? banks;
+    double? totalAmount;
+    double? totalWeaver;
+    double? totalPaidAmount;
+    double? totalFine;
 
     factory FeeInvoiceDetailsModel.fromJson(Map<String, dynamic> json) => FeeInvoiceDetailsModel(
         invoiceInfo: InvoiceInfo.fromJson(json["invoiceInfo"]),
@@ -38,9 +38,9 @@ class FeeInvoiceDetailsModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "invoiceInfo": invoiceInfo.toJson(),
-        "invoiceDetails": List<dynamic>.from(invoiceDetails.map((x) => x.toJson())),
-        "banks": List<dynamic>.from(banks.map((x) => x.toJson())),
+        "invoiceInfo": invoiceInfo!.toJson(),
+        "invoiceDetails": List<dynamic>.from(invoiceDetails!.map((x) => x.toJson())),
+        "banks": List<dynamic>.from(banks!.map((x) => x.toJson())),
         "totalAmount": totalAmount,
         "totalWeaver": totalWeaver,
         "totalPaidAmount": totalPaidAmount,
@@ -56,10 +56,10 @@ class FeeBank {
         this.accountType,
     });
 
-    String bankName;
-    String accountName;
-    String accountNumber;
-    String accountType;
+    String? bankName;
+    String? accountName;
+    String? accountNumber;
+    String? accountType;
 
     factory FeeBank.fromJson(Map<String, dynamic> json) => FeeBank(
         bankName: json["bank_name"],
@@ -86,12 +86,12 @@ class InvoiceDetail {
         this.total,
     });
 
-    String typeName;
-    double amount;
-    double weaver;
-    double fine;
-    double subTotal;
-    double total;
+    String? typeName;
+    double? amount;
+    double? weaver;
+    double? fine;
+    double? subTotal;
+    double? total;
 
     factory InvoiceDetail.fromJson(Map<String, dynamic> json) => InvoiceDetail(
         typeName: json["typeName"],
@@ -131,21 +131,21 @@ class InvoiceInfo {
         this.recordId,
     });
 
-    int id;
-    String invoiceId;
-    int studentId;
-    int classId;
-    DateTime createDate;
-    DateTime dueDate;
-    String paymentStatus;
+    int? id;
+    String? invoiceId;
+    int? studentId;
+    int? classId;
+    DateTime? createDate;
+    DateTime? dueDate;
+    String? paymentStatus;
     dynamic paymentMethod;
     dynamic bankId;
-    String type;
-    int schoolId;
-    int academicId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int recordId;
+    String? type;
+    int? schoolId;
+    int? academicId;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    int? recordId;
 
     factory InvoiceInfo.fromJson(Map<String, dynamic> json) => InvoiceInfo(
         id: json["id"],
@@ -170,16 +170,16 @@ class InvoiceInfo {
         "invoice_id": invoiceId,
         "student_id": studentId,
         "class_id": classId,
-        "create_date": "${createDate.year.toString().padLeft(4, '0')}-${createDate.month.toString().padLeft(2, '0')}-${createDate.day.toString().padLeft(2, '0')}",
-        "due_date": "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "create_date": "${createDate!.year.toString().padLeft(4, '0')}-${createDate!.month.toString().padLeft(2, '0')}-${createDate!.day.toString().padLeft(2, '0')}",
+        "due_date": "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
         "payment_status": paymentStatus,
         "payment_method": paymentMethod,
         "bank_id": bankId,
         "type": type,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "record_id": recordId,
     };
 }

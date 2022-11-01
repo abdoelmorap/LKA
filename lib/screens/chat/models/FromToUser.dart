@@ -36,16 +36,16 @@ class FromToUser {
     });
 
     dynamic id;
-    String fullName;
-    String username;
-    String email;
+    String? fullName;
+    String? username;
+    String? email;
     dynamic usertype;
     dynamic activeStatus;
     dynamic randomCode;
     dynamic notificationToken;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String language;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    String? language;
     dynamic styleId;
     dynamic rtlLtl;
     dynamic selectedSession;
@@ -54,9 +54,9 @@ class FromToUser {
     dynamic accessStatus;
     dynamic schoolId;
     dynamic roleId;
-    String isAdministrator;
+    String? isAdministrator;
     dynamic isRegistered;
-    String deviceToken;
+    String? deviceToken;
     dynamic stripeId;
     dynamic cardBrand;
     dynamic cardLastFour;
@@ -65,9 +65,9 @@ class FromToUser {
     dynamic zoomApiKeyOfUser;
     dynamic zoomApiSerectOfUser;
     dynamic walletBalance;
-    String firstName;
-    String avatarUrl;
-    bool blockedByMe;
+    String? firstName;
+    String? avatarUrl;
+    bool? blockedByMe;
 
     factory FromToUser.fromJson(Map<String, dynamic> json) => FromToUser(
         id: json["id"],
@@ -114,8 +114,8 @@ class FromToUser {
         "active_status": activeStatus,
         "random_code": randomCode,
         "notificationToken": notificationToken,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "language": language,
         "style_id": styleId,
         "rtl_ltl": rtlLtl,

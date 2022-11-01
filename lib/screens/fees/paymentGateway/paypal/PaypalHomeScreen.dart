@@ -36,9 +36,9 @@ class _PayPalPaymentState extends State<PayPalPayment> {
 
   final flutterWebviewPlugin = FlutterWebviewPlugin();
 
-  StreamSubscription _onDestroy;
-  StreamSubscription<String> _onUrlChanged;
-  StreamSubscription<WebViewStateChanged> _onStateChanged;
+  late StreamSubscription _onDestroy;
+  late StreamSubscription<String> _onUrlChanged;
+  late StreamSubscription<WebViewStateChanged> _onStateChanged;
 
   var isCompleted = false;
 
@@ -59,7 +59,7 @@ class _PayPalPaymentState extends State<PayPalPayment> {
 
     _onDestroy = flutterWebviewPlugin.onDestroy.listen((_) {
       print("destroy");
-    });
+    } as void Function(Null)?);
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
@@ -72,7 +72,7 @@ class _PayPalPaymentState extends State<PayPalPayment> {
         //print("URL changed: $url");
         if (url.contains('success')) {
           isPaymentSuccesful().then((value) {
-            if (value) {
+            if (value!) {
               setState(() {
                 isCompleted = true;
                 _onDestroy.cancel();
@@ -107,7 +107,7 @@ class _PayPalPaymentState extends State<PayPalPayment> {
             ));
   }
 
-  Future<bool> isPaymentSuccesful() async {
+  Future<bool?> isPaymentSuccesful() async {
     final response = await http.get(Uri.parse(InfixApi.studentFeePayment(
         widget.id,
         int.parse(widget.fee.feesTypeId.toString()),
@@ -123,12 +123,12 @@ class _PayPalPaymentState extends State<PayPalPayment> {
 class AddPaypalAmount extends StatelessWidget {
   FeeElement fee;
   String id;
-  String amount;
+  String? amount;
   TextEditingController amountController = TextEditingController();
 
   AddPaypalAmount(this.fee, this.id) {
     amount = '${absoluteAmount(fee.balance.toString())}';
-    amountController.text = amount;
+    amountController.text = amount!;
   }
 
   @override
@@ -151,8 +151,8 @@ class AddPaypalAmount extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 style: Theme.of(context).textTheme.headline6,
                 controller: amountController,
-                validator: (String value) {
-                  if (value.isEmpty) {
+                validator: (String? value) {
+                  if (value!.isEmpty) {
                     return 'please enter a valid amount';
                   }
                   return value;
@@ -185,7 +185,7 @@ class AddPaypalAmount extends StatelessWidget {
                   "Enter amount",
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headline4!
                       .copyWith(color: Colors.white),
                 ),
               ),

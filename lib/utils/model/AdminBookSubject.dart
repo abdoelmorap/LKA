@@ -1,5 +1,5 @@
 class AdminSubject {
-  String title;
+  String? title;
   dynamic id;
 
   AdminSubject({this.title, this.id});

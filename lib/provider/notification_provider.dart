@@ -14,8 +14,8 @@ import 'package:infixedu/utils/model/UserNotifications.dart';
 
 class NotificationProvider extends ChangeNotifier{
 
-  String id;
-  String token;
+  String? id;
+  String? token;
 
   Future<UserNotificationList> getNotification(id,token) async{
     Utils.getStringValue('token').then((value) {

@@ -13,14 +13,14 @@ class StudentRecords {
         this.records,
     });
 
-    List<Record> records;
+    List<Record>? records;
 
     factory StudentRecords.fromJson(Map<String, dynamic> json) => StudentRecords(
         records: List<Record>.from(json["records"].map((x) => Record.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "records": List<dynamic>.from(records.map((x) => x.toJson())),
+        "records": List<dynamic>.from(records!.map((x) => x.toJson())),
     };
 }
 
@@ -41,19 +41,19 @@ class Record {
         this.schoolId,
     });
 
-    int id;
-    int studentId;
-    String fullName;
-    String className;
-    String sectionName;
-    int classId;
-    int sectionId;
-    int isDefault;
-    int isPromote;
-    String rollNo;
-    int sessionId;
-    int academicId;
-    int schoolId;
+    int? id;
+    int? studentId;
+    String? fullName;
+    String? className;
+    String? sectionName;
+    int? classId;
+    int? sectionId;
+    int? isDefault;
+    int? isPromote;
+    String? rollNo;
+    int? sessionId;
+    int? academicId;
+    int? schoolId;
 
     factory Record.fromJson(Map<String, dynamic> json) => Record(
         id: json["id"],

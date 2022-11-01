@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class PackageUtil {
-  PackageInfo _packageInfo;
+  late PackageInfo _packageInfo;
 
   Future<void> init() async {
     try {

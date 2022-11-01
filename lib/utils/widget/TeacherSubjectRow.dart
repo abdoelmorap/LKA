@@ -20,10 +20,10 @@ class TeacherSubjectRowLayout extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Expanded(
-                child:  Text(subject.subjectName,style:Theme.of(context).textTheme.headline4),
+                child:  Text(subject.subjectName!,style:Theme.of(context).textTheme.headline4),
               ),
               Expanded(
-                child:  Text(subject.subjectCode,style:Theme.of(context).textTheme.headline4),
+                child:  Text(subject.subjectCode!,style:Theme.of(context).textTheme.headline4),
               ),
               Expanded(
                 child:  Text(subject.subjectType == 'T' ? 'Theory' : 'Lab',style:Theme.of(context).textTheme.headline4),

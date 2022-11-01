@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -20,14 +21,14 @@ import 'package:infixedu/screens/fees/model/Fee.dart';
 import 'package:infixedu/utils/model/UserDetails.dart';
 
 class StripePaymentScreen extends StatefulWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
-  final Function onFinish;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
+  final Function? onFinish;
 
   StripePaymentScreen({
     this.id,
@@ -95,13 +96,13 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
                               child: Text(
                                 'Continue'.tr,
                                 textAlign: TextAlign.center,
-                                style: Get.textTheme.subtitle2
+                                style: Get.textTheme.subtitle2!
                                     .copyWith(color: Colors.white),
                               ),
                             ),
                             onPressed: () {
-                              formKey.currentState.validate();
-                              formKey.currentState.save();
+                              formKey.currentState!.validate();
+                              formKey.currentState!.save();
                               buy(context);
                             }),
                       ),
@@ -115,7 +116,7 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
 
   void buy(context) async {
     final StripeCard stripeCard = card;
-    final String customerEmail = widget.email;
+    final String? customerEmail = widget.email;
 
     if (!stripeCard.validateCVC()) {
       showAlertDialog(context, "Error", "CVC not valid.");
@@ -135,17 +136,19 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
     });
 
     Map<String, dynamic> paymentIntentRes =
-        await createPaymentIntent(stripeCard, customerEmail);
+        await (createPaymentIntent(stripeCard, customerEmail)
+            as FutureOr<Map<String, dynamic>>);
     print('Payment Intent response => $paymentIntentRes');
     print("---" * 10);
-    String clientSecret = paymentIntentRes['client_secret'];
-    String paymentMethodId = paymentIntentRes['payment_method'];
-    String status = paymentIntentRes['status'];
+    String? clientSecret = paymentIntentRes['client_secret'];
+    String? paymentMethodId = paymentIntentRes['payment_method'];
+    String? status = paymentIntentRes['status'];
 
     print("Status is => $status");
     if (status == 'requires_action' || status == 'requires_confirmation') {
       paymentIntentRes =
-          await confirmPayment3DSecure(clientSecret, paymentMethodId);
+          await (confirmPayment3DSecure(clientSecret!, paymentMethodId)
+              as FutureOr<Map<String, dynamic>>);
       if (paymentIntentRes['status'] == 'succeeded') {
         CustomSnackBar().snackBarSuccessBottom("Success! Thanks for buying.");
         Future.delayed(Duration(seconds: 4), () {
@@ -156,10 +159,10 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
             'id': paymentIntentRes['id'],
             'status': paymentIntentRes['status'],
           };
-          widget.onFinish(data);
+          widget.onFinish!(data);
           Navigator.of(context).pop();
         });
-      }else{
+      } else {
         setState(() {
           paymentLoading = false;
         });
@@ -183,7 +186,7 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
           'id': paymentIntentRes['id'],
           'status': paymentIntentRes['status'],
         };
-        widget.onFinish(data);
+        widget.onFinish!(data);
         Navigator.of(context).pop();
       });
     } else {
@@ -197,15 +200,15 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> createPaymentIntent(
-      StripeCard stripeCard, String customerEmail) async {
-    String clientSecret;
-    Map<String, dynamic> paymentIntentRes, paymentMethod;
+  Future<Map<String, dynamic>?> createPaymentIntent(
+      StripeCard stripeCard, String? customerEmail) async {
+    String? clientSecret;
+    Map<String, dynamic>? paymentIntentRes, paymentMethod;
     try {
       paymentMethod = await stripe.api.createPaymentMethodFromCard(stripeCard);
       clientSecret =
           await postCreatePaymentIntent(customerEmail, paymentMethod['id']);
-      paymentIntentRes = await stripe.api.retrievePaymentIntent(clientSecret);
+      paymentIntentRes = await stripe.api.retrievePaymentIntent(clientSecret!);
     } catch (e) {
       print("ERROR_CreatePaymentIntentAndSubmit: $e");
       showAlertDialog(context, "Error", "Something went wrong.");
@@ -213,8 +216,8 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
     return paymentIntentRes;
   }
 
-  Future<String> postCreatePaymentIntent(
-      String email, String paymentMethodId) async {
+  Future<String?> postCreatePaymentIntent(
+      String? email, String? paymentMethodId) async {
     final amount = (double.parse(widget.amount.toString()) * 100).toInt();
     final url = Uri.parse(postCreateIntentURL +
         "?amount=$amount&payment_method_id=$paymentMethodId&email=$email&currency=$stripeCurrency");
@@ -227,12 +230,12 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
     log('${response.body}');
     print("---" * 12);
     final stripeIntentResponse = stripeIntentResponseFromJson(response.body);
-    return stripeIntentResponse.paymentIntent.clientSecret;
+    return stripeIntentResponse.paymentIntent!.clientSecret;
   }
 
-  Future<Map<String, dynamic>> confirmPayment3DSecure(
-      String clientSecret, String paymentMethodId) async {
-    Map<String, dynamic> paymentIntentRes_3dSecure;
+  Future<Map<String, dynamic>?> confirmPayment3DSecure(
+      String clientSecret, String? paymentMethodId) async {
+    Map<String, dynamic>? paymentIntentRes_3dSecure;
     try {
       await stripe
           .confirmPayment(clientSecret, context,
@@ -302,7 +305,7 @@ class StripeIntentResponse {
     this.paymentIntent,
   });
 
-  PaymentIntent paymentIntent;
+  PaymentIntent? paymentIntent;
 
   factory StripeIntentResponse.fromJson(Map<String, dynamic> json) =>
       StripeIntentResponse(
@@ -310,7 +313,7 @@ class StripeIntentResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "paymentIntent": paymentIntent.toJson(),
+        "paymentIntent": paymentIntent!.toJson(),
       };
 }
 
@@ -354,40 +357,40 @@ class PaymentIntent {
     this.transferGroup,
   });
 
-  String id;
-  String object;
-  int amount;
-  int amountCapturable;
-  int amountReceived;
+  String? id;
+  String? object;
+  int? amount;
+  int? amountCapturable;
+  int? amountReceived;
   dynamic application;
   dynamic applicationFeeAmount;
   dynamic canceledAt;
   dynamic cancellationReason;
-  String captureMethod;
-  Charges charges;
-  String clientSecret;
-  String confirmationMethod;
-  int created;
-  String currency;
+  String? captureMethod;
+  Charges? charges;
+  String? clientSecret;
+  String? confirmationMethod;
+  int? created;
+  String? currency;
   dynamic customer;
   dynamic description;
   dynamic invoice;
   dynamic lastPaymentError;
-  bool livemode;
-  Metadata metadata;
+  bool? livemode;
+  Metadata? metadata;
   dynamic nextAction;
   dynamic onBehalfOf;
-  String paymentMethod;
-  PaymentMethodOptions paymentMethodOptions;
-  List<String> paymentMethodTypes;
-  String receiptEmail;
+  String? paymentMethod;
+  PaymentMethodOptions? paymentMethodOptions;
+  List<String>? paymentMethodTypes;
+  String? receiptEmail;
   dynamic review;
   dynamic setupFutureUsage;
   dynamic shipping;
   dynamic source;
   dynamic statementDescriptor;
   dynamic statementDescriptorSuffix;
-  String status;
+  String? status;
   dynamic transferData;
   dynamic transferGroup;
 
@@ -443,7 +446,7 @@ class PaymentIntent {
         "canceled_at": canceledAt,
         "cancellation_reason": cancellationReason,
         "capture_method": captureMethod,
-        "charges": charges.toJson(),
+        "charges": charges!.toJson(),
         "client_secret": clientSecret,
         "confirmation_method": confirmationMethod,
         "created": created,
@@ -453,13 +456,13 @@ class PaymentIntent {
         "invoice": invoice,
         "last_payment_error": lastPaymentError,
         "livemode": livemode,
-        "metadata": metadata.toJson(),
+        "metadata": metadata!.toJson(),
         "next_action": nextAction,
         "on_behalf_of": onBehalfOf,
         "payment_method": paymentMethod,
-        "payment_method_options": paymentMethodOptions.toJson(),
+        "payment_method_options": paymentMethodOptions!.toJson(),
         "payment_method_types":
-            List<dynamic>.from(paymentMethodTypes.map((x) => x)),
+            List<dynamic>.from(paymentMethodTypes!.map((x) => x)),
         "receipt_email": receiptEmail,
         "review": review,
         "setup_future_usage": setupFutureUsage,
@@ -482,11 +485,11 @@ class Charges {
     this.url,
   });
 
-  String object;
-  List<dynamic> data;
-  bool hasMore;
-  int totalCount;
-  String url;
+  String? object;
+  List<dynamic>? data;
+  bool? hasMore;
+  int? totalCount;
+  String? url;
 
   factory Charges.fromJson(Map<String, dynamic> json) => Charges(
         object: json["object"],
@@ -498,7 +501,7 @@ class Charges {
 
   Map<String, dynamic> toJson() => {
         "object": object,
-        "data": List<dynamic>.from(data.map((x) => x)),
+        "data": List<dynamic>.from(data!.map((x) => x)),
         "has_more": hasMore,
         "total_count": totalCount,
         "url": url,
@@ -508,7 +511,7 @@ class Charges {
 class Metadata {
   Metadata();
 
-  factory Metadata.fromJson(Map<String, dynamic> json) => Metadata();
+  factory Metadata.fromJson(Map<String, dynamic>? json) => Metadata();
 
   Map<String, dynamic> toJson() => {};
 }
@@ -518,7 +521,7 @@ class PaymentMethodOptions {
     this.card,
   });
 
-  Card card;
+  Card? card;
 
   factory PaymentMethodOptions.fromJson(Map<String, dynamic> json) =>
       PaymentMethodOptions(
@@ -526,7 +529,7 @@ class PaymentMethodOptions {
       );
 
   Map<String, dynamic> toJson() => {
-        "card": card.toJson(),
+        "card": card!.toJson(),
       };
 }
 
@@ -539,7 +542,7 @@ class Card {
 
   dynamic installments;
   dynamic network;
-  String requestThreeDSecure;
+  String? requestThreeDSecure;
 
   factory Card.fromJson(Map<String, dynamic> json) => Card(
         installments: json["installments"],

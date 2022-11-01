@@ -27,8 +27,8 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
 
   var _id;
 
-  Future<TeacherRoutine> getRoutine() async {
-    TeacherRoutine data;
+  Future<TeacherRoutine?> getRoutine() async {
+    TeacherRoutine? data;
     await Utils.getStringValue('id').then((id) {
       _id = id;
     }).then((value) async {
@@ -70,18 +70,18 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
-            child: FutureBuilder<TeacherRoutine>(
+            child: FutureBuilder<TeacherRoutine?>(
               future: getRoutine(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data.classRoutines.length > 0) {
+                  if (snapshot.data!.classRoutines!.length > 0) {
                     return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: weeks.length,
                         itemBuilder: (context, index) {
                           List<ClassRoutine> classRoutines = snapshot
-                              .data.classRoutines
+                              .data!.classRoutines!
                               .where((element) => element.day == weeks[index])
                               .toList();
 
@@ -96,7 +96,7 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
                                       child: Text(weeks[index],
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline6
+                                              .headline6!
                                               .copyWith()),
                                     ),
                                     Padding(
@@ -111,7 +111,7 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
                                             child: Text('Time'.tr,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline4
+                                                    .headline4!
                                                     .copyWith()),
                                           ),
                                           Expanded(
@@ -119,7 +119,7 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
                                             child: Text('Class'.tr,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline4
+                                                    .headline4!
                                                     .copyWith()),
                                           ),
                                           Expanded(
@@ -127,7 +127,7 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
                                             child: Text('Room'.tr,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline4
+                                                    .headline4!
                                                     .copyWith()),
                                           ),
                                         ],
@@ -139,9 +139,9 @@ class _TeacherMyRoutineScreenState extends State<TeacherMyRoutineScreen> {
                                       shrinkWrap: true,
                                       itemBuilder: (context, rowIndex) {
                                         return RoutineRowDesignTeacher(
-                                          classRoutines[rowIndex].startTime +
+                                          classRoutines[rowIndex].startTime! +
                                               '-' +
-                                              classRoutines[rowIndex].endTime,
+                                              classRoutines[rowIndex].endTime!,
                                           classRoutines[rowIndex].subject,
                                           classRoutines[rowIndex].room,
                                           classRoutineClass:

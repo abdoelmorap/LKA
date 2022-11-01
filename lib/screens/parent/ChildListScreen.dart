@@ -21,8 +21,8 @@ class ChildListScreen extends StatefulWidget {
 }
 
 class _ChildListScreenState extends State<ChildListScreen> {
-  Future<ChildList> childs;
-  String _token;
+  Future<ChildList>? childs;
+  String? _token;
 
   @override
   void didChangeDependencies() {
@@ -52,9 +52,9 @@ class _ChildListScreenState extends State<ChildListScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data.students.length,
+              itemCount: snapshot.data!.students.length,
               itemBuilder: (context, index) {
-                return ChildRow(snapshot.data.students[index], _token);
+                return ChildRow(snapshot.data!.students[index], _token);
               },
             );
           } else {
@@ -65,7 +65,7 @@ class _ChildListScreenState extends State<ChildListScreen> {
     );
   }
 
-  Future<ChildList> getAllStudent(String id) async {
+  Future<ChildList> getAllStudent(String? id) async {
     final response = await http.get(Uri.parse(InfixApi.getParentChildList(id)),
         headers: Utils.setHeader(_token.toString()));
     print(id);

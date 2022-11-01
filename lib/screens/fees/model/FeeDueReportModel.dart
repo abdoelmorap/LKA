@@ -15,7 +15,7 @@ class FeesDueReportModel {
     this.feesDues,
   });
 
-  List<FeesDue> feesDues;
+  List<FeesDue>? feesDues;
 
   factory FeesDueReportModel.fromJson(Map<String, dynamic> json) =>
       FeesDueReportModel(
@@ -25,7 +25,7 @@ class FeesDueReportModel {
 
   Map<String, dynamic> toJson() => {
         "feesDues": List<dynamic>.from(
-            feesDues.map((x) => x == null ? null : x.toJson())),
+            feesDues!.map((x) => x == null ? null : x.toJson())),
       };
 }
 
@@ -42,15 +42,15 @@ class FeesDue {
     this.balance,
   });
 
-  String admissionNo;
-  String rollNo;
-  String name;
-  String dueDate;
-  double amount;
-  double paid;
-  double waiver;
-  double fine;
-  double balance;
+  String? admissionNo;
+  String? rollNo;
+  String? name;
+  String? dueDate;
+  double? amount;
+  double? paid;
+  double? waiver;
+  double? fine;
+  double? balance;
 
   factory FeesDue.fromJson(Map<String, dynamic> json) => FeesDue(
         admissionNo: json["admission_no"].toString(),

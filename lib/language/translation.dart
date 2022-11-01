@@ -45,10 +45,10 @@ class LanguageController extends GetxController implements Translations {
     //**:: ADD/REMOVE LANGUAGE
     //.....
     else {
-      appLocale = Get.deviceLocale.languageCode;
+      appLocale = Get.deviceLocale!.languageCode;
       langValue = true;
     }
-    langName.value = LanguageSelection.instance.langName;
+    langName.value = LanguageSelection.instance.langName!;
   }
 
   @override
@@ -61,8 +61,8 @@ class LanguageController extends GetxController implements Translations {
 }
 
 class LanguageModel {
-  final String languageText;
-  final String languageValue;
+  final String? languageText;
+  final String? languageValue;
 
   LanguageModel({this.languageText, this.languageValue});
 }

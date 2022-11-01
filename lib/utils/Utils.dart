@@ -34,13 +34,13 @@ class Utils extends GetxController {
     return prefs.getBool(key) ?? false;
   }
 
-  static Future<String> getStringValue(String key) async {
+  static Future<String?> getStringValue(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // print(prefs.getString(key));
     return prefs.getString(key);
   }
 
-  static Future<int> getIntValue(String key) async {
+  static Future<int?> getIntValue(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.clear();
     return prefs.getInt(key);
@@ -52,19 +52,19 @@ class Utils extends GetxController {
   }
 
   static Future<String> getTranslatedLanguage(
-      String languageCode, String key) async {
-    Map<dynamic, dynamic> _localisedValues;
+      String languageCode, String? key) async {
+    Map<dynamic, dynamic>? _localisedValues;
     String jsonContent = await rootBundle
         .loadString("assets/locale/localization_$languageCode.json");
     _localisedValues = json.decode(jsonContent);
-    return _localisedValues[key] ?? "$key";
+    return _localisedValues![key] ?? "$key";
   }
 
-  static setHeader(String token) {
-    Map<String, String> header = {
+  static setHeader(String? token) {
+    Map<String, String>? header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': token,
+      'Authorization': token!,
     };
     return header;
   }
@@ -99,7 +99,7 @@ class Utils extends GetxController {
     return Center(
       child: Text(
         'No data available',
-        style: Get.textTheme.subtitle1.copyWith(
+        style: Get.textTheme.subtitle1!.copyWith(
           fontSize: 16,
           fontWeight: FontWeight.normal,
         ),

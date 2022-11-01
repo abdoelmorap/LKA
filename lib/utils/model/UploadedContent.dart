@@ -7,11 +7,11 @@ class UploadedContent {
     this.sourceUrl,
   });
 
-  String contentTitle;
-  String uploadDate;
-  String description;
-  String uploadFile;
-  String sourceUrl;
+  String? contentTitle;
+  String? uploadDate;
+  String? description;
+  String? uploadFile;
+  String? sourceUrl;
 
   factory UploadedContent.fromJson(Map<String, dynamic> json) => UploadedContent(
     contentTitle: json["content_title"],

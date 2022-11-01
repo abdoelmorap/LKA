@@ -18,8 +18,8 @@ class HomeworkHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeworkHomeScreen> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

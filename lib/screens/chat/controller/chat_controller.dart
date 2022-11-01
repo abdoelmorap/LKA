@@ -16,13 +16,13 @@ class ChatController extends GetxController {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isBlockedUsersLoading = false.obs;
 
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _id = "".obs;
+  Rx<String?> _id = "".obs;
 
-  Rx<String> get id => this._id;
+  Rx<String?> get id => this._id;
 
   Rx<ChatModelMain> chatModel = ChatModelMain().obs;
 
@@ -59,11 +59,11 @@ class ChatController extends GetxController {
     ),
   ];
 
-  Rx<ChatStatus> selectedStatus = ChatStatus().obs;
+  Rx<ChatStatus?> selectedStatus = ChatStatus().obs;
 
   RxList<ChatUser> blockedUsers = <ChatUser>[].obs;
 
-  Future<bool> changeActiveStatus(int type) async {
+  Future<bool> changeActiveStatus(int? type) async {
     bool status = false;
     try {
       await getIdToken().then((value) async {
@@ -184,7 +184,7 @@ class ChatController extends GetxController {
           var jsonData = jsonDecode(response.body);
           chatSettings.value = ChatSettingsModel.fromJson(jsonData);
 
-          if (chatSettings.value.chatSettings.chatMethod == 'pusher') {
+          if (chatSettings.value.chatSettings!.chatMethod == 'pusher') {
             final PusherController pusherController =
                 Get.put(PusherController());
             pusherController.onInit();

@@ -11,7 +11,7 @@ class AdminLibraryHome extends StatefulWidget {
   var _titles;
   var _images;
   dynamic id;
-  String profileImage;
+  String? profileImage;
 
   AdminLibraryHome(this._titles, this._images);
 
@@ -21,7 +21,7 @@ class AdminLibraryHome extends StatefulWidget {
 }
 
 class _AdminLibraryHomeState extends State<AdminLibraryHome> {
-  bool isTapped;
+  bool? isTapped;
   dynamic currentSelectedIndex;
   var _titles;
   var _images;

@@ -11,24 +11,24 @@ import 'package:http/http.dart' as http;
 import 'package:infixedu/screens/chat/models/ChatUser.dart';
 
 class ChatOpenController extends GetxController {
-  final int userId;
+  final int? userId;
   ChatOpenController(this.userId);
 
   Rx<bool> isLoading = false.obs;
 
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _id = "".obs;
+  Rx<String?> _id = "".obs;
 
-  Rx<String> get id => this._id;
+  Rx<String?> get id => this._id;
 
   Rx<ChatMessageOpenModel> chatOpenModel = ChatMessageOpenModel().obs;
 
   Rx<ChatLoadMoreModel> chatLoadMoreModel = ChatLoadMoreModel().obs;
 
-  Rx<String> imageUrl = "".obs;
+  Rx<String?> imageUrl = "".obs;
 
   var lastConversationId = 0.obs;
 
@@ -36,7 +36,7 @@ class ChatOpenController extends GetxController {
 
   Rx<ChatMessage> selectedChatMsg = ChatMessage().obs;
 
-  RxList<int> msgIds = <int>[].obs;
+  RxList<int?> msgIds = <int>[].obs;
 
   var loadMore = false.obs;
 
@@ -45,7 +45,7 @@ class ChatOpenController extends GetxController {
 
   Rx<bool> courseSearchStarted = false.obs;
 
-  Rx<ChatUser> activeUser = ChatUser().obs;
+  Rx<ChatUser?> activeUser = ChatUser().obs;
 
   Future<ChatMessageOpenModel> getChatOpen() async {
     try {
@@ -96,7 +96,7 @@ class ChatOpenController extends GetxController {
   //   );
   // }
 
-  Stream counterStream;
+  Stream? counterStream;
   // StreamSubscription streamSubscription;
 
   // void listenAfterDelay() async {

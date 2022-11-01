@@ -12,20 +12,20 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dio;
 
 class AdminFeesController extends GetxController {
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _id = "".obs;
+  Rx<String?> _id = "".obs;
 
-  Rx<String> get id => this._id;
+  Rx<String?> get id => this._id;
 
   Rx<bool> isLoading = false.obs;
 
   Rx<FeesAdminAddPaymentModel> feesAdminAddPaymentModel =
       FeesAdminAddPaymentModel().obs;
 
-  Rx<BankAccount> selectedBank = BankAccount().obs;
+  Rx<BankAccount?> selectedBank = BankAccount().obs;
 
   Rx<double> addInWallet = 0.0.obs;
 
@@ -37,7 +37,7 @@ class AdminFeesController extends GetxController {
 
   var dueList = [].obs;
 
-  Rx<double> totalPaidAmount = 0.0.obs;
+  Rx<double?> totalPaidAmount = 0.0.obs;
 
   var noteList = [].obs;
 
@@ -49,7 +49,7 @@ class AdminFeesController extends GetxController {
 
   Rx<bool> isBank = false.obs;
 
-  Rx<String> selectedPaymentMethod = "Select Payment Method".tr.obs;
+  Rx<String?> selectedPaymentMethod = "Select Payment Method".tr.obs;
 
   Rx<bool> isPaymentProcessing = false.obs;
 
@@ -71,12 +71,12 @@ class AdminFeesController extends GetxController {
           feesAdminAddPaymentModel.value =
               FeesAdminAddPaymentModel.fromJson(jsonData);
 
-          if (feesAdminAddPaymentModel.value.bankAccounts.length != 0) {
+          if (feesAdminAddPaymentModel.value.bankAccounts!.length != 0) {
             selectedBank.value =
-                feesAdminAddPaymentModel.value.bankAccounts.first;
+                feesAdminAddPaymentModel.value.bankAccounts!.first;
           }
 
-          feesAdminAddPaymentModel.value.paymentMethods
+          feesAdminAddPaymentModel.value.paymentMethods!
               .insert(0, PaymentMethod(method: "Select Payment Method".tr));
 
           addInWallet.value = 0.0;
@@ -91,7 +91,7 @@ class AdminFeesController extends GetxController {
           totalPaidAmount.value = 0.0;
           isPaymentProcessing.value = false;
 
-          feesAdminAddPaymentModel.value.invoiceDetails.forEach((element) {
+          feesAdminAddPaymentModel.value.invoiceDetails!.forEach((element) {
             addWalletList.add(0.0);
 
             feeTypeList.add(element.feesType);
@@ -122,7 +122,7 @@ class AdminFeesController extends GetxController {
     return feesAdminAddPaymentModel.value;
   }
 
-  Future submitPayment({File file, BuildContext context}) async {
+  Future submitPayment({File? file, BuildContext? context}) async {
     if (selectedPaymentMethod.value == "Select Payment Method".tr) {
       CustomSnackBar().snackBarWarning("Select a Payment method first!".tr);
     } else {
@@ -132,9 +132,9 @@ class AdminFeesController extends GetxController {
           "add_wallet": addWalletList.reduce((a, b) => a + b),
           "payment_method": selectedPaymentMethod.value,
           "payment_note": "${paymentNoteController.text}",
-          "file": await dio.MultipartFile.fromFile(file.path),
-          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo.id,
-          "student_id": feesAdminAddPaymentModel.value.invoiceInfo.recordId,
+          "file": await dio.MultipartFile.fromFile(file!.path),
+          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo!.id,
+          "student_id": feesAdminAddPaymentModel.value.invoiceInfo!.recordId,
           "fees_type[]": feeTypeList,
           "amount[]": amountList,
           "due[]": dueList,
@@ -151,11 +151,11 @@ class AdminFeesController extends GetxController {
           "wallet_balance": feesAdminAddPaymentModel.value.walletBalance,
           "add_wallet": addWalletList.reduce((a, b) => a + b),
           "payment_method": selectedPaymentMethod.value,
-          "bank": "${selectedBank.value.id}",
+          "bank": "${selectedBank.value!.id}",
           "payment_note": "${paymentNoteController.text}",
-          "file": await dio.MultipartFile.fromFile(file.path),
-          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo.id,
-          "student_id": feesAdminAddPaymentModel.value.invoiceInfo.recordId,
+          "file": await dio.MultipartFile.fromFile(file!.path),
+          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo!.id,
+          "student_id": feesAdminAddPaymentModel.value.invoiceInfo!.recordId,
           "fees_type[]": feeTypeList,
           "amount[]": amountList,
           "due[]": dueList,
@@ -172,8 +172,8 @@ class AdminFeesController extends GetxController {
           "wallet_balance": feesAdminAddPaymentModel.value.walletBalance,
           "add_wallet": addWalletList.reduce((a, b) => a + b),
           "payment_method": selectedPaymentMethod.value,
-          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo.id,
-          "student_id": feesAdminAddPaymentModel.value.invoiceInfo.recordId,
+          "invoice_id": feesAdminAddPaymentModel.value.invoiceInfo!.id,
+          "student_id": feesAdminAddPaymentModel.value.invoiceInfo!.recordId,
           "fees_type[]": feeTypeList,
           "amount[]": amountList,
           "due[]": dueList,
@@ -189,7 +189,7 @@ class AdminFeesController extends GetxController {
     }
   }
 
-  Future processPayment(dio.FormData formData, {BuildContext context}) async {
+  Future processPayment(dio.FormData formData, {BuildContext? context}) async {
     print('on processPayment');
     log(formData.fields.toString());
     // return;
@@ -221,7 +221,7 @@ class AdminFeesController extends GetxController {
         if (error is dio.DioError) {
           isPaymentProcessing(false);
 
-          final errorData = new Map<String, dynamic>.from(error.response.data);
+          final errorData = new Map<String, dynamic>.from(error.response!.data);
 
           String combinedMessage = "";
 

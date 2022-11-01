@@ -42,10 +42,10 @@ class _StaffDetailsScreenState extends State<StaffDetailsScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 52.0, left: 32.0),
                         child: Text(
-                          widget.staff.name,
+                          widget.staff.name!,
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headline5!
                               .copyWith(color: Colors.white),
                         ),
                       ),
@@ -60,7 +60,7 @@ class _StaffDetailsScreenState extends State<StaffDetailsScreen> {
                                 ? NetworkImage(InfixApi.root +
                                     "public/uploads/staff/demo/staff.jpg")
                                 : NetworkImage(
-                                    InfixApi.root + widget.staff.photo),
+                                    InfixApi.root + widget.staff.photo!),
                             backgroundColor: Colors.transparent,
                           ),
                         ),

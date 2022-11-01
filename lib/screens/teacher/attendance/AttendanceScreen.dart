@@ -17,8 +17,8 @@ class AttendanceHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<AttendanceHomeScreen> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

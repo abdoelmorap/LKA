@@ -17,9 +17,9 @@ class AdminFeesPaymentReport extends StatefulWidget {
 }
 
 class _AdminFeesPaymentReportState extends State<AdminFeesPaymentReport> {
-  String _token;
+  String? _token;
 
-  Future searchData;
+  Future? searchData;
 
   Future<FeePaymentReportModel> getSearchData(Map data) async {
     final response = await http.post(Uri.parse(InfixApi.adminFeesPaymentSearch),
@@ -69,19 +69,19 @@ class _AdminFeesPaymentReportState extends State<AdminFeesPaymentReport> {
             },
           ),
           FutureBuilder<FeePaymentReportModel>(
-            future: searchData,
+            future: searchData!.then((value) => value as FeePaymentReportModel),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CupertinoActivityIndicator());
               } else {
                 if (snapshot.hasData) {
-                  if (snapshot.data.paymentReport.length == 0) {
+                  if (snapshot.data!.paymentReport!.length == 0) {
                     return Utils.noDataWidget();
                   } else {
                     var total = 0.0;
-                    snapshot.data.paymentReport.forEach((element) {
+                    snapshot.data!.paymentReport!.forEach((element) {
                       if (element != null) {
-                        total += element.paid;
+                        total += element.paid!;
                       }
                     });
                     return Column(
@@ -95,7 +95,7 @@ class _AdminFeesPaymentReportState extends State<AdminFeesPaymentReport> {
                                 "${double.parse(total.toString()).toStringAsFixed(2)}",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(
                                     fontWeight: FontWeight.w500, fontSize: 12),
                           ),
@@ -106,10 +106,10 @@ class _AdminFeesPaymentReportState extends State<AdminFeesPaymentReport> {
                           separatorBuilder: (context, index) {
                             return Divider();
                           },
-                          itemCount: snapshot.data.paymentReport.length,
+                          itemCount: snapshot.data!.paymentReport!.length,
                           itemBuilder: (context, index) {
                             PaymentReport paymentReport =
-                                snapshot.data.paymentReport[index];
+                                snapshot.data!.paymentReport![index];
 
                             return PaymentReportWidget(paymentReport);
                           },
@@ -139,7 +139,7 @@ class PaymentReportWidget extends StatelessWidget {
     return ListTile(
       title: Text(
         paymentReport.name ?? 'NA',
-        style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 14),
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 14),
       ),
       subtitle: Column(
         children: <Widget>[
@@ -154,7 +154,7 @@ class PaymentReportWidget extends StatelessWidget {
                       Text(
                         'Admission No.'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -164,7 +164,7 @@ class PaymentReportWidget extends StatelessWidget {
                         paymentReport.admissionNo.toString(),
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -177,7 +177,7 @@ class PaymentReportWidget extends StatelessWidget {
                       Text(
                         'Roll'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -187,7 +187,7 @@ class PaymentReportWidget extends StatelessWidget {
                         paymentReport.rollNo ?? "",
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -200,7 +200,7 @@ class PaymentReportWidget extends StatelessWidget {
                       Text(
                         'Paid'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
@@ -211,7 +211,7 @@ class PaymentReportWidget extends StatelessWidget {
                             .toStringAsFixed(2),
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],
@@ -224,17 +224,17 @@ class PaymentReportWidget extends StatelessWidget {
                       Text(
                         'Due Date'.tr,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        paymentReport.dueDate,
+                        paymentReport.dueDate!,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 12),
                       ),
                     ],

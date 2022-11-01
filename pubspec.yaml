@@ -7,91 +7,94 @@ version: 2.4.0+33
 
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.0
-  dio: ^4.0.0
-  equatable: ^2.0.3
-  file_picker: ^4.2.4
+  cupertino_icons: ^1.0.5
+  dio: ^4.0.6
+  equatable: ^2.0.5
+  file_picker: ^4.6.1
   file_utils: ^1.0.1
-  flutter_bloc: ^8.0.1
+  flutter_bloc: ^8.1.1
   flutter_calendar_carousel: ^2.4.0
   flutter_cupertino_date_picker_fork: ^1.0.7
-  flutter_cupertino_localizations: ^1.0.1
-  flutter_local_notifications: ^9.5.3+1
+  flutter_local_notifications: ^12.0.3
   flutter_webview_plugin: ^0.4.0
-  fluttertoast: ^8.0.8
-  http: ^0.13.0
-  open_file: ^3.2.0
-  path_provider: ^2.0.1
+  fluttertoast: ^8.1.1
+  http: ^0.13.5
+  open_file: ^3.2.1
+  path_provider: ^2.0.11
   rxdart: ^0.27.5
   scoped_model: ^2.0.0
-  shared_preferences: ^2.0.6
-  uuid: ^3.0.0
-  shimmer: ^2.0.0-nullsafety.0
-  fancy_shimmer_image: ^2.0.0-nullsafety.0
-  url_launcher: ^6.0.3
-  age: ^0.0.1
+  shared_preferences: ^2.0.15
+  uuid: ^3.0.6
+  shimmer: ^2.0.0
+  fancy_shimmer_image: ^2.0.2
+  url_launcher: ^6.1.6
   intl: ^0.17.0
   flutter_overlay_loader: ^2.0.0
-  flutter_cache_manager: ^3.0.0-nullsafety.1
-  timeago: ^3.0.2
-  flutter_slidable: ^0.6.0-nullsafety.0
+  flutter_cache_manager: ^3.3.0
+  timeago: ^3.3.0
+  flutter_slidable: ^0.6.0
   font_awesome_flutter: ^10.2.1
   pdf_flutter:
     git: https://github.com/emran92/pdf_flutter
-  provider: ^6.0.0
-  cached_network_image: ^3.0.0
-  flutter_inappwebview: ^5.3.2
+  provider: ^6.0.4
+  cached_network_image: ^3.2.2
+  flutter_inappwebview: ^5.7.1
   extended_image: ^6.3.1
-  ffi: ^1.0.0
-  firebase_core: ^1.17.0
-  firebase_messaging: ^12.0.1
-  flutter_dropdown_alert: ^1.0.1
-  edge_alert: ^0.0.1
-  flutter_screenutil: ^5.5.3+2
+  ffi: ^1.2.1
+  firebase_core: ^2.1.1
+  firebase_messaging: ^14.0.3
+  flutter_dropdown_alert: ^1.0.6
+  edge_alerts: ^0.0.1
+  flutter_screenutil: ^5.6.0
   flutter_widget_from_html: ^0.8.5
-  permission_handler: ^10.1.0
+  permission_handler: ^10.2.0
   http_auth: ^1.0.1
   flutter_paystack:
     git:
       url: https://github.com/definitelyme/flutter_paystack.git
       ref: a4a33c3dd0a12f46d655a2e63d11e9f20ba82d01
-  flutter_credit_card: ^3.0.0
-  carousel_slider: ^4.0.0
+  flutter_credit_card: ^3.0.4
+  carousel_slider: ^4.1.1
   persistent_bottom_nav_bar: ^5.0.2
-  device_info_plus: ^3.1.0
-  package_info_plus: ^1.3.0
+  device_info_plus: ^3.2.4
+  package_info_plus: ^1.4.2
   get: ^4.6.5
   google_fonts: ^3.0.1
-  badges: ^2.0.1
-  themify_flutter: ^1.0.0
+  badges: ^2.0.3
+#  themify_flutter: ^1.0.0
+  remixicon: ^1.0.0
   stripe_sdk: ^5.0.0-nullsafety.1
-  flutter_portal: ^1.1.1
+  flutter_portal: ^1.1.2
   loading_more_list: ^5.0.2
-  let_log: ^1.1.4
-  emoji_picker_flutter: ^1.0.8
-  flutter_easyloading: ^3.0.3
+#  let_log: ^1.1.4
+  f_logs: ^2.0.1
+  emoji_picker_flutter: ^1.5.0
+  flutter_easyloading: ^3.0.5
   photo_view: ^0.14.0
-  better_player: ^0.0.77
-  flutter_staggered_animations: ^1.0.0
-  razorpay_flutter: ^1.2.7
-  pdf: ^3.7.1
+  better_player: ^0.0.83
+  flutter_staggered_animations: ^1.1.1
+  razorpay_flutter: ^1.3.3
+  pdf: ^3.8.4
   khalti: ^1.0.2
   reorderables:
     git: https://github.com/emran92/reorderables
-  pusher_channels_flutter: ^2.0.2
+  pusher_channels_flutter: ^2.1.0
+  image: ^3.2.2
+  image_picker: ^0.8.5+3
+  image_picker_android: 0.8.4+13
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.10.0
-  flutter_native_splash: ^2.2.11
+  flutter_native_splash: ^2.2.13
   import_sorter: ^4.6.0
 
 # flutter pub run flutter_launcher_icons:main

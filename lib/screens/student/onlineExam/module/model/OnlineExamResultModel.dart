@@ -17,8 +17,8 @@ class OnlineExamResultModel {
     this.message,
   });
 
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
   dynamic message;
 
   factory OnlineExamResultModel.fromJson(Map<String, dynamic> json) =>
@@ -30,7 +30,7 @@ class OnlineExamResultModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
         "message": message,
       };
 }
@@ -40,7 +40,7 @@ class Data {
     this.studentExams,
   });
 
-  List<StudentExam> studentExams;
+  List<StudentExam>? studentExams;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         studentExams: List<StudentExam>.from(
@@ -49,7 +49,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "student_exams":
-            List<dynamic>.from(studentExams.map((x) => x.toJson())),
+            List<dynamic>.from(studentExams!.map((x) => x.toJson())),
       };
 }
 
@@ -65,14 +65,14 @@ class StudentExam {
     this.result,
   });
 
-  String title;
-  String startDate;
-  String startTime;
-  String endDate;
-  String endTime;
-  int totalMarks;
-  String obtainMarks;
-  String result;
+  String? title;
+  String? startDate;
+  String? startTime;
+  String? endDate;
+  String? endTime;
+  int? totalMarks;
+  String? obtainMarks;
+  String? result;
 
   factory StudentExam.fromJson(Map<String, dynamic> json) => StudentExam(
         title: json["title"],

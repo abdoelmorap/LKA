@@ -23,8 +23,8 @@ class DBTeacherHW extends StatefulWidget {
 }
 
 class _HomeState extends State<DBTeacherHW> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 
@@ -64,7 +64,7 @@ class _HomeState extends State<DBTeacherHW> {
                       "Homework".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),

@@ -30,7 +30,7 @@ class Logger {
 
   void _logHeading() => _log(url, name: method);
 
-  void _log(String message, {@required String name}) {
+  void _log(String message, {required String name}) {
     print('[$name] $message');
   }
 

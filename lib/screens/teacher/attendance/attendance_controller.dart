@@ -14,10 +14,10 @@ class AttendanceValue {
     this.note,
   });
 
-  String student;
-  String attendanceClass;
-  String section;
-  String attendanceType;
+  String? student;
+  String? attendanceClass;
+  String? section;
+  String? attendanceType;
   dynamic note;
 
   factory AttendanceValue.fromJson(Map<String, dynamic> json) =>

@@ -21,14 +21,14 @@ class TakeExamModel {
     this.questionType,
   });
 
-  OnlineExam onlineExam;
-  List<ExamQuestion> examQuestions;
-  int totalQuestions;
-  OnlineExamSetting onlineExamSetting;
-  int totalExamMarks;
-  int page;
-  String recordId;
-  List<String> questionType;
+  OnlineExam? onlineExam;
+  List<ExamQuestion>? examQuestions;
+  int? totalQuestions;
+  OnlineExamSetting? onlineExamSetting;
+  int? totalExamMarks;
+  int? page;
+  String? recordId;
+  List<String>? questionType;
 
   factory TakeExamModel.fromJson(Map<String, dynamic> json) => TakeExamModel(
         onlineExam: OnlineExam.fromJson(json["online_exam"]),
@@ -44,15 +44,15 @@ class TakeExamModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "online_exam": onlineExam.toJson(),
+        "online_exam": onlineExam!.toJson(),
         "exam_questions":
-            List<dynamic>.from(examQuestions.map((x) => x.toJson())),
+            List<dynamic>.from(examQuestions!.map((x) => x.toJson())),
         "total_questions": totalQuestions,
-        "online_exam_setting": onlineExamSetting.toJson(),
+        "online_exam_setting": onlineExamSetting!.toJson(),
         "total_exam_marks": totalExamMarks,
         "page": page,
         "record_id": recordId,
-        "question_type": List<dynamic>.from(questionType.map((x) => x)),
+        "question_type": List<dynamic>.from(questionType!.map((x) => x)),
       };
 }
 
@@ -71,17 +71,17 @@ class ExamQuestion {
     this.piQuestions,
   });
 
-  int id;
-  String question;
-  String questionType;
-  String userAnswer;
-  int questionBankId;
-  String miImage;
-  String imqImage;
-  List<ImqQuestion> imqQuestions;
-  List<MiQuestion> miQuestions;
-  List<MQuestion> mQuestions;
-  List<PiQuestion> piQuestions;
+  int? id;
+  String? question;
+  String? questionType;
+  String? userAnswer;
+  int? questionBankId;
+  String? miImage;
+  String? imqImage;
+  List<ImqQuestion>? imqQuestions;
+  List<MiQuestion>? miQuestions;
+  List<MQuestion>? mQuestions;
+  List<PiQuestion>? piQuestions;
 
   factory ExamQuestion.fromJson(Map<String, dynamic> json) => ExamQuestion(
         id: json["id"],
@@ -118,10 +118,10 @@ class ExamQuestion {
         "mi_image": miImage,
         "imq_image": imqImage,
         "imq_questions":
-            List<dynamic>.from(imqQuestions.map((x) => x.toJson())),
-        "mi_questions": List<dynamic>.from(miQuestions.map((x) => x.toJson())),
-        "m_questions": List<dynamic>.from(mQuestions.map((x) => x.toJson())),
-        "pi_questions": List<dynamic>.from(piQuestions.map((x) => x.toJson())),
+            List<dynamic>.from(imqQuestions!.map((x) => x.toJson())),
+        "mi_questions": List<dynamic>.from(miQuestions!.map((x) => x.toJson())),
+        "m_questions": List<dynamic>.from(mQuestions!.map((x) => x.toJson())),
+        "pi_questions": List<dynamic>.from(piQuestions!.map((x) => x.toJson())),
       };
 }
 
@@ -132,9 +132,9 @@ class ImqQuestion {
     this.imqImageTitle,
   });
 
-  int imqId;
-  String imqTitle;
-  String imqImageTitle;
+  int? imqId;
+  String? imqTitle;
+  String? imqImageTitle;
 
   factory ImqQuestion.fromJson(Map<String, dynamic> json) => ImqQuestion(
         imqId: json["imq_id"],
@@ -156,9 +156,9 @@ class MQuestion {
     this.alphabet,
   });
 
-  int mId;
-  String mTitle;
-  String alphabet;
+  int? mId;
+  String? mTitle;
+  String? alphabet;
 
   factory MQuestion.fromJson(Map<String, dynamic> json) => MQuestion(
         mId: json["m_id"],
@@ -179,8 +179,8 @@ class MiQuestion {
     this.miTitle,
   });
 
-  int miId;
-  String miTitle;
+  int? miId;
+  String? miTitle;
 
   factory MiQuestion.fromJson(Map<String, dynamic> json) => MiQuestion(
         miId: json["mi_id"],
@@ -200,9 +200,9 @@ class PiQuestion {
     this.pTitle,
   });
 
-  int pmId;
-  String pmTitle;
-  String pTitle;
+  int? pmId;
+  String? pmTitle;
+  String? pTitle;
 
   factory PiQuestion.fromJson(Map<String, dynamic> json) => PiQuestion(
         pmId: json["pm_id"],
@@ -257,39 +257,39 @@ class OnlineExam {
     this.lessonId,
   });
 
-  int id;
-  String title;
-  DateTime date;
-  DateTime endDate;
-  String startTime;
-  String endTime;
-  DateTime endDateTime;
-  int percentage;
-  int examType;
-  String selectedSections;
-  String uniqueId;
-  String instruction;
-  int status;
-  int isTaken;
-  int isClosed;
-  int isWaiting;
-  int isRunning;
-  int autoMark;
-  int negativeMarking;
-  int activeStatus;
-  String durationType;
-  int duration;
-  int defaultQuestionTime;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int classId;
-  int sectionId;
-  int subjectId;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
-  int academicId;
-  String questionGroups;
+  int? id;
+  String? title;
+  DateTime? date;
+  DateTime? endDate;
+  String? startTime;
+  String? endTime;
+  DateTime? endDateTime;
+  int? percentage;
+  int? examType;
+  String? selectedSections;
+  String? uniqueId;
+  String? instruction;
+  int? status;
+  int? isTaken;
+  int? isClosed;
+  int? isWaiting;
+  int? isRunning;
+  int? autoMark;
+  int? negativeMarking;
+  int? activeStatus;
+  String? durationType;
+  int? duration;
+  int? defaultQuestionTime;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? classId;
+  int? sectionId;
+  int? subjectId;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
+  int? academicId;
+  String? questionGroups;
   dynamic courseId;
   dynamic chapterId;
   dynamic lessonId;
@@ -337,12 +337,12 @@ class OnlineExam {
         "id": id,
         "title": title,
         "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "end_date":
-            "${endDate.year.toString().padLeft(4, '0')}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}",
+            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
         "start_time": startTime,
         "end_time": endTime,
-        "end_date_time": endDateTime.toIso8601String(),
+        "end_date_time": endDateTime!.toIso8601String(),
         "percentage": percentage,
         "exam_type": examType,
         "selected_sections": selectedSections,
@@ -359,8 +359,8 @@ class OnlineExam {
         "duration_type": durationType,
         "duration": duration,
         "default_question_time": defaultQuestionTime,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "class_id": classId,
         "section_id": sectionId,
         "subject_id": subjectId,
@@ -388,15 +388,15 @@ class OnlineExamSetting {
     this.schoolId,
   });
 
-  int id;
-  int autoMarkingDefault;
-  int negativeMarking;
-  double deductMarksPerWrong;
-  int submitFromLastPage;
-  int anyQuestionAccess;
-  int randomQuestion;
-  int singlePage;
-  int schoolId;
+  int? id;
+  int? autoMarkingDefault;
+  int? negativeMarking;
+  double? deductMarksPerWrong;
+  int? submitFromLastPage;
+  int? anyQuestionAccess;
+  int? randomQuestion;
+  int? singlePage;
+  int? schoolId;
 
   factory OnlineExamSetting.fromJson(Map<String, dynamic> json) =>
       OnlineExamSetting(

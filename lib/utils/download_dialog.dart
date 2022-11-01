@@ -21,8 +21,8 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 class DownloadDialog extends StatefulWidget {
   DownloadDialog({this.file, this.title});
 
-  final String file;
-  final String title;
+  final String? file;
+  final String? title;
 
   @override
   _DownloadDialogState createState() => _DownloadDialogState();
@@ -34,7 +34,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
   var received;
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";
@@ -102,7 +102,7 @@ class _DownloadDialogState extends State<DownloadDialog> {
           child: Text("Download"),
           onPressed: () {
             widget.file != null
-                ? downloadFile(widget.file, context, widget.title)
+                ? downloadFile(widget.file!, context, widget.title)
                 : Utils.showToast('no file found');
             Navigator.of(context, rootNavigator: true).pop('dialog');
           },

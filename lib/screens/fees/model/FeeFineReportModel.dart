@@ -14,8 +14,8 @@ class FeeFineReportModel {
         this.totalFine,
     });
 
-    Map<String, FineReport> fineReport;
-    int totalFine;
+    Map<String, FineReport>? fineReport;
+    int? totalFine;
 
     factory FeeFineReportModel.fromJson(Map<String, dynamic> json) => FeeFineReportModel(
         fineReport: Map.from(json["fineReport"]).map((k, v) => MapEntry<String, FineReport>(k, FineReport.fromJson(v))),
@@ -23,7 +23,7 @@ class FeeFineReportModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "fineReport": Map.from(fineReport).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+        "fineReport": Map.from(fineReport!).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
         "totalFine": totalFine,
     };
 }
@@ -39,11 +39,11 @@ class FineReport {
         this.fine,
     });
 
-    String admissionNo;
-    String rollNo;
-    String name;
-    String dueDate;
-    double fine;
+    String? admissionNo;
+    String? rollNo;
+    String? name;
+    String? dueDate;
+    double? fine;
 
     factory FineReport.fromJson(Map<String, dynamic> json) => FineReport(
         admissionNo: json["admission_no"].toString(),

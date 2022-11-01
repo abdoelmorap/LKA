@@ -19,7 +19,7 @@ import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class DBStudentRoutine extends StatefulWidget {
-  String id;
+  String? id;
 
   DBStudentRoutine({this.id});
 
@@ -31,9 +31,9 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
   final UserController _userController = Get.put(UserController());
   List<String> weeks = AppFunction.weeks;
   var _token;
-  Future<Routine> routine;
+  Future<Routine>? routine;
 
-  Future<Routine> getRoutine(int recordId) async {
+  Future<Routine> getRoutine(int? recordId) async {
     try {
       final response = await http.get(
         Uri.parse(InfixApi.routineView(
@@ -59,12 +59,12 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
   @override
   void didChangeDependencies() async {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     await Utils.getStringValue('token').then((value) {
       setState(() {
         _token = value;
         routine =
-            getRoutine(_userController.studentRecord.value.records.first.id);
+            getRoutine(_userController.studentRecord.value.records!.first.id);
       });
     });
     super.didChangeDependencies();
@@ -99,7 +99,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                       "Routine".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),
@@ -140,7 +140,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                 ),
                 itemBuilder: (context, recordIndex) {
                   Record record =
-                      _userController.studentRecord.value.records[recordIndex];
+                      _userController.studentRecord.value.records![recordIndex];
                   return GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () async {
@@ -177,7 +177,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                       ),
                       child: Text(
                         "${record.className} (${record.sectionName})",
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 14,
                           color: _userController.selectedRecord.value == record
                               ? Colors.white
@@ -187,7 +187,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                     ),
                   );
                 },
-                itemCount: _userController.studentRecord.value.records.length,
+                itemCount: _userController.studentRecord.value.records!.length,
               ),
             ),
             SizedBox(
@@ -203,14 +203,14 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                     );
                   } else {
                     if (snapshot.hasData) {
-                      if (snapshot.data.classRoutines.length > 0) {
+                      if (snapshot.data!.classRoutines!.length > 0) {
                         return ListView.builder(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             shrinkWrap: true,
                             itemCount: weeks.length,
                             itemBuilder: (context, index) {
                               List<ClassRoutine> classRoutines = snapshot
-                                  .data.classRoutines
+                                  .data!.classRoutines!
                                   .where(
                                       (element) => element.day == weeks[index])
                                   .toList();
@@ -227,7 +227,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                                           child: Text(weeks[index],
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline6
+                                                  .headline6!
                                                   .copyWith()),
                                         ),
                                         Padding(
@@ -242,7 +242,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                                                 child: Text('Time'.tr,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith()),
                                               ),
                                               Expanded(
@@ -250,7 +250,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                                                 child: Text('Subject'.tr,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith()),
                                               ),
                                               Expanded(
@@ -258,7 +258,7 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                                                 child: Text('Room'.tr,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith()),
                                               ),
                                             ],
@@ -272,10 +272,10 @@ class _DBStudentRoutineState extends State<DBStudentRoutine> {
                                           itemBuilder: (context, rowIndex) {
                                             return RoutineRowDesign(
                                               classRoutines[rowIndex]
-                                                      .startTime +
+                                                      .startTime! +
                                                   '-' +
                                                   classRoutines[rowIndex]
-                                                      .endTime,
+                                                      .endTime!,
                                               classRoutines[rowIndex].subject,
                                               classRoutines[rowIndex].room,
                                             );

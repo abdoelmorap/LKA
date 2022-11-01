@@ -12,7 +12,7 @@ import 'package:infixedu/utils/model/Child.dart';
 // ignore: must_be_immutable
 class ChildRow extends StatefulWidget {
   Child child;
-  String token;
+  String? token;
 
   ChildRow(this.child, this.token);
 
@@ -22,7 +22,7 @@ class ChildRow extends StatefulWidget {
 
 class _ChildRowState extends State<ChildRow> {
   Child child;
-  String token;
+  String? token;
 
   _ChildRowState(this.child, this.token);
 
@@ -30,7 +30,7 @@ class _ChildRowState extends State<ChildRow> {
   Widget build(BuildContext context) {
     String image = child.photo == null || child.photo == ""
         ? "${AppConfig.domainName}/public/uploads/staff/demo/staff.jpg"
-        : InfixApi.root + child.photo;
+        : InfixApi.root + child.photo!;
     return InkWell(
       onTap: () {
         Get.to(() => DashboardScreen(
@@ -54,16 +54,16 @@ class _ChildRowState extends State<ChildRow> {
               backgroundColor: Colors.grey,
             ),
             title: Text(
-              child.name,
-              style: Theme.of(context).textTheme.subtitle2.copyWith(
+              child.name!,
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Color(0xff415094),
                   ),
             ),
             subtitle: Wrap(
               children: List.generate(
-                  child.classSections.length,
-                  (index) => Text('${child.classSections[index]}',
+                  child.classSections!.length,
+                  (index) => Text('${child.classSections![index]}',
                       style: Theme.of(context).textTheme.headline4)),
             ),
           ),

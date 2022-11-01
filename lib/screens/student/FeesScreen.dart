@@ -15,7 +15,7 @@ import 'package:infixedu/utils/widget/ShimmerListWidget.dart';
 
 // ignore: must_be_immutable
 class FeeScreen extends StatefulWidget {
-  String id;
+  String? id;
 
   FeeScreen({this.id});
 
@@ -24,7 +24,7 @@ class FeeScreen extends StatefulWidget {
 }
 
 class _FeeScreenState extends State<FeeScreen> {
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _FeeScreenState extends State<FeeScreen> {
                 Expanded(
                   child: Text(
                     'Grand Total',
-                    style: Theme.of(context).textTheme.headline5.copyWith(),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(),
                     maxLines: 1,
                   ),
                 ),
@@ -75,8 +75,9 @@ class _FeeScreenState extends State<FeeScreen> {
                           //     widget.id != null ? widget.id : id.data),_token)
                           //     .fetchTotalFee()),
                           future: FeeService(
-                                  int.parse(
-                                      widget.id != null ? widget.id : id.data),
+                                  int.parse(widget!.id.toString() != ""
+                                      ? widget!.id.toString()
+                                      : id!.data!.toString()),
                                   _token)
                               .fetchTotalFee(),
                           builder: (context, totalSnapshot) {
@@ -93,7 +94,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -101,7 +102,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[0].toString(),
+                                          totalSnapshot.data![0].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -120,7 +121,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -128,7 +129,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[1].toString(),
+                                          totalSnapshot.data![1].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -147,7 +148,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -155,7 +156,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[2].toString(),
+                                          totalSnapshot.data![2].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -174,7 +175,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -182,7 +183,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[3].toString(),
+                                          totalSnapshot.data![3].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -201,7 +202,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -209,7 +210,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[4].toString(),
+                                          totalSnapshot.data![4].toString(),
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           style: Theme.of(context)
@@ -268,21 +269,21 @@ class _FeeScreenState extends State<FeeScreen> {
                           //     widget.id != null ? widget.id : snapId.data),_token)
                           //     .fetchFee()),
                           future: FeeService(
-                                  int.parse(widget.id != null
-                                      ? widget.id
-                                      : snapId.data),
+                                  int.parse(widget.id.toString() != ""
+                                      ? widget.id!.toString()
+                                      : snapId.data.toString()),
                                   _token)
                               .fetchFee(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return ListView.builder(
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
                                     return FeesRow(
-                                        snapshot.data[index],
-                                        widget.id != null
-                                            ? widget.id
-                                            : snapId.data);
+                                        snapshot.data![index],
+                                        widget.id.toString() != ""
+                                            ? widget.id.toString()
+                                            : snapId.data.toString());
                                   });
                             } else {
                               return ShimmerList(

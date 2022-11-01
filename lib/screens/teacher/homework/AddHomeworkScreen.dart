@@ -30,35 +30,35 @@ class AddHomeworkScrren extends StatefulWidget {
 }
 
 class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
-  String _id;
+  String? _id;
   dynamic classId;
   dynamic subjectId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
-  String _selectedSubject;
-  String _selectedaAssignDate;
-  String _selectedSubmissionDate;
+  String? _selectedClass;
+  String? _selectedSection;
+  String? _selectedSubject;
+  String? _selectedaAssignDate;
+  String? _selectedSubmissionDate;
   TextEditingController markController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  Future classes;
-  Future<SectionList> sections;
-  Future<TeacherSubjectList> subjects;
-  TeacherSubjectList subjectList;
-  DateTime date;
+  Future? classes;
+  Future<SectionList>? sections;
+  Future<TeacherSubjectList>? subjects;
+  TeacherSubjectList? subjectList;
+  late DateTime date;
   String maxDateTime = '2031-11-25';
   String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
-  DateTime _dateTime;
+  DateTime? _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
-  File _file;
+  File? _file;
   bool isResponse = false;
-  Response response;
+  late Response response;
   Dio dio = new Dio();
-  String _token;
+  String? _token;
   final _formKey = GlobalKey<FormState>();
-  String _schoolId;
-  String rule;
+  String? _schoolId;
+  String? rule;
 
   @override
   void initState() {
@@ -84,16 +84,16 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
           Utils.getStringValue('rule').then((ruleValue) {
             setState(() {
               rule = ruleValue;
-              classes = getAllClass(int.parse(_id));
-              classes.then((value) {
+              classes = getAllClass(int.parse(_id!));
+              classes!.then((value) {
                 _selectedClass = value.classes[0].name;
                 classId = value.classes[0].id;
-                sections = getAllSection(int.parse(_id), classId);
-                sections.then((sectionValue) {
+                sections = getAllSection(int.parse(_id!), classId);
+                sections!.then((sectionValue) {
                   _selectedSection = sectionValue.sections[0].name;
                   sectionId = sectionValue.sections[0].id;
-                  subjects = getAllSubject(int.parse(_id));
-                  subjects.then((subVal) {
+                  subjects = getAllSubject(int.parse(_id!));
+                  subjects!.then((subVal) {
                     setState(() {
                       subjectList = subVal;
                       subjectId = subVal.subjects[0].subjectId;
@@ -134,7 +134,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                 decoration: Utils.gradientBtnDecoration,
                 child: Text(
                   "Save".tr,
-                  style: Theme.of(context).textTheme.headline4.copyWith(
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.white, fontSize: ScreenUtil().setSp(14)),
                 ),
               ),
@@ -173,14 +173,16 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
               future: classes,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  ClassList? mwdata = snapshot.data as ClassList?;
+                  var classes = mwdata!.classes!;
                   return ListView(
                     children: <Widget>[
-                      getClassDropdown(snapshot.data.classes),
+                      getClassDropdown(classes),
                       FutureBuilder<SectionList>(
                         future: sections,
                         builder: (context, secSnap) {
                           if (secSnap.hasData) {
-                            return getSectionDropdown(secSnap.data.sections);
+                            return getSectionDropdown(secSnap.data!.sections);
                           } else {
                             return Center(child: CupertinoActivityIndicator());
                           }
@@ -193,7 +195,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         future: subjects,
                         builder: (context, subSnap) {
                           if (subSnap.hasData) {
-                            return getSubjectDropdown(subSnap.data.subjects);
+                            return getSubjectDropdown(subSnap.data!.subjects);
                           } else {
                             return Center(child: CupertinoActivityIndicator());
                           }
@@ -229,9 +231,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                 setState(() {
                                   _dateTime = dateTime;
                                   print(
-                                      '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
+                                      '${_dateTime!.year}-0${_dateTime!.month}-${_dateTime!.day}');
                                   _selectedaAssignDate =
-                                      '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                      '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                                 });
                               });
                             },
@@ -248,10 +250,10 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                   child: Text(
                                     _selectedaAssignDate == null
                                         ? 'Assign Date'.tr
-                                        : _selectedaAssignDate,
+                                        : _selectedaAssignDate!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             fontSize: ScreenUtil().setSp(12)),
                                   ),
@@ -305,7 +307,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                 setState(() {
                                   _dateTime = dateTime;
                                   _selectedSubmissionDate =
-                                      '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                      '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                                 });
                               });
                             },
@@ -322,10 +324,10 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                   child: Text(
                                     _selectedSubmissionDate == null
                                         ? 'Submission Date'.tr
-                                        : _selectedSubmissionDate,
+                                        : _selectedSubmissionDate!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             fontSize: ScreenUtil().setSp(12)),
                                   ),
@@ -366,10 +368,10 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                   child: Text(
                                     _file == null
                                         ? 'Select file'.tr
-                                        : _file.path,
+                                        : _file!.path,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             fontSize: ScreenUtil().setSp(12)),
                                     maxLines: 2,
@@ -379,7 +381,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                               Text('Browse'.tr,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           decoration:
                                               TextDecoration.underline)),
@@ -456,7 +458,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -464,9 +466,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(14)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
             classId = getCode(classes, value);
@@ -489,16 +491,16 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
             value: item.name,
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10),
-              child:
-                  Text(item.name, style: Theme.of(context).textTheme.headline4),
+              child: Text(item.name!,
+                  style: Theme.of(context).textTheme.headline4),
             ),
           );
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15.0)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
@@ -523,14 +525,14 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10),
               child: Text(
-                item.subjectName,
+                item.subjectName!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15.0),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSubject = value;
             subjectId = getSubjectId(subjectList, value);
@@ -552,7 +554,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
       "submission_date": _selectedSubmissionDate,
       "school_id": '$_schoolId',
       "description": descriptionController.text,
-      "homework_file": await MultipartFile.fromFile(_file.path),
+      "homework_file": await MultipartFile.fromFile(_file!.path),
     });
     response = await dio.post(
       InfixApi.uploadHomework,
@@ -578,9 +580,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     }
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(T t, String? title) {
+    int? code;
+    for (var cls in t as Iterable) {
       if (cls.name == title) {
         code = cls.id;
         break;
@@ -630,9 +632,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     }
   }
 
-  int getSubjectId<T>(T t, String subject) {
-    int code;
-    for (var s in t) {
+  int? getSubjectId<T>(T t, String? subject) {
+    int? code;
+    for (var s in t as Iterable) {
       if (s.subjectName == subject) {
         code = s.subjectId;
       }
@@ -645,10 +647,10 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   }
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled'.tr);

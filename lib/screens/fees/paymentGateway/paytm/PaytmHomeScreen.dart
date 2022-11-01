@@ -41,11 +41,11 @@ class _PaytmPaymentState extends State<PaytmPayment> {
   final orderId = 'INFIX_$val';
   final customerId = '$val';
   String email = '';
-  String id = '';
+  String? id = '';
 
-  StreamSubscription _onDestroy;
-  StreamSubscription<String> _onUrlChanged;
-  StreamSubscription<WebViewStateChanged> _onStateChanged;
+  late StreamSubscription _onDestroy;
+  late StreamSubscription<String> _onUrlChanged;
+  late StreamSubscription<WebViewStateChanged> _onStateChanged;
 
   var isCompleted = false;
 
@@ -74,7 +74,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
 
     _onDestroy = flutterWebviewPlugin.onDestroy.listen((_) {
       print("destroy");
-    });
+    } as void Function(Null)?);
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
@@ -102,7 +102,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             print('TXNDATE $cookies["TXNDATE"]');
 
             isPaymentSuccesful().then((value) {
-              if (value) {
+              if (value!) {
                 setState(() {
                   isCompleted = true;
                   isGet = false;
@@ -136,7 +136,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             ));
   }
 
-  Future<bool> isPaymentSuccesful() async {
+  Future<bool?> isPaymentSuccesful() async {
     print('${widget.fee.feesTypeId}');
     final response = await http.get(Uri.parse(InfixApi.studentFeePayment(
         id, int.parse(widget.fee.feesTypeId.toString()), amount, id, 'PayTm')));

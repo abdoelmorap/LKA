@@ -26,26 +26,26 @@ class OnlineExamController extends GetxController
 
   RxInt get questionNumber => this._questionNumber;
 
-  var quiz = TakeExamModel().obs;
+  Rx<TakeExamModel?> quiz = TakeExamModel().obs;
 
-  var questions = <ExamQuestion>[].obs;
+  RxList<ExamQuestion> questions = <ExamQuestion>[].obs;
 
   var checkSelectedIndex = 0.obs;
   RxBool lastQuestion = false.obs;
 
-  var color = Colors.white.obs;
+  Rx<Color> color = Colors.white.obs;
 
-  var currentQuestion = ExamQuestion().obs;
+  Rx<ExamQuestion> currentQuestion = ExamQuestion().obs;
 
-  PageController _pageController;
+  PageController? _pageController;
 
-  PageController get pageController => this._pageController;
+  PageController? get pageController => this._pageController;
 
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
-  Animation _animation;
+  Animation? _animation;
 
-  Animation get animation => this._animation;
+  Animation? get animation => this._animation;
 
   RxList<bool> answered = <bool>[].obs;
 
@@ -56,41 +56,41 @@ class OnlineExamController extends GetxController
   var questionTime = 1.obs;
 
   bool checkSelected(index) {
-    return currentQuestion.value == quiz.value.examQuestions[index]
+    return currentQuestion.value == quiz.value!.examQuestions![index]
         ? true
         : false;
   }
 
-  void startController(TakeExamModel quizParam) {
+  void startController(TakeExamModel? quizParam) {
     questionNumber.value = 1;
     answered.clear();
     types.clear();
     quiz.value = quizParam;
 
-    if (_questionNumber.value == quiz.value.examQuestions.length) {
+    if (_questionNumber.value == quiz.value!.examQuestions!.length) {
       lastQuestion.value = true;
     } else {
       lastQuestion.value = false;
     }
 
-    if (quiz.value.onlineExam.durationType == "question") {
-      questionTime.value = quiz.value.onlineExam.defaultQuestionTime;
+    if (quiz.value!.onlineExam!.durationType == "question") {
+      questionTime.value = quiz.value!.onlineExam!.defaultQuestionTime!;
     } else {
-      questionTime.value = quiz.value.onlineExam.duration;
+      questionTime.value = quiz.value!.onlineExam!.duration!;
     }
 
-    if (quiz.value.onlineExamSetting.randomQuestion == 1) {
+    if (quiz.value!.onlineExamSetting!.randomQuestion == 1) {
       // Randomize Question
-      questions.value = quiz.value.examQuestions..shuffle();
+      questions.value = quiz.value!.examQuestions!..shuffle();
     } else {
-      questions.value = quiz.value.examQuestions;
+      questions.value = quiz.value!.examQuestions!;
     }
     questions.forEach((element) {
       answered.add(false);
       types.add(element.questionType);
     });
     print(types);
-    currentQuestion.value = quiz.value.examQuestions.first;
+    currentQuestion.value = quiz.value!.examQuestions!.first;
     _animationController = AnimationController(
         duration: Duration(seconds: questionTime.value * 60), vsync: this);
     _animation = StepTween(begin: questionTime.value * 60, end: 0)
@@ -98,7 +98,7 @@ class OnlineExamController extends GetxController
       ..addListener(() {
         update();
       });
-    if (quiz.value.onlineExam.durationType == "question") {
+    if (quiz.value!.onlineExam!.durationType == "question") {
       print("QUESTION TYPE-> PER QUESTION");
       _animationController.forward().whenComplete(() {
         skipPress(0);
@@ -118,7 +118,7 @@ class OnlineExamController extends GetxController
 
     Map data = {
       'student_id': userController.studentId.value,
-      'online_exam_id': quiz.value.onlineExam.id,
+      'online_exam_id': quiz.value!.onlineExam!.id,
       'student_record_id': userController.selectedRecord.value.id,
     };
     _animationController.stop();
@@ -158,10 +158,10 @@ class OnlineExamController extends GetxController
   }
 
   void updateTheQnNum(int index) {
-    currentQuestion.value = quiz.value.examQuestions[index];
+    currentQuestion.value = quiz.value!.examQuestions![index];
     checkSelected(index);
     _questionNumber.value = index + 1;
-    if (_questionNumber.value == quiz.value.examQuestions.length) {
+    if (_questionNumber.value == quiz.value!.examQuestions!.length) {
       lastQuestion.value = true;
     } else {
       lastQuestion.value = false;
@@ -170,30 +170,30 @@ class OnlineExamController extends GetxController
 
   void questionSelect(index) {
     print("questionSelect $index");
-    currentQuestion.value = quiz.value.examQuestions[index];
+    currentQuestion.value = quiz.value!.examQuestions![index];
 
-    _pageController.animateToPage(index,
+    _pageController!.animateToPage(index,
         curve: Curves.easeInOut, duration: Duration(milliseconds: 200));
-    if (quiz.value.onlineExam.durationType == "question") {
+    if (quiz.value!.onlineExam!.durationType == "question") {
       _animationController.reset();
       _animationController.forward().whenComplete(() {
         skipPress(index);
       });
     } else {
-      print("ONE Q TYPE => ${quiz.value.onlineExam.durationType}");
+      print("ONE Q TYPE => ${quiz.value!.onlineExam!.durationType}");
     }
   }
 
   Future skipPress(index) async {
     print(
-        "NExt => ${_questionNumber.value} ----- ${quiz.value.examQuestions.length}");
-    if (_questionNumber.value != quiz.value.examQuestions.length) {
-      currentQuestion.value = quiz.value.examQuestions[index + 1];
-      _pageController.nextPage(
+        "NExt => ${_questionNumber.value} ----- ${quiz.value!.examQuestions!.length}");
+    if (_questionNumber.value != quiz.value!.examQuestions!.length) {
+      currentQuestion.value = quiz.value!.examQuestions![index + 1];
+      _pageController!.nextPage(
         duration: Duration(milliseconds: 200),
         curve: Curves.easeInOut,
       );
-      if (quiz.value.onlineExam.durationType == "question") {
+      if (quiz.value!.onlineExam!.durationType == "question") {
         _animationController.forward().whenComplete(() {
           skipPress(index);
         });
@@ -209,7 +209,7 @@ class OnlineExamController extends GetxController
     }
   }
 
-  Future<bool> singleSubmit(int index, Map data, bool isMultiple) async {
+  Future<bool> singleSubmit(int? index, Map data, bool isMultiple) async {
     submitSingleAnswer(true);
     log(jsonEncode(data).toString());
     try {
@@ -225,7 +225,7 @@ class OnlineExamController extends GetxController
       print(response.body);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        answered[index] = true;
+        answered[index!] = true;
         var jsonData = jsonDecode(response.body);
         submitSingleAnswer(false);
         print(jsonData);
@@ -269,17 +269,17 @@ class OnlineExamController extends GetxController
   void onClose() {
     super.onClose();
     _animationController.dispose();
-    _pageController.dispose();
+    _pageController!.dispose();
   }
 }
 
 class CheckboxModal {
-  String title;
-  String alphabet;
-  String image;
-  String imageTitle;
-  bool value;
-  int id;
+  String? title;
+  String? alphabet;
+  String? image;
+  String? imageTitle;
+  bool? value;
+  int? id;
 
   CheckboxModal({
     this.title,

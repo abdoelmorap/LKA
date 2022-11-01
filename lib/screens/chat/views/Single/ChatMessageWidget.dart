@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 
 class ChatMessageWidget extends StatefulWidget {
-  final String name;
-  final ChatMessage chatMessage;
-  final int id;
-  final Function onTapMenu;
-  final bool menuVisible;
-  final bool showActions;
-  final int activeStatus;
+  final String? name;
+  final ChatMessage? chatMessage;
+  final int? id;
+  final Function? onTapMenu;
+  final bool? menuVisible;
+  final bool? showActions;
+  final int? activeStatus;
   ChatMessageWidget({
     this.name,
     this.chatMessage,
@@ -33,7 +33,7 @@ class ChatMessageWidget extends StatefulWidget {
 }
 
 class _ChatMessageWidgetState extends State<ChatMessageWidget> {
-  bool visiblity = false;
+  bool? visiblity = false;
   @override
   void initState() {
     visiblity = widget.menuVisible;
@@ -44,9 +44,9 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
   Widget build(BuildContext context) {
     // return Text(
     //     "ID --> ${widget.chatMessage.id} - ${widget.chatMessage.message}");
-    if (widget.chatMessage.reply != null) {
+    if (widget.chatMessage!.reply != null) {
       return replyToMessageWidget();
-    } else if (widget.chatMessage.forwardFrom != null) {
+    } else if (widget.chatMessage!.forwardFrom != null) {
       return forwardedMessageWidget();
     } else {
       return chatMessageWidget();
@@ -58,10 +58,10 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     //   isMenuOpen = !isMenuOpen;
     //   showDate = !showDate;
     // });
-    widget.onTapMenu();
+    widget.onTapMenu!();
   }
 
-  getStatusColor(int chatStatus) {
+  getStatusColor(int? chatStatus) {
     if (chatStatus == 0) {
       return Colors.grey;
     } else if (chatStatus == 1) {
@@ -73,7 +73,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     }
   }
 
-  getLeadingIcon(int messageType) {
+  getLeadingIcon(int? messageType) {
     if (messageType == 1) {
       //**png jpg jpeg
       return Icons.image;
@@ -129,7 +129,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: widget.chatMessage.fromId != widget.id
+            mainAxisAlignment: widget.chatMessage!.fromId != widget.id
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
             children: [
@@ -144,7 +144,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -183,7 +183,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -218,7 +218,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -237,8 +237,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.chatMessage.fromId == widget.id
+        widget.showActions!
+            ? widget.chatMessage!.fromId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -256,18 +256,18 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         "${widget.name}",
-                        textAlign: widget.chatMessage.fromId == widget.id
+                        textAlign: widget.chatMessage!.fromId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.chatMessage.fromId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.chatMessage!.fromId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -286,7 +286,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
@@ -294,7 +294,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: widget.chatMessage.fromId != widget.id
+                    borderRadius: widget.chatMessage!.fromId != widget.id
                         ? BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10),
@@ -305,7 +305,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                             bottomRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
                           ),
-                    color: widget.chatMessage.fromId != widget.id
+                    color: widget.chatMessage!.fromId != widget.id
                         ? Color(0xff6F7DB7)
                         : Color(0xff7c31fe),
                   ),
@@ -314,24 +314,24 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                   ),
                   padding: EdgeInsets.all(8),
                   child: Column(
-                    crossAxisAlignment: widget.chatMessage.fromId != widget.id
+                    crossAxisAlignment: widget.chatMessage!.fromId != widget.id
                         ? CrossAxisAlignment.start
                         : CrossAxisAlignment.end,
                     children: [
                       Column(
                         crossAxisAlignment:
-                            widget.chatMessage.fromId != widget.id
+                            widget.chatMessage!.fromId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
-                          widget.chatMessage.message != null
+                          widget.chatMessage!.message != null
                               ? Text(
-                                  "${widget.chatMessage.message}",
+                                  "${widget.chatMessage!.message}",
                                   textAlign:
-                                      widget.chatMessage.fromId == widget.id
+                                      widget.chatMessage!.fromId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 12.sp,
                                   ),
@@ -339,7 +339,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                               : SizedBox.shrink(),
                           Directionality(
                             textDirection:
-                                widget.chatMessage.fromId != widget.id
+                                widget.chatMessage!.fromId != widget.id
                                     ? TextDirection.ltr
                                     : TextDirection.rtl,
                             child: fileWidget(widget.chatMessage),
@@ -349,11 +349,11 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: Text(
-                          "${timeago.format(widget.chatMessage.createdAt)}",
-                          textAlign: widget.chatMessage.fromId == widget.id
+                          "${timeago.format(widget.chatMessage!.createdAt!)}",
+                          textAlign: widget.chatMessage!.fromId == widget.id
                               ? TextAlign.right
                               : TextAlign.left,
-                          style: Get.textTheme.subtitle1.copyWith(
+                          style: Get.textTheme.subtitle1!.copyWith(
                             color: Colors.white,
                             fontSize: 8.sp,
                           ),
@@ -362,8 +362,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ],
                   ),
                 ),
-                widget.showActions
-                    ? widget.chatMessage.fromId != widget.id
+                widget.showActions!
+                    ? widget.chatMessage!.fromId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,
@@ -390,8 +390,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.chatMessage.fromId == widget.id
+        widget.showActions!
+            ? widget.chatMessage!.fromId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -409,18 +409,18 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         "${widget.name}",
-                        textAlign: widget.chatMessage.fromId == widget.id
+                        textAlign: widget.chatMessage!.fromId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.chatMessage.fromId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.chatMessage!.fromId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -439,27 +439,27 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment: widget.chatMessage.fromId != widget.id
+                  crossAxisAlignment: widget.chatMessage!.fromId != widget.id
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.end,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.chatMessage.fromId != widget.id
+                        borderRadius: widget.chatMessage!.fromId != widget.id
                             ? BorderRadius.only(
                                 topRight: Radius.circular(10),
                               )
                             : BorderRadius.only(
                                 topLeft: Radius.circular(10),
                               ),
-                        color: widget.chatMessage.fromId != widget.id
+                        color: widget.chatMessage!.fromId != widget.id
                             ? Color(0xffB9C4F3)
                             : Color(0xffBEACDD),
                       ),
@@ -470,18 +470,18 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.chatMessage.fromId != widget.id
+                            widget.chatMessage!.fromId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
-                          widget.chatMessage.reply.message != null
+                          widget.chatMessage!.reply.message != null
                               ? Column(
                                   crossAxisAlignment:
-                                      widget.chatMessage.fromId != widget.id
+                                      widget.chatMessage!.fromId != widget.id
                                           ? CrossAxisAlignment.start
                                           : CrossAxisAlignment.end,
                                   children: [
-                                    widget.chatMessage.fromId != widget.id
+                                    widget.chatMessage!.fromId != widget.id
                                         ? Transform(
                                             alignment: Alignment.center,
                                             transform:
@@ -498,12 +498,12 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                                             color: Colors.white,
                                           ),
                                     Text(
-                                      "${widget.chatMessage.reply.message ?? ""}",
+                                      "${widget.chatMessage!.reply.message ?? ""}",
                                       textAlign:
-                                          widget.chatMessage.fromId == widget.id
+                                          widget.chatMessage!.fromId == widget.id
                                               ? TextAlign.right
                                               : TextAlign.left,
-                                      style: Get.textTheme.subtitle1.copyWith(
+                                      style: Get.textTheme.subtitle1!.copyWith(
                                         color: Colors.white,
                                         fontSize: 12.sp,
                                       ),
@@ -519,7 +519,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.chatMessage.fromId != widget.id
+                        borderRadius: widget.chatMessage!.fromId != widget.id
                             ? BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -528,7 +528,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
                               ),
-                        color: widget.chatMessage.fromId != widget.id
+                        color: widget.chatMessage!.fromId != widget.id
                             ? Color(0xff6F7DB7)
                             : Color(0xff7c31fe),
                       ),
@@ -539,7 +539,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.chatMessage.fromId != widget.id
+                            widget.chatMessage!.fromId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
@@ -549,47 +549,47 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                           ),
                           Column(
                             crossAxisAlignment:
-                                widget.chatMessage.fromId != widget.id
+                                widget.chatMessage!.fromId != widget.id
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                             children: [
                               Column(
                                 crossAxisAlignment:
-                                    widget.chatMessage.fromId != widget.id
+                                    widget.chatMessage!.fromId != widget.id
                                         ? CrossAxisAlignment.start
                                         : CrossAxisAlignment.end,
                                 children: [
-                                  widget.chatMessage.message != null
+                                  widget.chatMessage!.message != null
                                       ? Text(
                                           "''" +
-                                              "${widget.chatMessage.message}" +
+                                              "${widget.chatMessage!.message}" +
                                               "''",
                                           textAlign:
-                                              widget.chatMessage.fromId ==
+                                              widget.chatMessage!.fromId ==
                                                       widget.id
                                                   ? TextAlign.right
                                                   : TextAlign.left,
                                           style:
-                                              Get.textTheme.subtitle1.copyWith(
+                                              Get.textTheme.subtitle1!.copyWith(
                                             color: Colors.white,
                                             fontSize: 12.sp,
                                           ),
                                         )
                                       : SizedBox.shrink(),
                                   SizedBox(height: 10),
-                                  fileWidget(widget.chatMessage.reply),
+                                  fileWidget(widget.chatMessage!.reply),
                                 ],
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
-                                  "${timeago.format(widget.chatMessage.createdAt)}",
+                                  "${timeago.format(widget.chatMessage!.createdAt!)}",
                                   textAlign:
-                                      widget.chatMessage.fromId == widget.id
+                                      widget.chatMessage!.fromId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 8.sp,
                                   ),
@@ -602,8 +602,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ),
                   ],
                 ),
-                widget.showActions
-                    ? widget.chatMessage.fromId != widget.id
+                widget.showActions!
+                    ? widget.chatMessage!.fromId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,
@@ -630,8 +630,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.chatMessage.fromId == widget.id
+        widget.showActions!
+            ? widget.chatMessage!.fromId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -649,18 +649,18 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "${widget.chatMessage.fromUser.fullName ?? "${widget.chatMessage.fromUser.email}" ?? ""}",
-                        textAlign: widget.chatMessage.fromId == widget.id
+                        "${widget.chatMessage!.fromUser!.fullName ?? "${widget.chatMessage!.fromUser!.email}" ?? ""}",
+                        textAlign: widget.chatMessage!.fromId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.chatMessage.fromId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.chatMessage!.fromId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -679,27 +679,27 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.chatMessage.fromId != widget.id
+            widget.chatMessage!.fromId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment: widget.chatMessage.fromId != widget.id
+                  crossAxisAlignment: widget.chatMessage!.fromId != widget.id
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.end,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.chatMessage.fromId != widget.id
+                        borderRadius: widget.chatMessage!.fromId != widget.id
                             ? BorderRadius.only(
                                 topRight: Radius.circular(10),
                               )
                             : BorderRadius.only(
                                 topLeft: Radius.circular(10),
                               ),
-                        color: widget.chatMessage.fromId != widget.id
+                        color: widget.chatMessage!.fromId != widget.id
                             ? Color(0xffB9C4F3)
                             : Color(0xffBEACDD),
                       ),
@@ -710,39 +710,39 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.chatMessage.fromId != widget.id
+                            widget.chatMessage!.fromId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
                           Column(
                             crossAxisAlignment:
-                                widget.chatMessage.fromId != widget.id
+                                widget.chatMessage!.fromId != widget.id
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                             children: [
                               Text(
                                 "Forwarded Message",
                                 textAlign:
-                                    widget.chatMessage.fromId == widget.id
+                                    widget.chatMessage!.fromId == widget.id
                                         ? TextAlign.right
                                         : TextAlign.left,
-                                style: Get.textTheme.subtitle1.copyWith(
+                                style: Get.textTheme.subtitle1!.copyWith(
                                   color: Colors.white,
                                   fontSize: 12.sp,
                                 ),
                               ),
                               Text(
-                                "${widget.chatMessage.forwardFrom.message ?? ""}",
+                                "${widget.chatMessage!.forwardFrom!.message ?? ""}",
                                 textAlign:
-                                    widget.chatMessage.fromId == widget.id
+                                    widget.chatMessage!.fromId == widget.id
                                         ? TextAlign.right
                                         : TextAlign.left,
-                                style: Get.textTheme.subtitle1.copyWith(
+                                style: Get.textTheme.subtitle1!.copyWith(
                                   color: Colors.white,
                                   fontSize: 12.sp,
                                 ),
                               ),
-                              fileWidget(widget.chatMessage.forwardFrom),
+                              fileWidget(widget.chatMessage!.forwardFrom),
                             ],
                           ),
                           SizedBox(
@@ -753,7 +753,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.chatMessage.fromId != widget.id
+                        borderRadius: widget.chatMessage!.fromId != widget.id
                             ? BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -762,7 +762,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
                               ),
-                        color: widget.chatMessage.fromId != widget.id
+                        color: widget.chatMessage!.fromId != widget.id
                             ? Color(0xff6F7DB7)
                             : Color(0xff7c31fe),
                       ),
@@ -773,7 +773,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.chatMessage.fromId != widget.id
+                            widget.chatMessage!.fromId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
@@ -783,28 +783,28 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                           ),
                           Column(
                             crossAxisAlignment:
-                                widget.chatMessage.fromId != widget.id
+                                widget.chatMessage!.fromId != widget.id
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                             children: [
                               Column(
                                 crossAxisAlignment:
-                                    widget.chatMessage.fromId != widget.id
+                                    widget.chatMessage!.fromId != widget.id
                                         ? CrossAxisAlignment.start
                                         : CrossAxisAlignment.end,
                                 children: [
-                                  widget.chatMessage.message != null
+                                  widget.chatMessage!.message != null
                                       ? Text(
                                           "''" +
-                                              "${widget.chatMessage.message}" +
+                                              "${widget.chatMessage!.message}" +
                                               "''",
                                           textAlign:
-                                              widget.chatMessage.fromId ==
+                                              widget.chatMessage!.fromId ==
                                                       widget.id
                                                   ? TextAlign.right
                                                   : TextAlign.left,
                                           style:
-                                              Get.textTheme.subtitle1.copyWith(
+                                              Get.textTheme.subtitle1!.copyWith(
                                             color: Colors.white,
                                             fontSize: 12.sp,
                                           ),
@@ -818,12 +818,12 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
-                                  "${timeago.format(widget.chatMessage.createdAt)}",
+                                  "${timeago.format(widget.chatMessage!.createdAt!)}",
                                   textAlign:
-                                      widget.chatMessage.fromId == widget.id
+                                      widget.chatMessage!.fromId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 8.sp,
                                   ),
@@ -836,8 +836,8 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
                     ),
                   ],
                 ),
-                widget.showActions
-                    ? widget.chatMessage.fromId != widget.id
+                widget.showActions!
+                    ? widget.chatMessage!.fromId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,

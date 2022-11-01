@@ -15,7 +15,7 @@ class AdminStaffList extends StatefulWidget {
 }
 
 class _AdminStaffListState extends State<AdminStaffList> {
-  int currentSelectedIndex;
+  int? currentSelectedIndex;
 
   @override
   void initState() {
@@ -36,9 +36,9 @@ class _AdminStaffListState extends State<AdminStaffList> {
             if (catSnap.error != null) {
               return _buildErrorWidget(catSnap.error.toString());
             }
-            return _buildStaffWidget(catSnap.data);
+            return _buildStaffWidget(catSnap.data!);
           } else if (catSnap.hasError) {
-            return _buildErrorWidget(catSnap.error);
+            return _buildErrorWidget(catSnap.error as String?);
           } else {
             return _buildLoadingWidget();
           }
@@ -51,7 +51,7 @@ class _AdminStaffListState extends State<AdminStaffList> {
     return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildErrorWidget(String error) {
+  Widget _buildErrorWidget(String? error) {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,

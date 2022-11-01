@@ -26,9 +26,9 @@ class BookIssuedScreen extends StatefulWidget {
 }
 
 class _BookIssuedScreenState extends State<BookIssuedScreen> {
-  Future<BookIssuedList> bookList;
+  Future<BookIssuedList>? bookList;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _BookIssuedScreenState extends State<BookIssuedScreen> {
     Utils.getStringValue('id').then((value) {
       setState(() {
         bookList = getIssuedBooks(
-            widget.id != null ? int.parse(widget.id) : int.parse(value));
+            widget.id != null ? int.parse(widget.id) : int.parse(value!));
       });
     });
   }
@@ -58,13 +58,13 @@ class _BookIssuedScreenState extends State<BookIssuedScreen> {
         future: bookList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.bookIssues.length > 0) {
+            if (snapshot.data!.bookIssues.length > 0) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
-                  itemCount: snapshot.data.bookIssues.length,
+                  itemCount: snapshot.data!.bookIssues.length,
                   itemBuilder: (context, index) {
-                    return BookListRow(snapshot.data.bookIssues[index]);
+                    return BookListRow(snapshot.data!.bookIssues[index]);
                   },
                 ),
               );

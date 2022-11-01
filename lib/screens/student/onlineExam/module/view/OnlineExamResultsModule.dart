@@ -26,12 +26,12 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
 
   final UserController _userController = Get.put(UserController());
 
-  Future<OnlineExamResultModel> exams;
+  Future<OnlineExamResultModel>? exams;
 
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
 
     super.initState();
   }
@@ -43,7 +43,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
       setState(() {
         id = id != null ? id : value;
         exams = getAllActiveExam(
-            id, _userController.studentRecord.value.records.first.id);
+            id, _userController.studentRecord.value.records!.first.id);
       });
     });
   }
@@ -74,7 +74,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
               ),
               itemBuilder: (context, recordIndex) {
                 Record record =
-                    _userController.studentRecord.value.records[recordIndex];
+                    _userController.studentRecord.value.records![recordIndex];
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
@@ -109,7 +109,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
                     ),
                     child: Text(
                       "${record.className} (${record.sectionName})",
-                      style: Get.textTheme.subtitle1.copyWith(
+                      style: Get.textTheme.subtitle1!.copyWith(
                         fontSize: 14,
                         color: _userController.selectedRecord.value == record
                             ? Colors.white
@@ -119,7 +119,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
                   ),
                 );
               },
-              itemCount: _userController.studentRecord.value.records.length,
+              itemCount: _userController.studentRecord.value.records!.length,
             ),
           ),
           SizedBox(
@@ -135,13 +135,13 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
                   );
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.data.studentExams.length > 0) {
+                    if (snapshot.data!.data!.studentExams!.length > 0) {
                       return ListView.builder(
-                        itemCount: snapshot.data.data.studentExams.length,
+                        itemCount: snapshot.data!.data!.studentExams!.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return ActiveOnlineExamRow(
-                            exam: snapshot.data.data.studentExams[index],
+                            exam: snapshot.data!.data!.studentExams![index],
                           );
                         },
                       );
@@ -160,7 +160,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
     );
   }
 
-  Future<OnlineExamResultModel> getAllActiveExam(var id, int recordId) async {
+  Future<OnlineExamResultModel> getAllActiveExam(var id, int? recordId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getOnlineExamResultModule(id, recordId)),
         headers: Utils.setHeader(_userController.token.toString()));
@@ -174,7 +174,7 @@ class _OnlineExamResultsState extends State<OnlineExamResults> {
 }
 
 class ActiveOnlineExamRow extends StatefulWidget {
-  final StudentExam exam;
+  final StudentExam? exam;
 
   ActiveOnlineExamRow({
     this.exam,
@@ -196,10 +196,10 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    widget.exam.title,
+                    widget.exam!.title!,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6
+                        .headline6!
                         .copyWith(fontSize: ScreenUtil().setSp(15.0)),
                   ),
                 ),
@@ -220,18 +220,18 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
-                          widget.exam.title,
+                          widget.exam!.title!,
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: 12),
                         ),
                       ],
@@ -246,18 +246,18 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
-                          "${widget.exam.startDate}" +
-                              " (${widget.exam.startTime})",
+                          "${widget.exam!.startDate}" +
+                              " (${widget.exam!.startTime})",
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: 12),
                         ),
                       ],
@@ -272,18 +272,18 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
-                          "${widget.exam.endDate}" +
-                              " (${widget.exam.endTime})",
+                          "${widget.exam!.endDate}" +
+                              " (${widget.exam!.endTime})",
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: 12),
                         ),
                       ],
@@ -298,13 +298,13 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 5.0,
                         ),
-                        getStatus(context, widget.exam.result),
+                        getStatus(context, widget.exam!.result),
                       ],
                     ),
                   ),
@@ -327,7 +327,7 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
     );
   }
 
-  Widget getStatus(BuildContext context, String status) {
+  Widget getStatus(BuildContext context, String? status) {
     if (status == "Pass") {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -340,7 +340,7 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(fontSize: 12, color: Colors.white),
           ),
         ),
@@ -357,7 +357,7 @@ class _ActiveOnlineExamRowState extends State<ActiveOnlineExamRow> {
               'Failed'.tr,
               textAlign: TextAlign.center,
               maxLines: 1,
-              style: Theme.of(context).textTheme.headline4.copyWith(
+              style: Theme.of(context).textTheme.headline4!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),

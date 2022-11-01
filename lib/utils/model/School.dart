@@ -1,7 +1,7 @@
 class School {
-  String name;
+  String? name;
   dynamic id;
-  String isEnabled;
+  String? isEnabled;
 
   School({this.name, this.id,this.isEnabled});
 
