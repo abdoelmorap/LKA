@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/CustomAppBarWidget.dart';
@@ -16,11 +15,17 @@ class _stateStudentGallery extends State<StudentGallery> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: CustomAppBarWidget(
-          title: "Send Post",
+          title: "Gallery ",
         ),
         body: ListView(children: [
           Card(
-            child: Column(children: []),
+            elevation: 5,
+            margin: EdgeInsets.all(10),
+            child: Column(children: [
+              Text("كانت لكمات قوية حقا من هذا الشب  الوسيم والقوي "),
+              Image.network(
+                  "https://lka-eg.com/wp-content/uploads/2022/10/IMG-197.jpg"),
+            ]),
           )
         ]));
   }

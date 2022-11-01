@@ -41,6 +41,7 @@ import 'package:infixedu/screens/student/Dormitory.dart';
 import 'package:infixedu/screens/student/Profile.dart';
 import 'package:infixedu/screens/student/Routine.dart';
 import 'package:infixedu/screens/student/StudentAttendance.dart';
+import 'package:infixedu/screens/student/StudentGallery.dart';
 import 'package:infixedu/screens/student/StudentTeacher.dart';
 import 'package:infixedu/screens/student/SubjectScreen.dart';
 import 'package:infixedu/screens/student/TimeLineScreen.dart';
@@ -105,6 +106,7 @@ class AppFunction {
     'Leave',
     // 'Subjects',
     'Teacher',
+    'Student Gallery',
     // 'Library',
     // 'Transport',
     // 'Dormitory',
@@ -127,6 +129,7 @@ class AppFunction {
     // 'assets/images/library.png',
     // 'assets/images/transport.png',
     // 'assets/images/dormitory.png',
+    'assets/images/downloads.png',
     'assets/images/addhw.png',
   ];
 
@@ -550,6 +553,9 @@ class AppFunction {
         break;
       case 'DailyReport':
         Navigator.push(context, ScaleRoute(page: DailyReportScreen()));
+        break;
+      case 'StudentGallery':
+        Navigator.push(context, ScaleRoute(page: StudentGallery()));
         break;
       case 'Lesson':
         PersistentNavBarNavigator.pushNewScreen(
