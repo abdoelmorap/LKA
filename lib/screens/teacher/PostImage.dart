@@ -86,29 +86,35 @@ class ImageStatePst extends State<ImagePst> {
                   'Authorization': _token!,
                 });
 
-                // request.files.add(http.MultipartFile(
-                //     'image_file',
-                //     (    await      CompressFile( File(photo!.path))),
-                //    ( File(photo!.path)).lengthSync(),
-                //     filename: photo!.path.split("/").last));
-                // ImageProvider provider = MemoryImage(Uint8List.fromList(image));
-
                 request.files.add(http.MultipartFile(
                     'image_file',
-                    Stream.value((await FlutterImageCompress.compressWithFile(
-                      photo!.path,
-                      minWidth: 800,
-                      minHeight: 600,
-                      quality: 94,
-                      rotate: 90,
-                    ))!
-                        .toList()),
+                    photo!.readAsBytes().asStream(),
                     (File(photo!.path)).lengthSync(),
                     filename: photo!.path.split("/").last));
+                // request.files.add(http.MultipartFile(
+                //     'image_file',
+                //     (await FlutterImageCompress.compressWithFile(
+                //       photo!.path,
+                //       minWidth: 800,
+                //       minHeight: 600,
+                //       quality: 94,
+                //       rotate: 90,
+                //     )).,
+                //     (File(photo!.path)).lengthSync(),
+                //     filename: photo!.path.split("/").last));
 
                 request.send().then((response) {
                   print(response.reasonPhrase);
-                  if (response.statusCode == 201) print("Uploaded!");
+                  if (response.statusCode == 201) {
+                    showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          return AlertDialog(
+                            content: Text("Posted Successfully"),
+                          );
+                        });
+                    print("Uploaded!");
+                  }
                 });
               },
               child: Text("Send")),
