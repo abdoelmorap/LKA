@@ -61,19 +61,23 @@ class Login {
 
         zoom = "0";
 
-        if (rule == 1 || rule == 4 || rule == 5) {
-          image = isNullOrEmpty(user['data']['userDetails']['staff_photo'])
-              ? 'public/uploads/staff/demo/staff.jpg'
-              : user['data']['userDetails']['staff_photo'].toString();
-        } else if (rule == 2) {
-          image = isNullOrEmpty(user['data']['userDetails']['student_photo'])
-              ? 'public/uploads/staff/demo/staff.jpg'
-              : user['data']['userDetails']['student_photo'].toString();
-        } else if (rule == 3) {
-          image = isNullOrEmpty(user['data']['userDetails']['guardian_photo'])
-              ? 'public/uploads/staff/demo/staff.jpg'
-              : user['data']['userDetails']['guardian_photo'].toString();
-        }
+        try {
+          if (rule == 1 || rule == 4 || rule == 5) {
+            print(user);
+            image = isNullOrEmpty(
+                    user['data']['userDetails']['staff_photo'].toString())
+                ? 'public/uploads/staff/demo/staff.jpg'
+                : user['data']['userDetails']['staff_photo'].toString();
+          } else if (rule == 2) {
+            image = isNullOrEmpty(user['data']['userDetails']['student_photo'])
+                ? 'public/uploads/staff/demo/staff.jpg'
+                : user['data']['userDetails']['student_photo'].toString();
+          } else if (rule == 3) {
+            image = isNullOrEmpty(user['data']['userDetails']['guardian_photo'])
+                ? 'public/uploads/staff/demo/staff.jpg'
+                : user['data']['userDetails']['guardian_photo'].toString();
+          }
+        } catch (e) {}
         if (isSuccess!) {
           saveBooleanValue('isLogged', isSuccess);
           saveStringValue('email', email);

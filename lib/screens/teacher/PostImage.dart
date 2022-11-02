@@ -1,9 +1,17 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../utils/CustomAppBarWidget.dart';
 
 class ImagePst extends StatefulWidget {
@@ -14,6 +22,7 @@ class ImagePst extends StatefulWidget {
 }
 
 class ImageStatePst extends State<ImagePst> {
+  TextEditingController postContent = TextEditingController();
   XFile? photo;
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,7 @@ class ImageStatePst extends State<ImagePst> {
           ),
           Container(
             child: TextField(
-              // controller: Comment,
+              controller: postContent,
               decoration: new InputDecoration(
                 fillColor: Color(0xFFFFFFFF),
                 border: new OutlineInputBorder(
@@ -61,7 +70,48 @@ class ImageStatePst extends State<ImagePst> {
           )
         ]),
         Container(
-          child: ElevatedButton(onPressed: () async {}, child: Text("Send")),
+          child: ElevatedButton(
+              onPressed: () async {
+                String? _token = "";
+                _token = await (Utils.getStringValue('token'));
+
+                List<int> imageBytes = await photo!.readAsBytes();
+                var request = http.MultipartRequest(
+                    "POST", Uri.parse(InfixApi.postImage + "/1"));
+                request.fields['content'] = postContent.text;
+
+                request.headers.addAll({
+                  'Content-type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': _token!,
+                });
+
+                // request.files.add(http.MultipartFile(
+                //     'image_file',
+                //     (    await      CompressFile( File(photo!.path))),
+                //    ( File(photo!.path)).lengthSync(),
+                //     filename: photo!.path.split("/").last));
+                // ImageProvider provider = MemoryImage(Uint8List.fromList(image));
+
+                request.files.add(http.MultipartFile(
+                    'image_file',
+                    Stream.value((await FlutterImageCompress.compressWithFile(
+                      photo!.path,
+                      minWidth: 800,
+                      minHeight: 600,
+                      quality: 94,
+                      rotate: 90,
+                    ))!
+                        .toList()),
+                    (File(photo!.path)).lengthSync(),
+                    filename: photo!.path.split("/").last));
+
+                request.send().then((response) {
+                  print(response.reasonPhrase);
+                  if (response.statusCode == 201) print("Uploaded!");
+                });
+              },
+              child: Text("Send")),
           margin: EdgeInsets.fromLTRB(20, 20, 20, 50),
         ),
         SizedBox(
@@ -80,7 +130,7 @@ class ImageStatePst extends State<ImagePst> {
   openCamera() async {
     final ImagePicker _picker = ImagePicker();
 
-    photo = await _picker.pickImage(source: ImageSource.camera);
+    photo = (await _picker.pickImage(source: ImageSource.camera));
     setState(() {});
   }
 }
