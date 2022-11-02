@@ -80,7 +80,7 @@ class ImageStatePst extends State<ImagePst> {
 
                 List<int> imageBytes = await photo!.readAsBytes();
                 var request = http.MultipartRequest(
-                    "POST", Uri.parse(InfixApi.postImage + "/1"));
+                    "POST", Uri.parse(InfixApi.postImage + "/${widget.id}"));
                 request.fields['content'] = postContent.text;
 
                 request.headers.addAll({
