@@ -15,6 +15,9 @@ import 'package:rxdart/rxdart.dart';
 import '../../utils/CustomAppBarWidget.dart';
 
 class ImagePst extends StatefulWidget {
+  final String id;
+
+  const ImagePst({Key? key, required this.id}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ImageStatePst();
