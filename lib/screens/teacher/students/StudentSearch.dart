@@ -92,60 +92,117 @@ class _StudentSearchState extends State<StudentSearch> {
             future: classes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                ClassList? mwdata = snapshot.data as ClassList?;
-                var classes = mwdata!.classes!;
-                return ListView(
-                  children: <Widget>[
-                    getClassDropdown(classes),
-                    FutureBuilder<SectionList>(
-                      future: sections,
-                      builder: (context, secSnap) {
-                        if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data!.sections);
-                        } else {
-                          return Center(child: CupertinoActivityIndicator());
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: Theme.of(context).textTheme.headline4,
-                        controller: nameController,
-                        decoration: InputDecoration(
-                            hintText: "Search by name".tr,
-                            labelText: "Name".tr,
-                            labelStyle: Theme.of(context).textTheme.headline4,
-                            errorStyle: TextStyle(
-                                color: Colors.pinkAccent, fontSize: 15.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            )),
+                if (rule == "1" || rule == "5") {
+                  AdminClassList? mwdata = snapshot.data as AdminClassList?;
+                  var classes = mwdata!.classes!;
+                  return ListView(
+                    children: <Widget>[
+                      getClassDropdown(classes),
+                      FutureBuilder<SectionList>(
+                        future: sections,
+                        builder: (context, secSnap) {
+                          if (secSnap.hasData) {
+                            return getSectionDropdown(secSnap.data!.sections);
+                          } else {
+                            return Center(child: CupertinoActivityIndicator());
+                          }
+                        },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: Theme.of(context).textTheme.headline4,
-                        controller: rollController,
-                        decoration: InputDecoration(
-                            hintText: "Search by roll".tr,
-                            labelText: "Roll".tr,
-                            labelStyle: Theme.of(context).textTheme.headline4,
-                            errorStyle: TextStyle(
-                                color: Colors.pinkAccent, fontSize: 15.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            )),
+                      SizedBox(
+                        height: 5,
                       ),
-                    ),
-                  ],
-                );
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context).textTheme.headline4,
+                          controller: nameController,
+                          decoration: InputDecoration(
+                              hintText: "Search by name".tr,
+                              labelText: "Name".tr,
+                              labelStyle: Theme.of(context).textTheme.headline4,
+                              errorStyle: TextStyle(
+                                  color: Colors.pinkAccent, fontSize: 15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context).textTheme.headline4,
+                          controller: rollController,
+                          decoration: InputDecoration(
+                              hintText: "Search by roll".tr,
+                              labelText: "Roll".tr,
+                              labelStyle: Theme.of(context).textTheme.headline4,
+                              errorStyle: TextStyle(
+                                  color: Colors.pinkAccent, fontSize: 15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  ClassList? mwdata = snapshot.data as ClassList?;
+                  var classes = mwdata!.classes!;
+                  return ListView(
+                    children: <Widget>[
+                      getClassDropdown(classes),
+                      FutureBuilder<SectionList>(
+                        future: sections,
+                        builder: (context, secSnap) {
+                          if (secSnap.hasData) {
+                            return getSectionDropdown(secSnap.data!.sections);
+                          } else {
+                            return Center(child: CupertinoActivityIndicator());
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context).textTheme.headline4,
+                          controller: nameController,
+                          decoration: InputDecoration(
+                              hintText: "Search by name".tr,
+                              labelText: "Name".tr,
+                              labelStyle: Theme.of(context).textTheme.headline4,
+                              errorStyle: TextStyle(
+                                  color: Colors.pinkAccent, fontSize: 15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context).textTheme.headline4,
+                          controller: rollController,
+                          decoration: InputDecoration(
+                              hintText: "Search by roll".tr,
+                              labelText: "Roll".tr,
+                              labelStyle: Theme.of(context).textTheme.headline4,
+                              errorStyle: TextStyle(
+                                  color: Colors.pinkAccent, fontSize: 15.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                    ],
+                  );
+                }
               } else {
                 return Center(child: CupertinoActivityIndicator());
               }

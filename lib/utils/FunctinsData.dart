@@ -106,7 +106,7 @@ class AppFunction {
     'Leave',
     // 'Subjects',
     'Teacher',
-    'Student Gallery',
+    'StudentGallery',
     // 'Library',
     // 'Transport',
     // 'Dormitory',

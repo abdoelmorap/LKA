@@ -96,122 +96,245 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
             future: classes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                ClassList? mwdata = snapshot.data as ClassList?;
-                var classes = mwdata!.classes!;
-                return ListView(
-                  children: <Widget>[
-                    getClassDropdown(classes),
-                    FutureBuilder<SectionList>(
-                      future: sections,
-                      builder: (context, secSnap) {
-                        if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data!.sections);
-                        } else {
-                          return Center(child: CupertinoActivityIndicator());
-                        }
-                      },
-                    ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    //   child: Row(
-                    //     children: <Widget>[
-                    //       Expanded(
-                    //         child: Padding(
-                    //           padding:
-                    //               const EdgeInsets.only(left: 8.0, top: 8.0),
-                    //           child: Text(
-                    //             '$year - $month - $day',
-                    //             style: Theme.of(context)
-                    //                 .textTheme
-                    //                 .headline4
-                    //                 .copyWith(fontSize: 15.0),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       Icon(
-                    //         Icons.calendar_today,
-                    //         color: Colors.black12,
-                    //         size: 20.0,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                if (rule == "1" || rule == "5") {
+                  AdminClassList? mwdata = snapshot.data as AdminClassList?;
+                  var classes = mwdata!.classes!;
+                  return ListView(
+                    children: <Widget>[
+                      getClassDropdown(classes),
+                      FutureBuilder<SectionList>(
+                        future: sections,
+                        builder: (context, secSnap) {
+                          if (secSnap.hasData) {
+                            return getSectionDropdown(secSnap.data!.sections);
+                          } else {
+                            return Center(child: CupertinoActivityIndicator());
+                          }
+                        },
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: Padding(
+                      //           padding:
+                      //               const EdgeInsets.only(left: 8.0, top: 8.0),
+                      //           child: Text(
+                      //             '$year - $month - $day',
+                      //             style: Theme.of(context)
+                      //                 .textTheme
+                      //                 .headline4
+                      //                 .copyWith(fontSize: 15.0),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Icon(
+                      //         Icons.calendar_today,
+                      //         color: Colors.black12,
+                      //         size: 20.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
-                    InkWell(
-                      onTap: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          pickerTheme: DateTimePickerTheme(
-                            confirm: Text('Done',
-                                style: TextStyle(color: Colors.red)),
-                            cancel: Text('cancel',
-                                style: TextStyle(color: Colors.cyan)),
-                          ),
-                          minDateTime: DateTime.parse(minDateTime),
-                          maxDateTime: DateTime.parse(maxDateTime),
-                          initialDateTime: date,
-                          dateFormat: _format,
-                          locale: _locale,
-                          onClose: () => print("----- onClose -----"),
-                          onCancel: () => print('onCancel'),
-                          onChange: (dateTime, List<int> index) {
-                            setState(() {
-                              date = dateTime;
-                              _selectedDate =
-                                  '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
-                            });
-                          },
-                          onConfirm: (dateTime, List<int> index) {
-                            setState(() {
-                              date = dateTime;
-                              _selectedDate =
-                                  '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
-                            });
-                          },
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: Text(
-                                  _selectedDate == null
-                                      ? "$year-$month-$day"
-                                      : _selectedDate!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4!
-                                      .copyWith(
-                                          fontSize: ScreenUtil().setSp(12)),
+                      InkWell(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            pickerTheme: DateTimePickerTheme(
+                              confirm: Text('Done',
+                                  style: TextStyle(color: Colors.red)),
+                              cancel: Text('cancel',
+                                  style: TextStyle(color: Colors.cyan)),
+                            ),
+                            minDateTime: DateTime.parse(minDateTime),
+                            maxDateTime: DateTime.parse(maxDateTime),
+                            initialDateTime: date,
+                            dateFormat: _format,
+                            locale: _locale,
+                            onClose: () => print("----- onClose -----"),
+                            onCancel: () => print('onCancel'),
+                            onChange: (dateTime, List<int> index) {
+                              setState(() {
+                                date = dateTime;
+                                _selectedDate =
+                                    '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
+                              });
+                            },
+                            onConfirm: (dateTime, List<int> index) {
+                              setState(() {
+                                date = dateTime;
+                                _selectedDate =
+                                    '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
+                              });
+                            },
+                          );
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, top: 8.0),
+                                  child: Text(
+                                    _selectedDate == null
+                                        ? "$year-$month-$day"
+                                        : _selectedDate!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(
+                                            fontSize: ScreenUtil().setSp(12)),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Icon(
-                              Icons.calendar_today,
-                              color:
-                                  Theme.of(context).textTheme.subtitle1!.color,
-                              size: 20.0,
-                            ),
-                          ],
+                              Icon(
+                                Icons.calendar_today,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .color,
+                                size: 20.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
-                        height: 1,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
+                    ],
+                  );
+                } else {
+                  ClassList? mwdata = snapshot.data as ClassList?;
+                  var classes = mwdata!.classes!;
+                  return ListView(
+                    children: <Widget>[
+                      getClassDropdown(classes),
+                      FutureBuilder<SectionList>(
+                        future: sections,
+                        builder: (context, secSnap) {
+                          if (secSnap.hasData) {
+                            return getSectionDropdown(secSnap.data!.sections);
+                          } else {
+                            return Center(child: CupertinoActivityIndicator());
+                          }
+                        },
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: Padding(
+                      //           padding:
+                      //               const EdgeInsets.only(left: 8.0, top: 8.0),
+                      //           child: Text(
+                      //             '$year - $month - $day',
+                      //             style: Theme.of(context)
+                      //                 .textTheme
+                      //                 .headline4
+                      //                 .copyWith(fontSize: 15.0),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Icon(
+                      //         Icons.calendar_today,
+                      //         color: Colors.black12,
+                      //         size: 20.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+
+                      InkWell(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            pickerTheme: DateTimePickerTheme(
+                              confirm: Text('Done',
+                                  style: TextStyle(color: Colors.red)),
+                              cancel: Text('cancel',
+                                  style: TextStyle(color: Colors.cyan)),
+                            ),
+                            minDateTime: DateTime.parse(minDateTime),
+                            maxDateTime: DateTime.parse(maxDateTime),
+                            initialDateTime: date,
+                            dateFormat: _format,
+                            locale: _locale,
+                            onClose: () => print("----- onClose -----"),
+                            onCancel: () => print('onCancel'),
+                            onChange: (dateTime, List<int> index) {
+                              setState(() {
+                                date = dateTime;
+                                _selectedDate =
+                                    '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
+                              });
+                            },
+                            onConfirm: (dateTime, List<int> index) {
+                              setState(() {
+                                date = dateTime;
+                                _selectedDate =
+                                    '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
+                              });
+                            },
+                          );
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, top: 8.0),
+                                  child: Text(
+                                    _selectedDate == null
+                                        ? "$year-$month-$day"
+                                        : _selectedDate!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(
+                                            fontSize: ScreenUtil().setSp(12)),
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.calendar_today,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .color,
+                                size: 20.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
               } else {
                 return Center(child: CupertinoActivityIndicator());
               }

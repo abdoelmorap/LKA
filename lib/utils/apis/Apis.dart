@@ -11,6 +11,8 @@ class InfixApi {
   static String studentDormitoryList = baseApi + "student-dormitory";
 
   static String studentDailyReport = baseApi + "getKidsStatusToday";
+
+  static String getPosts = baseApi + "getPosts";
   static String getKidsStatusbyDay = baseApi + "getKidsStatusbyDay";
   static String postImage = baseApi + "newPost";
 
@@ -311,8 +313,14 @@ class InfixApi {
         "homework-notification-api?body=$body&title=$title&class_id=$classId&section_id=$sectionId";
   }
 
-  static String sendLeaveData(String applyDate, String leaveType,
-      String leaveForm, String leaveTo, String? id, String reason, String path) {
+  static String sendLeaveData(
+      String applyDate,
+      String leaveType,
+      String leaveForm,
+      String leaveTo,
+      String? id,
+      String reason,
+      String path) {
     return baseApi +
         "staff-apply-leave?teacher_id=$id&reason=$reason&leave_type=$leaveType&leave_from=$leaveForm&leave_to=$leaveTo&apply_date=$applyDate&attach_file=$path";
   }
@@ -425,8 +433,8 @@ class InfixApi {
 
   static String feePayment = baseApi + "student-fees-payment";
 
-  static String studentFeePayment(String? stuId, dynamic feesType, String? amount,
-      String? paidBy, String paymentMethod) {
+  static String studentFeePayment(String? stuId, dynamic feesType,
+      String? amount, String? paidBy, String paymentMethod) {
     return baseApi +
         "student-fees-payment?student_id=$stuId&fees_type_id=$feesType&amount=$amount&paid_by=$paidBy&payment_mode=$paymentMethod";
   }
@@ -568,7 +576,8 @@ class InfixApi {
         "student-my-attendance/$id/$recordId?month=$month&year=$year";
   }
 
-  static String attendanceCheck(String? date, dynamic mClass, dynamic mSection) {
+  static String attendanceCheck(
+      String? date, dynamic mClass, dynamic mSection) {
     return baseApi +
         "student-attendance-check?date=$date&class=$mClass&section=$mSection";
   }

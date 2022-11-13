@@ -81,7 +81,12 @@ class _StudentRowState extends State<StudentRow> {
             child: IconButton(
               icon: Icon(Icons.camera),
               onPressed: () {
-                Navigator.push(context, ScaleRoute(page: ImagePst()));
+                Navigator.push(
+                    context,
+                    ScaleRoute(
+                        page: ImagePst(
+                      id: student.uid.toString(),
+                    )));
               },
               color: Colors.cyan,
             ),
