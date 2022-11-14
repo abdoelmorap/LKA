@@ -8,6 +8,7 @@ import 'package:infixedu/utils/CustomAppBarWidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/model/dailyreport.dart';
 
 class PushReport extends StatefulWidget {
   final String? id;
@@ -680,9 +681,6 @@ class _PushReportState extends State<PushReport> {
           Container(
             child: ElevatedButton(
                 onPressed: () async {
-                  String? _token = "";
-                  _token =
-                      await (Utils.getStringValue('token') as FutureOr<String>);
                   final response = await http.post(
                       Uri.parse(
                         InfixApi.SendStudentStatus + "/${widget.id}",
@@ -690,7 +688,7 @@ class _PushReportState extends State<PushReport> {
                       headers: {
                         'Content-type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': _token,
+                        'Authorization': _token!,
                       },
                       body: jsonEncode({
                         "morning": "$mood",
@@ -728,5 +726,74 @@ class _PushReportState extends State<PushReport> {
         ],
       ),
     );
+  }
+
+  Future<DailyReportModel>? dailyReport;
+  late DateTime mTimeofDay;
+  String? _token;
+  @override
+  void initState() {
+    super.initState();
+    Utils.getStringValue('token').then((value) {
+      setState(() {
+        _token = value;
+      });
+    })
+      ..then((value) {
+        dailyReport = getDailyReport();
+      });
+    mTimeofDay = DateTime.now();
+  }
+
+  Future<DailyReportModel> getDailyReport() async {
+    final response = await http.get(
+        Uri.parse(InfixApi.studentDailyReport + "/${widget.id}"),
+        headers: Utils.setHeader(_token.toString()));
+
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      print(jsonData);
+      print(jsonData[0]);
+      try {
+        // mTimeofDay =
+        //     DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay!);
+        mood = DailyReportModel.fromJson(jsonData.last).morning.toString();
+        noon = DailyReportModel.fromJson(jsonData.last).noon.toString();
+
+        afterNoon =
+            DailyReportModel.fromJson(jsonData.last).afternoon.toString();
+
+        Breakfast =
+            DailyReportModel.fromJson(jsonData.last).breakfast.toString();
+
+        Lunch = DailyReportModel.fromJson(jsonData.last).lunch.toString();
+
+        Snack = DailyReportModel.fromJson(jsonData.last).snack.toString();
+
+        water = DailyReportModel.fromJson(jsonData.last).water.toString();
+
+        milk = DailyReportModel.fromJson(jsonData.last).milk.toString();
+
+        juice = DailyReportModel.fromJson(jsonData.last).juice.toString();
+
+        Hygiene.text =
+            DailyReportModel.fromJson(jsonData.last).hygiene.toString();
+
+        Temperature.text =
+            DailyReportModel.fromJson(jsonData.last).temperature.toString();
+
+        Sleep.text = DailyReportModel.fromJson(jsonData.last).sleep.toString();
+
+        Comment.text =
+            DailyReportModel.fromJson(jsonData.last).comment.toString();
+        setState(() {});
+        return DailyReportModel.fromJson(jsonData.last);
+      } catch (e) {
+        throw ('Failed to load');
+        print(e);
+      }
+    } else {
+      throw ('Failed to load');
+    }
   }
 }

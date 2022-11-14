@@ -109,17 +109,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    user = 'teacher';
-                                    futureEmail = getEmail(user);
-                                    futureEmail.then((value) {
-                                      setState(() {
-                                        email = value;
-                                        emailController.text = email!;
-                                        passwordController.text = password;
-                                      });
-                                    });
-                                  });
+                                  // setState(() {
+                                  //   user = 'teacher';
+                                  //   futureEmail = getEmail(user);
+                                  //   futureEmail.then((value) {
+                                  //     setState(() {
+                                  //       email = value;
+                                  //       emailController.text = email!;
+                                  //       passwordController.text = password;
+                                  //     });
+                                  //   });
+                                  // });
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: Color(0xffFFD402),
@@ -138,15 +138,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  user = 'parent';
-                                  futureEmail = getEmail(user);
-                                  futureEmail.then((value) {
-                                    setState(() {
-                                      email = value;
-                                      emailController.text = email!;
-                                      passwordController.text = password;
-                                    });
-                                  });
+                                  // user = 'parent';
+                                  // futureEmail = getEmail(user);
+                                  // futureEmail.then((value) {
+                                  //   setState(() {
+                                  //     email = value;
+                                  //     emailController.text = email!;
+                                  //     passwordController.text = password;
+                                  //   });
+                                  // });
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: Color(0xff93cfc4),
