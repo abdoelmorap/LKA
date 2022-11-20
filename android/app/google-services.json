@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371831189967",
+    "project_id": "lka-edu",
+    "storage_bucket": "lka-edu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371831189967:android:a69fb4eaf241c046e722ba",
+        "android_client_info": {
+          "package_name": "com.edu.lka.eg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371831189967-nghr3oibh8l4g8bclc21o9k757m97fsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnQxabmPa2DXcBsWC0QNlEfJ1_NIb84Vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371831189967-nghr3oibh8l4g8bclc21o9k757m97fsv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
