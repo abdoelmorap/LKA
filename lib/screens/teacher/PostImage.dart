@@ -162,13 +162,39 @@ class ImageStatePst extends State<ImagePst> {
   @override
   void initState() {
     super.initState();
-    openCamera();
+    Future.delayed(Duration(seconds: 1), () {
+      openCamera();
+    });
   }
 
   openCamera() async {
     final ImagePicker _picker = ImagePicker();
+    showDialog(
+        context: context,
+        builder: (ctxe) {
+          return AlertDialog(
+            content: Text("SelectImageSource"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () async {
+                    photo =
+                        (await _picker.pickImage(source: ImageSource.camera));
+                    Navigator.of(ctxe).pop();
 
-    photo = (await _picker.pickImage(source: ImageSource.camera));
-    setState(() {});
+                    setState(() {});
+                  },
+                  child: Text("Camera")),
+              ElevatedButton(
+                  onPressed: () async {
+                    photo =
+                        (await _picker.pickImage(source: ImageSource.gallery));
+                    Navigator.of(ctxe).pop();
+
+                    setState(() {});
+                  },
+                  child: Text("Gallery"))
+            ],
+          );
+        });
   }
 }
