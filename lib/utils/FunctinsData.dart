@@ -1,9 +1,12 @@
 // Flutter imports:
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 // Project imports:
 
 import 'package:infixedu/screens/AboutScreen.dart';
+import 'package:infixedu/screens/FoodScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/SettingsScreen.dart';
 import 'package:infixedu/screens/admin/AdminAttendanceScreen.dart';
@@ -105,7 +108,7 @@ class AppFunction {
     // 'Lesson',
     'Leave',
     // 'Subjects',
-    'Teacher',
+    // 'Teacher',
     'StudentGallery',
 
     // 'Library',
@@ -190,23 +193,28 @@ class AppFunction {
 
   static var parent = [
     'Child',
+    'Food',
     'About',
     'Settings',
   ];
   static var parentIcons = [
     'assets/images/mychild.png',
+    'assets/images/food.png',
     'assets/images/about.png',
     'assets/images/addhw.png',
   ];
 
   static var parent2 = [
     'Child',
+    'Food',
     'About',
     'Settings',
   ];
 
   static var parentIcons2 = [
     'assets/images/mychild.png',
+    'assets/images/food.png',
+
     'assets/images/about.png',
     'assets/images/addhw.png',
   ];
@@ -452,6 +460,7 @@ class AppFunction {
               image: image,
             )));
         break;
+
       case 'Wallet':
         PersistentNavBarNavigator.pushNewScreen(
           context,
@@ -492,6 +501,7 @@ class AppFunction {
               id: id,
             )));
         break;
+
       case 'Teacher':
         Navigator.push(
             context,
@@ -839,6 +849,15 @@ class AppFunction {
     switch (title) {
       case 'Child':
         Navigator.push(context, ScaleRoute(page: ChildListScreen()));
+        break;
+      case 'Food':
+      Navigator.push(
+          context,
+          ScaleRoute(
+              page: FoodScreen(
+
+              )));
+
         break;
       case 'About':
         Navigator.push(context, ScaleRoute(page: AboutScreen()));
