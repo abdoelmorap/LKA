@@ -193,7 +193,7 @@ class AppFunction {
 
   static var parent = [
     'Child',
-    'Food',
+    'Meals',
     'About',
     'Settings',
   ];
@@ -206,7 +206,7 @@ class AppFunction {
 
   static var parent2 = [
     'Child',
-    'Food',
+    'Meals',
     'About',
     'Settings',
   ];
@@ -850,7 +850,7 @@ class AppFunction {
       case 'Child':
         Navigator.push(context, ScaleRoute(page: ChildListScreen()));
         break;
-      case 'Food':
+      case 'Meals':
       Navigator.push(
           context,
           ScaleRoute(

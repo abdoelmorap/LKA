@@ -14,6 +14,7 @@ class InfixApi {
   static String studentDailyReport = baseApi + "getKidsStatusToday";
   static String getKidsFoodToday = baseApi + "getKidsFoodToday";
   static String getKidsStatusbyDay = baseApi + "getKidsStatusbyDay";
+  static String getfoodbyDay = baseApi + "getKidsFood";
 
   static String postImage = baseApi + "newPost";
   static String SendStudentStatus = baseApi + "setKidsStatus";

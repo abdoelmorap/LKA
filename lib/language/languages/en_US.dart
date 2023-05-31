@@ -338,5 +338,7 @@ const Map<String, String> en_US = {
   "Temperature": "Temperature",
   "Sleep": "Sleep",
   "Comment": "Comment",
-  "StudentGallery": "StudentGallery"
+  "StudentGallery": "StudentGallery",
+  "FoodList":"Meals",
+  "Not_Available":"Not Available"
 };

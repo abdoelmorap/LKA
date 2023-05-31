@@ -47,7 +47,7 @@ class FoodScreenStetes extends State<FoodScreen>{
     child: Icon(Icons.arrow_back_ios),
     onTap: () {
     mTimeofDay = mTimeofDay.add(Duration(days: -1));
-    // dailyReport = getSelectedDayData(mTimeofDay);
+     dailyReport = getSelectedDayData(mTimeofDay);
     setState(() {});
     },
     ),
@@ -59,7 +59,7 @@ class FoodScreenStetes extends State<FoodScreen>{
     child: Icon(Icons.arrow_forward_ios),
     onTap: () {
     mTimeofDay = mTimeofDay.add(Duration(days: 1));
-    // dailyReport = getSelectedDayData(mTimeofDay);
+    dailyReport = getSelectedDayData(mTimeofDay);
     setState(() {});
     },
     ),
@@ -71,8 +71,8 @@ class FoodScreenStetes extends State<FoodScreen>{
     child: FutureBuilder<MealsModel>(
     future: dailyReport,
     builder: (context, snapshot) {
-    if (snapshot.hasError) {
-    return Container(
+    if (snapshot.hasError||snapshot.hasData.isNull) {
+    return Center(
     child: Text(
     "Not_Available".tr,
     style: TextStyle(fontSize: 45),
@@ -82,10 +82,25 @@ class FoodScreenStetes extends State<FoodScreen>{
     if (snapshot.hasData) {
     return Container(
       child: ListView.builder(itemBuilder: (ctx,index){
-        return Card( child : Column(children: [
-          Text(snapshot.data.data[index].title),
-          Image.network(AppConfig.domainName + '/public/images/'+snapshot.data.data[index].image,height: 150,),
-          Text(snapshot.data.data[index].subtitle), ],));
+        return Card( child :
+        Row(children: [
+          Image.network(AppConfig.domainName + '/public/images/'+snapshot.data.data[index].image,height: 120 ,width: 120,)
+, Column(children: [
+            Text(snapshot.data.data[index].title,style: TextStyle(),textAlign: TextAlign.start,),
+        Text(snapshot.data.data[index].subtitle,textAlign: TextAlign.start,),  Text(snapshot.data.data[index].orderMeal==0?"N/A":
+            snapshot.data.data[index].orderMeal==1?"BreakFast":
+            snapshot.data.data[index].orderMeal==2?"Lunch":
+            snapshot.data.data[index].orderMeal==3?"Snacks":"N/A"
+
+
+
+            ,style: TextStyle(),textAlign: TextAlign.start,),
+        ],)
+
+
+
+        ],)
+       );
       },itemCount:snapshot.data.data.length ,),
     );
     } else {
@@ -100,11 +115,11 @@ class FoodScreenStetes extends State<FoodScreen>{
     ));
     }
 
-  Future<DailyReportModel> getSelectedDayData(DateTime mTimeofDay) async {
+  Future<MealsModel> getSelectedDayData(DateTime mTimeofDay) async {
     var id = await Utils.getIntValue("studentId") ??
         await Utils.getIntValue("myStudentId");
     final response = await http.post(
-        Uri.parse(InfixApi.getKidsStatusbyDay + "/$id"),
+        Uri.parse(InfixApi.getfoodbyDay),
         headers: Utils.setHeader(_token.toString()),
         body: jsonEncode({
           "Date_Selected":
@@ -112,14 +127,18 @@ class FoodScreenStetes extends State<FoodScreen>{
         }));
     print("${mTimeofDay.month}/${mTimeofDay.day}/${mTimeofDay.year}" +
         response.body);
+
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      print(jsonData[0]);
+      print( MealsModel.fromJson(jsonData).data.isEmpty);
+ if( MealsModel.fromJson(jsonData).data.length == 0){
+  return Future.error(0);
+ }
       try {
         mTimeofDay =
-            DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay);
+            DateTime.parse(MealsModel.fromJson(jsonData).data[0].dateofmeal);
 
-        return DailyReportModel.fromJson(jsonData.last);
+        return MealsModel.fromJson(jsonData);
       } catch (e) {
         print(e);
       }
@@ -136,11 +155,17 @@ class FoodScreenStetes extends State<FoodScreen>{
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      print(jsonData[0]);
+      print( MealsModel.fromJson(jsonData).data.isEmpty);
+      if( MealsModel.fromJson(jsonData).data.length == 0){
+        return Future.error(0);
+      }
       try {
         mTimeofDay =
             DateTime.parse(MealsModel.fromJson(jsonData).data[0].dateofmeal);
-
+        if( MealsModel.fromJson(jsonData).data.length == 0){
+          print( MealsModel.fromJson(jsonData).data.length);
+          throw  null;
+        }
         return MealsModel.fromJson(jsonData);
       } catch (e) {
         print(e);
