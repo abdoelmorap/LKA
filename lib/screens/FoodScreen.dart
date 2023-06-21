@@ -85,17 +85,59 @@ class FoodScreenStetes extends State<FoodScreen>{
         return Card( child :
         Row(children: [
           Image.network(AppConfig.domainName + '/public/images/'+snapshot.data.data[index].image,height: 120 ,width: 120,)
-, Column(children: [
-            Text(snapshot.data.data[index].title,style: TextStyle(),textAlign: TextAlign.start,),
-        Text(snapshot.data.data[index].subtitle,textAlign: TextAlign.start,),  Text(snapshot.data.data[index].orderMeal==0?"N/A":
-            snapshot.data.data[index].orderMeal==1?"BreakFast":
-            snapshot.data.data[index].orderMeal==2?"Lunch":
-            snapshot.data.data[index].orderMeal==3?"Snacks":"N/A"
+,SizedBox(width: 20,),
+          Column(children: [
+           Row(children: [
+             Text(
+               "Meal Name: ",
+
+              style: TextStyle(fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Color.fromARGB(255, 56, 51, 51)              ),
+               textAlign: TextAlign.start,),
+             Text(
+
+                   snapshot.data.data[index].title,  style: const TextStyle(
+               fontSize: 16.0,
+               color: Colors.grey,
+             ),
+               textAlign: TextAlign.start,),
+           ],),
+            SizedBox(child:RichText(
+              text: TextSpan(
+                // Note: Styles for TextSpans must be explicitly defined.
+                // Child text spans will inherit styles from parent
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey,
+                ),
+                children: <TextSpan>[
+                  TextSpan(text: 'Meal Description: ', style: const TextStyle(color: Color.fromARGB(255, 56, 51, 51) ,fontWeight: FontWeight.bold)),
+                  TextSpan(text:  snapshot.data.data[index].subtitle),
+                ],
+              ),
+            ), width: 230, ),
+            RichText(
+              text: TextSpan(
+                // Note: Styles for TextSpans must be explicitly defined.
+                // Child text spans will inherit styles from parent
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey,
+                ),
+                children: <TextSpan>[
+                  TextSpan(text: 'Meal Time: ', style: const TextStyle(color: Color.fromARGB(255, 56, 51, 51) ,fontWeight: FontWeight.bold)),
+                  TextSpan(text:   (snapshot.data.data[index].orderMeal==0?"N/A":
+                  snapshot.data.data[index].orderMeal==1?"BreakFast":
+                  snapshot.data.data[index].orderMeal==2?"Lunch":
+                  snapshot.data.data[index].orderMeal==3?"Snacks":"N/A")),
+                ],
+              ),
+            ),
 
 
 
-            ,style: TextStyle(),textAlign: TextAlign.start,),
-        ],)
+     ]  ,crossAxisAlignment: CrossAxisAlignment.start)
 
 
 
