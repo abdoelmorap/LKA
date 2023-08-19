@@ -9,10 +9,10 @@ class UserNotifications {
   });
 
   dynamic id;
-  DateTime date;
-  String message;
-  String url;
-  DateTime createdAt;
+  DateTime? date;
+  String? message;
+  String? url;
+  DateTime? createdAt;
   dynamic isRead;
 
   factory UserNotifications.fromJson(Map<String, dynamic> json) => UserNotifications(
@@ -26,16 +26,16 @@ class UserNotifications {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
     "message": message,
     "url": url == null ? null : url,
-    "created_at": createdAt.toIso8601String(),
+    "created_at": createdAt!.toIso8601String(),
     "is_read": isRead,
   };
 }
 
 class UserNotificationList {
-  List<UserNotifications> userNotifications;
+  List<UserNotifications>? userNotifications;
 
   UserNotificationList({this.userNotifications});
 

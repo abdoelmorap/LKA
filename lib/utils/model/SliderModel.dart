@@ -17,8 +17,8 @@ class SliderModel {
     this.message,
   });
 
-  bool success;
-  SliderData data;
+  bool? success;
+  SliderData? data;
   dynamic message;
 
   factory SliderModel.fromJson(Map<String, dynamic> json) => SliderModel(
@@ -29,7 +29,7 @@ class SliderModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
         "message": message,
       };
 }
@@ -39,7 +39,7 @@ class SliderData {
     this.appSliders,
   });
 
-  List<AppSlider> appSliders;
+  List<AppSlider>? appSliders;
 
   factory SliderData.fromJson(Map<String, dynamic> json) => SliderData(
         appSliders: List<AppSlider>.from(
@@ -48,7 +48,7 @@ class SliderData {
       );
 
   Map<String, dynamic> toJson() => {
-        "appSliders": List<dynamic>.from(appSliders.map((x) => x.toJson())).where((element) => element.activeStatus == 1).toList(),
+        "appSliders": List<dynamic>.from(appSliders!.map((x) => x.toJson())).where((element) => element.activeStatus == 1).toList(),
       };
 }
 
@@ -64,14 +64,14 @@ class AppSlider {
     this.updatedAt,
   });
 
-  int id;
-  String title;
-  String sliderImage;
-  String url;
-  int activeStatus;
+  int? id;
+  String? title;
+  String? sliderImage;
+  String? url;
+  int? activeStatus;
   dynamic schoolId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory AppSlider.fromJson(Map<String, dynamic> json) => AppSlider(
         id: json["id"],
@@ -91,7 +91,7 @@ class AppSlider {
         "url": url,
         "active_status": activeStatus,
         "school_id": schoolId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }

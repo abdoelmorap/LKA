@@ -36,8 +36,8 @@ class _StudentTeacherRowLayoutState extends State<StudentTeacherRowLayout> {
             SizedBox(
               width: 5,
             ),
-            Text(widget.teacher.teacherName,
-                style: Theme.of(context).textTheme.headline4.copyWith(
+            Text(widget.teacher.teacherName!,
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     )),
@@ -68,8 +68,8 @@ class _StudentTeacherRowLayoutState extends State<StudentTeacherRowLayout> {
                       width: 5,
                     ),
                     Text(
-                      widget.teacher.teacherEmail,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
+                      widget.teacher.teacherEmail!,
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -103,7 +103,7 @@ class _StudentTeacherRowLayoutState extends State<StudentTeacherRowLayout> {
                           Text(
                             '${widget.teacher.teacherPhone}',
                             style:
-                                Theme.of(context).textTheme.headline4.copyWith(
+                                Theme.of(context).textTheme.headline4!.copyWith(
                                       fontSize: 14,
                                     ),
                           ),

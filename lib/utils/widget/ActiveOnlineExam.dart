@@ -27,10 +27,10 @@ class ActiveOnlineExamRow extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  exam.title == null ? 'not assigned' : exam.title,
+                  exam.title == null ? 'not assigned' : exam.title!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
+                      .headline6!
                       .copyWith(fontSize: ScreenUtil().setSp(15.0)),
                 ),
               ),
@@ -50,14 +50,14 @@ class ActiveOnlineExamRow extends StatelessWidget {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        exam.subject == null ? 'N/A' : exam.subject,
+                        exam.subject == null ? 'N/A' : exam.subject!,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),
@@ -74,14 +74,14 @@ class ActiveOnlineExamRow extends StatelessWidget {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        exam.date == null ? 'N/A' : exam.date,
+                        exam.date == null ? 'N/A' : exam.date!,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),
@@ -98,7 +98,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -128,7 +128,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
   }
 
   Widget getExamStatusWidget(
-      {BuildContext context,
+      {BuildContext? context,
       dynamic isRunning,
       dynamic isWaiting,
       dynamic isClosed}) {
@@ -137,9 +137,9 @@ class ActiveOnlineExamRow extends StatelessWidget {
         'Running',
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: Theme.of(context)
+        style: Theme.of(context!)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(color: Colors.black, fontWeight: FontWeight.w500),
       );
     } else if (isWaiting == 1) {
@@ -147,9 +147,9 @@ class ActiveOnlineExamRow extends StatelessWidget {
         'Pending',
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: Theme.of(context)
+        style: Theme.of(context!)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(color: Colors.black, fontWeight: FontWeight.w500),
       );
     } else if (isClosed == 1) {
@@ -157,9 +157,9 @@ class ActiveOnlineExamRow extends StatelessWidget {
         'Closed',
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: Theme.of(context)
+        style: Theme.of(context!)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(color: Colors.black, fontWeight: FontWeight.w500),
       );
     } else {
@@ -167,9 +167,9 @@ class ActiveOnlineExamRow extends StatelessWidget {
         'not assigned',
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: Theme.of(context)
+        style: Theme.of(context!)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(color: Colors.black, fontWeight: FontWeight.w500),
       );
     }
@@ -189,7 +189,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -206,7 +206,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -223,7 +223,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

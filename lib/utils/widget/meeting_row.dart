@@ -47,7 +47,7 @@ class _DormitoryScreenState extends State<ZoomMeetingRow> {
               textAlign: TextAlign.start,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(fontSize: ScreenUtil().setSp(15)),
             ),
             Padding(
@@ -63,7 +63,7 @@ class _DormitoryScreenState extends State<ZoomMeetingRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -88,14 +88,14 @@ class _DormitoryScreenState extends State<ZoomMeetingRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
-                          '${zoomMeeting.startTime} - ${DateFormat('hh:mm a').format(zoomMeeting.endTime)}',
+                          '${zoomMeeting.startTime} - ${DateFormat('hh:mm a').format(zoomMeeting.endTime!)}',
                           style: Theme.of(context).textTheme.headline4,
                         ),
                       ],
@@ -110,7 +110,7 @@ class _DormitoryScreenState extends State<ZoomMeetingRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(

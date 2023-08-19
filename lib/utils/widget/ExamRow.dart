@@ -27,10 +27,10 @@ class StudentExamRow extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Exam: ',
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  exam.examName,
+                  exam.examName!,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ],
@@ -41,7 +41,7 @@ class StudentExamRow extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Subject: ',
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Expanded(
                   child: Text(
@@ -65,14 +65,14 @@ class StudentExamRow extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                              exam.roomNo == null ? 'N/A':exam.roomNo,
+                              exam.roomNo == null ? 'N/A':exam.roomNo!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -88,7 +88,7 @@ class StudentExamRow extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -111,14 +111,14 @@ class StudentExamRow extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                          exam.startTime == null ? 'N/A': AppFunction.getAmPm(exam.startTime),
+                          exam.startTime == null ? 'N/A': AppFunction.getAmPm(exam.startTime!),
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -134,14 +134,14 @@ class StudentExamRow extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                          exam.endTime == null ? 'N/A': AppFunction.getAmPm(exam.endTime),
+                          exam.endTime == null ? 'N/A': AppFunction.getAmPm(exam.endTime!),
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),

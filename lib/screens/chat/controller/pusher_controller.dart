@@ -14,23 +14,23 @@ import '../views/Single/ChatLoadMore.dart';
 import 'package:http/http.dart' as http;
 
 class PusherController extends GetxController {
-  int chatOpenId;
-  String chatGroupId;
+  int? chatOpenId;
+  String? chatGroupId;
   RxBool isTyping = false.obs;
   PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   ChatController _chatController = Get.put(ChatController());
 
-  ChatLoadMore source;
+  ChatLoadMore? source;
 
-  ChatGroupLoadMore groupSource;
+  ChatGroupLoadMore? groupSource;
 
   onConnectPressed() async {
     try {
       await pusher.init(
-        apiKey: _chatController.chatSettings.value.chatSettings.pusherAppKey,
+        apiKey: _chatController.chatSettings.value.chatSettings!.pusherAppKey!,
         cluster:
-            _chatController.chatSettings.value.chatSettings.pusherAppCluster,
+            _chatController.chatSettings.value.chatSettings!.pusherAppCluster!,
         onConnectionStateChange: onConnectionStateChange,
         onError: onError,
         onSubscriptionSucceeded: onSubscriptionSucceeded,
@@ -52,7 +52,7 @@ class PusherController extends GetxController {
     log("Connection: $currentState");
   }
 
-  void onError(String message, int code, dynamic e) {
+  void onError(String message, int? code, dynamic e) {
     log("onError: $message code: $code exception: $e");
   }
 
@@ -68,13 +68,13 @@ class PusherController extends GetxController {
     }
     if (event.channelName == 'private-single-chat' + '.$chatOpenId' ||
         event.channelName ==
-            'private-single-chat' + '.${int.parse(_chatController.id.value)}') {
+            'private-single-chat' + '.${int.parse(_chatController.id.value!)}') {
       final da = jsonDecode(event.data);
       ChatMessage chatMessage = ChatMessage.fromJson(da['message']);
 
-      if (source.length != 0) {
-        source.insert(0, chatMessage);
-        source.onStateChanged(source);
+      if (source!.length != 0) {
+        source!.insert(0, chatMessage);
+        source!.onStateChanged(source!);
       }
     }
 
@@ -84,18 +84,18 @@ class PusherController extends GetxController {
       ChatGroupPusher chatMessage = ChatGroupPusher.fromJson(da);
 
       GroupThread groupThread = GroupThread(
-        id: chatMessage.thread.id,
-        userId: chatMessage.user.id,
-        conversationId: chatMessage.conversation.id,
-        groupId: chatMessage.group.id,
-        readAt: chatMessage.thread.readAt,
-        createdAt: chatMessage.conversation.createdAt,
+        id: chatMessage.thread!.id,
+        userId: chatMessage.user!.id,
+        conversationId: chatMessage.conversation!.id,
+        groupId: chatMessage.group!.id,
+        readAt: chatMessage.thread!.readAt,
+        createdAt: chatMessage.conversation!.createdAt,
         conversation: chatMessage.conversation,
         user: chatMessage.user,
       );
 
-      groupSource.insert(0, groupThread);
-      groupSource.onStateChanged(groupSource);
+      groupSource!.insert(0, groupThread);
+      groupSource!.onStateChanged(groupSource!);
     }
   }
 
@@ -134,7 +134,7 @@ class PusherController extends GetxController {
       Uri.parse(InfixApi.chatBroadCastAuth),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': _chatController.token.value,
+        'Authorization': _chatController.token.value!,
       },
       body: 'socket_id=' + socketId + '&channel_name=' + channelName,
     );
@@ -142,9 +142,9 @@ class PusherController extends GetxController {
     return jsonDecode(result.body);
   }
 
-  chatOpenSingle(id, ChatLoadMore chatLoadMore) async {
+  chatOpenSingle(id, ChatLoadMore? chatLoadMore) async {
     source = chatLoadMore;
-    print("source eng ${source.length}");
+    print("source eng ${source!.length}");
     chatOpenId = id;
     print("id -> $chatOpenId");
     try {
@@ -153,16 +153,16 @@ class PusherController extends GetxController {
       await pusher.connect();
       await pusher.subscribe(
           channelName: 'private-single-chat' +
-              '.${int.parse(_chatController.id.value)}');
+              '.${int.parse(_chatController.id.value!)}');
       await pusher.connect();
     } catch (e) {
       log("ERROR: $e");
     }
   }
 
-  chatOpenGroup(id, ChatGroupLoadMore chatLoadMore) async {
+  chatOpenGroup(id, ChatGroupLoadMore? chatLoadMore) async {
     groupSource = chatLoadMore;
-    print("source eng ${groupSource.length}");
+    print("source eng ${groupSource!.length}");
     chatGroupId = id;
     print("id -> $chatOpenId");
     try {

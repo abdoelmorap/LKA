@@ -14,8 +14,8 @@ class FeesBalanceReportModel {
         this.totalBalance,
     });
 
-    List<BalanceReport> balanceReport;
-    int totalBalance;
+    List<BalanceReport>? balanceReport;
+    int? totalBalance;
 
     factory FeesBalanceReportModel.fromJson(Map<String, dynamic> json) => FeesBalanceReportModel(
         balanceReport: List<BalanceReport>.from(json["balanceReport"].map((x) => x == null ? null : BalanceReport.fromJson(x))),
@@ -23,7 +23,7 @@ class FeesBalanceReportModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "balanceReport": List<dynamic>.from(balanceReport.map((x) => x == null ? null : x.toJson())),
+        "balanceReport": List<dynamic>.from(balanceReport!.map((x) => x == null ? null : x.toJson())),
         "totalBalance": totalBalance,
     };
 }
@@ -37,11 +37,11 @@ class BalanceReport {
         this.balance,
     });
 
-    String admissionNo;
-    String rollNo;
-    String name;
-    String dueDate;
-    double balance;
+    String? admissionNo;
+    String? rollNo;
+    String? name;
+    String? dueDate;
+    double? balance;
 
     factory BalanceReport.fromJson(Map<String, dynamic> json) => BalanceReport(
         admissionNo: json["admission_no"].toString(),

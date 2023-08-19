@@ -90,7 +90,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           '${controller.langName.value}',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(color: Colors.white),
                         ),
                       ));
@@ -183,7 +183,7 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  showChangeLanguageAlert(BuildContext context) {
+  showChangeLanguageAlert(BuildContext? context) {
     Get.bottomSheet(
       GetBuilder<LanguageController>(
           init: LanguageController(),
@@ -230,7 +230,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               final sharedPref =
                                   await SharedPreferences.getInstance();
                               sharedPref.setString(
-                                  'language', languages[index].languageValue);
+                                  'language', languages[index].languageValue!);
                               controller.appLocale =
                                   languages[index].languageValue;
                               Get.updateLocale(
@@ -246,11 +246,11 @@ class _SettingScreenState extends State<SettingScreen> {
                                   }
                                 });
                                 languageController.langName.value =
-                                    LanguageSelection.instance.langName;
+                                    LanguageSelection.instance.langName!;
                               });
                             },
                             child: Text(
-                              languages[index].languageText,
+                              languages[index].languageText!,
                               style: Get.textTheme.subtitle1,
                             ),
                           ),

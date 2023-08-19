@@ -30,7 +30,7 @@ class KhaltiHttpClient extends KhaltiClient {
   }
 
   @override
-  Future<HttpResponse> post(String url, Map<String, Object> data) {
+  Future<HttpResponse> post(String url, Map<String, Object?> data) {
     return _handleExceptions(
       () async {
         final uri = Uri.parse(url);

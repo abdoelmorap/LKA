@@ -18,13 +18,13 @@ class GroupThread {
   dynamic id;
   dynamic userId;
   dynamic conversationId;
-  String groupId;
+  String? groupId;
   dynamic readAt;
   dynamic deletedAt;
-  DateTime createdAt;
-  DateTime updatedAt;
-  ChatMessage conversation;
-  ChatUser user;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  ChatMessage? conversation;
+  ChatUser? user;
 
   factory GroupThread.fromJson(Map<String, dynamic> json) => GroupThread(
         id: json["id"] is String
@@ -54,9 +54,9 @@ class GroupThread {
         "group_id": groupId,
         "read_at": readAt,
         "deleted_at": deletedAt,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "conversation": conversation == null ? null : conversation.toJson(),
-        "user": user == null ? null : user.toJson(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "conversation": conversation == null ? null : conversation!.toJson(),
+        "user": user == null ? null : user!.toJson(),
       };
 }

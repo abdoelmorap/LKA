@@ -7,21 +7,21 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/StudentRecord.dart';
 
 class UserController extends GetxController {
-  Rx<int> _studentId = 0.obs;
+  Rx<int?> _studentId = 0.obs;
 
-  Rx<int> get studentId => this._studentId;
+  Rx<int?> get studentId => this._studentId;
 
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _schoolId = "".obs;
+  Rx<String?> _schoolId = "".obs;
 
-  Rx<String> get schoolId => this._schoolId;
+  Rx<String?> get schoolId => this._schoolId;
 
-  Rx<String> _role = "".obs;
+  Rx<String?> _role = "".obs;
 
-  Rx<String> get role => this._role;
+  Rx<String?> get role => this._role;
 
   Rx<bool> isLoading = false.obs;
 
@@ -37,7 +37,7 @@ class UserController extends GetxController {
       isLoading(true);
       await getIdToken().then((value) async {
         print("STD ${_studentId.value}");
-        Utils.saveIntValue("myStudentId", _studentId.value);
+        Utils.saveIntValue("myStudentId", _studentId.value!);
         final response = await http.get(
             Uri.parse(InfixApi.studentRecord(_studentId.value)),
             headers: Utils.setHeader(_token.toString()));
@@ -45,7 +45,7 @@ class UserController extends GetxController {
         if (response.statusCode == 200) {
           final studentRecords = studentRecordsFromJson(response.body);
           _studentRecord.value = studentRecords;
-          selectedRecord.value = _studentRecord.value.records.first;
+          selectedRecord.value = _studentRecord.value.records!.first;
           isLoading(false);
         } else {
           isLoading(false);
@@ -72,7 +72,7 @@ class UserController extends GetxController {
         await Utils.getStringValue('schoolId').then((schoolIdVal) {
           _schoolId.value = schoolIdVal;
         });
-      });
+      } );
     });
   }
 

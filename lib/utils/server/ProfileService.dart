@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 
 // Package imports:
-import 'package:age/age.dart';
 import 'package:http/http.dart' as http;
+import 'package:infixedu/nullSafety_dep/age.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
@@ -13,10 +13,10 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/InfixMap.dart';
 
 class ProfileService {
-  String email;
-  String password;
-  String id;
-  String token;
+  String? email;
+  String? password;
+  String? id;
+  String? token;
 
   ProfileService({this.email, this.password, this.id,this.token});
 

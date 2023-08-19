@@ -29,8 +29,8 @@ class StudentGallery extends StatefulWidget {
 }
 
 class _stateStudentGallery extends State<StudentGallery> {
-  String _token;
-  Future<GalleryModel> stGallery;
+  String? _token;
+  Future<GalleryModel>? stGallery;
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +68,14 @@ class _stateStudentGallery extends State<StudentGallery> {
                             ),
                           ],
                         ),
-                        data.data.data[index].image.isNotEmpty
+                        data.data!.data![index].image!.isNotEmpty
                             ? Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
                                 child: CachedNetworkImage(
                                     width: MediaQuery.of(context).size.width,
                                     imageUrl:
-                                        "${InfixApi.root}public/images/${data.data.data[index].image}",
+                                        "${InfixApi.root}public/images/${data.data!.data![index].image}",
                                     progressIndicatorBuilder: (BuildContext,
                                         String, DownloadProgress) {
                                       return Container(
@@ -88,7 +88,7 @@ class _stateStudentGallery extends State<StudentGallery> {
                             : SizedBox.shrink(),
                         Container(
                           child: Text(
-                            data.data.data[index].content,
+                            data.data!.data![index].content!,
                             textAlign: TextAlign.justify,
                           ),
                           width: MediaQuery.of(context).size.width - 50,
@@ -127,9 +127,9 @@ class _stateStudentGallery extends State<StudentGallery> {
                                 downloadFile(
                                     InfixApi.root +
                                         "public/images/" +
-                                        data.data.data[index].image,
+                                        data.data!.data![index].image!,
                                     context,
-                                    data.data.data[index].image);
+                                    data.data!.data![index].image);
                               },
                             ),
                           ),
@@ -137,7 +137,7 @@ class _stateStudentGallery extends State<StudentGallery> {
                         ])
                       ]));
                 },
-                itemCount: data.data.data.length,
+                itemCount: data.data!.data!.length,
               );
             }
             return Container();
@@ -172,7 +172,7 @@ class _stateStudentGallery extends State<StudentGallery> {
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";

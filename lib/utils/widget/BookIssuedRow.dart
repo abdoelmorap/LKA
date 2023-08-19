@@ -16,17 +16,17 @@ class BookListRow extends StatefulWidget {
   BookListRow(this.books);
 
   @override
-  _BookListRowState createState() => _BookListRowState(books);
+  _BookListRowState createState() => _BookListRowState(books:books);
 }
 
 class _BookListRowState extends State<BookListRow> with SingleTickerProviderStateMixin{
 
-  AnimationController controller;
-  Animation parentAnimation,childAnimation;
+  late AnimationController controller;
+  late Animation parentAnimation,childAnimation;
   BookIssued books;
 
 
-  _BookListRowState(this.books);
+  _BookListRowState({required this.books});
 
   @override
   void initState() {
@@ -58,10 +58,10 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
             return Container(
               transform: Matrix4.translationValues(parentAnimation.value * width, 0.0, 0.0),
               child: Text(
-                books.title,
+                books.title!,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headline6!
                     .copyWith(fontSize: 15.0,fontWeight: FontWeight.w700),
                 maxLines: 1,
               ),
@@ -74,10 +74,10 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
             return Container(
               transform: Matrix4.translationValues(parentAnimation.value * width, 0.0, 0.0),
               child: Text(
-                books.author,
+                books.author!,
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .headline4!
                     .copyWith(fontSize: ScreenUtil().setSp(14.0),fontWeight: FontWeight.w500),
                 maxLines: 1,
               ),
@@ -102,14 +102,14 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                           books.issuedDate,
+                           books.issuedDate!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -125,14 +125,14 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                            books.returnDate,
+                            books.returnDate!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -148,14 +148,14 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                           books.bookNo,
+                           books.bookNo!,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.headline4,
                           ),
@@ -171,7 +171,7 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -201,7 +201,7 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
     );
   }
 
-  Widget getStatus(BuildContext context, String status) {
+  Widget getStatus(BuildContext context, String? status) {
     if (status == 'I') {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -214,7 +214,7 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -232,7 +232,7 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

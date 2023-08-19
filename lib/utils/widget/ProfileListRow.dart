@@ -55,7 +55,7 @@ class ProfileRowList extends StatelessWidget {
                                   _key,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2
+                                      .subtitle2!
                                       .copyWith(
                                         color: Color(0xFFF39EAA),
                                         fontWeight: FontWeight.normal,
@@ -87,7 +87,7 @@ class ProfileRowList extends StatelessWidget {
                                   _value == null ? 'NA' : _value,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2
+                                      .subtitle2!
                                       .copyWith(
                                         color: Color(0xFFF39EAA),
                                         fontWeight: FontWeight.normal,
@@ -122,7 +122,7 @@ class ProfileRowList extends StatelessWidget {
                                 _key,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle2
+                                    .subtitle2!
                                     .copyWith(
                                       color: Color(0xFFF39EAA),
                                       fontWeight: FontWeight.normal,
@@ -155,7 +155,7 @@ class ProfileRowList extends StatelessWidget {
                                 maxLines: 1,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle2
+                                    .subtitle2!
                                     .copyWith(
                                       color: Color(0xFFF39EAA),
                                       fontWeight: FontWeight.normal,

@@ -12,8 +12,8 @@ import 'package:infixedu/config/app_config.dart';
 import 'package:infixedu/utils/CustomAppBarWidget.dart';
 
 class KhaltiPayment extends StatefulWidget {
-  final String checkoutUrl;
-  final Function onFinish;
+  final String? checkoutUrl;
+  final Function? onFinish;
 
   KhaltiPayment({this.checkoutUrl, this.onFinish});
 
@@ -25,9 +25,9 @@ class KhaltiPayment extends StatefulWidget {
 
 class KhaltiPaymentState extends State<KhaltiPayment> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String checkoutUrl;
-  String executeUrl;
-  String accessToken;
+  String? checkoutUrl;
+  String? executeUrl;
+  String? accessToken;
 
   String returnURL = '${AppConfig.domainName}';
 
@@ -63,7 +63,7 @@ class KhaltiPaymentState extends State<KhaltiPayment> {
                     'id': idx,
                     'status': status,
                   };
-                  widget.onFinish(data);
+                  widget.onFinish!(data);
                 }
               }
               return NavigationDecision.navigate;

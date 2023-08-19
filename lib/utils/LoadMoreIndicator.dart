@@ -7,13 +7,13 @@ import 'package:loading_more_list/loading_more_list.dart';
 
 class BuildIndicatorBuilder {
   final dynamic source;
-  final bool isSliver;
-  final String name;
+  final bool? isSliver;
+  final String? name;
 
   BuildIndicatorBuilder({this.source, this.isSliver, this.name});
 
-  Widget buildIndicator(BuildContext context, IndicatorStatus status) {
-    Widget widget;
+  Widget? buildIndicator(BuildContext context, IndicatorStatus status) {
+    Widget? widget;
     switch (status) {
       case IndicatorStatus.none:
         widget = Container(height: 0.0);
@@ -27,7 +27,7 @@ class BuildIndicatorBuilder {
           margin: EdgeInsets.only(right: 0.0),
           child: Center(child: CupertinoActivityIndicator()),
         );
-        if (isSliver) {
+        if (isSliver!) {
           widget = SliverFillRemaining(
             child: widget,
           );
@@ -86,7 +86,7 @@ class BuildIndicatorBuilder {
             ),
           ],
         );
-        if (isSliver) {
+        if (isSliver!) {
           widget = SliverFillRemaining(
             child: widget,
           );
@@ -118,7 +118,7 @@ class BuildIndicatorBuilder {
             ),
           ],
         );
-        if (isSliver) {
+        if (isSliver!) {
           widget = SliverToBoxAdapter(
             child: widget,
           );

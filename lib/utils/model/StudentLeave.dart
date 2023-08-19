@@ -1,6 +1,6 @@
 class StudentMyLeaves {
   dynamic id;
-  String type;
+  String? type;
   dynamic days;
 
   StudentMyLeaves({
@@ -34,11 +34,11 @@ class StudentMyLeavesList {
 
 class StudentApplyLeaves {
   dynamic id;
-  String type;
-  String applyDate;
-  String leaveFrom;
-  String leaveTo;
-  String approveStatus;
+  String? type;
+  String? applyDate;
+  String? leaveFrom;
+  String? leaveTo;
+  String? approveStatus;
   dynamic activeStatus;
 
   StudentApplyLeaves({

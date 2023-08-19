@@ -16,8 +16,8 @@ class Fee {
     this.message,
   });
 
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
   dynamic message;
 
   factory Fee.fromJson(Map<String, dynamic> json) => Fee(
@@ -28,7 +28,7 @@ class Fee {
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": data.toJson(),
+    "data": data!.toJson(),
     "message": message,
   };
 }
@@ -39,8 +39,8 @@ class Data {
     this.currencySymbol,
   });
 
-  List<FeeElement> fees;
-  CurrencySymbol currencySymbol;
+  List<FeeElement>? fees;
+  CurrencySymbol? currencySymbol;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     fees: List<FeeElement>.from(json["fees"].map((x) => FeeElement.fromJson(x))),
@@ -48,8 +48,8 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "fees": List<dynamic>.from(fees.map((x) => x.toJson())),
-    "currency_symbol": currencySymbol.toJson(),
+    "fees": List<dynamic>.from(fees!.map((x) => x.toJson())),
+    "currency_symbol": currencySymbol!.toJson(),
   };
 }
 

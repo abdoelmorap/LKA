@@ -1,7 +1,7 @@
 class Notice {
-  String title;
-  String date;
-  String destails;
+  String? title;
+  String? date;
+  String? destails;
 
   Notice({this.title, this.date, this.destails});
 

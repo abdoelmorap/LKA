@@ -3,7 +3,7 @@ class LanguageSelection{
   var drop;
   String val = 'en_US';
 
-  String langName = 'English';
+  String? langName = 'English';
 
   LanguageSelection._privateConstructor();
 

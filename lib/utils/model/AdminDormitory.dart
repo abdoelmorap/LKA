@@ -1,5 +1,5 @@
 class AdminDormitory {
-  String title;
+  String? title;
   dynamic id;
 
   AdminDormitory({this.title, this.id});

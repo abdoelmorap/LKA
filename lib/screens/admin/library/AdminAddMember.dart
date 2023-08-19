@@ -27,25 +27,25 @@ class AddMember extends StatefulWidget {
 
 class _AddMemberState extends State<AddMember> {
   final idController = TextEditingController();
-  String selectedCategory;
-  Future<LibraryMemberList> categoryList;
-  Future classes;
-  Future<SectionList> sections;
-  Future<StudentList> students;
-  Future<StaffList> staffs;
+  String? selectedCategory;
+  Future<LibraryMemberList>? categoryList;
+  Future<ClassList>? classes;
+  Future<SectionList>? sections;
+  Future<StudentList>? students;
+  Future<StaffList>? staffs;
   dynamic selectedCategoryId;
   bool isStudentCategory = false;
-  String selectedClass;
+  String? selectedClass;
   dynamic selectedClassId;
-  String selectedSection;
+  String? selectedSection;
   dynamic selectedSectionId;
-  String selectedStudent;
+  String? selectedStudent;
   dynamic selectedStudentId;
-  String selectedStaff;
+  String? selectedStaff;
   dynamic selectedStaffId;
-  String _id;
-  String _token;
-  String rule;
+  String? _id;
+  String? _token;
+  String? rule;
 
   bool available = true;
 
@@ -58,12 +58,12 @@ class _AddMemberState extends State<AddMember> {
 
         categoryList = getAllCategory();
 
-        categoryList.then((value) {
+        categoryList!.then((value) {
           setState(() {
             selectedCategory = value.members[0].name;
             selectedCategoryId = value.members[0].id;
             staffs = getAllStaff(selectedCategoryId);
-            staffs.then((staffVal) {
+            staffs!.then((staffVal) {
               setState(() {
                 selectedStaff = staffVal.staffs[0].name;
                 selectedStaffId = staffVal.staffs[0].userId;
@@ -75,18 +75,18 @@ class _AddMemberState extends State<AddMember> {
           setState(() {
             _id = value;
             Utils.getStringValue('rule').then((ruleValue) {
-              setState(() {
+              setState(() async {
                 rule = ruleValue;
-                classes = getAllClass(int.parse(_id));
-                classes.then((value) {
+                classes = await getAllClass(int.parse(_id!));
+                classes!.then((value) {
                   selectedClass = value.classes[0].name;
                   selectedClassId = value.classes[0].id;
-                  sections = getAllSection(int.parse(_id), selectedClassId);
-                  sections.then((sectionValue) {
+                  sections = getAllSection(int.parse(_id!), selectedClassId);
+                  sections!.then((sectionValue) {
                     selectedSection = sectionValue.sections[0].name;
                     selectedSectionId = sectionValue.sections[0].id;
                     students = getAllStudent();
-                    students.then((value) {
+                    students!.then((value) {
                       selectedStudent = value.students[0].name;
                       selectedStudentId = value.students[0].uid;
                     });
@@ -127,18 +127,18 @@ class _AddMemberState extends State<AddMember> {
               future: categoryList,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return getCategoryDropdown(snapshot.data.members);
+                  return getCategoryDropdown(snapshot.data!.members);
                 } else {
                   return Container();
                 }
               },
             ),
-            FutureBuilder(
+            FutureBuilder<ClassList>(
               future: classes,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return isStudentCategory
-                      ? getClassDropdown(snapshot.data.classes)
+                      ? getClassDropdown(snapshot!.data!.classes)
                       : Container();
                 } else {
                   return Container();
@@ -150,7 +150,7 @@ class _AddMemberState extends State<AddMember> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return isStudentCategory
-                      ? getSectionDropdown(snapshot.data.sections)
+                      ? getSectionDropdown(snapshot.data!.sections)
                       : Container();
                 } else {
                   return Container();
@@ -162,7 +162,7 @@ class _AddMemberState extends State<AddMember> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return !isStudentCategory
-                      ? getStaffDropDown(snapshot.data.staffs)
+                      ? getStaffDropDown(snapshot.data!.staffs)
                       : Container();
                 } else {
                   return Container();
@@ -174,7 +174,7 @@ class _AddMemberState extends State<AddMember> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return isStudentCategory
-                      ? getStudentDropdown(snapshot.data.students)
+                      ? getStudentDropdown(snapshot.data!.students)
                       : Container();
                 } else {
                   return Container();
@@ -248,14 +248,14 @@ class _AddMemberState extends State<AddMember> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedCategory = value;
             selectedCategoryId = getCode(categories, value);
@@ -269,7 +269,7 @@ class _AddMemberState extends State<AddMember> {
                 setState(() {
                   isStudentCategory = false;
                   staffs = getAllStaff(selectedCategoryId);
-                  staffs.then((staffVal) {
+                  staffs!.then((staffVal) {
                     setState(() {
                       if (staffVal.staffs.length == 0) {
                         Utils.showToast('No staffs found'.tr);
@@ -306,13 +306,13 @@ class _AddMemberState extends State<AddMember> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedClass = value;
             selectedClassId = getCode(classes, value);
             students = getAllStudent();
-            students.then((value) {
+            students!.then((value) {
               if (value.students.length == 0) {
                 Utils.showToast('No student found'.tr);
               }
@@ -338,20 +338,20 @@ class _AddMemberState extends State<AddMember> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedSection = value;
             selectedSectionId = getCode(sections, value);
             students = getAllStudent();
             students = getAllStudent();
-            students.then((value) {
+            students!.then((value) {
               if (value.students.length == 0) {
                 Utils.showToast('No student found'.tr);
               }
@@ -377,14 +377,14 @@ class _AddMemberState extends State<AddMember> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedStaff = value;
             selectedStaffId = getCode2(staff, value);
@@ -418,14 +418,14 @@ class _AddMemberState extends State<AddMember> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedStudent = value;
             selectedStudentId = getCode(student, value);
@@ -450,9 +450,9 @@ class _AddMemberState extends State<AddMember> {
     }
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.id;
         break;
@@ -461,9 +461,9 @@ class _AddMemberState extends State<AddMember> {
     return code;
   }
 
-  int getCode2<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode2<T>(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.studentId;
         break;
@@ -547,7 +547,7 @@ class _AddMemberState extends State<AddMember> {
       String sectionId,
       String studentId,
       String stuffId,
-      String createdBy) async {
+      String? createdBy) async {
     Response response;
     Dio dio = Dio();
     response = await dio

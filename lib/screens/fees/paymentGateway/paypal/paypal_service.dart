@@ -14,7 +14,7 @@ import 'package:infixedu/utils/model/PaypalResponse.dart';
 class PaypalServices {
   String domain = paypalDomain;
 
-  Future<String> getAccessToken() async {
+  Future<String?> getAccessToken() async {
     try {
       Uri url =
           Uri.parse('$domain/v1/oauth2/token?grant_type=client_credentials');
@@ -32,7 +32,7 @@ class PaypalServices {
   }
 
   // for creating the payment request with Paypal
-  Future<Map<String, String>> createPaypalPayment(
+  Future<Map<String, String?>?> createPaypalPayment(
       transactions, accessToken) async {
     try {
       Uri url = Uri.parse('$domain/v1/payments/payment');
@@ -48,8 +48,8 @@ class PaypalServices {
         if (body["links"] != null && body["links"].length > 0) {
           List links = body["links"];
 
-          String executeUrl = "";
-          String approvalUrl = "";
+          String? executeUrl = "";
+          String? approvalUrl = "";
           final item = links.firstWhere((o) => o["rel"] == "approval_url",
               orElse: () => null);
           if (item != null) {
@@ -72,7 +72,7 @@ class PaypalServices {
   }
 
   // for executing the payment transaction
-  Future<PaypalResponse> executePayment(url, payerId, accessToken) async {
+  Future<PaypalResponse?> executePayment(url, payerId, accessToken) async {
     try {
       final uri = Uri.parse(url);
       var response = await http.post(uri,

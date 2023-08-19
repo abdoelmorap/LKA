@@ -25,15 +25,15 @@ class RazorpayServices {
 
   /// Method for open razorpay and listening payment events
   openRazorpay({
-    String contactNumber,
-    String emailId,
-    String razorpayKey,
-    double amount,
-    String userName,
-    Function(PaymentResponse) successListener,
-    Function(PaymentResponse) failureListener,
+    String? contactNumber,
+    String? emailId,
+    String? razorpayKey,
+    required double amount,
+    String? userName,
+    Function(PaymentResponse)? successListener,
+    Function(PaymentResponse)? failureListener,
   }) {
-    Map<String, Object> options = {
+    Map<String, Object?> options = {
       'key': razorpayKey,
       'amount': amount * 100,
       'name': userName,
@@ -55,14 +55,14 @@ class RazorpayServices {
       _razorpay.on(
         Razorpay.EVENT_PAYMENT_ERROR,
         (PaymentFailureResponse res) {
-          log(res.message);
+          log(res.message!);
           onFailure(res, failureListener);
         },
       );
     } catch (e) {
       /// return if something went wrong
       debugPrint(
-        failureListener(
+        failureListener!(
           PaymentResponse(
             e.toString(),
             false,
@@ -75,9 +75,9 @@ class RazorpayServices {
 }
 
 class PaymentResponse {
-  String message;
+  String? message;
   bool paymentStatus;
-  String paymentId;
+  String? paymentId;
 
   PaymentResponse(
     this.message,

@@ -33,21 +33,21 @@ class _AssignVehicleState extends State<AssignVehicle> {
 
   TextEditingController fareController = TextEditingController();
 
-  String _token;
-  String id;
+  String? _token;
+  String? id;
 
-  Response response;
+  late Response response;
 
   Dio dio = Dio();
 
-  Future<VehicleRouteList> getRoute;
+  Future<VehicleRouteList>? getRoute;
 
-  Future<AssignVehicleList> getVehicle;
+  Future<AssignVehicleList>? getVehicle;
 
-  String selectedRoute;
+  String? selectedRoute;
   dynamic selectedRouteId;
 
-  String selectedVehicle;
+  String? selectedVehicle;
   dynamic selectedVehicleId;
 
   bool isResponse = false;
@@ -62,18 +62,18 @@ class _AssignVehicleState extends State<AssignVehicle> {
           id = value;
         });
         getRoute = getRouteList();
-        getRoute.then((value) {
+        getRoute!.then((value) {
           selectedRoute = value.routes[0].title;
           selectedRouteId = value.routes[0].id;
         });
 
         getVehicle = getAllVehicles();
-        getVehicle.then((value) {
+        getVehicle!.then((value) {
           selectedVehicle = value.assignVehicle[0].vehicleNo;
           selectedVehicleId = value.assignVehicle[0].id;
         });
       });
-    });
+    } );
     super.initState();
   }
 
@@ -97,15 +97,15 @@ class _AssignVehicleState extends State<AssignVehicle> {
               child: Text(
                 'Select Route'.tr,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(),
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(),
               ),
             ),
             FutureBuilder<VehicleRouteList>(
                 future: getRoute,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.routes.length > 0) {
-                      return getRouteDropDown(snapshot.data.routes);
+                    if (snapshot.data!.routes.length > 0) {
+                      return getRouteDropDown(snapshot.data!.routes);
                     } else {
                       return Utils.noDataWidget();
                     }
@@ -121,15 +121,15 @@ class _AssignVehicleState extends State<AssignVehicle> {
               child: Text(
                 'Select Vehicle'.tr,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(),
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(),
               ),
             ),
             FutureBuilder<AssignVehicleList>(
                 future: getVehicle,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.assignVehicle.length > 0) {
-                      return getVehicleDropDown(snapshot.data.assignVehicle);
+                    if (snapshot.data!.assignVehicle.length > 0) {
+                      return getVehicleDropDown(snapshot.data!.assignVehicle);
                     } else {
                       return Utils.noDataWidget();
                     }
@@ -150,7 +150,7 @@ class _AssignVehicleState extends State<AssignVehicle> {
                   "Save".tr,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(color: Colors.white),
                 ),
               ),
@@ -182,14 +182,14 @@ class _AssignVehicleState extends State<AssignVehicle> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.title,
+                item.title!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedRoute = value;
             selectedRouteId = getCode(routes, value);
@@ -212,14 +212,14 @@ class _AssignVehicleState extends State<AssignVehicle> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.vehicleNo,
+                item.vehicleNo!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             selectedVehicle = value;
             selectedVehicleId = getCode2(vehicles, value);
@@ -230,9 +230,9 @@ class _AssignVehicleState extends State<AssignVehicle> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.title == title) {
         code = cls.id;
         break;
@@ -241,9 +241,9 @@ class _AssignVehicleState extends State<AssignVehicle> {
     return code;
   }
 
-  int getCode2<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode2(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.vehicleNo == title) {
         code = cls.id;
         break;
@@ -261,6 +261,7 @@ class _AssignVehicleState extends State<AssignVehicle> {
       var data = json.decode(response.body);
       return VehicleRouteList.fromJson(data['data']);
     }
+    throw '';
   }
 
   Future<AssignVehicleList> getAllVehicles() async {

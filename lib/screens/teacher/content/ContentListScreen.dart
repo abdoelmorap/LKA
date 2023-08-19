@@ -24,7 +24,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
   // Future<ContentList> contents;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -49,18 +49,18 @@ class _ContentListScreenState extends State<ContentListScreen> {
         future: fetchContent(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.contents.length > 0) {
+            if (snapshot.data!.contents.length > 0) {
               return AnimatedList(
                 key: _listKey,
-                initialItemCount: snapshot.data.contents.length,
+                initialItemCount: snapshot.data!.contents.length,
                 itemBuilder: (context, index, animation) {
                   return ContentRow(
-                    snapshot.data.contents[index],
+                    snapshot.data!.contents[index],
                     animation,
                     onPressed: () async {
                       Utils.showToast(
-                          '${snapshot.data.contents[index].contentTitle} deleted');
-                      _removeItem(index, snapshot.data.contents);
+                          '${snapshot.data!.contents[index].contentTitle} deleted');
+                      _removeItem(index, snapshot.data!.contents);
                     },
                     token: _token,
                   );
@@ -85,7 +85,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
     AnimatedListRemovedItemBuilder builder = (context, animation) {
       return ContentRow(removeItem, animation, index: index);
     };
-    _listKey.currentState.removeItem(removeIndex, builder);
+    _listKey.currentState!.removeItem(removeIndex, builder);
   }
 
   Future<ContentList> fetchContent() async {

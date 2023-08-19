@@ -10,10 +10,10 @@ import 'cookie_button.dart';
 enum PaymentType { cardPayment, googlePay, applePay }
 
 class OrderSheet extends StatelessWidget {
-  final bool googlePayEnabled;
-  final bool applePayEnabled;
-  final String balance;
-  final String email;
+  final bool? googlePayEnabled;
+  final bool? applePayEnabled;
+  final String? balance;
+  final String? email;
 
   OrderSheet({this.balance, this.googlePayEnabled, this.applePayEnabled,this.email});
 
@@ -44,7 +44,7 @@ class OrderSheet extends StatelessWidget {
                     children: <Widget>[
                       _ShippingInformation(email: email,),
                       _LineDivider(),
-                      _PaymentTotal(double.parse(balance)),
+                      _PaymentTotal(double.parse(balance!)),
                       _LineDivider(),
                       _RefundInformation(),
                       _payButtons(context),
@@ -90,7 +90,7 @@ class OrderSheet extends StatelessWidget {
             height: 64,
             width: MediaQuery.of(context).size.width * .4,
             child: ElevatedButton(
-              onPressed: googlePayEnabled || applePayEnabled
+              onPressed: googlePayEnabled! || applePayEnabled!
                   ? () {
                       if (Platform.isAndroid) {
                         Navigator.pop(context, PaymentType.googlePay);
@@ -113,7 +113,7 @@ class OrderSheet extends StatelessWidget {
 }
 
 class _ShippingInformation extends StatelessWidget {
-  final String email;
+  final String? email;
   _ShippingInformation({this.email});
   @override
   Widget build(BuildContext context) => Row(
@@ -131,10 +131,10 @@ class _ShippingInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  email,
+                  email!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
+                      .headline6!
                       .copyWith(fontSize: 16.0, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),

@@ -29,11 +29,11 @@ class _DormitoryScreenState extends State<OnlineExamResultRow> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            result.subject,
+            result.subject!,
             textAlign: TextAlign.start,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headline6!
                 .copyWith(fontSize: ScreenUtil().setSp(15.0)),
           ),
           Padding(
@@ -50,7 +50,7 @@ class _DormitoryScreenState extends State<OnlineExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -73,7 +73,7 @@ class _DormitoryScreenState extends State<OnlineExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -96,7 +96,7 @@ class _DormitoryScreenState extends State<OnlineExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -119,14 +119,14 @@ class _DormitoryScreenState extends State<OnlineExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        result.grade,
+                        result.grade!,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),

@@ -1,10 +1,10 @@
 class StudentRoutineSearch{
 
-  String period;
-  String startTime;
-  String endTime;
-  String subject;
-  String room;
+  String? period;
+  String? startTime;
+  String? endTime;
+  String? subject;
+  String? room;
 
   StudentRoutineSearch({this.period, this.startTime, this.endTime,
       this.subject, this.room});

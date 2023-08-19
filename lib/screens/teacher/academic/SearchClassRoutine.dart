@@ -25,15 +25,15 @@ class SearchRoutineScreen extends StatefulWidget {
 }
 
 class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
-  String _id;
+  String? _id;
   dynamic classId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
-  Future classes;
-  Future<SectionList> sections;
-  String _token;
-  String rule;
+  String? _selectedClass;
+  String? _selectedSection;
+  Future<ClassList>? classes;
+  Future<SectionList>? sections;
+  String? _token;
+  String? rule;
 
   @override
   void didChangeDependencies() {
@@ -45,15 +45,16 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
       Utils.getStringValue('id').then((value) {
         setState(() {
           _id = value;
-          Utils.getStringValue('rule').then((ruleValue) {
+          Utils.getStringValue('rule').then((ruleValue) async {
+            classes = await getAllClass(int.parse(_id!));
+
             setState(() {
               rule = ruleValue;
-              classes = getAllClass(int.parse(_id));
-              classes.then((value) {
+              classes!.then((value) {
                 _selectedClass = value.classes[0].name;
                 classId = value.classes[0].id;
-                sections = getAllSection(int.parse(_id), classId);
-                sections.then((sectionValue) {
+                sections = getAllSection(int.parse(_id!), classId);
+                sections!.then((sectionValue) {
                   _selectedSection = sectionValue.sections[0].name;
                   sectionId = sectionValue.sections[0].id;
                 });
@@ -73,18 +74,18 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder(
+          child: FutureBuilder<ClassList>(
             future: classes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView(
                   children: <Widget>[
-                    getClassDropdown(snapshot.data.classes),
+                    getClassDropdown(snapshot.data!.classes),
                     FutureBuilder<SectionList>(
                       future: sections,
                       builder: (context, secSnap) {
                         if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data.sections);
+                          return getSectionDropdown(secSnap.data!.sections);
                         } else {
                           return Center(child: CupertinoActivityIndicator());
                         }
@@ -109,7 +110,7 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
             decoration: Utils.gradientBtnDecoration,
             child: Text(
               "Search".tr,
-              style: Theme.of(context).textTheme.headline4.copyWith(
+              style: Theme.of(context).textTheme.headline4!.copyWith(
                   color: Colors.white, fontSize: ScreenUtil().setSp(16)),
             ),
           ),
@@ -135,7 +136,7 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -143,16 +144,16 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
 
             classId = getCode(classes, value);
 
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
             });
@@ -176,15 +177,15 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child:
-                  Text(item.name, style: Theme.of(context).textTheme.headline4),
+                  Text(item.name!, style: Theme.of(context).textTheme.headline4),
             ),
           );
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
@@ -196,9 +197,9 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.id;
         break;

@@ -25,9 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
-  String user;
-  String email;
-  Future<String> futureEmail;
+  String? user;
+  String? email;
+  Future<String>? futureEmail;
   String password = '123456';
   bool isResponse = false;
   bool obscurePass = true;
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.headline6;
+    TextStyle? textStyle = Theme.of(context).textTheme.headline6;
 
     return WillPopScope(
       onWillPop: () async => !(Navigator.of(context).userGestureInProgress),
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text("Teacher",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(color: Colors.white)),
                               ),
                             ),
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text("Parents",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(color: Colors.white)),
                               ),
                             ),
@@ -177,8 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: textStyle,
                     controller: emailController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Please enter a valid email';
                       }
                       return null;
@@ -208,8 +208,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: textStyle,
                     controller: passwordController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Please enter a valid password';
                       }
                       return null;
@@ -260,12 +260,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Login".tr,
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
+                        .headline5!
                         .copyWith(color: Colors.white),
                   ),
                 ),
                 onTap: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     String email = emailController.text;
                     String password = passwordController.text;
 
@@ -277,7 +277,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         setState(() {
                           isResponse = false;
                         });
-                        Utils.showToast(result);
+                        Utils.showToast(result!);
                       });
                     } else {
                       setState(() {
@@ -303,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<String> getEmail(String user) async {
+  Future<String?> getEmail(String user) async {
     final response = await http.get(Uri.parse(InfixApi.getEmail));
     // print(response.body);
     var jsonData = json.decode(response.body);

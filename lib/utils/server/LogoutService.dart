@@ -13,12 +13,12 @@ import 'package:infixedu/utils/apis/Apis.dart';
 
 class LogoutService {
   logoutDialog() {
-    String _token;
+    String? _token;
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Get.textTheme.headline5.copyWith(
+        style: Get.textTheme.headline5!.copyWith(
           fontSize: 12.sp,
           color: Colors.red,
         ),
@@ -30,7 +30,7 @@ class LogoutService {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Get.textTheme.headline5.copyWith(
+        style: Get.textTheme.headline5!.copyWith(
           fontSize: ScreenUtil().setSp(12),
           color: Colors.green,
         ),

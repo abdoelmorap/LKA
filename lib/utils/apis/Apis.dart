@@ -106,7 +106,7 @@ class InfixApi {
     return baseApi + "teacher-class-list?id=$id";
   }
 
-  static String getChildren(String id) {
+  static String getChildren(String? id) {
     return baseApi + "childInfo/$id";
   }
 
@@ -141,7 +141,7 @@ class InfixApi {
     return baseApi + "staff-apply-list/$id";
   }
 
-  static String getParentChildList(String id) {
+  static String getParentChildList(String? id) {
     return baseApi + "child-list/$id";
   }
 
@@ -233,7 +233,7 @@ class InfixApi {
       String secId,
       String studentId,
       String stuffId,
-      String createdBy) {
+      String? createdBy) {
     return baseApi +
         "add-library-member?member_type=" +
         memberType +
@@ -295,7 +295,7 @@ class InfixApi {
 
   static String adminAddDormitory = baseApi + "add-dormitory";
 
-  static String setToken(String id, String token) {
+  static String setToken(String? id, String? token) {
     return baseApi + "set-fcm-token?id=$id&token=$token";
   }
 
@@ -315,7 +315,7 @@ class InfixApi {
   }
 
   static String sendLeaveData(String applyDate, String leaveType,
-      String leaveForm, String leaveTo, String id, String reason, String path) {
+      String leaveForm, String leaveTo, String? id, String reason, String path) {
     return baseApi +
         "staff-apply-leave?teacher_id=$id&reason=$reason&leave_type=$leaveType&leave_from=$leaveForm&leave_to=$leaveTo&apply_date=$applyDate&attach_file=$path";
   }
@@ -355,7 +355,7 @@ class InfixApi {
   }
 
   static String changePassword(String currentPassword, String newPassword,
-      String confirmPassword, String userID) {
+      String confirmPassword, String? userID) {
     return baseApi +
         "change-password?current_password=$currentPassword&new_password=$newPassword&confirm_password=$confirmPassword&id=$userID";
   }
@@ -364,10 +364,10 @@ class InfixApi {
       String amount,
       dynamic classID,
       dynamic sectionID,
-      String userID,
+      String? userID,
       dynamic feeTypeID,
       String paymentMode,
-      String paymentDate,
+      String? paymentDate,
       dynamic bankID) {
     return baseApi +
         "child-bank-slip-store?amount=$amount&class_id=$classID&section_id=$sectionID&user_id=$userID&fees_type_id=$feeTypeID&payment_mode=$paymentMode&date=$paymentDate&bank_id=$bankID";
@@ -377,10 +377,10 @@ class InfixApi {
     String amount,
     dynamic classID,
     dynamic sectionID,
-    String userID,
+    String? userID,
     dynamic feeTypeID,
     String paymentMode,
-    String paymentDate,
+    String? paymentDate,
   ) {
     return baseApi +
         "child-bank-slip-store?amount=$amount&class_id=$classID&section_id=$sectionID&user_id=$userID&fees_type_id=$feeTypeID&payment_mode=$paymentMode&date=$paymentDate";
@@ -428,8 +428,8 @@ class InfixApi {
 
   static String feePayment = baseApi + "student-fees-payment";
 
-  static String studentFeePayment(String stuId, dynamic feesType, String amount,
-      String paidBy, String paymentMethod) {
+  static String studentFeePayment(String? stuId, dynamic feesType, String? amount,
+      String? paidBy, String paymentMethod) {
     return baseApi +
         "student-fees-payment?student_id=$stuId&fees_type_id=$feesType&amount=$amount&paid_by=$paidBy&payment_mode=$paymentMethod";
   }
@@ -516,62 +516,62 @@ class InfixApi {
 
   static String chatGetBlockedUsers = baseApi + "chat/users/blocked";
 
-  static String studentRecord(int studentId) {
+  static String studentRecord(int? studentId) {
     return baseApi + "student-record/$studentId";
   }
 
-  static String getStudenthomeWorksUrl(dynamic userId, int recordId) {
+  static String getStudenthomeWorksUrl(dynamic userId, int? recordId) {
     return baseApi + "student-homework/$userId/$recordId";
   }
 
   static String studentUploadHomework = baseApi + 'student-upload-homework';
 
-  static String getStudentAssignment(dynamic userId, int recordId) {
+  static String getStudentAssignment(dynamic userId, int? recordId) {
     return baseApi + "studentAssignment/$userId/$recordId";
   }
 
-  static String getStudentSyllabus(dynamic id, int recordId) {
+  static String getStudentSyllabus(dynamic id, int? recordId) {
     return baseApi + "studentSyllabus/$id/$recordId";
   }
 
-  static String getStudentOtherDownloads(dynamic id, int recordId) {
+  static String getStudentOtherDownloads(dynamic id, int? recordId) {
     return baseApi + "studentOtherDownloads/$id/$recordId";
   }
 
-  static String getSubjectsUrl(dynamic userId, int recordId) {
+  static String getSubjectsUrl(dynamic userId, int? recordId) {
     return baseApi + "studentSubject/$userId/$recordId";
   }
 
   static String getStudentTeacherUrl(
-      dynamic schoolId, dynamic id, int recordId) {
+      dynamic schoolId, dynamic id, int? recordId) {
     return baseApi + "school/$schoolId/studentTeacher/$id/$recordId";
   }
 
   static String getStudentClassExamResult(
-      var id, dynamic examId, int recordId) {
+      var id, dynamic examId, int? recordId) {
     return baseApi + "exam-result/$id/$examId/$recordId";
   }
 
-  static String getStudentOnlineActiveExam(var id, int recordId) {
+  static String getStudentOnlineActiveExam(var id, int? recordId) {
     return baseApi + "student-online-exam/$id/$recordId";
   }
 
-  static String getStudentOnlineActiveExamName(var id, int recordId) {
+  static String getStudentOnlineActiveExamName(var id, int? recordId) {
     return baseApi + "choose-exam/$id/$recordId";
   }
 
   static String getStudentOnlineActiveExamResult(
-      var id, var examId, int recordId) {
+      var id, var examId, int? recordId) {
     return baseApi + "online-exam-result/$id/$examId/$recordId";
   }
 
   static String getStudentAttendence(
-      var id, int recordId, dynamic month, dynamic year) {
+      var id, int? recordId, dynamic month, dynamic year) {
     return baseApi +
         "student-my-attendance/$id/$recordId?month=$month&year=$year";
   }
 
-  static String attendanceCheck(String date, dynamic mClass, dynamic mSection) {
+  static String attendanceCheck(String? date, dynamic mClass, dynamic mSection) {
     return baseApi +
         "student-attendance-check?date=$date&class=$mClass&section=$mSection";
   }
@@ -579,17 +579,17 @@ class InfixApi {
   static String attendanceDefaultSent =
       baseApi + 'student-attendance-store-all';
 
-  static String attendanceDataSend(String id, String atten, String date,
-      dynamic mClass, dynamic mSection, int recordId) {
+  static String attendanceDataSend(String id, String atten, String? date,
+      dynamic mClass, dynamic mSection, int? recordId) {
     return baseApi +
         "student-attendance-store-second?id=$id&attendance=$atten&date=$date&class=$mClass&section=$mSection&record_id=$recordId";
   }
 
-  static String routineView(userId, role, {bool mine, int recordId}) {
+  static String routineView(userId, role, {bool? mine, int? recordId}) {
     if (role == "student") {
       return baseApi + "class-routine-view/$userId/$recordId";
     } else {
-      if (mine) {
+      if (mine!) {
         return baseApi + "teacher-routine-view/$userId";
       } else {
         return baseApi + "student-routine-view/$userId";
@@ -601,7 +601,7 @@ class InfixApi {
 
   static String feesRecordList = baseApi + "student-record-fees-list";
 
-  static String studentFeesAddPayment(int invoiceId) {
+  static String studentFeesAddPayment(int? invoiceId) {
     return baseApi + "student-fees-payment/$invoiceId";
   }
 
@@ -624,7 +624,7 @@ class InfixApi {
 
   static String adminFeesInvoiceList = baseApi + "fees-invoice-list";
 
-  static String feesInvoiceView(int invoiceId) {
+  static String feesInvoiceView(int? invoiceId) {
     return baseApi + "fees-invoice-view/$invoiceId/view";
   }
 
@@ -655,12 +655,12 @@ class InfixApi {
 
   //EXAM MODULE
 
-  static String getOnlineExamModule(var id, int recordId, schoolId) {
+  static String getOnlineExamModule(var id, int? recordId, schoolId) {
     return baseApi + "onlineexam/student-online-exam/$id/$recordId/$schoolId";
   }
 
   static String takeOnlineExamModule(
-      int onlineExamId, int recordId, int schoolId) {
+      int? onlineExamId, int? recordId, int schoolId) {
     return baseApi +
         "onlineexam/take-online-exam/$onlineExamId/$recordId/$schoolId";
   }
@@ -674,7 +674,7 @@ class InfixApi {
   static String studentSubmitAnswerFinal =
       baseApi + "onlineexam/student-done-online-exam";
 
-  static String getOnlineExamResultModule(dynamic studentId, int recordId) {
+  static String getOnlineExamResultModule(dynamic studentId, int? recordId) {
     return baseApi + "onlineexam/online-exam-result/$studentId/$recordId";
   }
 

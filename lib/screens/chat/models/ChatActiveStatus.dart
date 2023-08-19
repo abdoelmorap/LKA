@@ -10,8 +10,8 @@ class ChatActiveStatus {
   dynamic id;
   dynamic userId;
   dynamic status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory ChatActiveStatus.fromJson(Map<String, dynamic> json) =>
       ChatActiveStatus(
@@ -26,13 +26,13 @@ class ChatActiveStatus {
         "id": id,
         "user_id": userId,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }
 
 class ChatStatus {
-  int status;
-  String title;
+  int? status;
+  String? title;
   ChatStatus({this.status, this.title});
 }

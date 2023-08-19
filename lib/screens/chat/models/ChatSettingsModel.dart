@@ -17,9 +17,9 @@ class ChatSettingsModel {
     this.chatSettings,
   });
 
-  PermissionSettings permissionSettings;
-  InvitationSettings invitationSettings;
-  ChatSettings chatSettings;
+  PermissionSettings? permissionSettings;
+  InvitationSettings? invitationSettings;
+  ChatSettings? chatSettings;
 
   factory ChatSettingsModel.fromJson(Map<String, dynamic> json) =>
       ChatSettingsModel(
@@ -31,9 +31,9 @@ class ChatSettingsModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "permission_settings": permissionSettings.toJson(),
-        "invitation_settings": invitationSettings.toJson(),
-        "chat_settings": chatSettings.toJson(),
+        "permission_settings": permissionSettings!.toJson(),
+        "invitation_settings": invitationSettings!.toJson(),
+        "chat_settings": chatSettings!.toJson(),
       };
 }
 
@@ -50,15 +50,15 @@ class ChatSettings {
     this.pusherAppID,
   });
 
-  String chatCanTeacherChatWithParents;
-  String chatCanStudentChatWithAdminAccount;
-  String chatAdminCanChatWithoutInvitation;
-  String chatOpen;
-  String chatMethod;
-  String pusherAppKey;
-  String pusherAppCluster;
-  String pusherAppSecret;
-  String pusherAppID;
+  String? chatCanTeacherChatWithParents;
+  String? chatCanStudentChatWithAdminAccount;
+  String? chatAdminCanChatWithoutInvitation;
+  String? chatOpen;
+  String? chatMethod;
+  String? pusherAppKey;
+  String? pusherAppCluster;
+  String? pusherAppSecret;
+  String? pusherAppID;
 
   factory ChatSettings.fromJson(Map<String, dynamic> json) => ChatSettings(
         chatCanTeacherChatWithParents:
@@ -95,7 +95,7 @@ class InvitationSettings {
     this.chatInvitationRequirement,
   });
 
-  String chatInvitationRequirement;
+  String? chatInvitationRequirement;
 
   factory InvitationSettings.fromJson(Map<String, dynamic> json) =>
       InvitationSettings(
@@ -116,11 +116,11 @@ class PermissionSettings {
     this.chatTeacherCanPinTopMessage,
   });
 
-  String chatCanUploadFile;
-  String chatFileLimit;
-  String chatCanMakeGroup;
-  String chatStaffOrTeacherCanBanStudent;
-  String chatTeacherCanPinTopMessage;
+  String? chatCanUploadFile;
+  String? chatFileLimit;
+  String? chatCanMakeGroup;
+  String? chatStaffOrTeacherCanBanStudent;
+  String? chatTeacherCanPinTopMessage;
 
   factory PermissionSettings.fromJson(Map<String, dynamic> json) =>
       PermissionSettings(

@@ -1,9 +1,9 @@
 class Vehicle {
   dynamic id;
-  String vehicleNo;
-  String vehicleModel;
-  String madeYear;
-  String note;
+  String? vehicleNo;
+  String? vehicleModel;
+  String? madeYear;
+  String? note;
 
   Vehicle({this.id, this.vehicleNo, this.vehicleModel,this.madeYear,this.note});
 

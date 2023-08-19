@@ -20,14 +20,14 @@ class DayWiseRoutine {
         this.classId,
     });
 
-    String dayId;
-    List<ClassRoutine> classRoutines;
-    List<SmWeekend> smWeekends;
-    List<Subject> subjects;
-    List<Room> rooms;
-    List<Teacher> teachers;
-    String sectionId;
-    String classId;
+    String? dayId;
+    List<ClassRoutine>? classRoutines;
+    List<SmWeekend>? smWeekends;
+    List<Subject>? subjects;
+    List<Room>? rooms;
+    List<Teacher>? teachers;
+    String? sectionId;
+    String? classId;
 
     factory DayWiseRoutine.fromJson(Map<String, dynamic> json) => DayWiseRoutine(
         dayId: json["day_id"],
@@ -42,11 +42,11 @@ class DayWiseRoutine {
 
     Map<String, dynamic> toJson() => {
         "day_id": dayId,
-        "class_routines": List<dynamic>.from(classRoutines.map((x) => x.toJson())),
-        "sm_weekends": List<dynamic>.from(smWeekends.map((x) => x.toJson())),
-        "subjects": List<dynamic>.from(subjects.map((x) => x.toJson())),
-        "rooms": List<dynamic>.from(rooms.map((x) => x.toJson())),
-        "teachers": List<dynamic>.from(teachers.map((x) => x.toJson())),
+        "class_routines": List<dynamic>.from(classRoutines!.map((x) => x.toJson())),
+        "sm_weekends": List<dynamic>.from(smWeekends!.map((x) => x.toJson())),
+        "subjects": List<dynamic>.from(subjects!.map((x) => x.toJson())),
+        "rooms": List<dynamic>.from(rooms!.map((x) => x.toJson())),
+        "teachers": List<dynamic>.from(teachers!.map((x) => x.toJson())),
         "section_id": sectionId,
         "class_id": classId,
     };
@@ -74,23 +74,23 @@ class ClassRoutine {
         this.isBreak,
     });
 
-    int id;
-    int day;
-    int activeStatus;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int roomId;
-    int teacherId;
+    int? id;
+    int? day;
+    int? activeStatus;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    int? roomId;
+    int? teacherId;
     dynamic classPeriodId;
-    int subjectId;
-    int classId;
-    int sectionId;
-    int createdBy;
-    int updatedBy;
-    int schoolId;
-    int academicId;
-    String startTime;
-    String endTime;
+    int? subjectId;
+    int? classId;
+    int? sectionId;
+    int? createdBy;
+    int? updatedBy;
+    int? schoolId;
+    int? academicId;
+    String? startTime;
+    String? endTime;
     dynamic isBreak;
 
     factory ClassRoutine.fromJson(Map<String, dynamic> json) => ClassRoutine(
@@ -118,8 +118,8 @@ class ClassRoutine {
         "id": id,
         "day": day,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "room_id": roomId,
         "teacher_id": teacherId,
         "class_period_id": classPeriodId,
@@ -150,16 +150,16 @@ class Room {
         this.academicId,
     });
 
-    int id;
-    String roomNo;
-    int capacity;
-    int activeStatus;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int createdBy;
-    int updatedBy;
-    int schoolId;
-    int academicId;
+    int? id;
+    String? roomNo;
+    int? capacity;
+    int? activeStatus;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    int? createdBy;
+    int? updatedBy;
+    int? schoolId;
+    int? academicId;
 
     factory Room.fromJson(Map<String, dynamic> json) => Room(
         id: json["id"],
@@ -179,8 +179,8 @@ class Room {
         "room_no": roomNo,
         "capacity": capacity,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "created_by": createdBy,
         "updated_by": updatedBy,
         "school_id": schoolId,
@@ -196,10 +196,10 @@ class SmWeekend {
         this.isWeekend,
     });
 
-    int id;
-    String name;
-    int order;
-    int isWeekend;
+    int? id;
+    String? name;
+    int? order;
+    int? isWeekend;
 
     factory SmWeekend.fromJson(Map<String, dynamic> json) => SmWeekend(
         id: json["id"],
@@ -224,10 +224,10 @@ class Subject {
         this.subjectType,
     });
 
-    int id;
-    String subjectName;
-    String subjectCode;
-    String subjectType;
+    int? id;
+    String? subjectName;
+    String? subjectCode;
+    String? subjectType;
 
     factory Subject.fromJson(Map<String, dynamic> json) => Subject(
         id: json["id"],
@@ -252,10 +252,10 @@ class Teacher {
         this.schoolId,
     });
 
-    int id;
-    String fullName;
-    int userId;
-    int schoolId;
+    int? id;
+    String? fullName;
+    int? userId;
+    int? schoolId;
 
     factory Teacher.fromJson(Map<String, dynamic> json) => Teacher(
         id: json["id"],

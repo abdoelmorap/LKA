@@ -1,17 +1,17 @@
 class Homework {
   dynamic id;
-  String description;
-  String subjectName;
-  String homeworkDate;
-  String submissionDate;
-  String evaluationDate;
-  String fileUrl;
-  String status;
-  String marks;
+  String? description;
+  String? subjectName;
+  String? homeworkDate;
+  String? submissionDate;
+  String? evaluationDate;
+  String? fileUrl;
+  String? status;
+  String? marks;
   dynamic classId;
   dynamic sectionId;
   dynamic subjectId;
-  String obtainedMarks;
+  String? obtainedMarks;
 
   Homework(
       {this.id,this.description,

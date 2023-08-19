@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 class CookieButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
+  final String? text;
+  final Function? onPressed;
 
   CookieButton({this.text, this.onPressed});
 
@@ -13,11 +13,11 @@ class CookieButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width * .4,
       child: ElevatedButton(
         child: FittedBox(
-            child: Text(text,
+            child: Text(text!,
                 style: TextStyle(color: Colors.white, fontSize: 18))),
         style: ElevatedButton.styleFrom(
           primary: Colors.deepPurpleAccent,
         ),
-        onPressed: onPressed,
+        onPressed: onPressed as void Function()?,
       ));
 }

@@ -28,8 +28,8 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 class ContentRow extends StatefulWidget {
   Content content;
   Animation animation;
-  final VoidCallback onPressed;
-  String token;
+  final VoidCallback? onPressed;
+  String? token;
   dynamic index;
 
   ContentRow(this.content, this.animation,
@@ -51,7 +51,7 @@ class _ContentRowState extends State<ContentRow> {
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-      sizeFactor: widget.animation,
+      sizeFactor: widget.animation as Animation<double>,
       child: Container(
         child: InkWell(
           onTap: () {
@@ -79,7 +79,7 @@ class _ContentRowState extends State<ContentRow> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        widget.content.contentTitle,
+                                        widget.content.contentTitle!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5,
@@ -102,7 +102,7 @@ class _ContentRowState extends State<ContentRow> {
                                           widget.content.description ?? "N/A",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontSize:
                                                       ScreenUtil().setSp(12)),
@@ -130,10 +130,10 @@ class _ContentRowState extends State<ContentRow> {
                       child: Text(
                         widget.content.contentTitle == null
                             ? 'NA'
-                            : widget.content.contentTitle,
+                            : widget.content.contentTitle!,
                         style: Theme.of(context)
                             .textTheme
-                            .headline6
+                            .headline6!
                             .copyWith(fontSize: ScreenUtil().setSp(12)),
                         maxLines: 1,
                       ),
@@ -182,7 +182,7 @@ class _ContentRowState extends State<ContentRow> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -206,7 +206,7 @@ class _ContentRowState extends State<ContentRow> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -215,7 +215,7 @@ class _ContentRowState extends State<ContentRow> {
                             Text(
                               widget.content.uploadDate == null
                                   ? 'N/A'
-                                  : widget.content.uploadDate,
+                                  : widget.content.uploadDate!,
                               maxLines: 1,
                               style: Theme.of(context).textTheme.headline4,
                             ),
@@ -231,14 +231,14 @@ class _ContentRowState extends State<ContentRow> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
                             Text(
-                              widget.content.availableFor,
+                              widget.content.availableFor!,
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ],
@@ -317,7 +317,7 @@ class _ContentRowState extends State<ContentRow> {
       child: Text("Download"),
       onPressed: () {
         widget.content.uploadFile != null
-            ? downloadFile(widget.content.uploadFile, context, title)
+            ? downloadFile(widget.content.uploadFile!, context, title)
             : Utils.showToast('no file found');
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
@@ -350,7 +350,7 @@ class _ContentRowState extends State<ContentRow> {
         headers: Utils.setHeader(_token));
 
     if (response.statusCode == 200) {
-      widget.onPressed();
+      widget.onPressed!();
       Utils.showToast('Content deleted');
     } else {
       throw Exception('failed to load');
@@ -358,7 +358,7 @@ class _ContentRowState extends State<ContentRow> {
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     print("URL: $url");
     Dio dio = Dio();
 

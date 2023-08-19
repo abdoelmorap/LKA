@@ -14,16 +14,16 @@ class BookListRow extends StatefulWidget {
   BookListRow(this.book);
 
   @override
-  _BookListRowState createState() => _BookListRowState(book);
+  _BookListRowState createState() => _BookListRowState(book:book);
 }
 
 class _BookListRowState extends State<BookListRow>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation parentAnimation, childAnimation;
-  Book book;
+  late AnimationController controller;
+  late Animation parentAnimation, childAnimation;
+    Book book;
 
-  _BookListRowState(this.book);
+  _BookListRowState({required this.book});
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _BookListRowState extends State<BookListRow>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              book.title,
+                              book.title!,
                               style: Theme.of(context).textTheme.headline5,
                             ),
                             Text(
@@ -87,7 +87,7 @@ class _BookListRowState extends State<BookListRow>
                           '${book.categoryName}',
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: ScreenUtil().setSp(15.0)),
                         ),
                         SizedBox(
@@ -99,7 +99,7 @@ class _BookListRowState extends State<BookListRow>
                                 'Added ${book.postDate}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
                         SizedBox(
@@ -108,7 +108,7 @@ class _BookListRowState extends State<BookListRow>
                         book.author == null || book.author == "" ? Container() : Text.rich(
                           TextSpan(
                             text: 'Author:',
-                            style: Theme.of(context).textTheme.headline4.copyWith(
+                            style: Theme.of(context).textTheme.headline4!.copyWith(
                                 fontSize: ScreenUtil().setSp(14.0),
                                 decoration: TextDecoration.underline),
                             children: <TextSpan>[
@@ -116,7 +116,7 @@ class _BookListRowState extends State<BookListRow>
                                 text: "  ${book.author}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(fontSize: ScreenUtil().setSp(14.0)),
                               ),
                             ],
@@ -128,7 +128,7 @@ class _BookListRowState extends State<BookListRow>
                         book.publication == null || book.publication == "" ? Container() :  Text.rich(
                           TextSpan(
                             text: 'Published by:',
-                            style: Theme.of(context).textTheme.headline4.copyWith(
+                            style: Theme.of(context).textTheme.headline4!.copyWith(
                                 fontSize: ScreenUtil().setSp(14.0),
                                 decoration: TextDecoration.underline),
                             children: <TextSpan>[
@@ -136,7 +136,7 @@ class _BookListRowState extends State<BookListRow>
                                 text: "  ${book.publication}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(fontSize: ScreenUtil().setSp(14.0)),
                               ),
                             ],
@@ -146,7 +146,7 @@ class _BookListRowState extends State<BookListRow>
                           height: 10.0,
                         ),
                         Text(
-                          book.details == null ? '' : book.details,
+                          book.details == null ? '' : book.details!,
                           style: Theme.of(context).textTheme.headline4,
                         ),
                       ],
@@ -180,10 +180,10 @@ class _BookListRowState extends State<BookListRow>
                 transform: Matrix4.translationValues(
                     parentAnimation.value * width, 0.0, 0.0),
                 child: Text(
-                  book.title,
+                  book.title!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
+                      .headline6!
                       .copyWith(fontSize: ScreenUtil().setSp(15.0)),
                   maxLines: 1,
                 ),
@@ -201,7 +201,7 @@ class _BookListRowState extends State<BookListRow>
                     text: book.author == null || book.author == ""
                         ? ''
                         : '${book.author}',
-                    style: Theme.of(context).textTheme.headline4.copyWith(
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
                           fontSize: ScreenUtil().setSp(13.0),
                         ),
                     children: <TextSpan>[
@@ -211,7 +211,7 @@ class _BookListRowState extends State<BookListRow>
                             : ' | ',
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: ScreenUtil().setSp(13.0)),
                       ),
                       TextSpan(
@@ -220,7 +220,7 @@ class _BookListRowState extends State<BookListRow>
                             : '${book.publication}',
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: ScreenUtil().setSp(13.0)),
                       ),
                     ],
@@ -261,7 +261,7 @@ class _BookListRowState extends State<BookListRow>
                                 'Subject',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
@@ -271,7 +271,7 @@ class _BookListRowState extends State<BookListRow>
                                 book.subjectName == null ||
                                         book.subjectName == ""
                                     ? 'N/A'
-                                    : book.subjectName,
+                                    : book.subjectName!,
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             ],
@@ -287,7 +287,7 @@ class _BookListRowState extends State<BookListRow>
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -296,7 +296,7 @@ class _BookListRowState extends State<BookListRow>
                             Text(
                               book.bookNo == null || book.bookNo == ""
                                   ? 'N/A'
-                                  : book.bookNo,
+                                  : book.bookNo!,
                               maxLines: 1,
                               style: Theme.of(context).textTheme.headline4,
                             ),
@@ -312,7 +312,7 @@ class _BookListRowState extends State<BookListRow>
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -337,7 +337,7 @@ class _BookListRowState extends State<BookListRow>
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -362,7 +362,7 @@ class _BookListRowState extends State<BookListRow>
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
@@ -371,7 +371,7 @@ class _BookListRowState extends State<BookListRow>
                             Text(
                               book.reckNo == null
                                   ? 'not assigned'
-                                  : book.reckNo,
+                                  : book.reckNo!,
                               maxLines: 1,
                               style: Theme.of(context).textTheme.headline4,
                             ),

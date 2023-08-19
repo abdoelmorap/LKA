@@ -8,12 +8,12 @@ class FeesTranscation {
         this.fine,
     });
 
-    String date;
-    String paymentMethod;
-    String changeMethod;
-    int paidAmount;
-    int waiver;
-    int fine;
+    String? date;
+    String? paymentMethod;
+    String? changeMethod;
+    int? paidAmount;
+    int? waiver;
+    int? fine;
 
     factory FeesTranscation.fromJson(Map<String, dynamic> json) => FeesTranscation(
         date: json["date"],

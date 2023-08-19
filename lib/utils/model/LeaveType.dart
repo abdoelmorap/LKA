@@ -1,5 +1,5 @@
 class LeaveType {
-  String type;
+  String? type;
   dynamic id;
   dynamic days;
 

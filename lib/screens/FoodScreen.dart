@@ -28,9 +28,9 @@ class FoodScreen extends StatefulWidget{
 
 }
 class FoodScreenStetes extends State<FoodScreen>{
-  Future<MealsModel> dailyReport;
-  DateTime mTimeofDay;
-  String _token;
+  Future<MealsModel>? dailyReport;
+  late DateTime mTimeofDay;
+  String? _token;
   @override
   Widget build(BuildContext context) {
 
@@ -84,7 +84,7 @@ class FoodScreenStetes extends State<FoodScreen>{
       child: ListView.builder(itemBuilder: (ctx,index){
         return Card( child :
         Row(children: [
-          Image.network(AppConfig.domainName + '/public/images/'+snapshot.data.data[index].image,height: 120 ,width: 120,)
+          Image.network(AppConfig.domainName + '/public/images/'+snapshot.data!.data![index].image!,height: 120 ,width: 120,)
 ,SizedBox(width: 20,),
           Column(children: [
            Row(children: [
@@ -97,7 +97,7 @@ class FoodScreenStetes extends State<FoodScreen>{
                textAlign: TextAlign.start,),
              Text(
 
-                   snapshot.data.data[index].title,  style: const TextStyle(
+                   snapshot.data!.data![index].title!,  style: const TextStyle(
                fontSize: 16.0,
                color: Colors.grey,
              ),
@@ -113,7 +113,7 @@ class FoodScreenStetes extends State<FoodScreen>{
                 ),
                 children: <TextSpan>[
                   TextSpan(text: 'Meal Description: ', style: const TextStyle(color: Color.fromARGB(255, 56, 51, 51) ,fontWeight: FontWeight.bold)),
-                  TextSpan(text:  snapshot.data.data[index].subtitle),
+                  TextSpan(text:  snapshot.data!.data![index].subtitle),
                 ],
               ),
             ), width: 230, ),
@@ -127,10 +127,10 @@ class FoodScreenStetes extends State<FoodScreen>{
                 ),
                 children: <TextSpan>[
                   TextSpan(text: 'Meal Time: ', style: const TextStyle(color: Color.fromARGB(255, 56, 51, 51) ,fontWeight: FontWeight.bold)),
-                  TextSpan(text:   (snapshot.data.data[index].orderMeal==0?"N/A":
-                  snapshot.data.data[index].orderMeal==1?"BreakFast":
-                  snapshot.data.data[index].orderMeal==2?"Lunch":
-                  snapshot.data.data[index].orderMeal==3?"Snacks":"N/A")),
+                  TextSpan(text:   (snapshot.data!.data![index].orderMeal==0?"N/A":
+                  snapshot.data!.data![index].orderMeal==1?"BreakFast":
+                  snapshot.data!.data![index].orderMeal==2?"Lunch":
+                  snapshot.data!.data![index].orderMeal==3?"Snacks":"N/A")),
                 ],
               ),
             ),
@@ -143,7 +143,7 @@ class FoodScreenStetes extends State<FoodScreen>{
 
         ],)
        );
-      },itemCount:snapshot.data.data.length ,),
+      },itemCount:snapshot.data!.data!.length ,),
     );
     } else {
     return Center(
@@ -172,13 +172,13 @@ class FoodScreenStetes extends State<FoodScreen>{
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      print( MealsModel.fromJson(jsonData).data.isEmpty);
- if( MealsModel.fromJson(jsonData).data.length == 0){
+      print( MealsModel.fromJson(jsonData).data!.isEmpty);
+ if( MealsModel.fromJson(jsonData).data!.length == 0){
   return Future.error(0);
  }
       try {
         mTimeofDay =
-            DateTime.parse(MealsModel.fromJson(jsonData).data[0].dateofmeal);
+            DateTime.parse(MealsModel.fromJson(jsonData).data![0].dateofmeal!);
 
         return MealsModel.fromJson(jsonData);
       } catch (e) {
@@ -187,6 +187,7 @@ class FoodScreenStetes extends State<FoodScreen>{
     } else {
       print('Failed to load');
     }
+    throw'';
   }
 
   Future<MealsModel> getDailyReport() async {
@@ -197,16 +198,16 @@ class FoodScreenStetes extends State<FoodScreen>{
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      print( MealsModel.fromJson(jsonData).data.isEmpty);
-      if( MealsModel.fromJson(jsonData).data.length == 0){
+      print( MealsModel.fromJson(jsonData).data!.isEmpty);
+      if( MealsModel.fromJson(jsonData).data!.length == 0){
         return Future.error(0);
       }
       try {
         mTimeofDay =
-            DateTime.parse(MealsModel.fromJson(jsonData).data[0].dateofmeal);
-        if( MealsModel.fromJson(jsonData).data.length == 0){
-          print( MealsModel.fromJson(jsonData).data.length);
-          throw  null;
+            DateTime.parse(MealsModel.fromJson(jsonData).data![0].dateofmeal!);
+        if( MealsModel.fromJson(jsonData).data!.length == 0){
+          print( MealsModel.fromJson(jsonData).data!.length);
+          throw  '';
         }
         return MealsModel.fromJson(jsonData);
       } catch (e) {
@@ -215,6 +216,8 @@ class FoodScreenStetes extends State<FoodScreen>{
     } else {
       print('Failed to load');
     }
+
+    throw'';
   }
   @override
   void initState() {

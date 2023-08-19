@@ -20,8 +20,8 @@ class LeaveStudentHome extends StatefulWidget {
 }
 
 class _LeaveStudentHomeState extends State<LeaveStudentHome> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
   var sId;

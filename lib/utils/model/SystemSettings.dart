@@ -16,8 +16,8 @@ class SystemSettings {
     this.message,
   });
 
-  bool success;
-  SystemData data;
+  bool? success;
+  SystemData? data;
   dynamic message;
 
   factory SystemSettings.fromJson(Map<String, dynamic> json) => SystemSettings(
@@ -28,7 +28,7 @@ class SystemSettings {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
         "message": message,
       };
 }
@@ -73,41 +73,41 @@ class SystemData {
   });
 
   dynamic id;
-  String schoolName;
-  String siteTitle;
-  String schoolCode;
-  String address;
-  String phone;
-  String email;
-  String fileSize;
-  String currency;
-  String currencySymbol;
-  String logo;
-  String favicon;
-  String systemVersion;
-  String currencyCode;
-  String copyrightText;
+  String? schoolName;
+  String? siteTitle;
+  String? schoolCode;
+  String? address;
+  String? phone;
+  String? email;
+  String? fileSize;
+  String? currency;
+  String? currencySymbol;
+  String? logo;
+  String? favicon;
+  String? systemVersion;
+  String? currencyCode;
+  String? copyrightText;
   dynamic schoolId;
-  bool lesson;
-  bool chat;
+  bool? lesson;
+  bool? chat;
   dynamic feesCollection;
-  bool razorPay;
-  bool saas;
-  bool zoom;
-  bool bbb;
+  bool? razorPay;
+  bool? saas;
+  bool? zoom;
+  bool? bbb;
   dynamic videoWatch;
-  bool jitsi;
-  bool onlineExam;
-  bool xenditPayment;
-  bool wallet;
+  bool? jitsi;
+  bool? onlineExam;
+  bool? xenditPayment;
+  bool? wallet;
   dynamic university;
   dynamic feesStatus;
-  bool khaltiPayment;
-  bool appSlider;
-  bool raudhahpay;
+  bool? khaltiPayment;
+  bool? appSlider;
+  bool? raudhahpay;
   dynamic preloaderStatus;
-  String preloaderImage;
-  bool fees;
+  String? preloaderImage;
+  bool? fees;
 
   factory SystemData.fromJson(Map<String, dynamic> json) => SystemData(
         id: json["id"],

@@ -20,13 +20,13 @@ import 'core/khalti_core.dart';
 import 'sdk/khalti.dart';
 
 class KhaltiPaymentScreen extends StatelessWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
 
   KhaltiPaymentScreen(
       {this.id,
@@ -84,7 +84,7 @@ class KhaltiPaymentScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 0.0),
                       child: Text(
                         "Khalti Payment",
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
                             fontSize: ScreenUtil().setSp(20),
                             color: Colors.white),
                       ),
@@ -141,13 +141,13 @@ class KhaltiPaymentScreen extends StatelessWidget {
 }
 
 class WalletPayment extends StatefulWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
 
   WalletPayment(
       {this.id,
@@ -163,7 +163,7 @@ class WalletPayment extends StatefulWidget {
 }
 
 class _WalletPaymentState extends State<WalletPayment> {
-  TextEditingController _mobileController, _pinController;
+  TextEditingController? _mobileController, _pinController;
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
@@ -175,8 +175,8 @@ class _WalletPaymentState extends State<WalletPayment> {
 
   @override
   void dispose() {
-    _mobileController.dispose();
-    _pinController.dispose();
+    _mobileController!.dispose();
+    _pinController!.dispose();
     super.dispose();
   }
 
@@ -229,11 +229,11 @@ class _WalletPaymentState extends State<WalletPayment> {
 
                   final initiationModel = await Khalti.service.initiatePayment(
                     request: PaymentInitiationRequestModel(
-                      amount: int.parse(widget.amount) * 100,
-                      mobile: _mobileController.text,
-                      productIdentity: '${widget.fee.feesName}',
-                      productName: '${widget.fee.feesName}',
-                      transactionPin: _pinController.text,
+                      amount: int.parse(widget.amount!) * 100,
+                      mobile: _mobileController!.text,
+                      productIdentity: '${widget.fee!.feesName}',
+                      productName: '${widget.fee!.feesName}',
+                      transactionPin: _pinController!.text,
                       productUrl: '',
                     ),
                   );
@@ -242,7 +242,7 @@ class _WalletPaymentState extends State<WalletPayment> {
                     context: context,
                     barrierDismissible: false,
                     builder: (context) {
-                      String _otp;
+                      String? _otp;
                       return AlertDialog(
                         title: Text('OTP Sent!'),
                         content: TextField(
@@ -267,7 +267,7 @@ class _WalletPaymentState extends State<WalletPayment> {
                       request: PaymentConfirmationRequestModel(
                         confirmationCode: otpCode,
                         token: initiationModel.token,
-                        transactionPin: _pinController.text,
+                        transactionPin: _pinController!.text,
                       ),
                     );
                     print(model);
@@ -315,13 +315,13 @@ class _WalletPaymentState extends State<WalletPayment> {
 }
 
 class Banking extends StatefulWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
   final BankPaymentType paymentType;
 
   Banking(
@@ -332,7 +332,7 @@ class Banking extends StatefulWidget {
       this.method,
       this.amount,
       this.userDetails,
-      @required this.paymentType});
+      required this.paymentType});
 
   @override
   State<Banking> createState() => _BankingState();
@@ -347,7 +347,7 @@ class _BankingState extends State<Banking> with AutomaticKeepAliveClientMixin {
       future: Khalti.service.getBanks(paymentType: widget.paymentType),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final banks = snapshot.data.banks;
+          final banks = snapshot.data!.banks;
           return ListView.builder(
             itemCount: banks.length,
             itemBuilder: (context, index) {
@@ -367,7 +367,7 @@ class _BankingState extends State<Banking> with AutomaticKeepAliveClientMixin {
                     context: context,
                     barrierDismissible: false,
                     builder: (context) {
-                      String _mobile;
+                      String? _mobile;
                       return AlertDialog(
                         title: Text('Enter Mobile Number'),
                         content: TextField(
@@ -389,10 +389,10 @@ class _BankingState extends State<Banking> with AutomaticKeepAliveClientMixin {
                   if (mobile != null) {
                     final url = Khalti.service.buildBankUrl(
                       bankId: bank.idx,
-                      amount: int.parse(widget.amount) * 100,
+                      amount: int.parse(widget.amount!) * 100,
                       mobile: mobile,
-                      productIdentity: '${widget.fee.feesName}',
-                      productName: '${widget.fee.feesName}',
+                      productIdentity: '${widget.fee!.feesName}',
+                      productName: '${widget.fee!.feesName}',
                       paymentType: widget.paymentType,
                       returnUrl: '${AppConfig.domainName}',
                     );
@@ -438,19 +438,19 @@ class _BankingState extends State<Banking> with AutomaticKeepAliveClientMixin {
 }
 
 class KhaltiPaymentService {
-  final String id;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final String paidBy;
-  final UserDetails userDetails;
+  final String? id;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final String? paidBy;
+  final UserDetails? userDetails;
   final BuildContext context;
 
   KhaltiPaymentService(this.id, this.fee, this.email, this.method, this.amount,
       this.userDetails, this.paidBy, this.context);
 
-  String token;
+  String? token;
 
   Future<dynamic> paymentDataSave() async {
     await Utils.getStringValue('token').then((value) {
@@ -459,10 +459,10 @@ class KhaltiPaymentService {
 
     Map data = {
       'student_id': id,
-      'fees_type_id': fee.feesTypeId,
+      'fees_type_id': fee!.feesTypeId,
       'amount': amount,
       'method': method,
-      'school_id': userDetails.schoolId,
+      'school_id': userDetails!.schoolId,
     };
     final response = await http.post(
       Uri.parse(InfixApi.paymentDataSave),
@@ -503,7 +503,7 @@ class KhaltiPaymentService {
     try {
       final response = await http.get(
           Uri.parse(InfixApi.studentFeePayment(id.toString(),
-              int.parse(fee.feesTypeId.toString()), amount, paidBy, 'Khalti')),
+              int.parse(fee!.feesTypeId.toString()), amount, paidBy, 'Khalti')),
           headers: {
             "Accept": "application/json",
             "Authorization": token.toString(),

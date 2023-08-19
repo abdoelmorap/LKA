@@ -23,9 +23,9 @@ class TeacherAttendanceScreen extends StatefulWidget {
 }
 
 class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
-  Future<StudentAttendanceList> attendances;
+  Future<StudentAttendanceList>? attendances;
   dynamic id;
-  String _token;
+  String? _token;
 
   @override
   void didChangeDependencies() {
@@ -35,7 +35,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
         _token = value;
         Utils.getStringValue('id').then((value) {
           setState(() {
-            id = int.parse(value);
+            id = int.parse(value!);
             DateTime date = DateTime.now();
             attendances = getTeacherAttendance(id, date.month, date.year);
           });
@@ -77,11 +77,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
               showOnlyCurrentMonthDate: false,
               headerTextStyle: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(fontSize: 15.0),
               weekdayTextStyle: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontSize: 15.0, fontWeight: FontWeight.w500),
               customDayBuilder: (
                 /// you can provide your own build function to make custom day containers
@@ -110,8 +110,8 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   future: attendances,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      String status = getAttendanceStatus(
-                          day.day, snapshot.data.attendances);
+                      String? status = getAttendanceStatus(
+                          day.day, snapshot.data!.attendances);
 
                       return Center(
                         child: Container(
@@ -121,7 +121,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                               Text(day.day.toString(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           color: isToday == true
                                               ? Colors.white
@@ -150,7 +150,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                               Text(day.day.toString(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           color: isToday == true
                                               ? Colors.white
@@ -212,10 +212,10 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   Expanded(
                       child: Text(
                     title,
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: Colors.black45, fontWeight: FontWeight.w500),
                   )),
-                  Text(getStatusCount(titleVal, snapshot.data.attendances),
+                  Text(getStatusCount(titleVal, snapshot.data!.attendances),
                       style: Theme.of(context).textTheme.headline5),
                 ],
               ),
@@ -241,23 +241,23 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     }
   }
 
-  String getAttendanceStatus(
+  String? getAttendanceStatus(
       dynamic date, List<StudentAttendance> attendances) {
     return getStatus(0, attendances.length - 1, attendances, date);
   }
 
-  String getStatus(
+  String? getStatus(
       int i, int j, List<StudentAttendance> attendances, int date) {
-    String status;
+    String? status;
     for (int a = i; a <= j; a++) {
       if (a < 10) {
-        if (AppFunction.getDay(attendances[a].date).substring(1) ==
+        if (AppFunction.getDay(attendances[a].date!).substring(1) ==
             date.toString()) {
           status = attendances[a].type;
           break;
         }
       } else {
-        if (AppFunction.getDay(attendances[a].date) == date.toString()) {
+        if (AppFunction.getDay(attendances[a].date!) == date.toString()) {
           status = attendances[a].type;
           break;
         }
@@ -266,7 +266,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     return status;
   }
 
-  getStatusColor(String status) {
+  getStatusColor(String? status) {
     switch (status) {
       case 'P':
         return Colors.green;

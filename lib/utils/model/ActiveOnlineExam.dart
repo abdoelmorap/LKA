@@ -1,8 +1,8 @@
 class ActiveOnlineExam {
-  int id;
-  String title;
-  String subject;
-  String date;
+  int? id;
+  String? title;
+  String? subject;
+  String? date;
   dynamic status;
   dynamic isRunning;
   dynamic isWaiting;

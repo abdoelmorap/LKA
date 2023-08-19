@@ -44,12 +44,12 @@ class MessageFile {
   });
 
   dynamic id;
-  String message;
+  String? message;
   dynamic status;
   dynamic messageType;
-  String fileName;
-  String originalFileName;
-  DateTime createdAt;
+  String? fileName;
+  String? originalFileName;
+  DateTime? createdAt;
 
   factory MessageFile.fromJson(Map<String, dynamic> json) => MessageFile(
         id: json["id"],
@@ -71,6 +71,6 @@ class MessageFile {
         "file_name": fileName == null ? null : fileName,
         "original_file_name":
             originalFileName == null ? null : originalFileName,
-        "created_at": createdAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
       };
 }

@@ -8,16 +8,16 @@ import 'CustomButton/CustomListViewSpacing.dart';
 // ignore: must_be_immutable
 class CustomRadioButton<T> extends StatefulWidget {
   CustomRadioButton({
-    this.buttonLables,
-    this.buttonValues,
+    required this.buttonLables,
+    required this.buttonValues,
     this.buttonTextStyle = const ButtonTextStyle(),
     this.autoWidth = false,
     this.radioButtonValue,
-    this.unSelectedColor,
+    required this.unSelectedColor,
     this.unSelectedBorderColor,
     this.padding = 3,
     this.spacing = 0.0,
-    this.selectedColor,
+    required this.selectedColor,
     this.selectedBorderColor,
     this.height = 35,
     this.width = 100,
@@ -55,7 +55,7 @@ class CustomRadioButton<T> extends StatefulWidget {
   double spacing;
 
   ///Default selected value
-  final T defaultSelected;
+  final T? defaultSelected;
 
   ///Only applied when in vertical mode
   ///This will use minimum space required
@@ -70,7 +70,7 @@ class CustomRadioButton<T> extends StatefulWidget {
   ///Styling class for label
   final ButtonTextStyle buttonTextStyle;
 
-  final void Function(T) radioButtonValue;
+  final void Function(T)? radioButtonValue;
 
   ///Unselected Color of the button
   final Color unSelectedColor;
@@ -79,13 +79,13 @@ class CustomRadioButton<T> extends StatefulWidget {
   final Color selectedColor;
 
   ///Unselected Color of the button border
-  final Color unSelectedBorderColor;
+  final Color? unSelectedBorderColor;
 
   ///Selected Color of button border
-  final Color selectedBorderColor;
+  final Color? selectedBorderColor;
 
   /// A custom Shape can be applied (will work only if [enableShape] is true)
-  final ShapeBorder customShape;
+  final ShapeBorder? customShape;
 
   ///alignment for button when [enableButtonWrap] is true
   final WrapAlignment wrapAlignment;
@@ -102,7 +102,7 @@ class CustomRadioButton<T> extends StatefulWidget {
 }
 
 class _CustomRadioButtonState extends State<CustomRadioButton> {
-  String _currentSelectedLabel;
+  String? _currentSelectedLabel;
 
   Color borderColor(index) => (_currentSelectedLabel == widget.buttonLables[index] ? widget.selectedBorderColor : widget.unSelectedBorderColor) ?? Theme.of(context).primaryColor;
 
@@ -153,7 +153,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
                 borderRadius: BorderRadius.zero,
               ),
               onPressed: () {
-                widget.radioButtonValue(e);
+                widget.radioButtonValue!(e);
                 setState(() {
                   _currentSelectedLabel = widget.buttonLables[index];
                 });
@@ -215,7 +215,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
               borderRadius: BorderRadius.zero,
             ),
             onPressed: () {
-              widget.radioButtonValue(e);
+              widget.radioButtonValue!(e);
               setState(() {
                 _currentSelectedLabel = widget.buttonLables[index];
               });

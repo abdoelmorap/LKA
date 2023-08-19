@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StudentRecordWidget extends StatelessWidget {
-  final ValueChanged<Record> onTap;
+  final ValueChanged<Record>? onTap;
   StudentRecordWidget({this.onTap});
 
   final UserController _userController = Get.put(UserController());
@@ -24,11 +24,11 @@ class StudentRecordWidget extends StatelessWidget {
         ),
         itemBuilder: (context, recordIndex) {
           Record record =
-              _userController.studentRecord.value.records[recordIndex];
+              _userController.studentRecord.value.records![recordIndex];
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              onTap(record);
+              onTap!(record);
             },
             child: Container(
               height: 25,
@@ -57,7 +57,7 @@ class StudentRecordWidget extends StatelessWidget {
               ),
               child: Text(
                 "${record.className} (${record.sectionName})",
-                style: Get.textTheme.headline4.copyWith(
+                style: Get.textTheme.headline4!.copyWith(
                   fontSize: 14,
                   color: _userController.selectedRecord.value == record
                       ? Colors.white
@@ -67,7 +67,7 @@ class StudentRecordWidget extends StatelessWidget {
             ),
           );
         },
-        itemCount: _userController.studentRecord.value.records.length,
+        itemCount: _userController.studentRecord.value.records!.length,
       ),
     );
   }

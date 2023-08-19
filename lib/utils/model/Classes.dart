@@ -1,6 +1,6 @@
 class Classes {
-  String name;
-  int id;
+  String? name;
+  int? id;
 
   Classes({this.name, this.id});
 
@@ -26,8 +26,8 @@ class ClassList {
   }
 }
 class AdminClasses {
-  String name;
-  int id;
+  String? name;
+  int? id;
 
   AdminClasses({this.name, this.id});
 

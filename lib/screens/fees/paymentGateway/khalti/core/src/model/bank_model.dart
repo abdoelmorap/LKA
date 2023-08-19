@@ -6,10 +6,10 @@ import '../../src/helper/model_helpers.dart';
 
 class BankModel {
   BankModel({
-    @required this.idx,
-    @required this.logo,
-    @required this.name,
-    @required this.shortName,
+    required this.idx,
+    required this.logo,
+    required this.name,
+    required this.shortName,
   });
 
   final String idx;
@@ -38,15 +38,15 @@ class BankListModel {
   final List<int> recordRange;
   final int totalPages;
   final int totalRecords;
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
 
   BankListModel({
-    @required this.banks,
-    @required this.currentPage,
-    @required this.recordRange,
-    @required this.totalPages,
-    @required this.totalRecords,
+    required this.banks,
+    required this.currentPage,
+    required this.recordRange,
+    required this.totalPages,
+    required this.totalRecords,
     this.next,
     this.previous,
   });

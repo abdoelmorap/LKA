@@ -13,10 +13,10 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/dailyreport.dart';
 
 class PushReport extends StatefulWidget {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
 
-  const PushReport({Key key, this.id, this.name}) : super(key: key);
+  const PushReport({Key? key, this.id, this.name}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _PushReportState();
@@ -24,22 +24,22 @@ class PushReport extends StatefulWidget {
 }
 
 class _PushReportState extends State<PushReport> {
-  String mood = "0";
-  String noon = "0";
+  String? mood = "0";
+  String? noon = "0";
 
-  String afterNoon = "0";
+  String? afterNoon = "0";
 
-  String Breakfast = "0";
+  String? Breakfast = "0";
 
-  String Lunch = "0";
+  String? Lunch = "0";
 
-  String Snack = "0";
+  String? Snack = "0";
 
-  String water = "0";
+  String? water = "0";
 
-  String milk = "0";
+  String? milk = "0";
 
-  String juice = "0";
+  String? juice = "0";
 
   TextEditingController Hygiene = TextEditingController();
 
@@ -64,7 +64,7 @@ class _PushReportState extends State<PushReport> {
               ),
               Align(
                 child: Text(
-                  widget.name,
+                  widget.name!,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Color(0xff93cfc4),
@@ -110,7 +110,7 @@ class _PushReportState extends State<PushReport> {
                               height: 2,
                               color: Color(0xff93cfc4),
                             ),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               // This is called when the user selects an item.
                               setState(() {
                                 mood = value;
@@ -159,7 +159,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               noon = value;
@@ -206,7 +206,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               afterNoon = value;
@@ -250,6 +250,38 @@ class _PushReportState extends State<PushReport> {
               SizedBox(
                 height: 20,
               ),
+              Container(
+                margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
+                width: MediaQuery.of(context).size.width,
+                height: 2,
+                child: ColoredBox(color: Color(0xff93cfc4)),
+              ),
+              Text(
+                "Activities".tr,
+                style: TextStyle(
+                    color: Color(0xff93cfc4),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                child: TextFormField(
+                  controller: Comment,
+                  decoration: new InputDecoration(
+                    fillColor: Color(0xFFFFFFFF),
+                    border: new OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: new BorderSide(color: Colors.teal)),
+                  ),
+                  maxLines: 5,
+                ),
+                margin: EdgeInsets.all(5),
+                width: MediaQuery.of(context).size.width * 90 / 100,
+              ),   SizedBox(
+                height: 20,
+              ),
               Align(
                 child: Text(
                   "FOOD".tr,
@@ -285,7 +317,7 @@ class _PushReportState extends State<PushReport> {
                               height: 2,
                               color: Color(0xff93cfc4),
                             ),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               // This is called when the user selects an item.
                               setState(() {
                                 Breakfast = value;
@@ -334,7 +366,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               Lunch = value;
@@ -381,7 +413,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               Snack = value;
@@ -460,7 +492,7 @@ class _PushReportState extends State<PushReport> {
                               height: 2,
                               color: Color(0xff93cfc4),
                             ),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               // This is called when the user selects an item.
                               setState(() {
                                 water = value;
@@ -509,7 +541,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               milk = value;
@@ -556,7 +588,7 @@ class _PushReportState extends State<PushReport> {
                             height: 2,
                             color: Color(0xff93cfc4),
                           ),
-                          onChanged: (String value) {
+                          onChanged: (String? value) {
                             // This is called when the user selects an item.
                             setState(() {
                               juice = value;
@@ -693,36 +725,7 @@ class _PushReportState extends State<PushReport> {
                   ]),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                width: MediaQuery.of(context).size.width,
-                height: 2,
-                child: ColoredBox(color: Color(0xff93cfc4)),
-              ),
-              Text(
-                "Comment".tr,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                child: TextFormField(
-                  controller: Comment,
-                  decoration: new InputDecoration(
-                    fillColor: Color(0xFFFFFFFF),
-                    border: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: new BorderSide(color: Colors.teal)),
-                  ),
-                  maxLines: 5,
-                ),
-                margin: EdgeInsets.all(5),
-                width: MediaQuery.of(context).size.width * 90 / 100,
-              ),
+
               Container(
                 child: ElevatedButton(
                     onPressed: () async {
@@ -777,7 +780,7 @@ class _PushReportState extends State<PushReport> {
                           headers: {
                             'Content-type': 'application/json',
                             'Accept': 'application/json',
-                            'Authorization': _token,
+                            'Authorization': _token!,
                           },
                           body: jsonEncode({
                             "morning": "$mood",
@@ -832,9 +835,9 @@ class _PushReportState extends State<PushReport> {
         ));
   }
 
-  Future<DailyReportModel> dailyReport;
-  DateTime mTimeofDay;
-  String _token;
+  Future<DailyReportModel>? dailyReport;
+  DateTime? mTimeofDay;
+  String? _token;
   @override
   void initState() {
     super.initState();

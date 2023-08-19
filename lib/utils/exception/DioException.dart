@@ -8,7 +8,7 @@ class DioExceptions implements Exception {
       case DioErrorType.cancel:
         message = "Request to API server was cancelled";
         break;
-      case DioErrorType.connectTimeout:
+      case DioErrorType.receiveTimeout:
         message = "Connection timeout with API server";
         break;
       // case DioErrorType.DEFAULT:
@@ -17,9 +17,9 @@ class DioExceptions implements Exception {
       case DioErrorType.receiveTimeout:
         message = "Receive timeout in connection with API server";
         break;
-      case DioErrorType.response:
+      case DioErrorType.badResponse:
         message =
-            _handleError(dioError.response.statusCode, dioError.response.data);
+            _handleError(dioError.response!.statusCode, dioError.response!.data);
         break;
       case DioErrorType.sendTimeout:
         message = "Send timeout in connection with API server";
@@ -30,9 +30,9 @@ class DioExceptions implements Exception {
     }
   }
 
-  String message;
+  String? message;
 
-  String _handleError(int statusCode, dynamic error) {
+  String? _handleError(int? statusCode, dynamic error) {
     switch (statusCode) {
       case 400:
         return 'Bad request';
@@ -46,5 +46,5 @@ class DioExceptions implements Exception {
   }
 
   @override
-  String toString() => message;
+  String toString() => message!;
 }

@@ -21,13 +21,13 @@ import 'package:infixedu/utils/model/UserDetails.dart';
 import 'package:infixedu/utils/model/XenditErrorResponse.dart';
 
 class XenditScreen extends StatefulWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
 
   XenditScreen(
       {this.id,
@@ -52,7 +52,7 @@ class XenditScreenState extends State<XenditScreen> {
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
-  OutlineInputBorder border;
+  OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool loading = false;
@@ -65,10 +65,10 @@ class XenditScreenState extends State<XenditScreen> {
   Future<dynamic> paymentDataSave(String method) async {
     Map data = {
       'student_id': widget.id,
-      'fees_type_id': widget.fee.feesTypeId,
+      'fees_type_id': widget.fee!.feesTypeId,
       'amount': widget.amount,
       'method': method,
-      'school_id': widget.userDetails.schoolId,
+      'school_id': widget.userDetails!.schoolId,
     };
     final response = await http.post(
       Uri.parse(InfixApi.paymentDataSave),
@@ -201,7 +201,7 @@ class XenditScreenState extends State<XenditScreen> {
                                     '$loadingText',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2
+                                        .subtitle2!
                                         .copyWith(color: Colors.white),
                                   )
                                 ],
@@ -226,7 +226,7 @@ class XenditScreenState extends State<XenditScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              if (formKey.currentState.validate()) {
+                              if (formKey.currentState!.validate()) {
                                 var fullDate = expiryDate.split("/");
 
                                 await paymentDataSave("Xendit")
@@ -268,7 +268,7 @@ class XenditScreenState extends State<XenditScreen> {
           "cvn": "${cvvCode.toString()}"
         },
         "should_authenticate": true,
-        "amount": "${(int.parse(widget.amount) * 1000).toInt()}",
+        "amount": "${(int.parse(widget.amount!) * 1000).toInt()}",
         "card_cvn": "${cvvCode.toString()}"
       };
 
@@ -336,14 +336,14 @@ class XenditScreenState extends State<XenditScreen> {
             barrierDismissible: true, // user must tap button!
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(xenditErrorResponse.message),
+                title: Text(xenditErrorResponse.message!),
                 content: Container(
                   height: MediaQuery.of(context).size.width * 0.5,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: ListView.builder(
-                    itemCount: xenditErrorResponse.errors.length,
+                    itemCount: xenditErrorResponse.errors!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Text(xenditErrorResponse.errors[index].message);
+                      return Text(xenditErrorResponse.errors![index].message!);
                     },
                   ),
                 ),
@@ -365,7 +365,7 @@ class XenditScreenState extends State<XenditScreen> {
     }
   }
 
-  Future payWithXendit({String tokenId, String authenticationId}) async {
+  Future payWithXendit({String? tokenId, String? authenticationId}) async {
     try {
       print('Token ID: $tokenId , Authentication ID: $authenticationId');
 
@@ -500,7 +500,7 @@ class XenditScreenState extends State<XenditScreen> {
       final response = await http.get(
           Uri.parse(InfixApi.studentFeePayment(
               widget.id.toString(),
-              int.parse(widget.fee.feesTypeId.toString()),
+              int.parse(widget.fee!.feesTypeId.toString()),
               widget.amount,
               widget.paidBy,
               'Xendit')),

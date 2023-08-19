@@ -1,11 +1,11 @@
 class Transport {
-  String route;
-  String no;
-  String model;
+  String? route;
+  String? no;
+  String? model;
   dynamic madeYear;
-  String driverName;
-  String mobile;
-  String license;
+  String? driverName;
+  String? mobile;
+  String? license;
 
   Transport(
       {this.route,

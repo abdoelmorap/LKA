@@ -20,7 +20,7 @@ class ReplyMessage {
     dynamic id;
     dynamic fromId;
     dynamic toId;
-    String message;
+    String? message;
     dynamic status;
     dynamic messageType;
     dynamic fileName;
@@ -30,8 +30,8 @@ class ReplyMessage {
     dynamic forward;
     dynamic deletedByTo;
     dynamic deletedAt;
-    DateTime createdAt;
-    DateTime updatedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     factory ReplyMessage.fromJson(Map<String, dynamic> json) => ReplyMessage(
         id: json["id"],
@@ -65,7 +65,7 @@ class ReplyMessage {
         "forward": forward,
         "deleted_by_to": deletedByTo,
         "deleted_at": deletedAt,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
     };
 }

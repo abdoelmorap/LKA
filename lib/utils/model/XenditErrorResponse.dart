@@ -15,9 +15,9 @@ class XenditErrorResponse {
     this.errors,
   });
 
-  String errorCode;
-  String message;
-  List<Error> errors;
+  String? errorCode;
+  String? message;
+  List<Error>? errors;
 
   factory XenditErrorResponse.fromJson(Map<String, dynamic> json) => XenditErrorResponse(
     errorCode: json["error_code"],
@@ -28,7 +28,7 @@ class XenditErrorResponse {
   Map<String, dynamic> toJson() => {
     "error_code": errorCode,
     "message": message,
-    "errors": List<dynamic>.from(errors.map((x) => x.toJson())),
+    "errors": List<dynamic>.from(errors!.map((x) => x.toJson())),
   };
 }
 
@@ -40,10 +40,10 @@ class Error {
     this.context,
   });
 
-  String message;
-  List<String> path;
-  String type;
-  Context context;
+  String? message;
+  List<String>? path;
+  String? type;
+  Context? context;
 
   factory Error.fromJson(Map<String, dynamic> json) => Error(
     message: json["message"],
@@ -54,9 +54,9 @@ class Error {
 
   Map<String, dynamic> toJson() => {
     "message": message,
-    "path": List<dynamic>.from(path.map((x) => x)),
+    "path": List<dynamic>.from(path!.map((x) => x)),
     "type": type,
-    "context": context.toJson(),
+    "context": context!.toJson(),
   };
 }
 
@@ -67,9 +67,9 @@ class Context {
     this.label,
   });
 
-  String value;
-  String key;
-  String label;
+  String? value;
+  String? key;
+  String? label;
 
   factory Context.fromJson(Map<String, dynamic> json) => Context(
     value: json["value"],

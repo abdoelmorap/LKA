@@ -21,7 +21,7 @@ import 'package:infixedu/utils/widget/Line.dart';
 
 // ignore: must_be_immutable
 class LeaveListStudent extends StatefulWidget {
-  String id;
+  String? id;
 
   LeaveListStudent({this.id});
 
@@ -32,12 +32,12 @@ class LeaveListStudent extends StatefulWidget {
 class _LeaveListStudentState extends State<LeaveListStudent> {
   var id;
 
-  String _token;
+  String? _token;
 
-  Future myLeaves;
-  Future pendingLeaves;
-  Future approvedLeaves;
-  Future rejectedLeaves;
+  Future? myLeaves;
+  Future? pendingLeaves;
+  Future? approvedLeaves;
+  Future? rejectedLeaves;
 
   var progress = "Download".tr;
 
@@ -56,13 +56,13 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
       Utils.getStringValue('id').then((value) {
         setState(() {
           myLeaves = getMyLeaves(
-              widget.id != null ? int.parse(widget.id) : int.parse(value));
+              widget.id != null ? int.parse(widget.id!) : int.parse(value!));
           pendingLeaves = getPendingLeaves(
-              widget.id != null ? int.parse(widget.id) : int.parse(value));
+              widget.id != null ? int.parse(widget.id!) : int.parse(value!));
           approvedLeaves = getApprovedLeaves(
-              widget.id != null ? int.parse(widget.id) : int.parse(value));
+              widget.id != null ? int.parse(widget.id!) : int.parse(value!));
           rejectedLeaves = getRejectedLeaves(
-              widget.id != null ? int.parse(widget.id) : int.parse(value));
+              widget.id != null ? int.parse(widget.id!) : int.parse(value!));
         });
       });
     });
@@ -99,13 +99,13 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
               ),
               Container(
                 child: FutureBuilder<StudentMyLeavesList>(
-                  future: myLeaves,
+                  future: myLeaves!.then((value) => value as StudentMyLeavesList),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: snapshot.data.studentMyLeave.length,
+                            itemCount: snapshot.data!.studentMyLeave.length,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Padding(
@@ -115,7 +115,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     Expanded(
                                       child: Text(
                                         snapshot
-                                            .data.studentMyLeave[index].type,
+                                            .data!.studentMyLeave[index].type!,
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
@@ -124,7 +124,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        snapshot.data.studentMyLeave[index].days
+                                        snapshot.data!.studentMyLeave[index].days
                                                 .toString() +
                                             ' ' +
                                             "days".tr,
@@ -172,7 +172,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                     child: Builder(
                       builder: (context) {
                         final TabController tabController =
-                            DefaultTabController.of(context);
+                            DefaultTabController.of(context)!;
                         tabController.addListener(() {
                           if (tabController.indexIsChanging) {
                             print(tabController.index);
@@ -222,15 +222,15 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
         ));
   }
 
-  Widget getLeaves(Future future) {
+  Widget getLeaves(Future? futureLeaves) {
     return Container(
       height: MediaQuery.of(context).size.height,
       child: FutureBuilder<LeaveAdminList>(
-        future: future,
+        future: futureLeaves!.then((value) => value as LeaveAdminList),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.leaves.length > 0) {
-              var data = snapshot.data.leaves;
+            if (snapshot.data!.leaves.length > 0) {
+              var data = snapshot.data!.leaves;
               return ListView.builder(
                   shrinkWrap: true,
                   itemCount: data.length,
@@ -249,7 +249,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                   data[index].type == null ||
                                           data[index].type == ''
                                       ? 'N/A'
-                                      : data[index].type,
+                                      : data[index].type!,
                                   maxLines: 1,
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
@@ -261,7 +261,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                   textAlign: TextAlign.end,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           color: Colors.deepPurpleAccent,
                                           decoration: TextDecoration.underline,
@@ -284,7 +284,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -294,7 +294,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     Text(
                                       data[index].applyDate == null
                                           ? 'N/A'
-                                          : data[index].applyDate,
+                                          : data[index].applyDate!,
                                       maxLines: 1,
                                       style:
                                           Theme.of(context).textTheme.headline4,
@@ -311,7 +311,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -321,7 +321,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     Text(
                                       data[index].leaveFrom == null
                                           ? 'N/A'
-                                          : data[index].leaveFrom,
+                                          : data[index].leaveFrom!,
                                       maxLines: 1,
                                       style:
                                           Theme.of(context).textTheme.headline4,
@@ -338,7 +338,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -348,7 +348,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     Text(
                                       data[index].leaveTo == null
                                           ? 'N/A'
-                                          : data[index].leaveTo,
+                                          : data[index].leaveTo!,
                                       maxLines: 1,
                                       style:
                                           Theme.of(context).textTheme.headline4,
@@ -365,7 +365,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -403,7 +403,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
     );
   }
 
-  Widget getStatus(BuildContext context, String status) {
+  Widget getStatus(BuildContext context, String? status) {
     if (status == 'P') {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -416,7 +416,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -433,7 +433,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -450,7 +450,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -483,7 +483,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              'Reason'.tr + ': ' + data.reason,
+                              'Reason'.tr + ': ' + data.reason!,
                               style: Theme.of(context).textTheme.headline5,
                             ),
                           ),
@@ -502,14 +502,14 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    data.leaveTo,
+                                    data.leaveTo!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -526,14 +526,14 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    data.applyDate,
+                                    data.applyDate!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -557,14 +557,14 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    data.type,
+                                    data.type!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -581,14 +581,14 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
-                                    data.leaveFrom,
+                                    data.leaveFrom!,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.headline4,
@@ -622,7 +622,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     'Attached File'.tr + ': ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontSize: 16),
                                   ),
                                   SizedBox(
@@ -632,7 +632,7 @@ class _LeaveListStudentState extends State<LeaveListStudent> {
                                     'Download'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             decoration:
                                                 TextDecoration.underline,

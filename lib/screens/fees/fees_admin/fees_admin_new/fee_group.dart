@@ -15,11 +15,11 @@ class FeesGroupScreen extends StatefulWidget {
 }
 
 class _FeesGroupScreenState extends State<FeesGroupScreen> {
-  Future<FeeGroupList> fees;
+  Future<FeeGroupList>? fees;
 
-  String _token;
+  String? _token;
 
-  TextEditingController titleController, descripController;
+  TextEditingController? titleController, descripController;
 
   @override
   void initState() {
@@ -62,9 +62,9 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: snapshot.data.feeGroups.length,
+                itemCount: snapshot.data!.feeGroups.length,
                 itemBuilder: (context, index) {
-                  FeeGroup feeGroup = snapshot.data.feeGroups[index];
+                  FeeGroup feeGroup = snapshot.data!.feeGroups[index];
 
                   return ListTile(
                     title: Text(
@@ -101,9 +101,9 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                                 fees = getFeesGroups();
                               });
                               Utils.showToast('Deleted successfully');
-                              return true;
+                              // return true;
                             } else {
-                              return false;
+                              // return false;
                             }
                           },
                           icon: Icon(
@@ -184,8 +184,8 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                                   Uri.parse(InfixApi.adminFeesGroupStore),
                                   headers: Utils.setHeader(_token),
                                   body: jsonEncode({
-                                    'name': titleController.text,
-                                    'description': descripController.text,
+                                    'name': titleController!.text,
+                                    'description': descripController!.text,
                                   }),
                                 );
                                 if (response.statusCode == 200) {
@@ -195,9 +195,9 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                                     fees = getFeesGroups();
                                   });
                                   Get.back();
-                                  return true;
+                                  // return true;
                                 } else {
-                                  return false;
+                                  // return false;
                                 }
                               },
                               child: new Text("Add".tr),
@@ -231,8 +231,8 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
   void showUpdateDialog(FeeGroup feeGroup) {
     titleController = TextEditingController();
     descripController = TextEditingController();
-    titleController.text = feeGroup.name;
-    descripController.text = feeGroup.description;
+    titleController!.text = feeGroup.name!;
+    descripController!.text = feeGroup.description;
 
     Get.dialog(
       Scaffold(
@@ -278,8 +278,8 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                                   Uri.parse(InfixApi.adminFeesGroupUpdate),
                                   headers: Utils.setHeader(_token),
                                   body: jsonEncode({
-                                    'name': titleController.text,
-                                    'description': descripController.text,
+                                    'name': titleController!.text,
+                                    'description': descripController!.text,
                                     'id': feeGroup.id
                                   }),
                                 );
@@ -290,9 +290,9 @@ class _FeesGroupScreenState extends State<FeesGroupScreen> {
                                     fees = getFeesGroups();
                                   });
                                   Get.back();
-                                  return true;
+                                  // return true;
                                 } else {
-                                  return false;
+                                  // return false;
                                 }
                               },
                               child: new Text("Update".tr),

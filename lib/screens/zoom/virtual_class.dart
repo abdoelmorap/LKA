@@ -25,7 +25,7 @@ class VirtualClassScreen extends StatefulWidget {
 }
 
 class _VirtualClassScreenState extends State<VirtualClassScreen> {
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _VirtualClassScreenState extends State<VirtualClassScreen> {
         future: getAllMeeting(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.meetings.length < 1) {
+            if (snapshot.data!.meetings!.length < 1) {
               return Center(
                   child: Text(
                 "Not available",
@@ -56,9 +56,9 @@ class _VirtualClassScreenState extends State<VirtualClassScreen> {
               ));
             }
             return ListView.builder(
-              itemCount: snapshot.data.meetings.length,
+              itemCount: snapshot.data!.meetings!.length,
               itemBuilder: (context, index) {
-                return ZoomMeetingRow(snapshot.data.meetings.elementAt(index));
+                return ZoomMeetingRow(snapshot.data!.meetings!.elementAt(index));
               },
             );
           } else {

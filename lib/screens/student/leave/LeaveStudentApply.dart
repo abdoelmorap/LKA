@@ -24,7 +24,7 @@ import 'package:infixedu/utils/permission_check.dart';
 
 // ignore: must_be_immutable
 class LeaveStudentApply extends StatefulWidget {
-  String id;
+  String? id;
 
   LeaveStudentApply(this.id);
 
@@ -34,26 +34,26 @@ class LeaveStudentApply extends StatefulWidget {
 
 class _LeaveStudentApplyState extends State<LeaveStudentApply> {
   var _id;
-  String applyDate;
-  String fromDate;
-  String toDate;
-  String leaveType;
+  String? applyDate;
+  String? fromDate;
+  String? toDate;
+  String? leaveType;
   dynamic leaveId;
   TextEditingController reasonController = TextEditingController();
-  DateTime date;
+  late DateTime date;
   String maxDateTime = '2031-11-25';
   String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
-  DateTime _dateTime;
+  DateTime? _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
-  File _file;
+  File? _file;
   bool isResponse = false;
-  Response response;
+  late Response response;
   Dio dio = new Dio();
-  Future<LeaveList> leaves;
+  Future<LeaveList>? leaves;
   bool leaveAvailable = false;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -63,13 +63,13 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
         _token = value;
         Utils.getStringValue('id').then((value) {
           setState(() {
-            _id = widget.id != null ? int.parse(widget.id) : int.parse(value);
+            _id = widget.id != null ? int.parse(widget.id!) : int.parse(value!);
             date = DateTime.now();
             initDateTime =
                 '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
             _dateTime = DateTime.parse(initDateTime);
             leaves = getAllLeaveType(_id);
-            leaves.then((value) {
+            leaves!.then((value) {
               setState(() {
                 if (value.types.length > 0) {
                   leaveAvailable = true;
@@ -113,7 +113,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                 return ListView(
                   children: <Widget>[
                     leaveAvailable
-                        ? getLeaveTypeDropdown(snapshot.data.types)
+                        ? getLeaveTypeDropdown(snapshot.data!.types)
                         : Container(),
                     InkWell(
                       onTap: () {
@@ -146,7 +146,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                               setState(() {
                                 _dateTime = dateTime;
                                 applyDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -163,7 +163,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                                 child: Text(
                                   applyDate == null
                                       ? 'Apply Date'.tr
-                                      : applyDate,
+                                      : applyDate!,
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
                               ),
@@ -216,7 +216,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                               setState(() {
                                 _dateTime = dateTime;
                                 fromDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -231,7 +231,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                                 padding:
                                     const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
-                                  fromDate == null ? 'From Date'.tr : fromDate,
+                                  fromDate == null ? 'From Date'.tr : fromDate!,
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
                               ),
@@ -284,7 +284,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                               setState(() {
                                 _dateTime = dateTime;
                                 toDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -299,7 +299,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                                 padding:
                                     const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
-                                  toDate == null ? 'To Date'.tr : toDate,
+                                  toDate == null ? 'To Date'.tr : toDate!,
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
                               ),
@@ -339,7 +339,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                                 child: Text(
                                   _file == null
                                       ? 'Select file'.tr
-                                      : _file.path.split('/').last,
+                                      : _file!.path.split('/').last,
                                   style: Theme.of(context).textTheme.headline4,
                                   maxLines: 2,
                                 ),
@@ -348,7 +348,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                             Text('Browse'.tr,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(
                                         decoration: TextDecoration.underline)),
                           ],
@@ -401,7 +401,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
                 "Apply".tr,
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .headline4!
                     .copyWith(color: Colors.white, fontSize: 16.0),
               ),
             ),
@@ -409,7 +409,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
           onTap: () {
             String reason = reasonController.text;
 
-            if (reason.isNotEmpty && _file.path.isNotEmpty) {
+            if (reason.isNotEmpty && _file!.path.isNotEmpty) {
               setState(() {
                 isResponse = true;
               });
@@ -441,7 +441,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                item.type,
+                item.type!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -449,9 +449,9 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(14)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             leaveType = value;
             leaveId = getLeaveId(leaves, value);
@@ -462,9 +462,9 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
     );
   }
 
-  int getLeaveId<T>(T t, String type) {
-    int code;
-    for (var s in t) {
+  int? getLeaveId(List t, String? type) {
+    int? code;
+    for (var s in t ) {
       if (s.type == type) {
         code = s.id;
       }
@@ -491,7 +491,7 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
       "login_id": _id,
       "leave_type": '$leaveId',
       "reason": reasonController.text,
-      "attach_file": await MultipartFile.fromFile(_file.path),
+      "attach_file": await MultipartFile.fromFile(_file!.path),
     });
     response = await dio.post(
       InfixApi.userApplyLeaveStore,
@@ -528,11 +528,11 @@ class _LeaveStudentApplyState extends State<LeaveStudentApply> {
   }
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform
+    FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: false, type: FileType.image);
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled'.tr);

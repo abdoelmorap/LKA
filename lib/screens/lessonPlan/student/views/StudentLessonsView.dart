@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StudentLessonsView extends StatefulWidget {
-  final String id;
+  final String? id;
   StudentLessonsView(this.id);
   @override
   State<StudentLessonsView> createState() => _StudentLessonsViewState();
@@ -25,12 +25,12 @@ class StudentLessonsView extends StatefulWidget {
 class _StudentLessonsViewState extends State<StudentLessonsView> {
   final UserController _userController = Get.put(UserController());
 
-  Future<LessonPlan> lessonPlan;
-  Future<List<PlanDetails>> planDetails;
+  Future<LessonPlan>? lessonPlan;
+  Future<List<PlanDetails>>? planDetails;
 
-  String selectedWeek = "";
+  String? selectedWeek = "";
 
-  Future<LessonPlan> getLessonPlan(int recordId, studentId) async {
+  Future<LessonPlan> getLessonPlan(int? recordId, studentId) async {
     try {
       final response = await http.get(
         Uri.parse(InfixApi.studentLessonPlan + "/${widget.id}/$recordId"),
@@ -50,7 +50,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
   }
 
   Future<List<PlanDetails>> getLessonByDay(
-      int recordId, studentId, date, dayId) async {
+      int? recordId, studentId, date, dayId) async {
     try {
       final response = await http.get(
         Uri.parse(InfixApi.studentLessonPlanByDate +
@@ -70,7 +70,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
     }
   }
 
-  Future<LessonPlan> getPreviousWeek(int recordId, studentId, startDate) async {
+  Future<LessonPlan> getPreviousWeek(int? recordId, studentId, startDate) async {
     try {
       final response = await http.get(
         Uri.parse(InfixApi.studentLessonPreviousWeek +
@@ -90,7 +90,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
     }
   }
 
-  Future<LessonPlan> getNextWeek(int recordId, studentId, endDate) async {
+  Future<LessonPlan> getNextWeek(int? recordId, studentId, endDate) async {
     try {
       final response = await http.get(
         Uri.parse(InfixApi.studentLessonNextWeek +
@@ -113,19 +113,19 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
   @override
   void didChangeDependencies() async {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     await Utils.getStringValue('token').then((value) {
       lessonPlan = getLessonPlan(
-          _userController.studentRecord.value.records.first.id, widget.id);
+          _userController.studentRecord.value.records!.first.id, widget.id);
 
-      lessonPlan.then((value) {
+      lessonPlan!.then((value) {
         setState(() {
-          selectedWeek = value.weeks.first.name;
+          selectedWeek = value.weeks!.first.name;
           planDetails = getLessonByDay(
-              _userController.studentRecord.value.records.first.id,
+              _userController.studentRecord.value.records!.first.id,
               widget.id,
-              value.weeks.first.date,
-              value.weeks.first.id);
+              value.weeks!.first.date,
+              value.weeks!.first.id);
         });
       });
     });
@@ -150,14 +150,14 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                     lessonPlan = getLessonPlan(
                         _userController.selectedRecord.value.id, widget.id);
 
-                    lessonPlan.then((value) {
+                    lessonPlan!.then((value) {
                       setState(() {
-                        selectedWeek = value.weeks.first.name;
+                        selectedWeek = value.weeks!.first.name;
                         planDetails = getLessonByDay(
                             _userController.selectedRecord.value.id,
                             widget.id,
-                            value.weeks.first.date,
-                            value.weeks.first.id);
+                            value.weeks!.first.date,
+                            value.weeks!.first.id);
                       });
                     });
                   },
@@ -175,7 +175,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                   );
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.weeks.length > 0) {
+                    if (snapshot.data!.weeks!.length > 0) {
                       return Builder(builder: (context) {
                         return Column(
                           children: [
@@ -185,22 +185,22 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    print(snapshot.data.weeks.first.date);
+                                    print(snapshot.data!.weeks!.first.date);
 
                                     lessonPlan = getPreviousWeek(
                                         _userController.selectedRecord.value.id,
                                         widget.id,
-                                        snapshot.data.weeks.first.date);
+                                        snapshot.data!.weeks!.first.date);
 
-                                    lessonPlan.then((value) {
+                                    lessonPlan!.then((value) {
                                       setState(() {
-                                        selectedWeek = value.weeks.first.name;
+                                        selectedWeek = value.weeks!.first.name;
                                         planDetails = getLessonByDay(
                                             _userController
                                                 .selectedRecord.value.id,
                                             widget.id,
-                                            value.weeks.first.date,
-                                            value.weeks.first.id);
+                                            value.weeks!.first.date,
+                                            value.weeks!.first.id);
                                       });
                                     });
                                   },
@@ -211,27 +211,27 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                   ),
                                 ),
                                 Text(
-                                  "Week ${snapshot.data.thisWeek}",
+                                  "Week ${snapshot.data!.thisWeek}",
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    print(snapshot.data.weeks.last.date);
+                                    print(snapshot.data!.weeks!.last.date);
 
                                     lessonPlan = getNextWeek(
                                         _userController.selectedRecord.value.id,
                                         widget.id,
-                                        snapshot.data.weeks.last.date);
+                                        snapshot.data!.weeks!.last.date);
 
-                                    lessonPlan.then((value) {
+                                    lessonPlan!.then((value) {
                                       setState(() {
-                                        selectedWeek = value.weeks.first.name;
+                                        selectedWeek = value.weeks!.first.name;
                                         planDetails = getLessonByDay(
                                             _userController
                                                 .selectedRecord.value.id,
                                             widget.id,
-                                            value.weeks.first.date,
-                                            value.weeks.first.id);
+                                            value.weeks!.first.date,
+                                            value.weeks!.first.id);
                                       });
                                     });
                                   },
@@ -252,7 +252,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  Week week = snapshot.data.weeks[index];
+                                  Week week = snapshot.data!.weeks![index];
 
                                   return GestureDetector(
                                     onTap: () {
@@ -283,18 +283,18 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                       ),
                                       child: Column(
                                         children: [
-                                          Text(week.name,
+                                          Text(week.name!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline6),
                                           Text(
                                               DateFormat.yMMMd()
                                                   .format(
-                                                      DateTime.parse(week.date))
+                                                      DateTime.parse(week.date!))
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline6
+                                                  .headline6!
                                                   .copyWith(fontSize: 12)),
                                         ],
                                       ),
@@ -306,7 +306,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                     width: 20,
                                   );
                                 },
-                                itemCount: snapshot.data.weeks.length,
+                                itemCount: snapshot.data!.weeks!.length,
                               ),
                             ),
                             SizedBox(
@@ -316,7 +316,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                 future: planDetails,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.length > 0) {
+                                    if (snapshot.data!.length > 0) {
                                       return Column(
                                         children: [
                                           Padding(
@@ -330,7 +330,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                                   child: Text('Time'.tr,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -340,7 +340,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                                   child: Text('Subject'.tr,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -350,7 +350,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                                   child: Text('Room'.tr,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -360,7 +360,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                                   child: Text('Teacher'.tr,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -370,7 +370,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                                   child: Text('Action'.tr,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline4
+                                                          .headline4!
                                                           .copyWith(
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -381,14 +381,14 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                           ),
                                           ListView.separated(
                                             physics: BouncingScrollPhysics(),
-                                            itemCount: snapshot.data.length,
+                                            itemCount: snapshot.data!.length,
                                             shrinkWrap: true,
                                             separatorBuilder: (context, index) {
                                               return Divider();
                                             },
                                             itemBuilder: (context, rowIndex) {
                                               PlanDetails plan =
-                                                  snapshot.data[rowIndex];
+                                                  snapshot.data![rowIndex];
                                               return InkWell(
                                                 onTap: () {
                                                   if (plan.plan != null) {
@@ -490,16 +490,16 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
   }
 
   showAlertDialog(BuildContext context, PlanDetails plan) {
-    List<String> topicNames = [];
-    List<String> subTopicNames = [];
+    List<String?> topicNames = [];
+    List<String?> subTopicNames = [];
     List<String> ytLinks = [];
 
-    plan.plan.topics.forEach((element) {
-      topicNames.add(element.topicName.topicTitle);
+    plan.plan!.topics!.forEach((element) {
+      topicNames.add(element.topicName!.topicTitle);
       subTopicNames.add(element.subTopicTitle);
     });
 
-    plan.plan.lectureYouubeLink.split(',').forEach((element) {
+    plan.plan!.lectureYouubeLink!.split(',').forEach((element) {
       ytLinks.add(element);
     });
     showDialog<void>(
@@ -528,7 +528,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Subject".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -536,7 +536,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -564,7 +564,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Date".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -572,7 +572,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -582,7 +582,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Text(
-                                "${DateFormat('EEE, MMM dd').format(plan.plan.lessonDate)}",
+                                "${DateFormat('EEE, MMM dd').format(plan.plan!.lessonDate!)}",
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             ),
@@ -600,7 +600,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Lesson".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -608,7 +608,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -618,7 +618,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Text(
-                                "${plan.plan.lessonName.lessonTitle}",
+                                "${plan.plan!.lessonName!.lessonTitle}",
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             ),
@@ -638,7 +638,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Topics".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -646,7 +646,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -669,12 +669,12 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                           ),
                         ],
                       ),
-                      plan.subTopicEnabled
+                      plan.subTopicEnabled!
                           ? SizedBox(
                               height: 10,
                             )
                           : SizedBox.shrink(),
-                      plan.subTopicEnabled
+                      plan.subTopicEnabled!
                           ? Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -686,7 +686,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                     "Subtopic".tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -694,7 +694,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                   ":",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -731,7 +731,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Lecture Youtube link".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -739,7 +739,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -778,7 +778,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                               ") ${ytLinks[--ytIndex]}",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(color: Colors.blue),
                                         ),
                                       ),
@@ -791,8 +791,8 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                       SizedBox(
                         height: 10,
                       ),
-                      (plan.plan.attachment == null ||
-                              plan.plan.attachment == "")
+                      (plan.plan!.attachment == null ||
+                              plan.plan!.attachment == "")
                           ? SizedBox.shrink()
                           : Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -805,7 +805,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                     "Document".tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -813,7 +813,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                   ":",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -822,9 +822,9 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                 Flexible(
                                   child: GestureDetector(
                                     onTap: () async {
-                                      print(plan.plan.attachment);
+                                      print(plan.plan!.attachment);
                                       final url =
-                                          "${AppConfig.domainName}/${plan.plan.attachment}";
+                                          "${AppConfig.domainName}/${plan.plan!.attachment}";
                                       print(url);
                                       // ignore: deprecated_member_use
                                       if (await canLaunch(url)) {
@@ -843,7 +843,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                                         "Download",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(color: Colors.blue),
                                       ),
                                     ),
@@ -864,7 +864,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                               "Note".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -872,7 +872,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             ":",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -882,7 +882,7 @@ class _StudentLessonsViewState extends State<StudentLessonsView> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Text(
-                                "${plan.plan.note ?? ""}",
+                                "${plan.plan!.note ?? ""}",
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             ),

@@ -36,7 +36,7 @@ class _VirtualMeetingScreenState extends State<VirtualMeetingScreen> {
 //    super.initState();
 //  }
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _VirtualMeetingScreenState extends State<VirtualMeetingScreen> {
         future: getAllMeeting(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.meetings.length < 1) {
+            if (snapshot.data!.meetings!.length < 1) {
               return Center(
                   child: Text(
                 "Not available",
@@ -67,9 +67,9 @@ class _VirtualMeetingScreenState extends State<VirtualMeetingScreen> {
               ));
             }
             return ListView.builder(
-              itemCount: snapshot.data.meetings.length,
+              itemCount: snapshot.data!.meetings!.length,
               itemBuilder: (context, index) {
-                return ZoomMeetingRow(snapshot.data.meetings.elementAt(index));
+                return ZoomMeetingRow(snapshot.data!.meetings!.elementAt(index));
               },
             );
           } else {

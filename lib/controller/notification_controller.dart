@@ -11,19 +11,19 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/UserNotifications.dart';
 
 class NotificationController extends GetxController {
-  Rx<String> _token = "".obs;
+  Rx<String?> _token = "".obs;
 
-  Rx<String> get token => this._token;
+  Rx<String?> get token => this._token;
 
-  Rx<String> _id = "".obs;
+  Rx<String?> _id = "".obs;
 
-  Rx<String> get id => this._id;
+  Rx<String?> get id => this._id;
 
   Rx<UserNotificationList> userNotificationList = UserNotificationList().obs;
 
   Rx<bool> isLoading = false.obs;
 
-  Rx<int> notificationCount = 0.obs;
+  Rx<int?> notificationCount = 0.obs;
 
   Future<UserNotificationList> getNotifications() async {
     await getIdToken();
@@ -49,14 +49,14 @@ class NotificationController extends GetxController {
     }
   }
 
-  Future readNotification(int notificationId) async {
+  Future readNotification(int? notificationId) async {
     await getIdToken();
     var response = await http.get(
         Uri.parse(InfixApi.readMyNotifications(_id.value, notificationId)),
         headers: Utils.setHeader(_token.toString()));
     if (response.statusCode == 200) {
-      Map<String, dynamic> notifications = jsonDecode(response.body) as Map;
-      bool status = notifications['data']['status'];
+      Map<String, dynamic> notifications = (jsonDecode(response.body) as Map) as Map<String, dynamic>;
+      bool? status = notifications['data']['status'];
       return status;
     } else {
       print('Error retrieving from api');

@@ -24,7 +24,7 @@ class StudentAttendanceRow extends StatefulWidget {
   // Student student;
   Attendance attendanceStudents;
   dynamic mClass, mSection;
-  String date, token;
+  String? date, token;
 
   StudentAttendanceRow(this.attendanceStudents, this.mClass, this.mSection,
       this.date, this.token);
@@ -41,13 +41,13 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
   Attendance attendanceStudents;
   bool isSelected = true;
   dynamic mClass, mSection;
-  String date;
+  String? date;
   String atten = 'P';
   var function = GlobalDatae();
-  Future<bool> isChecked;
-  String token;
+  Future<bool>? isChecked;
+  String? token;
 
-  Future getAttend;
+  Future? getAttend;
 
   _StudentAttendanceRowState(this.attendanceStudents, this.mClass,
       this.mSection, this.date, this.token);
@@ -80,7 +80,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
     String image =
         attendanceStudents.photo == null || attendanceStudents.photo == ''
             ? '${AppConfig.domainName}/public/uploads/staff/demo/staff.jpg'
-            : InfixApi.root + attendanceStudents.photo;
+            : InfixApi.root + attendanceStudents.photo!;
     return Column(
       children: <Widget>[
         ListTile(
@@ -100,7 +100,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
                   backgroundColor: Colors.grey,
                 ),
           title: Text(
-            attendanceStudents.name,
+            attendanceStudents.name!,
             style: Theme.of(context).textTheme.headline6,
           ),
           subtitle: Column(
@@ -134,7 +134,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
                     selectedColor: Colors.white,
                     unSelectedColor: Color(0xff415094),
                     textStyle: TextStyle(fontSize: ScreenUtil().setSp(14))),
-                radioButtonValue: (value) {
+                radioButtonValue: (dynamic value) {
                   setState(() {
                     atten = value;
                     _attendanceController.attendanceMap.update(
@@ -181,7 +181,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
         Uri.parse(InfixApi.attendanceDataSend('${attendanceStudents.sId}',
             atten, date, mClass, mSection, attendanceStudents.recordId)),
         headers: Utils.setHeader(token));
-    print(response.request.url);
+    print(response.request!.url);
     if (response.statusCode == 200) {
       debugPrint('Attendance successful');
       Utils.showToast('Attendance set for ${attendanceStudents.name}');
@@ -198,7 +198,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
 //      throw Exception('Failed to load');
 //    }
 //  }
-  Future<bool> checkAttendance() async {
+  Future<bool?> checkAttendance() async {
     final response = await http.get(
         Uri.parse(InfixApi.attendanceCheck(date, mClass, mSection)),
         headers: Utils.setHeader(token));

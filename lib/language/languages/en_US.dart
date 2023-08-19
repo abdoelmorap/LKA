@@ -340,5 +340,6 @@ const Map<String, String> en_US = {
   "Comment": "Comment",
   "StudentGallery": "StudentGallery",
   "FoodList":"Meals",
-  "Not_Available":"Not Available"
+  "Not_Available":"Not Available",
+  "Activities":"Activities"
 };

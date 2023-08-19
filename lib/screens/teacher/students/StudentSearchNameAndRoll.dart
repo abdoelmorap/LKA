@@ -16,10 +16,10 @@ import 'package:infixedu/utils/widget/StudentSearchRow.dart';
 
 // ignore: must_be_immutable
 class StudentSearchNameRoll extends StatefulWidget {
-  String name;
-  String roll;
-  String url;
-  String token;
+  String? name;
+  String? roll;
+  String? url;
+  String? token;
 
   StudentSearchNameRoll({this.name, this.roll, this.url, this.token});
 
@@ -29,11 +29,11 @@ class StudentSearchNameRoll extends StatefulWidget {
 }
 
 class _StudentSearchNameRollState extends State<StudentSearchNameRoll> {
-  String name;
-  String roll;
-  String url;
-  Future<StudentList> student;
-  String token;
+  String? name;
+  String? roll;
+  String? url;
+  Future<StudentList>? student;
+  String? token;
 
   _StudentSearchNameRollState({this.name, this.roll, this.url, this.token});
 
@@ -56,9 +56,9 @@ class _StudentSearchNameRollState extends State<StudentSearchNameRoll> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data.students.length,
+              itemCount: snapshot.data!.students.length,
               itemBuilder: (context, index) {
-                return StudentRow(snapshot.data.students[index]);
+                return StudentRow(snapshot.data!.students[index]);
               },
             );
           } else {
@@ -71,7 +71,7 @@ class _StudentSearchNameRollState extends State<StudentSearchNameRoll> {
 
   Future<StudentList> getSearchStudent() async {
     print(url);
-    final response = await http.get(Uri.parse(url),
+    final response = await http.get(Uri.parse(url!),
         headers: Utils.setHeader(token.toString()));
 
     if (response.statusCode == 200) {

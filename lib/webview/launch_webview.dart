@@ -13,8 +13,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:infixedu/config/app_config.dart';
 
 class LaunchWebView extends StatefulWidget {
-  final String launchUrl;
-  final String title;
+  final String? launchUrl;
+  final String? title;
 
   LaunchWebView({this.launchUrl, this.title});
 
@@ -25,7 +25,7 @@ class LaunchWebView extends StatefulWidget {
 class _LaunchWebViewState extends State<LaunchWebView> {
   final GlobalKey webViewKey = GlobalKey();
 
-  InAppWebViewController webViewController;
+  InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
@@ -38,8 +38,8 @@ class _LaunchWebViewState extends State<LaunchWebView> {
         allowsInlineMediaPlayback: true,
       ));
 
-  PullToRefreshController pullToRefreshController;
-  String url = "";
+  PullToRefreshController? pullToRefreshController;
+  String? url = "";
   double progress = 0;
   final urlController = TextEditingController();
 
@@ -66,7 +66,7 @@ class _LaunchWebViewState extends State<LaunchWebView> {
 
   @override
   void dispose() {
-    webViewController.stopLoading();
+    webViewController!.stopLoading();
     super.dispose();
   }
 
@@ -107,7 +107,7 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                       "${widget.title}",
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 20.sp, color: Colors.white),
                     ),
                     Expanded(child: Container()),
@@ -125,7 +125,7 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                 children: [
                   InAppWebView(
                     key: webViewKey,
-                    initialUrlRequest: URLRequest(url: Uri.parse(url)),
+                    initialUrlRequest: URLRequest(url: Uri.parse(url!)),
                     initialOptions: options,
                     pullToRefreshController: pullToRefreshController,
                     onWebViewCreated: (controller) {
@@ -134,7 +134,7 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                     onLoadStart: (controller, url) {
                       setState(() {
                         this.url = url.toString();
-                        urlController.text = this.url;
+                        urlController.text = this.url!;
                       });
                     },
                     androidOnPermissionRequest:
@@ -145,7 +145,7 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                     },
                     shouldOverrideUrlLoading:
                         (controller, navigationAction) async {
-                      var uri = navigationAction.request.url;
+                      var uri = navigationAction.request.url!;
 
                       if (![
                         "http",
@@ -157,11 +157,11 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                         "about"
                       ].contains(uri.scheme)) {
                         // ignore: deprecated_member_use
-                        if (await canLaunch(url)) {
+                        if (await canLaunch(url!)) {
                           // Launch the App
                           // ignore: deprecated_member_use
                           await launch(
-                            url,
+                            url!,
                           );
                           // and cancel the request
                           return NavigationActionPolicy.CANCEL;
@@ -171,28 +171,28 @@ class _LaunchWebViewState extends State<LaunchWebView> {
                       return NavigationActionPolicy.ALLOW;
                     },
                     onLoadStop: (controller, url) async {
-                      pullToRefreshController.endRefreshing();
+                      pullToRefreshController!.endRefreshing();
                       setState(() {
                         this.url = url.toString();
-                        urlController.text = this.url;
+                        urlController.text = this.url!;
                       });
                     },
                     onLoadError: (controller, url, code, message) {
-                      pullToRefreshController.endRefreshing();
+                      pullToRefreshController!.endRefreshing();
                     },
                     onProgressChanged: (controller, progress) {
                       if (progress == 100) {
-                        pullToRefreshController.endRefreshing();
+                        pullToRefreshController!.endRefreshing();
                       }
                       setState(() {
                         this.progress = progress / 100;
-                        urlController.text = this.url;
+                        urlController.text = this.url!;
                       });
                     },
                     onUpdateVisitedHistory: (controller, url, androidIsReload) {
                       setState(() {
                         this.url = url.toString();
-                        urlController.text = this.url;
+                        urlController.text = this.url!;
                       });
                     },
                     onConsoleMessage: (controller, consoleMessage) {

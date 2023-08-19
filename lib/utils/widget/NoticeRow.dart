@@ -35,19 +35,19 @@ class _NoticRowLayoutState extends State<NoticRowLayout> {
           Navigator.push(context, ScaleRoute(page: NoticDetailsLayout(notice)));
         },
         title: Text(
-          notice.title,
+          notice.title!,
           maxLines: 1,
           style: Theme.of(context)
               .textTheme
-              .headline5
+              .headline5!
               .copyWith(fontWeight: FontWeight.w500, fontSize: ScreenUtil().setSp(15.0)),
         ),
         subtitle: Text(
-          notice.date,
+          notice.date!,
           maxLines: 1,
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headline4!
               .copyWith(fontWeight: FontWeight.w300, fontSize: ScreenUtil().setSp(13.0)),
         ),
       ),

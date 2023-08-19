@@ -21,8 +21,8 @@ class LeaveListScreen extends StatefulWidget {
 }
 
 class _LeaveListScreenState extends State<LeaveListScreen> {
-  Future<LeaveList> leaves;
-  String _token;
+  Future<LeaveList>? leaves;
+  String? _token;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _LeaveListScreenState extends State<LeaveListScreen> {
       });
       Utils.getStringValue('id').then((value) {
         setState(() {
-          leaves = fetchLeave(int.parse(value));
+          leaves = fetchLeave(int.parse(value!));
         });
       });
     });
@@ -50,9 +50,9 @@ class _LeaveListScreenState extends State<LeaveListScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot != null) {
             return ListView.builder(
-              itemCount: snapshot.data.leaves.length,
+              itemCount: snapshot.data!.leaves.length,
               itemBuilder: (context, index) {
-                return LeaveRow(snapshot.data.leaves[index]);
+                return LeaveRow(snapshot.data!.leaves[index]);
               },
             );
           } else {

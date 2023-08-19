@@ -21,9 +21,9 @@ class TeacherHomework extends StatefulWidget {
 }
 
 class _TeacherHomeworkState extends State<TeacherHomework> {
-  Future<HomeworkList> homeworks;
+  Future<HomeworkList>? homeworks;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _TeacherHomeworkState extends State<TeacherHomework> {
         _token = value;
         Utils.getStringValue('id').then((value) {
           setState(() {
-            homeworks = fetchHomework(int.parse(value));
+            homeworks = fetchHomework(int.parse(value!));
           });
         });
       });
@@ -51,9 +51,9 @@ class _TeacherHomeworkState extends State<TeacherHomework> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot != null) {
             return ListView.builder(
-              itemCount: snapshot.data.homeworks.length,
+              itemCount: snapshot.data!.homeworks.length,
               itemBuilder: (context, index) {
-                return TeacherHomeworkRow(snapshot.data.homeworks[index]);
+                return TeacherHomeworkRow(snapshot.data!.homeworks[index]);
               },
             );
           } else {

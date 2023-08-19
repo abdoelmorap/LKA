@@ -3,14 +3,14 @@ class Attendance {
   dynamic recordId;
   dynamic uid;
   dynamic sId;
-  String photo;
-  String name;
+  String? photo;
+  String? name;
   dynamic roll;
   dynamic classId;
   dynamic sectionId;
-  String className;
-  String sectionName;
-  String attendanceType;
+  String? className;
+  String? sectionName;
+  String? attendanceType;
 
   Attendance({
     this.id,

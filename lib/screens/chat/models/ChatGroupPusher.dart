@@ -11,10 +11,10 @@ class ChatGroupPusher {
         this.user,
     });
 
-    ChatGroup group;
-    GroupThread thread;
-    ChatMessage conversation;
-    ChatUser user;
+    ChatGroup? group;
+    GroupThread? thread;
+    ChatMessage? conversation;
+    ChatUser? user;
 
     factory ChatGroupPusher.fromJson(Map<String, dynamic> json) => ChatGroupPusher(
         group: ChatGroup.fromJson(json["group"]),
@@ -24,9 +24,9 @@ class ChatGroupPusher {
     );
 
     Map<String, dynamic> toJson() => {
-        "group": group.toJson(),
-        "thread": thread.toJson(),
-        "conversation": conversation.toJson(),
-        "user": user.toJson(),
+        "group": group!.toJson(),
+        "thread": thread!.toJson(),
+        "conversation": conversation!.toJson(),
+        "user": user!.toJson(),
     };
 }

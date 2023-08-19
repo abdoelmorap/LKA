@@ -17,10 +17,10 @@ import 'package:infixedu/utils/model/PaymentMethod.dart';
 import 'paypal_service.dart';
 
 class PaypalPayment extends StatefulWidget {
-  final Function onFinish;
-  final PaymentMethod payment;
-  final String fee;
-  final String amount;
+  final Function? onFinish;
+  final PaymentMethod? payment;
+  final String? fee;
+  final String? amount;
 
   PaypalPayment({this.onFinish, this.payment, this.fee, this.amount});
 
@@ -34,9 +34,9 @@ class PaypalPaymentState extends State<PaypalPayment> {
   final StudentFeesController _studentFeesController =
       Get.put(StudentFeesController());
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String checkoutUrl;
-  String executeUrl;
-  String accessToken;
+  String? checkoutUrl;
+  String? executeUrl;
+  String? accessToken;
   PaypalServices services = PaypalServices();
 
   // you can change default currency according to your need
@@ -149,10 +149,10 @@ class PaypalPaymentState extends State<PaypalPayment> {
                     .then((value) {
                   Map data = {
                     'id':
-                        value.transactions.first.relatedResources.first.sale.id,
-                    'status': value.payer.status,
+                        value!.transactions!.first.relatedResources!.first.sale!.id,
+                    'status': value.payer!.status,
                   };
-                  widget.onFinish(data);
+                  widget.onFinish!(data);
                   // Navigator.of(context).pop();
                 });
               } else {

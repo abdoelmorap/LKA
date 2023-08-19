@@ -9,7 +9,7 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 // ignore: must_be_immutable
 class FeesRow extends StatefulWidget {
   FeeElement fee;
-  String id;
+  String? id;
 
   FeesRow(this.fee, this.id);
 
@@ -55,7 +55,7 @@ class _FeesRowState extends State<FeesRow> {
                     child: Text(
                       'View',
                       textAlign: TextAlign.end,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold),
                     ),
@@ -76,7 +76,7 @@ class _FeesRowState extends State<FeesRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -104,7 +104,7 @@ class _FeesRowState extends State<FeesRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -126,7 +126,7 @@ class _FeesRowState extends State<FeesRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -149,7 +149,7 @@ class _FeesRowState extends State<FeesRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -173,7 +173,7 @@ class _FeesRowState extends State<FeesRow> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -250,7 +250,7 @@ class _FeesRowState extends State<FeesRow> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -276,7 +276,7 @@ class _FeesRowState extends State<FeesRow> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -305,7 +305,7 @@ class _FeesRowState extends State<FeesRow> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -331,7 +331,7 @@ class _FeesRowState extends State<FeesRow> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -357,7 +357,7 @@ class _FeesRowState extends State<FeesRow> {
                                       maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
@@ -390,9 +390,9 @@ class _FeesRowState extends State<FeesRow> {
                                 controller: amountController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                validator: (String value) {
+                                validator: (String? value) {
                                   RegExp regExp = new RegExp(r'^[0-9]*$');
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter a valid amount';
                                   }
                                   if (int.tryParse(value) == 0) {
@@ -401,9 +401,9 @@ class _FeesRowState extends State<FeesRow> {
                                   if (!regExp.hasMatch(value)) {
                                     return 'Please enter a number';
                                   }
-                                  if (int.tryParse(value) >
+                                  if (int.tryParse(value)! >
                                       int.tryParse(
-                                          widget.fee.balance.toString())) {
+                                          widget.fee.balance.toString())!) {
                                     return 'Amount must not greater than balance';
                                   }
                                   return null;
@@ -426,7 +426,7 @@ class _FeesRowState extends State<FeesRow> {
                         widget.fee.balance > 0
                             ? GestureDetector(
                                 onTap: () {
-                                  if (_formKey.currentState.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     Navigator.push(
                                             context,
                                             ScaleRoute(
@@ -454,7 +454,7 @@ class _FeesRowState extends State<FeesRow> {
                                       'Continue',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6
+                                          .headline6!
                                           .copyWith(
                                               color: Colors.white,
                                               fontSize: 16.0),
@@ -488,7 +488,7 @@ class _FeesRowState extends State<FeesRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -508,7 +508,7 @@ class _FeesRowState extends State<FeesRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -525,7 +525,7 @@ class _FeesRowState extends State<FeesRow> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

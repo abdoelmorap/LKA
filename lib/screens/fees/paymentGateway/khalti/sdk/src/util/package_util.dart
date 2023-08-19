@@ -1,11 +1,11 @@
 // Flutter imports:
 import 'package:flutter/services.dart';
-
-// Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
 
+// Package imports:
+
 class PackageUtil {
-  PackageInfo _packageInfo;
+  late PackageInfo _packageInfo;
 
   Future<void> init() async {
     try {

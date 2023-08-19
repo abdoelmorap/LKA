@@ -16,8 +16,8 @@ class FeeWaiverReportModel {
     this.totalWaiver,
   });
 
-  Map<String, WaiverReport> waiverReport;
-  int totalWaiver;
+  Map<String, WaiverReport>? waiverReport;
+  int? totalWaiver;
 
   factory FeeWaiverReportModel.fromJson(Map<String, dynamic> json) =>
       FeeWaiverReportModel(
@@ -27,7 +27,7 @@ class FeeWaiverReportModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "waiverReport": Map.from(waiverReport)
+        "waiverReport": Map.from(waiverReport!)
             .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
         "totalWaiver": totalWaiver,
       };
@@ -42,11 +42,11 @@ class WaiverReport {
     this.waiver,
   });
 
-  String admissionNo;
-  String rollNo;
-  String name;
-  String dueDate;
-  double waiver;
+  String? admissionNo;
+  String? rollNo;
+  String? name;
+  String? dueDate;
+  double? waiver;
 
   factory WaiverReport.fromJson(Map<String, dynamic> json) => WaiverReport(
         admissionNo: json["admission_no"].toString(),

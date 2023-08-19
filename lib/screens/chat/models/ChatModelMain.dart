@@ -18,8 +18,8 @@ class ChatModelMain {
     this.groups,
   });
 
-  List<ChatUser> users;
-  List<ChatGroup> groups;
+  List<ChatUser>? users;
+  List<ChatGroup>? groups;
 
   factory ChatModelMain.fromJson(Map<String, dynamic> json) => ChatModelMain(
         users: json["users"] == null
@@ -33,7 +33,7 @@ class ChatModelMain {
       );
 
   Map<String, dynamic> toJson() => {
-        "users": List<dynamic>.from(users.map((x) => x.toJson())),
-        "groups": List<dynamic>.from(groups.map((x) => x.toJson())),
+        "users": List<dynamic>.from(users!.map((x) => x.toJson())),
+        "groups": List<dynamic>.from(groups!.map((x) => x.toJson())),
       };
 }

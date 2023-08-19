@@ -20,9 +20,9 @@ class AdminFeeListView extends StatefulWidget {
 }
 
 class _AdminFeeListViewState extends State<AdminFeeListView> {
-  Future<AdminFeesList> fees;
+  Future<AdminFeesList>? fees;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -50,9 +50,9 @@ class _AdminFeeListViewState extends State<AdminFeeListView> {
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: snapshot.data.adminFees.length,
+                itemCount: snapshot.data!.adminFees.length,
                 itemBuilder: (context, index) {
-                  return AdminFeesListRow(snapshot.data.adminFees[index]);
+                  return AdminFeesListRow(snapshot.data!.adminFees[index]);
                 },
               );
             } else {

@@ -17,9 +17,9 @@ class ChildHome extends StatefulWidget {
   var _titles;
   var _images;
   dynamic id;
-  String profileImage;
-  String token;
-  String name;
+  String? profileImage;
+  String? token;
+  String? name;
 
   ChildHome(this._titles, this._images, this.id, this.profileImage, this.token,
       this.name);
@@ -30,12 +30,12 @@ class ChildHome extends StatefulWidget {
 }
 
 class _ChildHomeState extends State<ChildHome> {
-  bool isTapped;
+  bool? isTapped;
   dynamic currentSelectedIndex;
   var _titles;
   var _images;
-  String _token;
-  String _name;
+  String? _token;
+  String? _name;
 
   _ChildHomeState(this._titles, this._images, this._token, this._name);
 
@@ -85,12 +85,12 @@ class _ChildHomeState extends State<ChildHome> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0),
                     child: Text(
-                      _name + " " + "Dashboard".tr,
+                      _name! + " " + "Dashboard".tr,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),

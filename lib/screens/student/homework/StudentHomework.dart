@@ -22,7 +22,7 @@ import 'package:infixedu/utils/widget/Homework_row.dart';
 
 // ignore: must_be_immutable
 class StudentHomework extends StatefulWidget {
-  String id;
+  String? id;
 
   StudentHomework({this.id});
 
@@ -32,14 +32,14 @@ class StudentHomework extends StatefulWidget {
 
 class _StudentHomeworkState extends State<StudentHomework> {
   final UserController _userController = Get.put(UserController());
-  Future<HomeworkList> homeworks;
-  String _token;
-  String _id;
+  Future<HomeworkList>? homeworks;
+  String? _token;
+  String? _id;
 
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     Utils.getStringValue('token').then((value) {
       _token = value;
     });
@@ -48,8 +48,8 @@ class _StudentHomeworkState extends State<StudentHomework> {
         _id = idValue;
         print(_id);
         homeworks = fetchHomework(
-          widget.id != null ? int.parse(widget.id) : int.parse(idValue),
-          _userController.studentRecord.value.records.first.id,
+          widget.id != null ? int.parse(widget.id!) : int.parse(idValue!),
+          _userController.studentRecord.value.records!.first.id,
         );
       });
     });
@@ -79,8 +79,8 @@ class _StudentHomeworkState extends State<StudentHomework> {
                   () {
                     homeworks = fetchHomework(
                         widget.id != null
-                            ? int.parse(widget.id)
-                            : int.parse(_id),
+                            ? int.parse(widget.id!)
+                            : int.parse(_id!),
                         record.id);
                   },
                 );
@@ -99,16 +99,16 @@ class _StudentHomeworkState extends State<StudentHomework> {
                     );
                   } else {
                     if (snapshot.hasData && snapshot != null) {
-                      if (snapshot.data.homeworks.length > 0) {
+                      if (snapshot.data!.homeworks.length > 0) {
                         return ListView.separated(
                           separatorBuilder: (context, index) => SizedBox(
                             height: 10,
                           ),
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          itemCount: snapshot.data.homeworks.length,
+                          itemCount: snapshot.data!.homeworks.length,
                           itemBuilder: (context, index) {
                             return StudentHomeworkRow(
-                                snapshot.data.homeworks[index], 'student');
+                                snapshot.data!.homeworks[index], 'student');
                           },
                         );
                       } else {
@@ -133,7 +133,7 @@ class _StudentHomeworkState extends State<StudentHomework> {
     final response = await http.get(
         Uri.parse(InfixApi.getStudenthomeWorksUrl(userId, recordId)),
         headers: Utils.setHeader(_token.toString()));
-    log(response.request.url.path);
+    log(response.request!.url.path);
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       return HomeworkList.fromJson(jsonData['data']);

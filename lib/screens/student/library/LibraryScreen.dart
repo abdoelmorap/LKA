@@ -19,8 +19,8 @@ class LibraryHome extends StatefulWidget {
 }
 
 class _HomeState extends State<LibraryHome> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

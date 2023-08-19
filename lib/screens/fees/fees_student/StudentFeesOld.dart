@@ -15,15 +15,15 @@ import 'package:infixedu/screens/fees/widgets/Fees_row_layout.dart';
 import 'package:infixedu/utils/widget/ShimmerListWidget.dart';
 
 class StudentFeesOld extends StatefulWidget {
-  final String id;
+  final String? id;
 
-  StudentFeesOld({this.id});
+  StudentFeesOld({this.id=''});
   @override
   _StudentFeesOldState createState() => _StudentFeesOldState();
 }
 
 class _StudentFeesOldState extends State<StudentFeesOld> {
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                       "Fees".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),
@@ -100,7 +100,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                 Expanded(
                   child: Text(
                     'Grand Total'.tr,
-                    style: Theme.of(context).textTheme.headline5.copyWith(),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(),
                     maxLines: 1,
                   ),
                 ),
@@ -137,7 +137,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -145,7 +145,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[0].toString(),
+                                          totalSnapshot.data![0].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -164,7 +164,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -172,7 +172,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[1].toString(),
+                                          totalSnapshot.data![1].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -191,7 +191,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -199,7 +199,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[2].toString(),
+                                          totalSnapshot.data![2].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -218,7 +218,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -226,7 +226,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[3].toString(),
+                                          totalSnapshot.data![3].toString(),
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
@@ -245,7 +245,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -253,7 +253,7 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          totalSnapshot.data[4].toString(),
+                                          totalSnapshot.data![4].toString(),
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           style: Theme.of(context)
@@ -309,9 +309,9 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                       child: StreamBuilder<List<FeeElement>>(
                           stream: Stream.periodic(Duration(seconds: 5))
                               .asyncMap((i) => FeeService(
-                                    int.parse(widget.id != null
-                                        ? widget.id
-                                        : snapId.data),
+                                    int.parse(widget!.id!.toString().isNotEmpty ||  widget.id != null
+                                        ? widget.id!
+                                        : snapId.data.toString()),
                                     _token,
                                   ).fetchFee()),
                           // future: FeeService(int.parse(
@@ -320,13 +320,13 @@ class _StudentFeesOldState extends State<StudentFeesOld> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return ListView.builder(
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
                                     return FeesRow(
-                                        snapshot.data[index],
-                                        widget.id != null
+                                        snapshot.data![index],
+                                        widget!.id!.toString().isNotEmpty ||  widget.id != null
                                             ? widget.id
-                                            : snapId.data);
+                                            : snapId.data.toString());
                                   });
                             } else {
                               return ShimmerList(

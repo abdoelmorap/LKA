@@ -22,7 +22,7 @@ class LeaveRow extends StatelessWidget {
             Text(
               leave.type == null
                 ? 'not assigned'
-                : leave.type,
+                : leave.type!,
               maxLines: 1,
               style: Theme.of(context).textTheme.headline6,
             ),
@@ -39,7 +39,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -48,7 +48,7 @@ class LeaveRow extends StatelessWidget {
                         Text(
                           leave.apply == null
                               ? 'not assigned'
-                              : leave.apply,
+                              : leave.apply!,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.headline4,
                         ),
@@ -64,7 +64,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -73,7 +73,7 @@ class LeaveRow extends StatelessWidget {
                         Text(
                           leave.from == null
                               ? 'not assigned'
-                              : leave.from,
+                              : leave.from!,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.headline4,
                         ),
@@ -89,7 +89,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -98,7 +98,7 @@ class LeaveRow extends StatelessWidget {
                         Text(
                           leave.to == null
                               ? 'not assigned'
-                              : leave.to,
+                              : leave.to!,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.headline4,
                         ),
@@ -121,7 +121,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -130,7 +130,7 @@ class LeaveRow extends StatelessWidget {
                         Text(
                           leave.reason == null
                               ? 'not assigned'
-                              : leave.reason,
+                              : leave.reason!,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.headline4,
                         ),
@@ -146,7 +146,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -171,7 +171,7 @@ class LeaveRow extends StatelessWidget {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
@@ -200,7 +200,7 @@ class LeaveRow extends StatelessWidget {
     );
   }
 
-  Widget getStatus(BuildContext context, String status) {
+  Widget getStatus(BuildContext context, String? status) {
     if (status == 'P') {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -213,7 +213,7 @@ class LeaveRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -231,7 +231,7 @@ class LeaveRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -249,7 +249,7 @@ class LeaveRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -266,7 +266,7 @@ class LeaveRow extends StatelessWidget {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

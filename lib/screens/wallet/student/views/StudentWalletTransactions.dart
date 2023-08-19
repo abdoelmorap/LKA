@@ -13,7 +13,7 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:intl/intl.dart';
 
 class StudentWalletTransactions extends StatefulWidget {
-  const StudentWalletTransactions({Key key}) : super(key: key);
+  const StudentWalletTransactions({Key? key}) : super(key: key);
 
   @override
   State<StudentWalletTransactions> createState() =>
@@ -56,7 +56,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                             )),
                         child: Text(
                           "Balance: ${_controller.wallet.value.currencySymbol}${_controller.wallet.value.myBalance}",
-                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
                                 color: Colors.white,
                                 fontSize: 12,
                               ),
@@ -84,7 +84,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                           child: Text(
                             "Add Balance",
                             style:
-                                Theme.of(context).textTheme.subtitle2.copyWith(
+                                Theme.of(context).textTheme.subtitle2!.copyWith(
                                       color: Colors.white,
                                       fontSize: 12,
                                     ),
@@ -108,7 +108,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                 child: Text('Date'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                           fontWeight: FontWeight.bold,
                                         )),
@@ -117,7 +117,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                 child: Text('Method'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                           fontWeight: FontWeight.bold,
                                         )),
@@ -126,7 +126,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                 child: Text('Amount'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                           fontWeight: FontWeight.bold,
                                         )),
@@ -135,7 +135,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                 child: Text('Status'.tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                           fontWeight: FontWeight.bold,
                                         )),
@@ -152,11 +152,11 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                           },
                           child: ListView.builder(
                             itemCount: _controller
-                                .wallet.value.walletTransactions.length,
+                                .wallet.value.walletTransactions!.length,
                             shrinkWrap: true,
                             itemBuilder: ((context, index) {
                               WalletTransaction walletTransaction = _controller
-                                  .wallet.value.walletTransactions[index];
+                                  .wallet.value.walletTransactions![index];
                               return Container(
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 10.0),
@@ -180,7 +180,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                       ),
                                       Expanded(
                                         child: Text(
-                                            '${walletTransaction.amount.toStringAsFixed(2)}',
+                                            '${walletTransaction.amount!.toStringAsFixed(2)}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline4),
@@ -195,7 +195,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                               }
                                             },
                                             child: getStatus(
-                                                walletTransaction.status)),
+                                                walletTransaction.status!)),
                                       ),
                                     ],
                                   ),
@@ -228,7 +228,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
           borderRadius: BorderRadius.circular(5)),
       child: Text(
         '${status.capitalizeFirst}',
-        style: Theme.of(context).textTheme.headline4.copyWith(
+        style: Theme.of(context).textTheme.headline4!.copyWith(
               color: status == "approve"
                   ? Colors.white
                   : status == "reject"
@@ -271,20 +271,20 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                 "Select Payment Method".tr,
                 style: Theme.of(context).textTheme.headline4,
               ),
-              items: _controller.wallet.value.paymentMethods.map((item) {
+              items: _controller.wallet.value.paymentMethods!.map((item) {
                 return DropdownMenuItem<String>(
                   value: item.method,
                   child: Text(
-                    item.method,
+                    item.method!,
                     style: Theme.of(context).textTheme.headline4,
                   ),
                 );
               }).toList(),
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontSize: 13.0),
-              onChanged: (value) {
+              onChanged: (dynamic value) {
                 _controller.selectedPaymentMethod.value = value;
 
                 _controller.chequeBankOrOthers();
@@ -308,7 +308,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                     "Select Bank".tr,
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  items: _controller.wallet.value.bankAccounts.map((item) {
+                  items: _controller.wallet.value.bankAccounts!.map((item) {
                     return DropdownMenuItem<BankAccount>(
                       value: item,
                       child: Text(
@@ -319,9 +319,9 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                   }).toList(),
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headline4!
                       .copyWith(fontSize: 13.0),
-                  onChanged: (value) {
+                  onChanged: (dynamic value) {
                     _controller.selectedBank.value = value;
                   },
                   value: _controller.selectedBank.value,
@@ -389,7 +389,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                               'Browse',
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(
                                     decoration: TextDecoration.underline,
                                   ),
@@ -450,7 +450,7 @@ class _StudentWalletTransactionsState extends State<StudentWalletTransactions> {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline5!
                                     .copyWith(color: Colors.white),
                               )
                             : CircularProgressIndicator(

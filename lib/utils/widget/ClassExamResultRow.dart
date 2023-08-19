@@ -38,14 +38,14 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        result.subject,
+                        result.subject!,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),
@@ -61,7 +61,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -84,7 +84,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -107,14 +107,14 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        result.grade,
+                        result.grade!,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),

@@ -1,10 +1,10 @@
 
 class Timeline{
 
-  String title;
-  String date;
-  String description;
-  String file;
+  String? title;
+  String? date;
+  String? description;
+  String? file;
 
 
   Timeline({this.title, this.date, this.description,this.file});

@@ -1,6 +1,6 @@
 class Section {
-  String name;
-  int id;
+  String? name;
+  int? id;
 
   Section({this.name, this.id});
 

@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class FeesReportSearchWidget extends StatefulWidget {
-  final Function(String, int, int) onTap;
+  final Function(String, int?, int?)? onTap;
   FeesReportSearchWidget({this.onTap});
   @override
   _FeesReportSearchWidgetState createState() => _FeesReportSearchWidgetState();
@@ -20,16 +20,16 @@ class FeesReportSearchWidget extends StatefulWidget {
 class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
   final TextEditingController datePickerController = TextEditingController();
 
-  String _token;
-  String rule;
-  String _id;
-  Future classes;
-  Future<SectionList> sections;
+  String? _token;
+  String? rule;
+  String? _id;
+  Future<ClassList>? classes;
+  Future<SectionList>? sections;
 
   dynamic classId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
+  String? _selectedClass;
+  String? _selectedSection;
 
   Future getAllClass(int id) async {
     final response = await http.get(Uri.parse(InfixApi.getClassById(id)),
@@ -68,14 +68,14 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
         _token = value;
         Utils.getStringValue('id').then((idValue) {
           _id = idValue;
-          Utils.getStringValue('rule').then((ruleValue) {
+          Utils.getStringValue('rule').then((ruleValue) async {
             rule = ruleValue;
-            classes = getAllClass(int.parse(_id));
-            classes.then((value) {
+            classes =await getAllClass(int.parse(_id!));
+            classes!.then((value) {
               _selectedClass = value.classes[0].name;
               classId = value.classes[0].id;
-              sections = getAllSection(int.parse(_id), classId);
-              sections.then((sectionValue) {
+              sections = getAllSection(int.parse(_id!), classId);
+              sections!.then((sectionValue) {
                 _selectedSection = sectionValue.sections[0].name;
                 sectionId = sectionValue.sections[0].id;
               });
@@ -90,7 +90,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder(
+      child: FutureBuilder<ClassList>(
           future: classes,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -99,7 +99,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                   GestureDetector(
                     onTap: () async {
                       final initialDate = DateTime.now();
-                      final DateTimeRange picked = await showDateRangePicker(
+                      final DateTimeRange? picked = await showDateRangePicker(
                         context: context,
                         helpText: 'Select start and End Date',
                         fieldStartHintText: 'Start Date',
@@ -109,7 +109,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                             1900, initialDate.month + 1, initialDate.day),
                         lastDate: DateTime(
                             2100, initialDate.month + 1, initialDate.day),
-                        builder: (BuildContext context, Widget child) {
+                        builder: (BuildContext context, Widget? child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
                               primaryColor: Colors.deepPurple,
@@ -117,7 +117,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                                 color: Colors.deepPurple,
                               ),
                             ),
-                            child: child,
+                            child: child!,
                           );
                         },
                       );
@@ -146,7 +146,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                   SizedBox(
                     height: 10,
                   ),
-                  getClassDropdown(snapshot.data.classes),
+                  getClassDropdown(snapshot.data!.classes),
                   SizedBox(
                     height: 10,
                   ),
@@ -154,7 +154,7 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                     future: sections,
                     builder: (context, secSnap) {
                       if (secSnap.hasData) {
-                        return getSectionDropdown(secSnap.data.sections);
+                        return getSectionDropdown(secSnap.data!.sections);
                       } else {
                         return Center(child: CupertinoActivityIndicator());
                       }
@@ -175,12 +175,12 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
                           "Search".tr,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(color: Colors.white, fontSize: 14),
                         ),
                       ),
                       onTap: () {
-                        widget.onTap(
+                        widget.onTap!(
                             datePickerController.text, classId, sectionId);
                       },
                     ),
@@ -218,14 +218,14 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
             classId = getCode(classes, value);
 
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
             });
@@ -252,20 +252,20 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
               child: Text(
-                item.name,
+                item.name!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
             sectionId = getCode(sectionlist, value);
 
-            sections = getAllSection(int.parse(_id), classId);
+            sections = getAllSection(int.parse(_id!), classId);
 
             debugPrint('User select section $sectionId');
           });
@@ -275,9 +275,9 @@ class _FeesReportSearchWidgetState extends State<FeesReportSearchWidget> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.id;
         break;

@@ -15,14 +15,14 @@ class MealsModelData {
 }
 */
 
-  int id;
-  String title;
-  String subtitle;
-  String dateofmeal;
-  String image;
-  String createdAt;
-  String updatedAt;
-  int orderMeal;
+  int? id;
+  String? title;
+  String? subtitle;
+  String? dateofmeal;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+  int? orderMeal;
 
   MealsModelData({
     this.id,
@@ -76,7 +76,7 @@ class MealsModel {
 }
 */
 
-  List<MealsModelData> data;
+  List<MealsModelData>? data;
 
   MealsModel({
     this.data,
@@ -94,7 +94,7 @@ class MealsModel {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     if (this.data != null) {
-      final v = this.data;
+      final v = this.data!;
       final arr0 = [];
       v.forEach((v) {
         arr0.add(v.toJson());

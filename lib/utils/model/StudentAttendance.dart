@@ -1,6 +1,6 @@
 class StudentAttendance{
-  String type;
-  String date;
+  String? type;
+  String? date;
 
   StudentAttendance({this.type, this.date});
 

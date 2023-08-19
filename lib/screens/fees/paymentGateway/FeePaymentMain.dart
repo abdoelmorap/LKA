@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
+// import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,7 +36,7 @@ import 'package:infixedu/screens/fees/paymentGateway/stripe/stripe_payment.dart'
 
 class FeePaymentMain extends StatefulWidget {
   final FeeElement fee;
-  final String id;
+  final String? id;
   final String amount;
 
   FeePaymentMain(this.fee, this.id, this.amount);
@@ -46,15 +46,15 @@ class FeePaymentMain extends StatefulWidget {
 }
 
 class _FeePaymentMainState extends State<FeePaymentMain> {
-  String _email;
-  String _token;
-  String _schoolId;
+  String? _email;
+  String? _token;
+  String? _schoolId;
   bool isResponse = false;
-  String _id;
+  String? _id;
 
-  final plugin = PaystackPlugin();
+  // final plugin = PaystackPlugin();
 
-  Future getPayment;
+  Future? getPayment;
 
   UserDetails _userDetails = UserDetails();
 
@@ -68,7 +68,7 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
     });
     getPayment = getPaymentMethods();
     fetchUserDetails(widget.id);
-    plugin.initialize(publicKey: payStackPublicKey);
+    // plugin.initialize(publicKey: payStackPublicKey);
     super.initState();
   }
 
@@ -197,7 +197,7 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
     );
   }
 
-  Map<String, dynamic> paymentIntentData;
+  Map<String, dynamic>? paymentIntentData;
 
   Future<dynamic> paymentDataSave(String method) async {
     Map data = {
@@ -224,28 +224,28 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
   }
 
   Future payStackPayment(dynamic referenceId) async {
-    final finalAmount = (int.parse(widget.amount) * 100).toInt();
-    Charge charge = Charge()
-      ..amount = finalAmount
-      ..currency = 'ZAR'
-      ..reference = referenceId.toString()
-      ..email = _userDetails.email.toString();
-    CheckoutResponse response = await plugin.checkout(
-      context,
-      method: CheckoutMethod.card,
-      charge: charge,
-    );
-
-    if (response.status == true) {
-      print(response);
-      print(response.reference);
-      await paymentCallBack('PayStack',
-          reference: referenceId, status: response.status);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('${response.message}'),
-      ));
-    }
+    // final finalAmount = (int.parse(widget.amount) * 100).toInt();
+    // Charge charge = Charge()
+    //   ..amount = finalAmount
+    //   ..currency = 'ZAR'
+    //   ..reference = referenceId.toString()
+    //   ..email = _userDetails.email.toString();
+    // CheckoutResponse response = await plugin.checkout(
+    //   context,
+    //   method: CheckoutMethod.card,
+    //   charge: charge,
+    // );
+    //
+    // if (response.status == true) {
+    //   print(response);
+    //   print(response.reference);
+    //   await paymentCallBack('PayStack',
+    //       reference: referenceId, status: response.status);
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     content: Text('${response.message}'),
+    //   ));
+    // }
   }
 
   Future paymentCallBack(dynamic method,
@@ -336,7 +336,7 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<PaymentMethod>>(
-          future: getPayment,
+          future: getPayment!.then((value) => value as List<PaymentMethod>),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -349,9 +349,9 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
                 // if we got our data
               } else if (snapshot.hasData) {
                 return ListView.builder(
-                    itemCount: snapshot.data.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      PaymentMethod payment = snapshot.data[index];
+                      PaymentMethod payment = snapshot.data![index];
                       return GestureDetector(
                         onTap: () {
                           onPayment(payment);
@@ -374,7 +374,7 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
                               '${payment.method}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5
+                                  .headline5!
                                   .copyWith(fontWeight: FontWeight.w700),
                             ),
                           ),
@@ -394,8 +394,8 @@ class _FeePaymentMainState extends State<FeePaymentMain> {
 // ignore: must_be_immutable
 class BankOrCheque extends StatefulWidget {
   final FeeElement fee;
-  String email;
-  final String id;
+  String? email;
+  final String? id;
   final String paymentType;
   final String amount;
 
@@ -408,16 +408,16 @@ class BankOrCheque extends StatefulWidget {
 class _BankOrChequeState extends State<BankOrCheque> {
   TextEditingController amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  File _file;
+  File? _file;
   bool isResponse = false;
-  String _token;
-  Future bank;
-  String _selectedBank;
-  String bankAccountName;
-  String bankAccountNumber;
-  int bankId;
+  String? _token;
+  Future? bank;
+  String? _selectedBank;
+  String? bankAccountName;
+  String? bankAccountNumber;
+  int? bankId;
   bool bankAvailable = true;
-  DateTime _dateTime;
+  late DateTime _dateTime;
   var paymentDate;
   var paymentUrl;
 
@@ -427,7 +427,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
       setState(() {
         _token = value;
         bank = getBankList();
-        bank.then((value) {
+        bank!.then((value) {
           _selectedBank =
               value.banks.length != 0 ? value.banks[0].bankName : '';
           bankId = value.banks.length != 0 ? value.banks[0].id : 0;
@@ -457,13 +457,13 @@ class _BankOrChequeState extends State<BankOrCheque> {
   }
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
     );
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled');
@@ -484,9 +484,9 @@ class _BankOrChequeState extends State<BankOrCheque> {
     }
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.bankName == title) {
         code = cls.id;
         break;
@@ -495,9 +495,9 @@ class _BankOrChequeState extends State<BankOrCheque> {
     return code;
   }
 
-  String getBankAccountName<T>(T t, String title) {
-    String code;
-    for (var cls in t) {
+  String? getBankAccountName(List t, String? title) {
+    String? code;
+    for (var cls in t ) {
       if (cls.bankName == title) {
         code = cls.accountName;
         break;
@@ -507,9 +507,9 @@ class _BankOrChequeState extends State<BankOrCheque> {
     return code;
   }
 
-  String getBankAccountNumber<T>(T t, String title) {
-    String code;
-    for (var cls in t) {
+  String? getBankAccountNumber(List t, String? title) {
+    String? code;
+    for (var cls in t ) {
       if (cls.bankName == title) {
         code = cls.accountNumber;
         break;
@@ -519,7 +519,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
   }
 
   Future submitPayment(context, user) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       if (_file != null) {
         if (widget.paymentType == "Bank Payment") {
           paymentUrl = InfixApi.childFeeBankPayment(
@@ -558,7 +558,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
             "payment_mode": 'bank',
             "date": paymentDate,
             "bank_id": bankId,
-            "slip": await MultipartFile.fromFile(_file.path),
+            "slip": await MultipartFile.fromFile(_file!.path),
           });
         } else {
           formData = FormData.fromMap({
@@ -570,7 +570,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
             "payment_mode": 'cheque',
             "date": paymentDate,
             "bank_id": bankId,
-            "slip": await MultipartFile.fromFile(_file.path),
+            "slip": await MultipartFile.fromFile(_file!.path),
           });
         }
         Response response;
@@ -652,7 +652,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
                           // Utils.checkTextValue("CLASS",user.classId),
                           widget.paymentType == "Bank Payment"
                               ? FutureBuilder<BankList>(
-                                  future: bank,
+                                  future: bank!.then((value) => value as BankList),
                                   builder: (context, snapshot) {
                                     print(snapshot.data);
                                     if (snapshot.hasData) {
@@ -666,7 +666,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                             DropdownButton(
                                               elevation: 0,
                                               isExpanded: true,
-                                              items: snapshot.data.banks
+                                              items: snapshot.data!.banks
                                                   .map((item) {
                                                 return DropdownMenuItem<String>(
                                                   value: item.bankName,
@@ -674,27 +674,27 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                                     padding:
                                                         const EdgeInsets.only(
                                                             left: 8.0),
-                                                    child: Text(item.bankName),
+                                                    child: Text(item.bankName!),
                                                   ),
                                                 );
                                               }).toList(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4
+                                                  .headline4!
                                                   .copyWith(fontSize: 15.0),
-                                              onChanged: (value) {
+                                              onChanged: (dynamic value) {
                                                 setState(() {
                                                   _selectedBank = value;
                                                   bankId = getCode(
-                                                      snapshot.data.banks,
+                                                      snapshot.data!.banks,
                                                       value);
                                                   bankAccountName =
                                                       getBankAccountName(
-                                                          snapshot.data.banks,
+                                                          snapshot.data!.banks,
                                                           value);
                                                   bankAccountNumber =
                                                       getBankAccountNumber(
-                                                          snapshot.data.banks,
+                                                          snapshot.data!.banks,
                                                           value);
                                                   debugPrint(
                                                       'User select $bankId');
@@ -706,17 +706,17 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                               contentPadding:
                                                   EdgeInsets.only(left: 8),
                                               title: Text(
-                                                bankAccountName,
+                                                bankAccountName!,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline5
+                                                    .headline5!
                                                     .copyWith(fontSize: 14),
                                               ),
                                               subtitle: Text(
-                                                bankAccountNumber,
+                                                bankAccountNumber!,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline5
+                                                    .headline5!
                                                     .copyWith(
                                                         fontSize: 12,
                                                         fontWeight:
@@ -741,9 +741,9 @@ class _BankOrChequeState extends State<BankOrCheque> {
                               enabled: false,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              validator: (String value) {
+                              validator: (String? value) {
                                 RegExp regExp = new RegExp(r'^[0-9]*$');
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return 'Please enter a valid amount';
                                 }
                                 if (int.tryParse(value) == 0) {
@@ -752,9 +752,9 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                 if (!regExp.hasMatch(value)) {
                                   return 'Please enter a number';
                                 }
-                                if (int.tryParse(value) >
+                                if (int.tryParse(value)! >
                                     int.tryParse(
-                                        widget.fee.balance.toString())) {
+                                        widget.fee.balance.toString())!) {
                                   return 'Amount must not greater than balance';
                                 }
                                 return null;
@@ -798,10 +798,10 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                                       "Bank Payment"
                                                   ? 'Select Bank payment slip'
                                                   : 'Select Cheque payment slip'
-                                              : _file.path.split('/').last,
+                                              : _file!.path.split('/').last,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(),
                                           maxLines: 2,
                                         ),
@@ -811,7 +811,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                       'Browse',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                             decoration:
                                                 TextDecoration.underline,
@@ -842,7 +842,7 @@ class _BankOrChequeState extends State<BankOrCheque> {
                                         "PAY",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
+                                            .headline5!
                                             .copyWith(color: Colors.white),
                                       ),
                                     ),

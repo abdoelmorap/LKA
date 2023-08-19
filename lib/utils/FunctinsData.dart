@@ -109,7 +109,7 @@ class AppFunction {
     'Leave',
     // 'Subjects',
     // 'Teacher',
-    'StudentGallery',
+    'ClassGallery',
 
     // 'Library',
     // 'Transport',
@@ -409,7 +409,7 @@ class AppFunction {
     'assets/images/addhw.png',
   ];
 
-  static void getFunctions(BuildContext context, String rule, String zoom) {
+  static void getFunctions(BuildContext context, String? rule, String? zoom) {
     Route route;
 
     switch (rule) {
@@ -448,8 +448,8 @@ class AppFunction {
     }
   }
 
-  static void getDashboardPage(BuildContext context, String title,
-      {var id, String image, int zoom, String token}) {
+  static void getDashboardPage(BuildContext context, String? title,
+      {var id, String? image, int? zoom, String? token}) {
     switch (title) {
       case 'Profile':
         Navigator.push(
@@ -562,7 +562,7 @@ class AppFunction {
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: SettingScreen()));
         break;
-      case 'StudentGallery':
+      case 'ClassGallery':
         Navigator.push(context, ScaleRoute(page: StudentGallery()));
         break;
       case 'DailyReport':
@@ -578,14 +578,14 @@ class AppFunction {
     }
   }
 
-  static void getAdminDashboardPage(BuildContext context, String title,
-      String uid, SystemSettings systemSettings) {
+  static void getAdminDashboardPage(BuildContext context, String? title,
+      String? uid, SystemSettings systemSettings) {
     switch (title) {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
       case 'Fees':
-        if (systemSettings.data.feesStatus == 0) {
+        if (systemSettings.data!.feesStatus == 0) {
           Navigator.push(context,
               ScaleRoute(page: AdminFeesHome(adminFees, adminFeeIcons)));
         } else {
@@ -636,14 +636,14 @@ class AppFunction {
     }
   }
 
-  static void getSaasAdminDashboardPage(BuildContext context, String title,
-      String uid, SystemSettings systemSettings) {
+  static void getSaasAdminDashboardPage(BuildContext context, String? title,
+      String? uid, SystemSettings systemSettings) {
     switch (title) {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
       case 'Fees':
-        if (systemSettings.data.feesStatus == 0) {
+        if (systemSettings.data!.feesStatus == 0) {
           Navigator.push(context,
               ScaleRoute(page: AdminFeesHome(adminFees, adminFeeIcons)));
         } else {
@@ -694,7 +694,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminFeePage(BuildContext context, String title) {
+  static void getAdminFeePage(BuildContext context, String? title) {
     switch (title) {
       case 'Add Fee':
         Navigator.push(context, ScaleRoute(page: AddFeeType()));
@@ -705,7 +705,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminFeePageNew(BuildContext context, String title) {
+  static void getAdminFeePageNew(BuildContext context, String? title) {
     switch (title) {
       case 'Fee Group':
         Navigator.push(context, ScaleRoute(page: FeesGroupScreen()));
@@ -728,7 +728,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminFeesReportPage(BuildContext context, String title) {
+  static void getAdminFeesReportPage(BuildContext context, String? title) {
     switch (title) {
       case 'Due Report':
         Navigator.push(context, ScaleRoute(page: AdminFeesDueReport()));
@@ -748,7 +748,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminLibraryPage(BuildContext context, String title) {
+  static void getAdminLibraryPage(BuildContext context, String? title) {
     switch (title) {
       case 'Add Book':
         Navigator.push(context, ScaleRoute(page: AddAdminBook()));
@@ -762,7 +762,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminDormitoryPage(BuildContext context, String title) {
+  static void getAdminDormitoryPage(BuildContext context, String? title) {
     switch (title) {
       case 'Room List':
         Navigator.push(context, ScaleRoute(page: DormitoryScreen()));
@@ -776,7 +776,7 @@ class AppFunction {
     }
   }
 
-  static void getAdminTransportPage(BuildContext context, String title) {
+  static void getAdminTransportPage(BuildContext context, String? title) {
     switch (title) {
       case 'Route':
         Navigator.push(context, ScaleRoute(page: AddRoute()));
@@ -794,7 +794,7 @@ class AppFunction {
   }
 
   static void getTeacherDashboardPage(
-      BuildContext context, String title, String uid) {
+      BuildContext context, String? title, String? uid) {
     switch (title) {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
@@ -845,7 +845,7 @@ class AppFunction {
   }
 
   static void getParentDashboardPage(
-      BuildContext context, String title, String uid) {
+      BuildContext context, String? title, String? uid) {
     switch (title) {
       case 'Child':
         Navigator.push(context, ScaleRoute(page: ChildListScreen()));
@@ -876,7 +876,7 @@ class AppFunction {
     }
   }
 
-  static void getAttendanceDashboardPage(BuildContext context, String title) {
+  static void getAttendanceDashboardPage(BuildContext context, String? title) {
     switch (title) {
       case 'Class Atten':
         Navigator.push(context, ScaleRoute(page: StudentAttendanceHome()));
@@ -896,7 +896,7 @@ class AppFunction {
   }
 
   static void getAdminAttendanceDashboardPage(
-      BuildContext context, String title) {
+      BuildContext context, String? title) {
     switch (title) {
       case 'Class Atten':
         Navigator.push(context, ScaleRoute(page: StudentAttendanceHome()));
@@ -912,7 +912,7 @@ class AppFunction {
     }
   }
 
-  static void getAcademicDashboardPage(BuildContext context, String title) {
+  static void getAcademicDashboardPage(BuildContext context, String? title) {
     switch (title) {
       case 'Subjects':
         Navigator.push(context, ScaleRoute(page: MySubjectScreen()));
@@ -926,7 +926,7 @@ class AppFunction {
     }
   }
 
-  static void getLibraryDashboardPage(BuildContext context, String title,
+  static void getLibraryDashboardPage(BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Book List':
@@ -943,7 +943,7 @@ class AppFunction {
     }
   }
 
-  static void getHomeworkDashboardPage(BuildContext context, String title) {
+  static void getHomeworkDashboardPage(BuildContext context, String? title) {
     switch (title) {
       case 'HW List':
         Navigator.push(context, ScaleRoute(page: TeacherHomework()));
@@ -954,7 +954,7 @@ class AppFunction {
     }
   }
 
-  static void getContentDashboardPage(BuildContext context, String title) {
+  static void getContentDashboardPage(BuildContext context, String? title) {
     switch (title) {
       case 'Content List':
         Navigator.push(context, ScaleRoute(page: ContentListScreen()));
@@ -965,7 +965,7 @@ class AppFunction {
     }
   }
 
-  static void getLeaveDashboardPage(BuildContext context, String title) {
+  static void getLeaveDashboardPage(BuildContext context, String? title) {
     switch (title) {
       case 'Leave List':
         Navigator.push(context, ScaleRoute(page: LeaveListScreen()));
@@ -976,7 +976,7 @@ class AppFunction {
     }
   }
 
-  static void getExaminationDashboardPage(BuildContext context, String title,
+  static void getExaminationDashboardPage(BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Schedule':
@@ -998,7 +998,7 @@ class AppFunction {
     }
   }
 
-  static void getDownloadsDashboardPage(BuildContext context, String title,
+  static void getDownloadsDashboardPage(BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Assignment':
@@ -1021,7 +1021,7 @@ class AppFunction {
     }
   }
 
-  static void getStudentLeaveDashboardPage(BuildContext context, String title,
+  static void getStudentLeaveDashboardPage(BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Apply Leave':
@@ -1039,7 +1039,7 @@ class AppFunction {
   }
 
   static void getOnlineExaminationDashboardPage(
-      BuildContext context, String title,
+      BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Active Exam':
@@ -1062,7 +1062,7 @@ class AppFunction {
   }
 
   static void getOnlineExaminationModuleDashboardPage(
-      BuildContext context, String title,
+      BuildContext context, String? title,
       {var id}) {
     switch (title) {
       case 'Active Exam':
@@ -1084,7 +1084,7 @@ class AppFunction {
     }
   }
 
-  static void getDriverDashboard(BuildContext context, String title, String uid,
+  static void getDriverDashboard(BuildContext context, String? title, String? uid,
       SystemSettings systemSettings) {
     switch (title) {
       case 'Transport':

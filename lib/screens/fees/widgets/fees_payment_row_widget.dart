@@ -38,7 +38,7 @@ class FeePaymentRow extends StatelessWidget {
                       Text(
                         'Due Date',
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: 10.0,),
                       Text(
@@ -56,7 +56,7 @@ class FeePaymentRow extends StatelessWidget {
                       Text(
                         'Amount',
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: 10.0,),
                       Text(
@@ -74,7 +74,7 @@ class FeePaymentRow extends StatelessWidget {
                       Text(
                         'Paid',
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: 10.0,),
                       Text(
@@ -92,7 +92,7 @@ class FeePaymentRow extends StatelessWidget {
                       Text(
                         'Balance',
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: 10.0,),
                       Text(

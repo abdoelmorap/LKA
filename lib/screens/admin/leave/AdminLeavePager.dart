@@ -19,7 +19,7 @@ class AdminLeavePage extends StatefulWidget {
 }
 
 class _AdminLeavePageState extends State<AdminLeavePage> {
-  StuffLeaveListBloc bloc;
+  late StuffLeaveListBloc bloc;
 
   @override
   void initState() {
@@ -39,20 +39,20 @@ class _AdminLeavePageState extends State<AdminLeavePage> {
             if (snap.error != null) {
               return _buildErrorWidget(snap.error.toString());
             }
-            if (snap.data.leaves.length < 1) {
+            if (snap.data!.leaves.length < 1) {
               return Utils.noDataWidget();
             }
 
             return Container(
               child: ListView.builder(
-                itemCount: snap.data.leaves.length,
+                itemCount: snap.data!.leaves.length,
                 itemBuilder: (context, index) {
-                  return LeaveRowLayout(snap.data.leaves[index]);
+                  return LeaveRowLayout(snap.data!.leaves[index]);
                 },
               ),
             );
           } else if (snap.hasError) {
-            return _buildErrorWidget(snap.error);
+            return _buildErrorWidget(snap.error as String?);
           } else {
             return _buildLoadingWidget();
           }
@@ -65,7 +65,7 @@ class _AdminLeavePageState extends State<AdminLeavePage> {
     return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildErrorWidget(String error) {
+  Widget _buildErrorWidget(String? error) {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,

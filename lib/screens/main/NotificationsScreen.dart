@@ -14,7 +14,7 @@ import 'package:infixedu/config/app_config.dart';
 import 'package:infixedu/controller/notification_controller.dart';
 
 class NotificationScreen extends StatefulWidget {
-  final String id;
+  final String? id;
 
   NotificationScreen(this.id);
 
@@ -26,11 +26,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
   final NotificationController controller = Get.put(NotificationController());
 
   Future readAll() async {
-    controller.userNotificationList.value.userNotifications
+    controller.userNotificationList.value.userNotifications!
         .forEach((element) async {
       await controller.readNotification(element.id).then((value) {
         if (value == true) {
-          controller.userNotificationList.value.userNotifications
+          controller.userNotificationList.value.userNotifications!
               .remove(element);
         }
       }).then((value) async {
@@ -68,7 +68,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         "Notification".tr,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .subtitle1!
                             .copyWith(fontSize: 18.sp, color: Colors.white),
                       ),
                     ),
@@ -117,7 +117,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       onPressed: readAll,
                       child: Text(
                         'Mark all as read'.tr,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                               fontSize: ScreenUtil().setSp(12),
                               color: Colors.white,
                             ),
@@ -134,7 +134,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   if (controller.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    if (controller.userNotificationList.value.userNotifications
+                    if (controller.userNotificationList.value.userNotifications!
                             .length ==
                         0) {
                       return Center(
@@ -157,13 +157,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           );
                         },
                         itemCount: controller.userNotificationList.value
-                            .userNotifications.length,
+                            .userNotifications!.length,
                         itemBuilder: (context, index) {
                           final item = controller.userNotificationList.value
-                              .userNotifications[index];
+                              .userNotifications![index];
                           return Slidable(
-                            actionPane: SlidableDrawerActionPane(),
-                            actionExtentRatio: 0.25,
+                            // actionPane: SlidableDrawerActionPane(),
+                            // actionExtentRatio: 0.25,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,21 +186,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        item.message,
+                                        item.message!,
                                         textAlign: TextAlign.end,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
+                                            .headline5!
                                             .copyWith(
                                               fontSize: ScreenUtil().setSp(13),
                                             ),
                                       ),
                                       Text(
-                                        timeago.format(item.createdAt),
+                                        timeago.format(item.createdAt!),
                                         textAlign: TextAlign.end,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
+                                            .headline5!
                                             .copyWith(
                                               fontSize: ScreenUtil().setSp(12),
                                             ),
@@ -213,53 +213,54 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 ),
                               ],
                             ),
-                            actions: <Widget>[
-                              IconSlideAction(
-                                caption: 'Mark as Read',
-                                color: Colors.deepPurple,
-                                iconWidget: Icon(
+                            endActionPane:ActionPane(
+                              motion: ScrollMotion(),
+                              children: <Widget>[
+                              SlidableAction(
+                          label      : 'Mark as Read',
+                                  backgroundColor: Colors.deepPurple,
+                                icon:
                                   Icons.panorama_fish_eye,
-                                  size: 1,
-                                ),
-                                onTap: () async {
+
+                                onPressed: (context) async {
                                   await controller
                                       .readNotification(item.id)
                                       .then((value) async {
                                     if (value == true) {
                                       controller.userNotificationList.value
-                                          .userNotifications
+                                          .userNotifications!
                                           .removeAt(index);
                                     }
                                   }).then((value) async {
                                     await controller.getNotifications();
-                                  });
-                                },
+                                  } );
+                                }
                               ),
-                            ],
-                            secondaryActions: <Widget>[
-                              IconSlideAction(
-                                caption: 'Mark as Read',
-                                color: Colors.deepPurple,
-                                iconWidget: Icon(
+                            ],),
+                              startActionPane: ActionPane(
+                                motion: ScrollMotion(),
+                                children: <Widget>[
+                                  SlidableAction(
+                                    label: 'Mark as Read',
+                                    backgroundColor: Colors.deepPurple,
+                                icon:
                                   Icons.panorama_fish_eye,
-                                  size: 1,
-                                ),
-                                onTap: () async {
+                                 onPressed: (c) async {
                                   await controller
                                       .readNotification(item.id)
                                       .then((value) async {
                                     if (value == true) {
                                       controller.userNotificationList.value
-                                          .userNotifications
+                                          .userNotifications!
                                           .removeAt(index);
                                     }
                                   }).then((value) async {
                                     await controller.getNotifications();
-                                  });
+                                  } );
                                 },
                               ),
                             ],
-                          );
+                          ));
                         },
                       );
                     }
@@ -270,4 +271,5 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ));
   }
+
 }

@@ -14,12 +14,12 @@ import 'package:infixedu/screens/fees/model/Fee.dart';
 import 'package:infixedu/utils/model/PaymentMethod.dart';
 
 class XenditPaymentScreen extends StatefulWidget {
-  final Function onFinish;
-  final PaymentMethod payment;
-  final FeeElement fee;
-  final String amount;
-  final String redirectUrl;
-  final String authenticationId;
+  final Function? onFinish;
+  final PaymentMethod? payment;
+  final FeeElement? fee;
+  final String? amount;
+  final String? redirectUrl;
+  final String? authenticationId;
 
   XenditPaymentScreen(
       {this.onFinish,
@@ -37,9 +37,9 @@ class XenditPaymentScreen extends StatefulWidget {
 
 class XenditPaymentScreenState extends State<XenditPaymentScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String checkoutUrl;
-  String executeUrl;
-  String accessToken;
+  String? checkoutUrl;
+  String? executeUrl;
+  String? accessToken;
 
   // you can change default currency according to your need
   Map<dynamic, dynamic> defaultCurrency = {
@@ -81,7 +81,7 @@ class XenditPaymentScreenState extends State<XenditPaymentScreen> {
                   "https://redirect.xendit.co/callbacks/authentications/cybs/bundled/${widget.authenticationId}?api_key=$xenditPublicKey") {
                 print('matched');
                 Future.delayed(Duration(seconds: 3), () {
-                  widget.onFinish(widget.authenticationId);
+                  widget.onFinish!(widget.authenticationId);
                   Navigator.of(context).pop();
                 });
               }

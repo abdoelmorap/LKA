@@ -9,7 +9,7 @@ import 'package:infixedu/utils/widget/Routine_row.dart';
 // ignore: must_be_immutable
 class Routine extends StatelessWidget {
   List<String> weeks = AppFunction.weeks;
-  String id;
+  String? id;
 
   Routine({this.id});
 

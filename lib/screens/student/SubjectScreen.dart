@@ -21,7 +21,7 @@ import 'package:infixedu/utils/widget/SubjectRowLayout.dart';
 
 // ignore: must_be_immutable
 class SubjectScreen extends StatefulWidget {
-  String id;
+  String? id;
 
   SubjectScreen({this.id});
 
@@ -31,9 +31,9 @@ class SubjectScreen extends StatefulWidget {
 
 class _SubjectScreenState extends State<SubjectScreen> {
   final UserController _userController = Get.put(UserController());
-  Future<SubjectList> subjects;
-  String _token;
-  String _id;
+  Future<SubjectList>? subjects;
+  String? _token;
+  String? _id;
 
   @override
   void initState() {
@@ -46,14 +46,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   void didChangeDependencies() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
         _id = value;
         subjects = getAllSubject(
-            widget.id != null ? int.parse(widget.id) : int.parse(value),
-            _userController.studentRecord.value.records.first.id);
+            widget.id != null ? int.parse(widget.id!) : int.parse(value!),
+            _userController.studentRecord.value.records!.first.id);
       });
     });
   }
@@ -76,8 +76,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   () {
                     subjects = getAllSubject(
                         widget.id != null
-                            ? int.parse(widget.id)
-                            : int.parse(_id),
+                            ? int.parse(widget.id!)
+                            : int.parse(_id!),
                         record.id);
                   },
                 );
@@ -96,7 +96,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             child: Text('Subject'.tr,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
@@ -105,7 +105,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             child: Text('Teacher'.tr,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
@@ -115,7 +115,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               'Type'.tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -135,13 +135,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           );
                         } else {
                           if (snapshot.hasData) {
-                            if (snapshot.data.subjects.length > 0) {
+                            if (snapshot.data!.subjects.length > 0) {
                               return ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: snapshot.data.subjects.length,
+                                itemCount: snapshot.data!.subjects.length,
                                 itemBuilder: (context, index) {
                                   return SubjectRowLayout(
-                                      snapshot.data.subjects[index]);
+                                      snapshot.data!.subjects[index]);
                                 },
                               );
                             } else {
@@ -163,7 +163,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     );
   }
 
-  Future<SubjectList> getAllSubject(dynamic id, int recordId) async {
+  Future<SubjectList> getAllSubject(dynamic id, int? recordId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getSubjectsUrl(id, recordId)),
         headers: Utils.setHeader(_token.toString()));

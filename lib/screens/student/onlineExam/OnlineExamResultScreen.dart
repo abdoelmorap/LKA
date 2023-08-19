@@ -31,17 +31,17 @@ class OnlineExamResultScreen extends StatefulWidget {
 
 class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
   final UserController _userController = Get.put(UserController());
-  Future<OnlineExamResultList> results;
+  Future<OnlineExamResultList>? results;
   var id;
   dynamic code;
   var _selected;
-  Future<OnlineExamNameList> exams;
-  String _token;
+  Future<OnlineExamNameList>? exams;
+  String? _token;
 
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     Utils.getStringValue('token').then((value) {
       _token = value;
     });
@@ -55,12 +55,12 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
       setState(() {
         id = widget.id != null ? widget.id : value;
         exams = getAllOnlineExam(
-            id, _userController.studentRecord.value.records.first.id);
-        exams.then((val) {
+            id, _userController.studentRecord.value.records!.first.id);
+        exams!.then((val) {
           _selected = val.names.length != 0 ? val.names[0].title : '';
           code = val.names.length != 0 ? val.names[0].id : 0;
           results = getAllOnlineExamResult(
-              id, code, _userController.studentRecord.value.records.first.id);
+              id, code, _userController.studentRecord.value.records!.first.id);
         });
       });
     });
@@ -83,7 +83,7 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
                 setState(
                   () {
                     exams = getAllOnlineExam(id, record.id);
-                    exams.then((val) {
+                    exams!.then((val) {
                       _selected =
                           val.names.length != 0 ? val.names[0].title : '';
                       code = val.names.length != 0 ? val.names[0].id : 0;
@@ -106,10 +106,10 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
                     );
                   }
                   if (snapshot.hasData) {
-                    if (snapshot.data.names.length > 0) {
+                    if (snapshot.data!.names.length > 0) {
                       return Column(
                         children: <Widget>[
-                          getDropdown(snapshot.data.names),
+                          getDropdown(snapshot.data!.names),
                           SizedBox(
                             height: 15.0,
                           ),
@@ -144,13 +144,13 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
               item.title,
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontWeight: FontWeight.w500),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15.0),
+        onChanged: (dynamic value) {
           setState(() {
             _selected = value;
 
@@ -167,7 +167,7 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
   }
 
   Future<OnlineExamResultList> getAllOnlineExamResult(
-      var id, dynamic code, int recordId) async {
+      var id, dynamic code, int? recordId) async {
     final response = await http.get(
         Uri.parse(
             InfixApi.getStudentOnlineActiveExamResult(id, code, recordId)),
@@ -180,7 +180,7 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
     }
   }
 
-  Future<OnlineExamNameList> getAllOnlineExam(var id, int recordId) async {
+  Future<OnlineExamNameList> getAllOnlineExam(var id, int? recordId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getStudentOnlineActiveExamName(id, recordId)),
         headers: Utils.setHeader(_token.toString()));
@@ -193,7 +193,7 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
     }
   }
 
-  dynamic getExamCode(List<OnlineExamName> names, String title) {
+  dynamic getExamCode(List<OnlineExamName> names, String? title) {
     dynamic code;
     for (OnlineExamName name in names) {
       if (name.title == title) {
@@ -214,13 +214,13 @@ class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
           );
         }
         if (snapshot.hasData) {
-          if (snapshot.data.results.length > 0) {
+          if (snapshot.data!.results.length > 0) {
             return ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: snapshot.data.results.length,
+              itemCount: snapshot.data!.results.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return OnlineExamResultRow(snapshot.data.results[index]);
+                return OnlineExamResultRow(snapshot.data!.results[index]);
               },
             );
           } else {

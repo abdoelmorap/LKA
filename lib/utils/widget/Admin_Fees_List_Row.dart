@@ -23,11 +23,11 @@ class AdminFeesListRow extends StatefulWidget {
 
 class _AdminFeesListRowState extends State<AdminFeesListRow> {
   GlobalKey _scaffold = GlobalKey();
-  Response response;
+  late Response response;
   Dio dio = Dio();
-  String _token;
+  String? _token;
 
-  TextEditingController titleController, descripController;
+  TextEditingController? titleController, descripController;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _AdminFeesListRowState extends State<AdminFeesListRow> {
               'Update',
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(decoration: TextDecoration.underline),
             ),
             onTap: () {
@@ -73,8 +73,8 @@ class _AdminFeesListRowState extends State<AdminFeesListRow> {
   showAlertDialog(BuildContext context) {
     titleController = TextEditingController();
     descripController = TextEditingController();
-    titleController.text = widget.adminFees.name;
-    descripController.text = widget.adminFees.description;
+    titleController!.text = widget.adminFees.name!;
+    descripController!.text = widget.adminFees.description!;
 
     showDialog<void>(
       barrierDismissible: true,
@@ -121,17 +121,17 @@ class _AdminFeesListRowState extends State<AdminFeesListRow> {
                                 ),
                                 onPressed: () {
                                   updateFeeData(
-                                          titleController.text,
-                                          descripController.text,
+                                          titleController!.text,
+                                          descripController!.text,
                                           widget.adminFees.id,
                                           context)
                                       .then((value) {
                                     if (value) {
                                       setState(() {
                                         widget.adminFees.name =
-                                            titleController.text;
+                                            titleController!.text;
                                         widget.adminFees.description =
-                                            descripController.text;
+                                            descripController!.text;
                                       });
                                     }
                                   });

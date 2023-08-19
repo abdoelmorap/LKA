@@ -2,14 +2,14 @@
 
 class Staff {
   dynamic id;
-  String name;
-  String qualification;
-  String currentAddress;
-  String title;
-  String maritalStatus;
-  String dateOfJoining;
-  String phone;
-  String photo;
+  String? name;
+  String? qualification;
+  String? currentAddress;
+  String? title;
+  String? maritalStatus;
+  String? dateOfJoining;
+  String? phone;
+  String? photo;
   dynamic userId;
 
   Staff(

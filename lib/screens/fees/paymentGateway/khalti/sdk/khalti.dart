@@ -13,8 +13,8 @@ import 'package:infixedu/screens/fees/paymentGateway/khalti/sdk/src/util/package
 
 class Khalti {
   static Future<void> init({
-    @required String publicKey,
-    KhaltiConfig config,
+    required String publicKey,
+    KhaltiConfig? config,
     bool enabledDebugging = false,
   }) async {
     KhaltiService.enableDebugging = enabledDebugging;

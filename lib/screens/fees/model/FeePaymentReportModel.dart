@@ -14,8 +14,8 @@ class FeePaymentReportModel {
         this.totalPayment,
     });
 
-    List<PaymentReport> paymentReport;
-    int totalPayment;
+    List<PaymentReport>? paymentReport;
+    int? totalPayment;
 
     factory FeePaymentReportModel.fromJson(Map<String, dynamic> json) => FeePaymentReportModel(
         paymentReport: List<PaymentReport>.from(json["paymentReport"].map((x) => PaymentReport.fromJson(x))),
@@ -23,7 +23,7 @@ class FeePaymentReportModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "paymentReport": List<dynamic>.from(paymentReport.map((x) => x.toJson())),
+        "paymentReport": List<dynamic>.from(paymentReport!.map((x) => x.toJson())),
         "totalPayment": totalPayment,
     };
 }
@@ -38,11 +38,11 @@ class PaymentReport {
         this.paid,
     });
 
-    String admissionNo;
-    String rollNo;
-    String name;
-    String dueDate;
-    double paid;
+    String? admissionNo;
+    String? rollNo;
+    String? name;
+    String? dueDate;
+    double? paid;
 
     factory PaymentReport.fromJson(Map<String, dynamic> json) => PaymentReport(
         admissionNo: json["admission_no"].toString(),

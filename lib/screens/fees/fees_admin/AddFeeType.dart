@@ -24,11 +24,11 @@ class _AddFeeTypeState extends State<AddFeeType> {
 
   TextEditingController descripController = TextEditingController();
 
-  Response response;
+  late Response response;
 
   Dio dio = Dio();
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {

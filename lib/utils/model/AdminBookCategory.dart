@@ -1,5 +1,5 @@
 class Admincategory {
-  String title;
+  String? title;
   dynamic id;
 
   Admincategory({this.title, this.id});

@@ -15,7 +15,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:reorderables/reorderables.dart';
 
 class TakeExamScreen extends StatefulWidget {
-  final TakeExamModel takeExamModel;
+  final TakeExamModel? takeExamModel;
   TakeExamScreen({this.takeExamModel});
 
   @override
@@ -56,7 +56,7 @@ class _TakeExamScreenState extends State<TakeExamScreen> {
                   Text(
                     "Exam Result Processing. Please wait".tr,
                     style:
-                        Get.textTheme.subtitle1.copyWith(color: Colors.white),
+                        Get.textTheme.subtitle1!.copyWith(color: Colors.white),
                   ),
                 ],
               ),
@@ -83,7 +83,7 @@ class _TakeExamScreenState extends State<TakeExamScreen> {
                         children: [
                           TextSpan(
                               text:
-                                  "/${_questionController.quiz.value.totalQuestions.toString()}",
+                                  "/${_questionController.quiz.value!.totalQuestions.toString()}",
                               style: Theme.of(context).textTheme.subtitle1),
                         ],
                       ),
@@ -192,7 +192,7 @@ class QuestionSelectorWidget extends StatelessWidget {
                   width: 5.0,
                 );
               },
-              itemCount: qnController.quiz.value.examQuestions.length,
+              itemCount: qnController.quiz.value!.examQuestions!.length,
             ),
           );
         });
@@ -202,8 +202,8 @@ class QuestionSelectorWidget extends StatelessWidget {
 class QuestionCard extends StatefulWidget {
   QuestionCard({this.assign, this.index});
 
-  final ExamQuestion assign;
-  final int index;
+  final ExamQuestion? assign;
+  final int? index;
 
   @override
   State<QuestionCard> createState() => _QuestionCardState();
@@ -225,31 +225,31 @@ class _QuestionCardState extends State<QuestionCard>
   List<CheckboxModal> multipleImageList = [];
   List<CheckboxModal> imageQuestionList = [];
   List<CheckboxModal> pairMatchQuestionList = [];
-  List<int> assignIds = [];
+  List<int?> assignIds = [];
 
-  int defaultChoiceIndex;
+  int? defaultChoiceIndex;
   List<String> _choicesList = [
     'True',
     'False',
   ];
 
-  List<Widget> _rows;
-  List<Widget> _titleRows;
+  late List<Widget> _rows;
+  late List<Widget> _titleRows;
 
   List<String> s = [];
   Map<String, String> m = {};
 
   Future onItemClicked(CheckboxModal ckbItem) async {
     setState(() {
-      ckbItem.value = !ckbItem.value;
+      ckbItem.value = !ckbItem.value!;
     });
-    if (ckbItem.value) {
+    if (ckbItem.value!) {
       assignIds.add(ckbItem.id);
 
       Map data = {
         'student_id': _userController.studentId.value,
-        'online_exam_id': _examController.quiz.value.onlineExam.id,
-        'question_id': widget.assign.id,
+        'online_exam_id': _examController.quiz.value!.onlineExam!.id,
+        'question_id': widget.assign!.id,
         'record_id': _userController.selectedRecord.value.id,
         'school_id': _userController.schoolId.value,
         'submit_value': ckbItem.id,
@@ -265,8 +265,8 @@ class _QuestionCardState extends State<QuestionCard>
 
   @override
   void initState() {
-    if (widget.assign.questionType == "M") {
-      widget.assign.mQuestions.forEach((element) {
+    if (widget.assign!.questionType == "M") {
+      widget.assign!.mQuestions!.forEach((element) {
         multipleChoiceList.add(CheckboxModal(
           title: element.mTitle,
           id: element.mId,
@@ -274,16 +274,16 @@ class _QuestionCardState extends State<QuestionCard>
           alphabet: element.alphabet,
         ));
       });
-    } else if (widget.assign.questionType == "MI") {
-      widget.assign.miQuestions.forEach((element) {
+    } else if (widget.assign!.questionType == "MI") {
+      widget.assign!.miQuestions!.forEach((element) {
         multipleImageList.add(CheckboxModal(
           image: element.miTitle,
           id: element.miId,
           value: false,
         ));
       });
-    } else if (widget.assign.questionType == "IMQ") {
-      widget.assign.imqQuestions.forEach((element) {
+    } else if (widget.assign!.questionType == "IMQ") {
+      widget.assign!.imqQuestions!.forEach((element) {
         imageQuestionList.add(CheckboxModal(
           image: element.imqTitle,
           id: element.imqId,
@@ -291,8 +291,8 @@ class _QuestionCardState extends State<QuestionCard>
           value: false,
         ));
       });
-    } else if (widget.assign.questionType == "PM") {
-      widget.assign.piQuestions.forEach((element) {
+    } else if (widget.assign!.questionType == "PM") {
+      widget.assign!.piQuestions!.forEach((element) {
         pairMatchQuestionList.add(CheckboxModal(
           id: element.pmId,
           image: element.pTitle,
@@ -308,7 +308,7 @@ class _QuestionCardState extends State<QuestionCard>
       print(s);
 
       _rows = List<Widget>.generate(
-        widget.assign.piQuestions.length,
+        widget.assign!.piQuestions!.length,
         (int index) => Container(
           width: 100,
           height: 100,
@@ -328,7 +328,7 @@ class _QuestionCardState extends State<QuestionCard>
         ),
       );
       _titleRows = List<Widget>.generate(
-        widget.assign.piQuestions.length,
+        widget.assign!.piQuestions!.length,
         (int index2) => Container(
           height: 100,
           key: ValueKey(index2),
@@ -354,7 +354,7 @@ class _QuestionCardState extends State<QuestionCard>
               child: CircularProgressIndicator(),
             );
           } else {
-            if (widget.assign.questionType == "SA") {
+            if (widget.assign!.questionType == "SA") {
               return Form(
                 key: _formKey,
                 child: Container(
@@ -374,9 +374,9 @@ class _QuestionCardState extends State<QuestionCard>
                             SizedBox(height: 10),
                             HtmlWidget(
                               '''
-                              ${widget.assign.question ?? "____"}
+                              ${widget.assign!.question ?? "____"}
                                ''',
-                              textStyle: Get.textTheme.subtitle2
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                             SizedBox(height: 10),
@@ -384,7 +384,7 @@ class _QuestionCardState extends State<QuestionCard>
                               controller: shortAnsCtrl,
                               maxLines: 2,
                               cursorColor: Get.theme.primaryColor,
-                              style: Get.textTheme.subtitle2
+                              style: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -398,11 +398,11 @@ class _QuestionCardState extends State<QuestionCard>
                                   ),
                                 ),
                               ),
-                              enabled: !qnController.answered[widget.index]
+                              enabled: !qnController.answered[widget.index!]
                                   ? true
                                   : false,
                               validator: (value) {
-                                if (value.length == 0) {
+                                if (value!.length == 0) {
                                   return "Please type something";
                                 } else {
                                   return null;
@@ -430,8 +430,8 @@ class _QuestionCardState extends State<QuestionCard>
                                       'student_id':
                                           _userController.studentId.value,
                                       'online_exam_id': _examController
-                                          .quiz.value.onlineExam.id,
-                                      'question_id': widget.assign.id,
+                                          .quiz.value!.onlineExam!.id,
+                                      'question_id': widget.assign!.id,
                                       'record_id': _userController
                                           .selectedRecord.value.id,
                                       'school_id':
@@ -481,7 +481,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ),
                 ),
               );
-            } else if (widget.assign.questionType == "SUBQ") {
+            } else if (widget.assign!.questionType == "SUBQ") {
               return Form(
                 key: _formKey,
                 child: Container(
@@ -500,9 +500,9 @@ class _QuestionCardState extends State<QuestionCard>
                             SizedBox(height: 10),
                             HtmlWidget(
                               '''
-                        ${widget.assign.question ?? "____"}
+                        ${widget.assign!.question ?? "____"}
                         ''',
-                              textStyle: Get.textTheme.subtitle2
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                             SizedBox(height: 10),
@@ -510,7 +510,7 @@ class _QuestionCardState extends State<QuestionCard>
                               controller: longAnsCtrl,
                               maxLines: 5,
                               cursorColor: Get.theme.primaryColor,
-                              style: Get.textTheme.subtitle2
+                              style: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -524,11 +524,11 @@ class _QuestionCardState extends State<QuestionCard>
                                   ),
                                 ),
                               ),
-                              enabled: !qnController.answered[widget.index]
+                              enabled: !qnController.answered[widget.index!]
                                   ? true
                                   : false,
                               validator: (value) {
-                                if (value.length == 0) {
+                                if (value!.length == 0) {
                                   return "Please type something";
                                 } else {
                                   return null;
@@ -556,8 +556,8 @@ class _QuestionCardState extends State<QuestionCard>
                                       'student_id':
                                           _userController.studentId.value,
                                       'online_exam_id': _examController
-                                          .quiz.value.onlineExam.id,
-                                      'question_id': widget.assign.id,
+                                          .quiz.value!.onlineExam!.id,
+                                      'question_id': widget.assign!.id,
                                       'record_id': _userController
                                           .selectedRecord.value.id,
                                       'school_id':
@@ -607,7 +607,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ),
                 ),
               );
-            } else if (widget.assign.questionType == "F") {
+            } else if (widget.assign!.questionType == "F") {
               return Form(
                 key: _formKey,
                 child: Container(
@@ -626,9 +626,9 @@ class _QuestionCardState extends State<QuestionCard>
                             SizedBox(height: 10),
                             HtmlWidget(
                               '''
-                        ${widget.assign.question ?? "____"}
+                        ${widget.assign!.question ?? "____"}
                         ''',
-                              textStyle: Get.textTheme.subtitle2
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                             SizedBox(height: 10),
@@ -636,7 +636,7 @@ class _QuestionCardState extends State<QuestionCard>
                               controller: fillInTheBlanksCtrl,
                               maxLines: 1,
                               cursorColor: Get.theme.primaryColor,
-                              style: Get.textTheme.subtitle2
+                              style: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -650,11 +650,11 @@ class _QuestionCardState extends State<QuestionCard>
                                   ),
                                 ),
                               ),
-                              enabled: !qnController.answered[widget.index]
+                              enabled: !qnController.answered[widget.index!]
                                   ? true
                                   : false,
                               validator: (value) {
-                                if (value.length == 0) {
+                                if (value!.length == 0) {
                                   return "Please type something";
                                 } else {
                                   return null;
@@ -682,8 +682,8 @@ class _QuestionCardState extends State<QuestionCard>
                                       'student_id':
                                           _userController.studentId.value,
                                       'online_exam_id': _examController
-                                          .quiz.value.onlineExam.id,
-                                      'question_id': widget.assign.id,
+                                          .quiz.value!.onlineExam!.id,
+                                      'question_id': widget.assign!.id,
                                       'record_id': _userController
                                           .selectedRecord.value.id,
                                       'school_id':
@@ -733,7 +733,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ),
                 ),
               );
-            } else if (widget.assign.questionType == "M") {
+            } else if (widget.assign!.questionType == "M") {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 padding: EdgeInsets.all(22.0),
@@ -752,8 +752,8 @@ class _QuestionCardState extends State<QuestionCard>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: HtmlWidget(
-                              '''${widget.assign.question ?? ""}''',
-                              textStyle: Get.textTheme.subtitle2
+                              '''${widget.assign!.question ?? ""}''',
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                           ),
@@ -771,8 +771,8 @@ class _QuestionCardState extends State<QuestionCard>
                               title: Transform.translate(
                                   offset: Offset(-16, 0),
                                   child: Text(
-                                    item.title,
-                                    style: Get.textTheme.subtitle1
+                                    item.title!,
+                                    style: Get.textTheme.subtitle1!
                                         .copyWith(color: Colors.black),
                                   )),
                             );
@@ -791,7 +791,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ],
                 ),
               );
-            } else if (widget.assign.questionType == "MI") {
+            } else if (widget.assign!.questionType == "MI") {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 padding: EdgeInsets.all(22.0),
@@ -810,8 +810,8 @@ class _QuestionCardState extends State<QuestionCard>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: HtmlWidget(
-                              '''${widget.assign.question ?? ""}''',
-                              textStyle: Get.textTheme.subtitle2
+                              '''${widget.assign!.question ?? ""}''',
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                           ),
@@ -927,7 +927,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ],
                 ),
               );
-            } else if (widget.assign.questionType == "IMQ") {
+            } else if (widget.assign!.questionType == "IMQ") {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 padding: EdgeInsets.all(22.0),
@@ -946,8 +946,8 @@ class _QuestionCardState extends State<QuestionCard>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: HtmlWidget(
-                              '''${widget.assign.question ?? ""}''',
-                              textStyle: Get.textTheme.subtitle2
+                              '''${widget.assign!.question ?? ""}''',
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                           ),
@@ -1052,7 +1052,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ],
                 ),
               );
-            } else if (widget.assign.questionType == "T") {
+            } else if (widget.assign!.questionType == "T") {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 padding: EdgeInsets.all(22.0),
@@ -1071,8 +1071,8 @@ class _QuestionCardState extends State<QuestionCard>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: HtmlWidget(
-                              '''${widget.assign.question ?? ""}''',
-                              textStyle: Get.textTheme.subtitle2
+                              '''${widget.assign!.question ?? ""}''',
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                           ),
@@ -1094,7 +1094,7 @@ class _QuestionCardState extends State<QuestionCard>
                                         _choicesList[index],
                                         style: Theme.of(context)
                                             .textTheme
-                                            .subtitle1
+                                            .subtitle1!
                                             .copyWith(
                                               color: Colors.white,
                                             ),
@@ -1112,8 +1112,8 @@ class _QuestionCardState extends State<QuestionCard>
                                           'student_id':
                                               _userController.studentId.value,
                                           'online_exam_id': _examController
-                                              .quiz.value.onlineExam.id,
-                                          'question_id': widget.assign.id,
+                                              .quiz.value!.onlineExam!.id,
+                                          'question_id': widget.assign!.id,
                                           'record_id': _userController
                                               .selectedRecord.value.id,
                                           'school_id':
@@ -1144,7 +1144,7 @@ class _QuestionCardState extends State<QuestionCard>
                   ],
                 ),
               );
-            } else if (widget.assign.questionType == "PM") {
+            } else if (widget.assign!.questionType == "PM") {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 padding: EdgeInsets.all(22.0),
@@ -1164,8 +1164,8 @@ class _QuestionCardState extends State<QuestionCard>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: HtmlWidget(
-                              '''${widget.assign.question ?? ""}''',
-                              textStyle: Get.textTheme.subtitle2
+                              '''${widget.assign!.question ?? ""}''',
+                              textStyle: Get.textTheme.subtitle2!
                                   .copyWith(color: Colors.black),
                             ),
                           ),
@@ -1212,7 +1212,7 @@ class _QuestionCardState extends State<QuestionCard>
 
                                     Map<String, String> answers = {};
 
-                                    widget.assign.piQuestions
+                                    widget.assign!.piQuestions!
                                         .forEach((element2) {
                                       ans.add("${element2.pmId}");
                                     });
@@ -1225,8 +1225,8 @@ class _QuestionCardState extends State<QuestionCard>
                                       'student_id':
                                           _userController.studentId.value,
                                       'online_exam_id': _examController
-                                          .quiz.value.onlineExam.id,
-                                      'question_id': widget.assign.id,
+                                          .quiz.value!.onlineExam!.id,
+                                      'question_id': widget.assign!.id,
                                       'record_id': _userController
                                           .selectedRecord.value.id,
                                       'school_id':
@@ -1272,13 +1272,13 @@ class ContinueSkipSubmitBtn extends StatelessWidget {
     this.index,
   });
 
-  final OnlineExamController qnController;
-  final int index;
+  final OnlineExamController? qnController;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: qnController.submitSingleAnswer.value
+      child: qnController!.submitSingleAnswer.value
           ? Align(
               alignment: Alignment.bottomCenter,
               child: CircularProgressIndicator(
@@ -1286,7 +1286,7 @@ class ContinueSkipSubmitBtn extends StatelessWidget {
               ))
           : Align(
               alignment: Alignment.bottomCenter,
-              child: qnController.lastQuestion.value
+              child: qnController!.lastQuestion.value
                   ? Container(
                       height: 40,
                       decoration: BoxDecoration(
@@ -1300,7 +1300,7 @@ class ContinueSkipSubmitBtn extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () async {
-                          await qnController.finalSubmit();
+                          await qnController!.finalSubmit();
                         },
                         style: ButtonStyle(
                           shape:
@@ -1338,7 +1338,7 @@ class ContinueSkipSubmitBtn extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () async {
-                          qnController.skipPress(index);
+                          qnController!.skipPress(index);
                         },
                         style: ButtonStyle(
                           shape:
@@ -1374,7 +1374,7 @@ class TimerWidget extends StatelessWidget {
     return GetBuilder<OnlineExamController>(
       init: OnlineExamController(),
       builder: (controller) {
-        Duration clockTimer = Duration(seconds: controller.animation.value);
+        Duration clockTimer = Duration(seconds: controller.animation!.value);
         String remainingTime =
             '${clockTimer.inMinutes.remainder(60).toString().padLeft(2, '0')}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
         return Column(
@@ -1382,7 +1382,7 @@ class TimerWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text("$remainingTime" + " " + "min".tr),
-            controller.quiz.value.onlineExam.durationType == "exam"
+            controller.quiz.value!.onlineExam!.durationType == "exam"
                 ? Text("Left for the exam".tr)
                 : Text("Left for this question".tr),
           ],
@@ -1393,7 +1393,7 @@ class TimerWidget extends StatelessWidget {
 }
 
 class PhotoViewerWidget extends StatelessWidget {
-  final String image;
+  final String? image;
 
   PhotoViewerWidget({this.image});
 
@@ -1403,7 +1403,7 @@ class PhotoViewerWidget extends StatelessWidget {
       appBar: CustomAppBarWidget(title: ""),
       body: PhotoView(
         imageProvider: NetworkImage(
-          AppConfig.domainName + '/' + image,
+          AppConfig.domainName + '/' + image!,
         ),
         loadingBuilder: (context, event) => Center(
           child: Container(
@@ -1412,7 +1412,7 @@ class PhotoViewerWidget extends StatelessWidget {
             child: CircularProgressIndicator(
               value: event == null
                   ? 0
-                  : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+                  : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
             ),
           ),
         ),
@@ -1426,7 +1426,7 @@ class PhotoViewerWidget extends StatelessWidget {
 }
 
 class QuestionTypeWidget extends StatelessWidget {
-  final String title;
+  final String? title;
   QuestionTypeWidget({this.title});
 
   @override
@@ -1448,7 +1448,7 @@ class QuestionTypeWidget extends StatelessWidget {
               ),
             ),
             child: Text("$title".tr,
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       color: Colors.white,
                       fontSize: 12,
                     )),

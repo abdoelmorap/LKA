@@ -21,7 +21,7 @@ class StaffListScreen extends StatefulWidget {
 }
 
 class _StaffListScreenState extends State<StaffListScreen> {
-  StaffListBloc listBloc;
+  late StaffListBloc listBloc;
 
   @override
   void initState() {
@@ -44,9 +44,9 @@ class _StaffListScreenState extends State<StaffListScreen> {
             if (snap.error != null) {
               return _buildErrorWidget(snap.error.toString());
             }
-            return _buildStaffListWidget(snap.data);
+            return _buildStaffListWidget(snap.data!);
           } else if (snap.hasError) {
-            return _buildErrorWidget(snap.error);
+            return _buildErrorWidget(snap.error as String?);
           } else {
             return _buildLoadingWidget();
           }
@@ -59,7 +59,7 @@ class _StaffListScreenState extends State<StaffListScreen> {
     return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildErrorWidget(String error) {
+  Widget _buildErrorWidget(String? error) {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -90,11 +90,11 @@ class _StaffListScreenState extends State<StaffListScreen> {
                           data.staffs[index].photo == ""
                       ? NetworkImage(
                           InfixApi.root + "public/uploads/staff/demo/staff.jpg")
-                      : NetworkImage(InfixApi.root + data.staffs[index].photo),
+                      : NetworkImage(InfixApi.root + data.staffs[index].photo!),
                   backgroundColor: Colors.transparent,
                 ),
                 title: Text(
-                  data.staffs[index].name,
+                  data.staffs[index].name!,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 subtitle: Column(

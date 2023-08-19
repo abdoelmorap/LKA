@@ -25,14 +25,14 @@ class AddAdminBook extends StatefulWidget {
 }
 
 class _AddAdminBookState extends State<AddAdminBook> {
-  String id;
+  String? id;
   var selectedCategory;
   var selectedCategoryId;
   var selectedSubject;
   var selectedSubjectId;
 
-  Future<AdminSubjectList> subjectList;
-  Future<AdminCategoryList> categoryList;
+  Future<AdminSubjectList>? subjectList;
+  Future<AdminCategoryList>? categoryList;
   TextEditingController titleController = TextEditingController();
   TextEditingController bookNoController = TextEditingController();
   TextEditingController isbnNoController = TextEditingController();
@@ -47,16 +47,16 @@ class _AddAdminBookState extends State<AddAdminBook> {
   String maxDateTime = '2031-11-25';
   String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
-  DateTime date;
-  DateTime _dateTime;
+  late DateTime date;
+  DateTime? _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
   String _selectedaAssignDate = 'Date'.tr;
 
-  Response response;
+  late Response response;
   Dio dio = Dio();
-  String _token;
+  String? _token;
 
-  String schoolID;
+  String? schoolID;
 
   @override
   void initState() {
@@ -73,13 +73,13 @@ class _AddAdminBookState extends State<AddAdminBook> {
           _token = value;
 
           subjectList = getAllSubject();
-          subjectList.then((value) {
+          subjectList!.then((value) {
             selectedSubject = value.subjects[0].title;
             selectedSubjectId = value.subjects[0].id;
           });
 
           categoryList = getAllCategory();
-          categoryList.then((value) {
+          categoryList!.then((value) {
             selectedCategory = value.categories[0].title;
             selectedCategoryId = value.categories[0].id;
           });
@@ -114,7 +114,7 @@ class _AddAdminBookState extends State<AddAdminBook> {
                         future: subjectList,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return getSubjectsDropdown(snapshot.data.subjects);
+                            return getSubjectsDropdown(snapshot.data!.subjects);
                           } else {
                             return Container();
                           }
@@ -127,7 +127,7 @@ class _AddAdminBookState extends State<AddAdminBook> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return getCategoriesDropdown(
-                                snapshot.data.categories);
+                                snapshot.data!.categories);
                           } else {
                             return Container();
                           }
@@ -246,7 +246,7 @@ class _AddAdminBookState extends State<AddAdminBook> {
                                 setState(() {
                                   _dateTime = dateTime;
                                   _selectedaAssignDate =
-                                      '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                      '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                                   dateController.text = _selectedaAssignDate;
                                 });
                               });
@@ -291,7 +291,7 @@ class _AddAdminBookState extends State<AddAdminBook> {
                       if (title.isNotEmpty &&
                           bookNo.isNotEmpty &&
                           isbn.isNotEmpty &&
-                          id.isNotEmpty) {
+                          id!.isNotEmpty) {
                         addBookData(
                                 title,
                                 '$selectedCategoryId',
@@ -344,14 +344,14 @@ class _AddAdminBookState extends State<AddAdminBook> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.title,
+                item.title!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             //_selectedClass = value;
             selectedSubject = value;
@@ -375,14 +375,14 @@ class _AddAdminBookState extends State<AddAdminBook> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
               child: Text(
-                item.title,
+                item.title!,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 13.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 13.0),
+        onChanged: (dynamic value) {
           setState(() {
             //_selectedClass = value;
             selectedCategory = value;
@@ -394,9 +394,9 @@ class _AddAdminBookState extends State<AddAdminBook> {
     );
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode<T>(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.title == title) {
         code = cls.id;
         break;
@@ -446,7 +446,7 @@ class _AddAdminBookState extends State<AddAdminBook> {
       String price,
       String details,
       String date,
-      String userId) async {
+      String? userId) async {
     FormData formData = FormData.fromMap({
       "book_title": title,
       "book_category_id": categoryId,

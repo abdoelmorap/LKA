@@ -8,7 +8,7 @@ class CustomSnackBar {
   SnackbarController snackBarSuccess(message) {
     return Get.snackbar(
       'Success',
-      message.toString().capitalizeFirst,
+      message.toString().capitalizeFirst!,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green,
       colorText: Colors.white,
@@ -20,7 +20,7 @@ class CustomSnackBar {
   SnackbarController snackBarSuccessBottom(message) {
     return Get.snackbar(
       'Success',
-      message.toString().capitalizeFirst,
+      message.toString().capitalizeFirst!,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green,
       colorText: Colors.white,
@@ -32,7 +32,7 @@ class CustomSnackBar {
   SnackbarController snackBarError(message) {
     return Get.snackbar(
       'Error',
-      message.toString().capitalizeFirst,
+      message.toString().capitalizeFirst!,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.red,
       colorText: Colors.white,
@@ -44,7 +44,7 @@ class CustomSnackBar {
   SnackbarController snackBarWarning(message) {
     return Get.snackbar(
       'Warning',
-      message.toString().capitalizeFirst,
+      message.toString().capitalizeFirst!,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Color(0xffF89406),
       colorText: Colors.white,

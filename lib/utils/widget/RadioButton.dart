@@ -8,11 +8,11 @@ class RadioWidget extends StatefulWidget {
   final String headline;
 
   const RadioWidget({
-    Key key,
-    @required this.index,
-    @required this.isSelected,
-    @required this.onSelect,
-    @required this.headline,
+    Key? key,
+    required this.index,
+    required this.isSelected,
+    required this.onSelect,
+    required this.headline,
   })  : assert(index != null),
         assert(isSelected != null),
         assert(onSelect != null),

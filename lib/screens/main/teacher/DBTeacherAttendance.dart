@@ -22,8 +22,8 @@ class DashboardTeacherAttendance extends StatefulWidget {
 }
 
 class _HomeState extends State<DashboardTeacherAttendance> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 
@@ -63,7 +63,7 @@ class _HomeState extends State<DashboardTeacherAttendance> {
                       "Attendance".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),

@@ -21,9 +21,9 @@ class DormitoryScreen extends StatefulWidget {
 }
 
 class _DormitoryScreenState extends State<DormitoryScreen> {
-  Future<DormitoryList> dormitories;
+  Future<DormitoryList>? dormitories;
 
-  String _token;
+  String? _token;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _DormitoryScreenState extends State<DormitoryScreen> {
     })
       ..then((value) {
         dormitories = getAllDormitory();
-      });
+      } );
   }
 
   @override
@@ -47,12 +47,12 @@ class _DormitoryScreenState extends State<DormitoryScreen> {
         future: dormitories,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.dormitories.length > 0) {
+            if (snapshot.data!.dormitories.length > 0) {
               return ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                itemCount: snapshot.data.dormitories.length,
+                itemCount: snapshot.data!.dormitories.length,
                 itemBuilder: (context, index) {
-                  return DormitoryRow(snapshot.data.dormitories[index]);
+                  return DormitoryRow(snapshot.data!.dormitories[index]);
                 },
               );
             } else {

@@ -16,8 +16,8 @@ class ChatGroupOpenModel {
     this.users,
     this.myRole,
   });
-  ChatGroup group;
-  List<ChatUser> users;
+  ChatGroup? group;
+  List<ChatUser>? users;
   dynamic myRole;
 
   factory ChatGroupOpenModel.fromJson(Map<String, dynamic> json) =>
@@ -29,8 +29,8 @@ class ChatGroupOpenModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "group": group.toJson(),
-        "users": List<dynamic>.from(users.map((x) => x.toJson())),
+        "group": group!.toJson(),
+        "users": List<dynamic>.from(users!.map((x) => x.toJson())),
         "myRole": myRole == null ? null : myRole,
       };
 }
@@ -40,8 +40,8 @@ class ChatGroupLoadMoreModel {
     this.success,
     this.singleThreads,
   });
-  bool success;
-  List<GroupThread> singleThreads;
+  bool? success;
+  List<GroupThread>? singleThreads;
 
   factory ChatGroupLoadMoreModel.fromJson(Map<String, dynamic> json) =>
       ChatGroupLoadMoreModel(
@@ -56,7 +56,7 @@ class ChatGroupLoadMoreModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "threads": List<dynamic>.from(singleThreads.map((x) => x.toJson())),
+        "threads": List<dynamic>.from(singleThreads!.map((x) => x.toJson())),
       };
 }
 
@@ -72,8 +72,8 @@ class ChatGroupCheckMsgModel {
     this.messages,
   });
 
-  bool invalid;
-  Map<String, GroupThread> messages;
+  bool? invalid;
+  Map<String, GroupThread>? messages;
 
   factory ChatGroupCheckMsgModel.fromJson(Map<String, dynamic> json) =>
       ChatGroupCheckMsgModel(
@@ -88,7 +88,7 @@ class ChatGroupCheckMsgModel {
         "invalid": invalid,
         "messages": messages == null
             ? null
-            : Map.from(messages)
+            : Map.from(messages!)
                 .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
       };
 }

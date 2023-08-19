@@ -19,11 +19,11 @@ class FeesInvoiceScreen extends StatefulWidget {
 }
 
 class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
-  Future<FeesRecordList> fees;
+  Future<FeesRecordList>? fees;
 
-  String _token;
+  String? _token;
 
-  TextEditingController titleController, descripController;
+  TextEditingController? titleController, descripController;
 
   List<FeesRecord> invoices = [];
 
@@ -45,7 +45,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       invoices.addAll(
-          FeesRecordList.fromJson(jsonData['studentInvoices']).feesRecords);
+          FeesRecordList.fromJson(jsonData['studentInvoices']).feesRecords!);
       return FeesRecordList.fromJson(jsonData['studentInvoices']);
     } else {
       throw Exception('Failed to load');
@@ -95,7 +95,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                       "Fees Invoice".tr,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .subtitle1!
                           .copyWith(fontSize: 18.sp, color: Colors.white),
                     ),
                   ),
@@ -112,7 +112,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                       suggestion: Center(
                         child: Text('Filter people by name, class or section'),
                       ),
-                      searchStyle: Get.textTheme.subtitle1.copyWith(
+                      searchStyle: Get.textTheme.subtitle1!.copyWith(
                         color: Colors.black,
                       ),
                       barTheme: Theme.of(context).copyWith(
@@ -125,7 +125,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                         iconTheme: IconThemeData(
                           color: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .color, //change your color here
                         ),
                         inputDecorationTheme: InputDecorationTheme(
@@ -154,12 +154,12 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                               ));
                         },
                         title: Text(
-                          record.student +
+                          record.student! +
                                   " (${record.recordClass} - ${record.section})" ??
                               'NA',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontSize: 14),
                         ),
                         subtitle: Column(
@@ -168,10 +168,10 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                               children: <Widget>[
                                 Expanded(
                                   child: Text(
-                                    record.date,
+                                    record.date!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline6
+                                        .headline6!
                                         .copyWith(fontSize: 14),
                                     maxLines: 1,
                                   ),
@@ -244,9 +244,9 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                           fees = getFeesInvoice();
                                         });
 
-                                        return true;
+                                        // return true;
                                       } else {
-                                        return false;
+                                        // return false;
                                       }
                                     }
                                   },
@@ -267,7 +267,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -294,7 +294,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -323,7 +323,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -352,7 +352,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   fontWeight: FontWeight.w500),
                                         ),
@@ -397,18 +397,18 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                   separatorBuilder: (context, index) {
                     return Divider();
                   },
-                  itemCount: snapshot.data.feesRecords.length,
+                  itemCount: snapshot.data!.feesRecords!.length,
                   itemBuilder: (context, index) {
-                    FeesRecord feeRecord = snapshot.data.feesRecords[index];
+                    FeesRecord feeRecord = snapshot.data!.feesRecords![index];
 
                     return ListTile(
                       title: Text(
-                        feeRecord.student +
+                        feeRecord.student! +
                                 " (${feeRecord.recordClass} - ${feeRecord.section})" ??
                             'NA',
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .subtitle1!
                             .copyWith(fontSize: 14),
                       ),
                       subtitle: Column(
@@ -417,10 +417,10 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  feeRecord.date,
+                                  feeRecord.date!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline6
+                                      .headline6!
                                       .copyWith(fontSize: 12),
                                   maxLines: 1,
                                 ),
@@ -497,9 +497,9 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                         fees = getFeesInvoice();
                                       });
 
-                                      return true;
+                                      // return true;
                                     } else {
-                                      return false;
+                                      // return false;
                                     }
                                   }
                                 },
@@ -520,7 +520,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -548,7 +548,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -577,7 +577,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -606,7 +606,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
                                         maxLines: 1,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4
+                                            .headline4!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500),
                                       ),
@@ -648,14 +648,14 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
       );
     } else if ((feesRecord.paidAmount == 0
             ? feesRecord.paidAmount
-            : double.parse(feesRecord.paidAmount.toString())) >
+            : double.parse(feesRecord.paidAmount.toString()))! >
         0.0) {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -668,7 +668,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
@@ -685,7 +685,7 @@ class _FeesInvoiceScreenState extends State<FeesInvoiceScreen> {
             maxLines: 1,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),

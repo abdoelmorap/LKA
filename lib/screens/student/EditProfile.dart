@@ -21,8 +21,8 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/StudentDetailsModel.dart';
 
 class EditProfile extends StatefulWidget {
-  final String id;
-  final Function updateData;
+  final String? id;
+  final Function? updateData;
 
   EditProfile({this.id, this.updateData});
 
@@ -31,20 +31,20 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  String _token;
-  String _id;
+  String? _token;
+  String? _id;
   StudentDetailsModel _userDetails = StudentDetailsModel();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameCtrl = TextEditingController();
   final TextEditingController _lastNameCtrl = TextEditingController();
   final TextEditingController _addressCtrl = TextEditingController();
 
-  String maxDateTime;
+  late String maxDateTime;
   String minDateTime = '2019-01-01';
-  DateTime date;
-  String day, year, month;
-  String _selectedDate;
-  String _format;
+  DateTime? date;
+  String? day, year, month;
+  String? _selectedDate;
+  String? _format;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
 
   DIO.Dio _dio = DIO.Dio();
@@ -53,7 +53,7 @@ class _EditProfileState extends State<EditProfile> {
     return date < 10 ? '0$date' : '$date';
   }
 
-  Future profile;
+  Future? profile;
 
   Future<StudentDetailsModel> getProfile() async {
     await Utils.getStringValue('token').then((value) {
@@ -76,7 +76,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future updateData(
-      {String fieldName, String value, DIO.MultipartFile file}) async {
+      {String? fieldName, String? value, DIO.MultipartFile? file}) async {
     await Utils.getStringValue('token').then((value) {
       _token = value;
     });
@@ -88,14 +88,14 @@ class _EditProfileState extends State<EditProfile> {
       _formData = DIO.FormData.fromMap({
         "field_name": fieldName,
         "$fieldName": value,
-        "id": _userDetails.studentData.user.id
+        "id": _userDetails.studentData!.user!.id
       });
     } else {
       _formData = DIO.FormData.fromMap({
         "field_name": fieldName,
         "$fieldName": file,
-        "id": _userDetails.studentData.user.id,
-        "student_photo": await DIO.MultipartFile.fromFile(_file.path),
+        "id": _userDetails.studentData!.user!.id,
+        "student_photo": await DIO.MultipartFile.fromFile(_file!.path),
       });
     }
 
@@ -111,11 +111,11 @@ class _EditProfileState extends State<EditProfile> {
     if (data['data']['flag'] == true) {
       if (_file != null) {
         await getProfile().then((value) {
-          Utils.saveStringValue("image", value.studentData.user.studentPhoto);
+          Utils.saveStringValue("image", value.studentData!.user!.studentPhoto!);
         });
       }
       setState(() {});
-      Navigator.of(context).pop(widget.updateData(1));
+      Navigator.of(context).pop(widget.updateData!(1));
     } else {}
   }
 
@@ -125,19 +125,19 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
   }
 
-  File _file;
+  File? _file;
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
     );
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
       await updateData(
           fieldName: "student_photo",
-          file: await DIO.MultipartFile.fromFile(_file.path));
+          file: await DIO.MultipartFile.fromFile(_file!.path));
     } else {
       Utils.showToast('Cancelled');
     }
@@ -149,7 +149,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: CustomAppBarWidget(title: 'Edit Profile'),
       backgroundColor: Colors.white,
       body: FutureBuilder<StudentDetailsModel>(
-          future: profile,
+          future: profile!.then((value) => value as StudentDetailsModel),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -161,14 +161,14 @@ class _EditProfileState extends State<EditProfile> {
                 );
                 // if we got our data
               } else if (snapshot.hasData) {
-                _firstNameCtrl.text = snapshot.data.studentData.user.firstName;
-                _lastNameCtrl.text = snapshot.data.studentData.user.lastName;
+                _firstNameCtrl.text = snapshot.data!.studentData!.user!.firstName!;
+                _lastNameCtrl.text = snapshot.data!.studentData!.user!.lastName!;
                 _addressCtrl.text =
-                    snapshot.data.studentData.user.currentAddress;
+                    snapshot.data!.studentData!.user!.currentAddress!;
                 maxDateTime = "2100-01-01";
                 minDateTime = "1900-01-01";
                 date =
-                    DateTime.parse(snapshot.data.studentData.user.dateOfBirth);
+                    DateTime.parse(snapshot.data!.studentData!.user!.dateOfBirth!);
                 return Form(
                   key: _formKey,
                   child: ListView(
@@ -194,7 +194,7 @@ class _EditProfileState extends State<EditProfile> {
                             decoration: InputDecoration(
                               labelText: _file == null
                                   ? 'Select image'.tr
-                                  : _file.path.split('/').last,
+                                  : _file!.path.split('/').last,
                               errorStyle: TextStyle(
                                   color: Colors.pinkAccent, fontSize: 15.0),
                               border: OutlineInputBorder(
@@ -207,7 +207,7 @@ class _EditProfileState extends State<EditProfile> {
                       _file == null
                           ? SizedBox.shrink()
                           : Image.file(
-                              _file,
+                              _file!,
                               width: Get.width * 0.1,
                               height: Get.height * 0.1,
                             ),
@@ -221,8 +221,8 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.text,
                                 style: Theme.of(context).textTheme.headline6,
                                 controller: _firstNameCtrl,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter your first name'.tr;
                                   }
                                   return null;
@@ -267,8 +267,8 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.text,
                                 style: Theme.of(context).textTheme.headline6,
                                 controller: _lastNameCtrl,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter your last name'.tr;
                                   }
                                   return null;
@@ -314,7 +314,7 @@ class _EditProfileState extends State<EditProfile> {
                                 style: Theme.of(context).textTheme.headline6,
                                 enabled: false,
                                 initialValue:
-                                    "${date.day}/${date.month}/${date.year}",
+                                    "${date!.day}/${date!.month}/${date!.year}",
                                 decoration: InputDecoration(
                                   hintText: "Date of birth".tr,
                                   labelText: "Date of birth".tr,
@@ -351,7 +351,7 @@ class _EditProfileState extends State<EditProfile> {
                                   onConfirm: (dateTime, List<int> index) async {
                                     date = dateTime;
                                     _selectedDate =
-                                        '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
+                                        '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
 
                                     print(_selectedDate);
                                     await updateData(
@@ -379,8 +379,8 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.text,
                                 style: Theme.of(context).textTheme.headline6,
                                 controller: _addressCtrl,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter your address'.tr;
                                   }
                                   return null;

@@ -21,8 +21,8 @@ class BookListScreen extends StatefulWidget {
 }
 
 class _BookListState extends State<BookListScreen> {
-  Future<BookList> books;
-  String _token;
+  Future<BookList>? books;
+  String? _token;
   @override
   void initState() {
     super.initState();
@@ -49,11 +49,11 @@ class _BookListState extends State<BookListScreen> {
           future: books,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.books.length > 0) {
+              if (snapshot.data!.books.length > 0) {
                 return ListView.builder(
-                  itemCount: snapshot.data.books.length,
+                  itemCount: snapshot.data!.books.length,
                   itemBuilder: (context, index) {
-                    return BookListRow(snapshot.data.books[index]);
+                    return BookListRow(snapshot.data!.books[index]);
                   },
                 );
               } else {

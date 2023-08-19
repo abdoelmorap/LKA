@@ -26,24 +26,24 @@ class StudentAttendanceHome extends StatefulWidget {
 }
 
 class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
-  String _id;
+  String? _id;
   dynamic classId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
-  Future classes;
-  Future<SectionList> sections;
-  DateTime date;
-  String day, year, month;
-  String url;
-  String _selectedDate;
+  String? _selectedClass;
+  String? _selectedSection;
+  Future<ClassList>? classes;
+  Future<SectionList>? sections;
+  DateTime? date;
+  String? day, year, month;
+  String? url;
+  String? _selectedDate;
 
-  String maxDateTime;
+  late String maxDateTime;
   String minDateTime = '2019-01-01';
-  String _format;
+  String? _format;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
-  String _token;
-  String rule;
+  String? _token;
+  String? rule;
 
   @override
   void didChangeDependencies() {
@@ -57,18 +57,19 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
       Utils.getStringValue('id').then((value) {
         setState(() {
           _id = value;
-          Utils.getStringValue('rule').then((ruleValue) {
+          Utils.getStringValue('rule').then((ruleValue) async {
+            classes = await getAllClass(int.parse(_id!));
+
             setState(() {
               rule = ruleValue;
-              year = '${date.year}';
-              month = getAbsoluteDate(date.month);
-              day = getAbsoluteDate(date.day);
-              classes = getAllClass(int.parse(_id));
-              classes.then((value) {
+              year = '${date!.year}';
+              month = getAbsoluteDate(date!.month);
+              day = getAbsoluteDate(date!.day);
+              classes!.then((value) {
                 _selectedClass = value.classes[0].name;
                 classId = value.classes[0].id;
-                sections = getAllSection(int.parse(_id), classId);
-                sections.then((sectionValue) {
+                sections = getAllSection(int.parse(_id!), classId);
+                sections!.then((sectionValue) {
                   _selectedSection = sectionValue.sections[0].name;
                   sectionId = sectionValue.sections[0].id;
                   url =
@@ -92,18 +93,18 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder(
+          child: FutureBuilder<ClassList>(
             future: classes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView(
                   children: <Widget>[
-                    getClassDropdown(snapshot.data.classes),
+                    getClassDropdown(snapshot.data!.classes),
                     FutureBuilder<SectionList>(
                       future: sections,
                       builder: (context, secSnap) {
                         if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data.sections);
+                          return getSectionDropdown(secSnap.data!.sections);
                         } else {
                           return Center(child: CupertinoActivityIndicator());
                         }
@@ -156,14 +157,14 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
                             setState(() {
                               date = dateTime;
                               _selectedDate =
-                                  '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
+                                  '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
                             });
                           },
                           onConfirm: (dateTime, List<int> index) {
                             setState(() {
                               date = dateTime;
                               _selectedDate =
-                                  '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
+                                  '${date!.year}-${getAbsoluteDate(date!.month)}-${getAbsoluteDate(date!.day)}';
                             });
                           },
                         );
@@ -179,10 +180,10 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
                                 child: Text(
                                   _selectedDate == null
                                       ? "$year-$month-$day"
-                                      : _selectedDate,
+                                      : _selectedDate!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12)),
                                 ),
@@ -191,7 +192,7 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
                             Icon(
                               Icons.calendar_today,
                               color:
-                                  Theme.of(context).textTheme.subtitle1.color,
+                                  Theme.of(context).textTheme.subtitle1!.color,
                               size: 20.0,
                             ),
                           ],
@@ -227,7 +228,7 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
             decoration: Utils.gradientBtnDecoration,
             child: Text(
               "Search".tr,
-              style: Theme.of(context).textTheme.headline4.copyWith(
+              style: Theme.of(context).textTheme.headline4!.copyWith(
                   color: Colors.white, fontSize: ScreenUtil().setSp(14)),
             ),
           ),
@@ -269,16 +270,16 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedClass = value;
 
             classId = getCode(classes, value);
 
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
               url = InfixApi.getStudentByClassAndSection(classId, sectionId);
@@ -303,15 +304,15 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child:
-                  Text(item.name, style: Theme.of(context).textTheme.headline4),
+                  Text(item.name!, style: Theme.of(context).textTheme.headline4),
             ),
           );
         }).toList(),
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headline4!
             .copyWith(fontSize: ScreenUtil().setSp(15)),
-        onChanged: (value) {
+        onChanged: (dynamic value) {
           setState(() {
             _selectedSection = value;
 
@@ -331,9 +332,9 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
     return date < 10 ? '0$date' : '$date';
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.id;
         break;
@@ -358,7 +359,7 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
     }
   }
 
-  Future<SectionList> getAllSection(int id, int classId) async {
+  Future<SectionList> getAllSection(int id, int? classId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getSectionById(id, classId)),
         headers: Utils.setHeader(_token.toString()));

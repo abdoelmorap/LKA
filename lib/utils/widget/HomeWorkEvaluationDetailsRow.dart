@@ -25,7 +25,7 @@ import 'ScaleRoute.dart';
 class HomeWorkEvaluationDetailsRow extends StatefulWidget {
   HomeWorkEvaluationDetailsRow(this.studentHomeworkEvaluation);
 
-  final StudentHomeworkEvaluation studentHomeworkEvaluation;
+  final StudentHomeworkEvaluation? studentHomeworkEvaluation;
 
   @override
   _HomeWorkEvaluationDetailsRowState createState() =>
@@ -37,7 +37,7 @@ class _HomeWorkEvaluationDetailsRowState
   var progress = "Download";
   var received;
 
-  showDownloadAlertDialog(BuildContext context, String title, String fileUrl) {
+  showDownloadAlertDialog(BuildContext context, String? title, String? fileUrl) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("No"),
@@ -78,7 +78,7 @@ class _HomeWorkEvaluationDetailsRowState
   }
 
   Future<void> downloadFile(
-      String url, BuildContext context, String title) async {
+      String url, BuildContext context, String? title) async {
     Dio dio = Dio();
 
     String dirloc = "";
@@ -138,9 +138,9 @@ class _HomeWorkEvaluationDetailsRowState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.studentHomeworkEvaluation.subjectName,
+                widget.studentHomeworkEvaluation!.subjectName!,
                 maxLines: 1,
-                style: Theme.of(context).textTheme.headline4.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: ScreenUtil().setSp(14)),
               ),
@@ -150,8 +150,8 @@ class _HomeWorkEvaluationDetailsRowState
                     PermissionCheck().checkPermissions(context);
                     showDownloadAlertDialog(
                         context,
-                        widget.studentHomeworkEvaluation.subjectName,
-                        widget.studentHomeworkEvaluation.file);
+                        widget.studentHomeworkEvaluation!.subjectName,
+                        widget.studentHomeworkEvaluation!.file);
                   },
                   child: Icon(
                     FontAwesomeIcons.download,
@@ -176,16 +176,16 @@ class _HomeWorkEvaluationDetailsRowState
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      widget.studentHomeworkEvaluation.homeworkDate == null
+                      widget.studentHomeworkEvaluation!.homeworkDate == null
                           ? 'not assigned'
-                          : widget.studentHomeworkEvaluation.homeworkDate,
+                          : widget.studentHomeworkEvaluation!.homeworkDate!,
                       maxLines: 1,
                       style: Theme.of(context).textTheme.headline4,
                     ),
@@ -201,16 +201,16 @@ class _HomeWorkEvaluationDetailsRowState
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      widget.studentHomeworkEvaluation.submissionDate == null
+                      widget.studentHomeworkEvaluation!.submissionDate == null
                           ? 'not assigned'
-                          : widget.studentHomeworkEvaluation.submissionDate,
+                          : widget.studentHomeworkEvaluation!.submissionDate!,
                       maxLines: 1,
                       style: Theme.of(context).textTheme.headline4,
                     ),
@@ -226,16 +226,16 @@ class _HomeWorkEvaluationDetailsRowState
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      widget.studentHomeworkEvaluation.evaluationDate == null
+                      widget.studentHomeworkEvaluation!.evaluationDate == null
                           ? 'N/A'
-                          : widget.studentHomeworkEvaluation.evaluationDate,
+                          : widget.studentHomeworkEvaluation!.evaluationDate!,
                       maxLines: 1,
                       style: Theme.of(context).textTheme.headline4,
                     ),
@@ -251,16 +251,16 @@ class _HomeWorkEvaluationDetailsRowState
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      widget.studentHomeworkEvaluation.marks == null
+                      widget.studentHomeworkEvaluation!.marks == null
                           ? 'not assigned'
-                          : widget.studentHomeworkEvaluation.marks.toString(),
+                          : widget.studentHomeworkEvaluation!.marks.toString(),
                       maxLines: 1,
                       style: Theme.of(context).textTheme.headline4,
                     ),

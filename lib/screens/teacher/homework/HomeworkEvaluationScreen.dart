@@ -31,10 +31,10 @@ class HomeworkEvaluationScreen extends StatefulWidget {
 }
 
 class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
-  Future<StudentEvaluationList> evaluations;
-  Future<StudentHomeworkEvaluation> homeWorks;
+  Future<StudentEvaluationList>? evaluations;
+  Future<StudentHomeworkEvaluation>? homeWorks;
 
-  String _token;
+  String? _token;
   var totalMarks;
 
   @override
@@ -68,7 +68,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                   if (snapshot.hasData && snapshot != null) {
                     return StatefulBuilder(builder: (context, state) {
                       state(() {
-                        totalMarks = snapshot.data.marks;
+                        totalMarks = snapshot.data!.marks;
                       });
                       return HomeWorkEvaluationDetailsRow(snapshot.data);
                     });
@@ -105,7 +105,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                         ),
                         Text(
                           'Students',
-                          style: Theme.of(context).textTheme.headline4.copyWith(
+                          style: Theme.of(context).textTheme.headline4!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: ScreenUtil().setSp(14),
                               decoration: TextDecoration.underline),
@@ -115,7 +115,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: snapshot.data.studentEvaluation.length,
+                            itemCount: snapshot.data!.studentEvaluation.length,
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
@@ -130,7 +130,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                               'Name',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4
+                                                  .headline4!
                                                   .copyWith(
                                                       fontWeight:
                                                           FontWeight.w500),
@@ -138,16 +138,16 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                             SizedBox(height: 2.0),
                                             Text(
                                               snapshot
-                                                          .data
+                                                          .data!
                                                           .studentEvaluation[
                                                               index]
                                                           .studentName ==
                                                       null
                                                   ? 'N/A'
                                                   : snapshot
-                                                      .data
+                                                      .data!
                                                       .studentEvaluation[index]
-                                                      .studentName,
+                                                      .studentName!,
                                               maxLines: 1,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -157,11 +157,11 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                           ],
                                         ),
                                       ),
-                                      snapshot.data.studentEvaluation[index]
+                                      snapshot.data!.studentEvaluation[index]
                                                       .marks ==
                                                   null ||
                                               snapshot
-                                                      .data
+                                                      .data!
                                                       .studentEvaluation[index]
                                                       .marks ==
                                                   ""
@@ -177,40 +177,40 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                                   totalMarks:
                                                                       totalMarks,
                                                                   marks: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .marks,
                                                                   teacherComment: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .teacherComments,
                                                                   status: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .completeStatus,
                                                                   studentId: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .studentId,
                                                                   homeworkId: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .homeworkId,
                                                                   files: snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .file,
                                                                   studentName: snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .studentEvaluation[
                                                                               index]
-                                                                          .studentName +
+                                                                          .studentName! +
                                                                       '\'s Homework',
                                                                 )));
                                                   },
@@ -218,7 +218,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                     'Evaluate',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headline4
+                                                        .headline4!
                                                         .copyWith(
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -244,7 +244,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
-                                                              .headline4
+                                                              .headline4!
                                                               .copyWith(
                                                                   fontWeight:
                                                                       FontWeight
@@ -253,20 +253,20 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                         SizedBox(height: 2.0),
                                                         Text(
                                                           snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .studentEvaluation[
                                                                               index]
                                                                           .marks ==
                                                                       null ||
                                                                   snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .studentEvaluation[
                                                                               index]
                                                                           .marks ==
                                                                       ""
                                                               ? 'N/A'
                                                               : snapshot
-                                                                  .data
+                                                                  .data!
                                                                   .studentEvaluation[
                                                                       index]
                                                                   .marks,
@@ -291,7 +291,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
-                                                              .headline4
+                                                              .headline4!
                                                               .copyWith(
                                                                   fontWeight:
                                                                       FontWeight
@@ -300,14 +300,14 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                         SizedBox(height: 2.0),
                                                         Text(
                                                           snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .teacherComments ==
                                                                   null
                                                               ? 'N/A'
                                                               : snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .studentEvaluation[
                                                                               index]
                                                                           .teacherComments ==
@@ -335,7 +335,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
-                                                              .headline4
+                                                              .headline4!
                                                               .copyWith(
                                                                   fontWeight:
                                                                       FontWeight
@@ -344,14 +344,14 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                         SizedBox(height: 2.0),
                                                         Text(
                                                           snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .studentEvaluation[
                                                                           index]
                                                                       .completeStatus ==
                                                                   null
                                                               ? 'N/A'
                                                               : snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .studentEvaluation[
                                                                               index]
                                                                           .completeStatus ==
@@ -384,14 +384,14 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                               'Submitted Files: ',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline4
+                                                  .headline4!
                                                   .copyWith(
                                                       fontWeight:
                                                           FontWeight.w500),
                                             ),
                                             SizedBox(width: 2.0),
                                             snapshot
-                                                        .data
+                                                        .data!
                                                         .studentEvaluation[
                                                             index]
                                                         .file
@@ -413,11 +413,11 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                                     (context) =>
                                                                         UploadedFilesView(
                                                                           files: snapshot
-                                                                              .data
+                                                                              .data!
                                                                               .studentEvaluation[index]
                                                                               .file,
                                                                           fileName:
-                                                                              snapshot.data.studentEvaluation[index].studentName + '\'s attached file',
+                                                                              snapshot.data!.studentEvaluation[index].studentName! + '\'s attached file',
                                                                         )));
                                                       },
                                                       child: Text(
@@ -426,7 +426,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
                                                             TextAlign.center,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .headline4
+                                                            .headline4!
                                                             .copyWith(
                                                                 fontWeight:
                                                                     FontWeight
@@ -476,7 +476,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
   }
 
   Future<StudentEvaluationList> fetchEvaluationList(
-      int classId, int sectionId, int homeworkId) async {
+      int? classId, int? sectionId, int? homeworkId) async {
     // print(InfixApi.homeworkEvaluationList(classId, sectionId, homeworkId));
     final response = await http.get(
         Uri.parse(
@@ -493,7 +493,7 @@ class _HomeworkEvaluationScreenState extends State<HomeworkEvaluationScreen> {
   }
 
   Future<StudentHomeworkEvaluation> fetchHomeworkDetails(
-      int classId, int sectionId, int homeworkId) async {
+      int? classId, int? sectionId, int? homeworkId) async {
     print(InfixApi.homeworkEvaluationList(classId, sectionId, homeworkId));
     final response = await http.get(
         Uri.parse(

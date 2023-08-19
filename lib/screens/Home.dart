@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:edge_alert/edge_alert.dart';
+import 'package:edge_alerts/edge_alerts.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,20 +41,20 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotification>();
 
-final BehaviorSubject<String> selectNotificationSubject =
-    BehaviorSubject<String>();
+final BehaviorSubject<String?> selectNotificationSubject =
+    BehaviorSubject<String?>();
 
 class ReceivedNotification {
   final int id;
-  final String title;
-  final String body;
-  final String payload;
+  final String? title;
+  final String? body;
+  final String? payload;
 
   ReceivedNotification(
-      {@required this.id,
-      @required this.title,
-      @required this.body,
-      @required this.payload});
+      {required this.id,
+      required this.title,
+      required this.body,
+      required this.payload});
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -77,31 +77,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool isTapped;
-  int currentSelectedIndex;
-  int rtlValue;
-  String email;
-  String password;
-  String _rule;
-  String _id;
-  String schoolId;
-  String isAdministrator;
+  bool? isTapped;
+  int? currentSelectedIndex;
+  int? rtlValue;
+  String? email;
+  String? password;
+  String? _rule;
+  String? _id;
+  String? schoolId;
+  String? isAdministrator;
   var _titles;
   var _images;
   var _token;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  String _notificationToken;
+  String? _notificationToken;
 
   _HomeState(this._titles, this._images);
 
-  Future notificationCount;
+  Future? notificationCount;
 
-  Future about;
+  Future? about;
 
-  Future slider;
+  Future? slider;
 
-  String _fullName = "";
+  String? _fullName = "";
 
   final SystemController _systemController = Get.put(SystemController());
 
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
     });
     Utils.getStringValue('id').then((value) {
       _id = value;
-      notificationCount = getNotificationCount(int.parse(_id));
+      notificationCount = getNotificationCount(int.parse(_id!));
     });
     Utils.getStringValue('isAdministrator').then((value) {
       isAdministrator = value;
@@ -151,20 +151,20 @@ class _HomeState extends State<Home> {
     //init settings for android
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings(
+    var initializationSettingsIOS = DarwinInitializationSettings(
         onDidReceiveLocalNotification:
-            (int id, String title, String body, String payload) async {
+            (int id, String? title, String? body, String? payload) async {
       didReceiveLocalNotificationSubject.add(ReceivedNotification(
           id: id, title: title, body: body, payload: payload));
     });
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String payload) async {
+        onDidReceiveNotificationResponse : ( payload) async {
       if (payload != null) {
-        debugPrint('notification payload: ' + payload);
+        debugPrint('notification payload: ' + payload.payload.toString());
       }
-      selectNotificationSubject.add(payload);
+      selectNotificationSubject.add(payload.payload!);
     });
 
     didReceiveLocalNotificationSubject.stream
@@ -173,10 +173,10 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: receivedNotification.title != null
-              ? Text(receivedNotification.title)
+              ? Text(receivedNotification.title!)
               : null,
           content: receivedNotification.body != null
-              ? Text(receivedNotification.body)
+              ? Text(receivedNotification.body!)
               : null,
           actions: [
             CupertinoDialogAction(
@@ -188,7 +188,7 @@ class _HomeState extends State<Home> {
         ),
       );
     });
-    selectNotificationSubject.stream.listen((String payload) async {});
+    selectNotificationSubject.stream.listen((String? payload) async {});
     this.notificationSubscription();
     isTapped = false;
   }
@@ -224,18 +224,18 @@ class _HomeState extends State<Home> {
           print(
               'Message also contained a notification: ${message.notification}');
           if (mounted) {
-            EdgeAlert.show(
+            edgeAlert(
               context,
-              title: message.notification.title,
-              description: message.notification.body,
-              gravity: EdgeAlert.TOP,
+              title: message.notification!.title!,
+              description: message.notification!.body!,
+              gravity: Gravity.top,
               backgroundColor: Colors.deepPurple,
               icon: Icons.notifications_active,
               duration: 5,
             );
           }
 
-          RemoteNotification notification = message.notification;
+          RemoteNotification notification = message.notification!;
 
           flutterLocalNotificationsPlugin.show(
               notification.hashCode,
@@ -261,11 +261,11 @@ class _HomeState extends State<Home> {
       if (message.notification != null) {
         print('Message also contained a notification: ${message.notification}');
         if (mounted) {
-          EdgeAlert.show(
+          edgeAlert(
             context,
-            title: message.notification.title,
-            description: message.notification.body,
-            gravity: EdgeAlert.TOP,
+            title: message.notification!.title!,
+            description: message.notification!.body!,
+            gravity:Gravity.top,
             backgroundColor: Colors.deepPurple,
             icon: Icons.notifications_active,
             duration: 5,
@@ -325,7 +325,7 @@ class _HomeState extends State<Home> {
                           maxLines: 2,
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(color: Color(0xFFFFFFFF), fontSize: 15),
                         ),
                         SizedBox(
@@ -465,7 +465,7 @@ class _HomeState extends State<Home> {
                           future: getNotifications(int.parse(id)),
                           builder: (context, snapshot) {
                             if (snapshot.hasData && snapshot.data != null) {
-                              if (snapshot.data.userNotifications.length == 0) {
+                              if (snapshot.data!.userNotifications!.length == 0) {
                                 return Container(
                                   child: Text(
                                     "No new notifications",
@@ -481,10 +481,10 @@ class _HomeState extends State<Home> {
                                       child: ListView.builder(
                                         shrinkWrap: false,
                                         itemCount: snapshot
-                                            .data.userNotifications.length,
+                                            .data!.userNotifications!.length,
                                         itemBuilder: (context, index) {
                                           final item = snapshot
-                                              .data.userNotifications[index];
+                                              .data!.userNotifications![index];
                                           return Material(
                                             color: Colors.transparent,
                                             clipBehavior: Clip.antiAlias,
@@ -522,8 +522,8 @@ class _HomeState extends State<Home> {
                                                         .readMyNotifications(
                                                             int.parse(id),
                                                             snapshot
-                                                                .data
-                                                                .userNotifications[
+                                                                .data!
+                                                                .userNotifications![
                                                                     index]
                                                                 .id)),
                                                     headers: Utils.setHeader(
@@ -533,16 +533,16 @@ class _HomeState extends State<Home> {
                                                     200) {
                                                   Map<String, dynamic>
                                                       notifications =
-                                                      jsonDecode(response.body)
-                                                          as Map;
-                                                  bool status =
+                                                      (jsonDecode(response.body)
+                                                          as Map) as Map<String, dynamic>;
+                                                  bool? status =
                                                       notifications['data']
                                                           ['status'];
                                                   if (status == true) {
                                                     setState(() {
                                                       print("Index :$index");
-                                                      snapshot.data
-                                                          .userNotifications
+                                                      snapshot.data!
+                                                          .userNotifications!
                                                           .removeAt(index);
                                                     });
                                                   }
@@ -553,7 +553,7 @@ class _HomeState extends State<Home> {
                                                 setState(() {
                                                   notificationCount =
                                                       getNotificationCount(
-                                                          int.parse(_id));
+                                                          int.parse(_id!));
                                                 });
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
@@ -580,12 +580,12 @@ class _HomeState extends State<Home> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        item.message,
+                                                        item.message!,
                                                         textAlign:
                                                             TextAlign.end,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .headline5
+                                                            .headline5!
                                                             .copyWith(
                                                               fontSize:
                                                                   ScreenUtil()
@@ -595,12 +595,12 @@ class _HomeState extends State<Home> {
                                                       ),
                                                       Text(
                                                         timeago.format(
-                                                            item.createdAt),
+                                                            item.createdAt!),
                                                         textAlign:
                                                             TextAlign.end,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .headline5
+                                                            .headline5!
                                                             .copyWith(
                                                               fontSize:
                                                                   ScreenUtil()
@@ -632,8 +632,8 @@ class _HomeState extends State<Home> {
                                         print(response.statusCode);
                                         if (response.statusCode == 200) {
                                           Map<String, dynamic> notifications =
-                                              jsonDecode(response.body) as Map;
-                                          bool status =
+                                              (jsonDecode(response.body) as Map) as Map<String, dynamic>;
+                                          bool? status =
                                               notifications['data']['status'];
                                           if (status == true) {
                                             print('readall');
@@ -644,7 +644,7 @@ class _HomeState extends State<Home> {
                                         setState(() {
                                           notificationCount =
                                               getNotificationCount(
-                                                  int.parse(_id));
+                                                  int.parse(_id!));
                                           Navigator.of(context).pop();
                                         });
                                       },
@@ -652,7 +652,7 @@ class _HomeState extends State<Home> {
                                         'Mark all as read',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
+                                            .headline5!
                                             .copyWith(
                                               fontSize: ScreenUtil().setSp(12),
                                               color: Colors.white,
@@ -685,7 +685,7 @@ class _HomeState extends State<Home> {
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.red,
             ),
@@ -697,14 +697,14 @@ class _HomeState extends State<Home> {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.green,
             ),
       ),
       onPressed: () async {
         Utils.clearAllValue();
-        Utils.saveIntValue('locale', rtlValue);
+        Utils.saveIntValue('locale', rtlValue!);
         Route route = MaterialPageRoute(builder: (context) => MyApp());
         Navigator.pushAndRemoveUntil(context, route, ModalRoute.withName('/'));
 
@@ -906,9 +906,9 @@ class _HomeState extends State<Home> {
       BuildContext context, String email, String password, String rule) {
     return FutureBuilder(
       future: Utils.getStringValue('image'),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
         if (snapshot.hasData) {
-          Utils.saveStringValue('image', snapshot.data);
+          Utils.saveStringValue('image', snapshot.data!);
           return GestureDetector(
             onTap: () {
               rule == '2'
@@ -920,7 +920,7 @@ class _HomeState extends State<Home> {
               child: CircleAvatar(
                 radius: ScreenUtil().setSp(22),
                 child: CachedNetworkImage(
-                  imageUrl: InfixApi.root + snapshot.data,
+                  imageUrl: InfixApi.root + snapshot.data!,
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -989,27 +989,27 @@ class _HomeState extends State<Home> {
     var response = await http.get(Uri.parse(InfixApi.login(email, password)));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> user = jsonDecode(response.body) as Map;
+      Map<String, dynamic>? user = (jsonDecode(response.body) as Map?) as Map<String, dynamic>?;
       if (rule == '2')
-        image = InfixApi.root + user['data']['userDetails']['student_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['student_photo'];
       else if (rule == '3')
-        image = InfixApi.root + user['data']['userDetails']['fathers_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['fathers_photo'];
       else
-        image = InfixApi.root + user['data']['userDetails']['staff_photo'];
+        image = InfixApi.root + user!['data']['userDetails']['staff_photo'];
     }
     return image == InfixApi.root
         ? 'http://saskolhmg.com/images/studentprofile.png'
         : '$image';
   }
 
-  Future<int> getNotificationCount(int id) async {
-    var count = 0;
+  Future<int?> getNotificationCount(int id) async {
+    int? count = 0;
 
     var response = await http.get(Uri.parse(InfixApi.getMyNotifications(id)),
         headers: Utils.setHeader(_token.toString()));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> notifications = jsonDecode(response.body) as Map;
+      Map<String, dynamic> notifications = (jsonDecode(response.body) as Map) as Map<String, dynamic>;
       count = notifications['data']['unread_notification'];
       // count = 120;
     } else {
@@ -1038,7 +1038,7 @@ class _HomeState extends State<Home> {
     Navigator.pop(context);
   }
 
-  void sendTokenToServer(String token) async {
+  void sendTokenToServer(String? token) async {
     final response = await http.get(Uri.parse(InfixApi.setToken(_id, token)),
         headers: Utils.setHeader(_token));
 

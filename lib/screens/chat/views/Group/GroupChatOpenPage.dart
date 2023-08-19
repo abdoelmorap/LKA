@@ -24,7 +24,7 @@ import 'package:infixedu/screens/chat/models/ChatGroup.dart';
 
 import 'package:infixedu/screens/chat/models/GroupThread.dart';
 import 'package:infixedu/screens/chat/models/ChatUser.dart';
-import 'package:let_log/let_log.dart';
+// import 'package:let_log/let_log.dart';
 
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
@@ -34,10 +34,10 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:dio/dio.dart' as DIO;
 
 class GroupChatOpenPage extends StatefulWidget {
-  final String photoUrl;
-  final String chatTitle;
-  final String groupId;
-  final ChatGroup chatGroup;
+  final String? photoUrl;
+  final String? chatTitle;
+  final String? groupId;
+  final ChatGroup? chatGroup;
   GroupChatOpenPage(
       {this.photoUrl, this.chatTitle, this.groupId, this.chatGroup});
 
@@ -49,7 +49,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
   PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   final _focusNode = FocusNode();
-  ChatGroupOpenController _chatGroupOpenController;
+  ChatGroupOpenController? _chatGroupOpenController;
 
   final TextEditingController _chatMessageCtrl = TextEditingController();
 
@@ -57,14 +57,14 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
 
   ChatController _chatController = Get.put(ChatController());
 
-  Future chatOpen;
+  Future? chatOpen;
 
   bool scrolling = false;
   bool showSend = false;
   bool replyClick = false;
   bool searchClicked = false;
 
-  ChatGroupLoadMore source;
+  ChatGroupLoadMore? source;
 
   final TextEditingController _searchMsgCtrl = TextEditingController();
 
@@ -81,14 +81,14 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
 
     _focusNode.addListener(_focusNodeListener);
 
-    if (_chatController.chatSettings.value.chatSettings.chatMethod ==
+    if (_chatController.chatSettings.value.chatSettings!.chatMethod ==
         "pusher") {
       Future.delayed(Duration(seconds: 3), () {
         _pusherController.chatOpenGroup(widget.groupId, source);
       });
     }
 
-    print("Group ID => ${_chatGroupOpenController.groupId}");
+    print("Group ID => ${_chatGroupOpenController!.groupId}");
 
     scrollController.addListener(() {
       // print(scrollController.offset);
@@ -144,10 +144,10 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
     return "";
   }
 
-  File file;
+  File? file;
 
   Future openFilePicker() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowCompression: true,
       allowMultiple: false,
       allowedExtensions: [
@@ -166,7 +166,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
 
     if (result != null) {
       setState(() {
-        file = File(result.files.single.path);
+        file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast("Cancelled");
@@ -174,13 +174,13 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
   }
 
   Widget fileShowWidget() {
-    if (MediaUtils.isImage(file.path)) {
+    if (MediaUtils.isImage(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
             Image.file(
-              file,
+              file!,
               width: 100,
               height: 100,
               alignment: Alignment.centerLeft,
@@ -200,7 +200,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isPdf(file.path)) {
+    } else if (MediaUtils.isPdf(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -211,9 +211,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
               width: 5,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -236,7 +236,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isWord(file.path)) {
+    } else if (MediaUtils.isWord(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -247,9 +247,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
               width: 5,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -272,7 +272,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
           ],
         ),
       );
-    } else if (MediaUtils.isVideo(file.path)) {
+    } else if (MediaUtils.isVideo(file!.path)) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -283,9 +283,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
               width: 10,
             ),
             Text(
-              "${file.path.split('/').last}",
+              "${file!.path.split('/').last}",
               maxLines: 1,
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.normal,
               ),
@@ -315,8 +315,8 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
 
   @override
   void dispose() {
-    source.dispose();
-    _chatGroupOpenController.onClose();
+    source!.dispose();
+    _chatGroupOpenController!.onClose();
     _pusherController.pusher
         .unsubscribe(channelName: 'private-group-chat' + '.${widget.groupId}');
     super.dispose();
@@ -333,18 +333,18 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
             _focusNode.unfocus();
           },
           child: Obx(() {
-            if (_chatGroupOpenController.isLoading.value) {
+            if (_chatGroupOpenController!.isLoading.value) {
               return Center(child: CupertinoActivityIndicator());
             } else {
               return Stack(
                 children: [
                   Obx(() {
                     if (_chatController
-                            .chatSettings.value.chatSettings.chatMethod !=
+                            .chatSettings.value.chatSettings!.chatMethod !=
                         "pusher") {
                       return StreamBuilder(
                           stream: Stream.periodic(Duration(seconds: 5),
-                              (_) => source.checkNewMsg()),
+                              (_) => source!.checkNewMsg()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return SizedBox.shrink();
@@ -361,8 +361,8 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                       Expanded(
                         child: Stack(
                           children: [
-                            LoadingMoreList<GroupThread>(
-                              ListConfig<GroupThread>(
+                            LoadingMoreList<GroupThread?>(
+                              ListConfig<GroupThread?>(
                                 keyboardDismissBehavior:
                                     ScrollViewKeyboardDismissBehavior.onDrag,
                                 controller: scrollController,
@@ -376,22 +376,22 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                 ).buildIndicator,
                                 addAutomaticKeepAlives: true,
                                 itemBuilder: (BuildContext c,
-                                    GroupThread groupThread, int index) {
+                                    GroupThread? groupThread, int index) {
                                   return GroupMessageItemWidget(
                                       groupThread: groupThread,
                                       currentUserId:
-                                          _chatGroupOpenController.id.value,
+                                          _chatGroupOpenController!.id.value,
                                       menuVisible: false,
                                       showActions: true,
                                       onTapMenu: () {
                                         onMenuPress(
                                           context: context,
                                           showActions: false,
-                                          groupThread: groupThread,
+                                          groupThread: groupThread!,
                                         );
                                       });
                                 },
-                                sourceList: source,
+                                sourceList: source!,
                               ),
                               key: const Key('homePageLoadMoreKey'),
                             ),
@@ -436,8 +436,8 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                           ],
                         ),
                       ),
-                      _chatGroupOpenController
-                                  .chatGroupModel.value.group.readOnly ==
+                      _chatGroupOpenController!
+                                  .chatGroupModel.value!.group!.readOnly ==
                               0
                           ? Container(
                               padding: EdgeInsets.symmetric(
@@ -468,9 +468,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        "Replying to ${_chatGroupOpenController.selectedChatMsg.value.user.fullName} ",
+                                                        "Replying to ${_chatGroupOpenController!.selectedChatMsg.value.user!.fullName} ",
                                                         style: Get
-                                                            .textTheme.subtitle1
+                                                            .textTheme.subtitle1!
                                                             .copyWith(
                                                           fontSize: 10,
                                                           fontWeight:
@@ -478,12 +478,12 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        "${_chatGroupOpenController.selectedChatMsg.value.conversation.message}",
+                                                        "${_chatGroupOpenController!.selectedChatMsg.value.conversation!.message}",
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: Get
-                                                            .textTheme.subtitle1
+                                                            .textTheme.subtitle1!
                                                             .copyWith(
                                                           overflow:
                                                               TextOverflow.clip,
@@ -498,7 +498,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                     setState(() {
                                                       replyClick = false;
                                                     });
-                                                    _chatGroupOpenController
+                                                    _chatGroupOpenController!
                                                         .selectedChatMsg
                                                         .value = GroupThread();
                                                   },
@@ -535,29 +535,29 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                   var formData =
                                                       DIO.FormData.fromMap({
                                                     'from_id': int.parse(
-                                                        _chatGroupOpenController
-                                                            .id.value),
+                                                        _chatGroupOpenController!
+                                                            .id.value!),
                                                     'to_id': int.parse(
-                                                        _chatGroupOpenController
-                                                            .id.value),
+                                                        _chatGroupOpenController!
+                                                            .id.value!),
                                                     'user_id': int.parse(
-                                                        _chatGroupOpenController
-                                                            .id.value),
+                                                        _chatGroupOpenController!
+                                                            .id.value!),
                                                     'message':
                                                         _chatMessageCtrl.text,
                                                     'group_id':
-                                                        _chatGroupOpenController
+                                                        _chatGroupOpenController!
                                                             .groupId,
                                                     'file_attach': await DIO
                                                         .MultipartFile.fromFile(
-                                                      file.path,
-                                                      filename: file.path
+                                                      file!.path,
+                                                      filename: file!.path
                                                           .split('/')
                                                           .last,
                                                     )
                                                   });
 
-                                                  await source
+                                                  await source!
                                                       .submitText(
                                                           hasFile: true,
                                                           formData: formData)
@@ -589,7 +589,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                         child: Obx(() {
                                           return CachedNetworkImage(
                                             imageUrl:
-                                                "${AppConfig.domainName}/${_chatGroupOpenController.imageUrl.value}",
+                                                "${AppConfig.domainName}/${_chatGroupOpenController!.imageUrl.value}",
                                             imageBuilder:
                                                 (context, imageProvider) =>
                                                     Container(
@@ -631,7 +631,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                 TextInputAction.newline,
                                             scrollPhysics:
                                                 BouncingScrollPhysics(),
-                                            style: Get.textTheme.subtitle1
+                                            style: Get.textTheme.subtitle1!
                                                 .copyWith(
                                               fontSize: 13,
                                             ),
@@ -664,29 +664,29 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                           0) {
                                                         if (replyClick) {
                                                           Map data = {
-                                                            'reply': _chatGroupOpenController
+                                                            'reply': _chatGroupOpenController!
                                                                 .selectedChatMsg
                                                                 .value
-                                                                .conversation
+                                                                .conversation!
                                                                 .id,
                                                             'from_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'to_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'user_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'message':
                                                                 _chatMessageCtrl
                                                                     .text,
                                                             'group_id':
-                                                                _chatGroupOpenController
+                                                                _chatGroupOpenController!
                                                                     .groupId,
                                                           };
 
-                                                          await source
+                                                          await source!
                                                               .submitText(
                                                                   data: data,
                                                                   hasFile:
@@ -694,7 +694,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                               .then((value) {
                                                             _chatMessageCtrl
                                                                 .clear();
-                                                            _chatGroupOpenController
+                                                            _chatGroupOpenController!
                                                                     .selectedChatMsg
                                                                     .value =
                                                                 GroupThread();
@@ -705,22 +705,22 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                                         } else {
                                                           Map data = {
                                                             'from_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'to_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'user_id': int.parse(
-                                                                _chatGroupOpenController
-                                                                    .id.value),
+                                                                _chatGroupOpenController!
+                                                                    .id.value!),
                                                             'message':
                                                                 _chatMessageCtrl
                                                                     .text,
                                                             'group_id':
-                                                                _chatGroupOpenController
+                                                                _chatGroupOpenController!
                                                                     .groupId,
                                                           };
-                                                          await source
+                                                          await source!
                                                               .submitText(
                                                                   data: data,
                                                                   hasFile:
@@ -785,9 +785,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
   final TextEditingController forwardMessageCtrl = TextEditingController();
 
   onForwardClick(
-      {BuildContext context,
-      bool showActions,
-      GroupThread groupThread,
+      {BuildContext? context,
+      bool? showActions,
+      GroupThread? groupThread,
       bool menuVisible = true}) {
     final ChatController chatController = Get.put(ChatController());
 
@@ -814,7 +814,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     Center(
                       child: Text(
                         "Forward Message",
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -842,7 +842,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     children: <Widget>[
                       GroupMessageItemWidget(
                         groupThread: groupThread,
-                        currentUserId: _chatGroupOpenController.id.value,
+                        currentUserId: _chatGroupOpenController!.id.value,
                         menuVisible: menuVisible,
                         showActions: showActions,
                       ),
@@ -860,7 +860,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "Type a message here (optional)",
-                            hintStyle: Get.textTheme.subtitle1.copyWith(
+                            hintStyle: Get.textTheme.subtitle1!.copyWith(
                               fontSize: 12.sp,
                             ),
                           ),
@@ -868,7 +868,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                       ),
                       ListView.separated(
                           itemCount:
-                              chatController.chatModel.value.users.length,
+                              chatController.chatModel.value.users!.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           separatorBuilder: (context, index) {
@@ -878,7 +878,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                               EdgeInsets.symmetric(horizontal: 35, vertical: 5),
                           itemBuilder: (context, index) {
                             ChatUser chatUser =
-                                chatController.chatModel.value.users[index];
+                                chatController.chatModel.value.users![index];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -887,7 +887,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                               child: ListTile(
                                 title: Text(
                                   "${chatUser.fullName ?? ""}",
-                                  style: Get.textTheme.subtitle1
+                                  style: Get.textTheme.subtitle1!
                                       .copyWith(fontSize: 14),
                                 ),
                                 leading: CachedNetworkImage(
@@ -914,13 +914,13 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                   onPressed: () async {
                                     Map data = {
                                       'from_id':
-                                          _chatGroupOpenController.id.value,
+                                          _chatGroupOpenController!.id.value,
                                       'to_id': chatUser.id,
                                       'message': forwardMessageCtrl.text,
-                                      'forward': groupThread.conversation.id,
+                                      'forward': groupThread!.conversation!.id,
                                     };
 
-                                    await _chatGroupOpenController
+                                    await _chatGroupOpenController!
                                         .forwardMessage(data, false)
                                         .then((value) {
                                       forwardMessageCtrl.clear();
@@ -937,7 +937,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                           }),
                       ListView.separated(
                           itemCount:
-                              chatController.chatModel.value.groups.length,
+                              chatController.chatModel.value.groups!.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           separatorBuilder: (context, index) {
@@ -947,7 +947,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                               EdgeInsets.symmetric(horizontal: 35, vertical: 5),
                           itemBuilder: (context, groupIndex) {
                             ChatGroup chatGroup = chatController
-                                .chatModel.value.groups[groupIndex];
+                                .chatModel.value.groups![groupIndex];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -956,7 +956,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                               child: ListTile(
                                 title: Text(
                                   "${chatGroup.name ?? ""}",
-                                  style: Get.textTheme.subtitle1
+                                  style: Get.textTheme.subtitle1!
                                       .copyWith(fontSize: 14),
                                 ),
                                 leading: CachedNetworkImage(
@@ -983,13 +983,13 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                   onPressed: () async {
                                     Map data = {
                                       'user_id':
-                                          _chatGroupOpenController.id.value,
+                                          _chatGroupOpenController!.id.value,
                                       'group_id': chatGroup.id,
                                       'message': forwardMessageCtrl.text,
-                                      'forward': groupThread.conversation.id,
+                                      'forward': groupThread!.conversation!.id,
                                     };
 
-                                    await _chatGroupOpenController
+                                    await _chatGroupOpenController!
                                         .forwardMessage(data, true)
                                         .then((value) {
                                       forwardMessageCtrl.clear();
@@ -1050,9 +1050,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
   }
 
   onMenuPress(
-      {BuildContext context,
-      bool showActions,
-      GroupThread groupThread,
+      {BuildContext? context,
+      bool? showActions,
+      required GroupThread groupThread,
       bool menuVisible = true}) {
     final child = Center(
       child: Padding(
@@ -1060,34 +1060,34 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment:
-              groupThread.userId.toString() == _chatGroupOpenController.id.value
+              groupThread.userId.toString() == _chatGroupOpenController!.id.value
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
           children: <Widget>[
             GroupMessageItemWidget(
               groupThread: groupThread,
-              currentUserId: _chatGroupOpenController.id.value,
+              currentUserId: _chatGroupOpenController!.id.value,
               menuVisible: menuVisible,
               showActions: showActions,
             ),
             Container(
               margin: EdgeInsets.only(
                 left: groupThread.userId.toString() ==
-                        _chatGroupOpenController.id.value
+                        _chatGroupOpenController!.id.value
                     ? 10
                     : 35,
                 right: groupThread.userId.toString() ==
-                        _chatGroupOpenController.id.value
+                        _chatGroupOpenController!.id.value
                     ? 10
                     : 35,
               ),
               child: Text(
-                "${timeago.format(groupThread.createdAt)}",
+                "${timeago.format(groupThread.createdAt!)}",
                 textAlign: groupThread.userId.toString() ==
-                        _chatGroupOpenController.id.value
+                        _chatGroupOpenController!.id.value
                     ? TextAlign.right
                     : TextAlign.left,
-                style: Get.textTheme.subtitle1.copyWith(
+                style: Get.textTheme.subtitle1!.copyWith(
                   color: Colors.grey.shade200,
                   fontSize: 8.sp,
                 ),
@@ -1097,11 +1097,11 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
             Container(
               margin: EdgeInsets.only(
                 left: groupThread.userId.toString() ==
-                        _chatGroupOpenController.id.value
+                        _chatGroupOpenController!.id.value
                     ? 10
                     : 35,
                 right: groupThread.userId.toString() ==
-                        _chatGroupOpenController.id.value
+                        _chatGroupOpenController!.id.value
                     ? 10
                     : 35,
               ),
@@ -1117,7 +1117,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
-                        _chatGroupOpenController.selectedChatMsg.value =
+                        _chatGroupOpenController!.selectedChatMsg.value =
                             groupThread;
                         setState(() {
                           replyClick = true;
@@ -1169,17 +1169,17 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     ),
                   ),
                   groupThread.userId.toString() ==
-                          _chatGroupOpenController.id.value
+                          _chatGroupOpenController!.id.value
                       ? Divider()
                       : SizedBox.shrink(),
                   groupThread.userId.toString() ==
-                          _chatGroupOpenController.id.value
+                          _chatGroupOpenController!.id.value
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
-                              Logger.warn(groupThread.id);
-                              source.deleteGroupMessage(groupThread.id);
+                              // Logger.warn(groupThread.id);
+                              source!.deleteGroupMessage(groupThread.id);
                             },
                             child: Row(
                               children: [
@@ -1248,9 +1248,9 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
   }
 
   onAddNewMemberDialog(context) {
-    _chatGroupOpenController.getAddPeopleDialog();
+    _chatGroupOpenController!.getAddPeopleDialog();
 
-    print(_chatGroupOpenController.members.length);
+    print(_chatGroupOpenController!.members.length);
     final child = Center(
       child: SafeArea(
         child: Obx(() {
@@ -1275,7 +1275,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     ),
                     Text(
                       "Add People",
-                      style: Get.textTheme.subtitle1.copyWith(
+                      style: Get.textTheme.subtitle1!.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1292,17 +1292,17 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                   ],
                 ),
                 SizedBox(height: 10),
-                _chatGroupOpenController.members.length > 0
+                _chatGroupOpenController!.members.length > 0
                     ? Text(
                         "Select User",
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       )
                     : SizedBox.shrink(),
                 SizedBox(height: 10),
-                _chatGroupOpenController.members.length > 0
+                _chatGroupOpenController!.members.length > 0
                     ? Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
@@ -1318,34 +1318,34 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                 color: Colors.black),
                             iconSize: 20,
                             underline: SizedBox(),
-                            items: _chatGroupOpenController.members.map((item) {
+                            items: _chatGroupOpenController!.members.map((item) {
                               return DropdownMenuItem(
                                 value: item,
                                 child: Row(
                                   children: [
                                     Text(
-                                      item.fullName ?? item.username,
+                                      item.fullName ?? item.username!,
                                       style: Get.textTheme.subtitle1,
                                     ),
                                   ],
                                 ),
                               );
                             }).toList(),
-                            onChanged: (ChatUser value) async {
-                              _chatGroupOpenController.selectedAddUser.value =
+                            onChanged: (ChatUser? value) async {
+                              _chatGroupOpenController!.selectedAddUser.value =
                                   value;
-                              print(_chatGroupOpenController
-                                  .selectedAddUser.value.fullName);
+                              print(_chatGroupOpenController!
+                                  .selectedAddUser.value!.fullName);
                             },
                             value:
-                                _chatGroupOpenController.selectedAddUser.value),
+                                _chatGroupOpenController!.selectedAddUser.value),
                       )
                     : Text(
                         "No users to add",
                         style: Get.textTheme.subtitle1,
                       ),
                 SizedBox(height: 10),
-                _chatGroupOpenController.members.length > 0
+                _chatGroupOpenController!.members.length > 0
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -1355,7 +1355,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                           child: DecoratedBox(
                             decoration: Utils.gradientBtnDecoration,
                             child: ElevatedButton(
-                              onPressed: () => _chatGroupOpenController
+                              onPressed: () => _chatGroupOpenController!
                                   .addPeople()
                                   .then((value) => Get.back()),
                               style: ElevatedButton.styleFrom(
@@ -1367,7 +1367,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                 "Submit",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline5!
                                     .copyWith(color: Colors.white),
                               ),
                             ),
@@ -1436,7 +1436,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
               minLines: 1,
               textInputAction: TextInputAction.search,
               scrollPhysics: BouncingScrollPhysics(),
-              style: Get.textTheme.subtitle1.copyWith(
+              style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 13,
               ),
               decoration: InputDecoration(
@@ -1461,19 +1461,19 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                   primary: Get.theme.primaryColor,
                 ),
                 onPressed: () {
-                  _chatGroupOpenController.courseSearchStarted.value = true;
+                  _chatGroupOpenController!.courseSearchStarted.value = true;
 
                   if (_searchMsgCtrl.text.isEmpty) {
-                    source.refresh();
-                    _chatGroupOpenController.courseSearchStarted.value = false;
+                    source!.refresh();
+                    _chatGroupOpenController!.courseSearchStarted.value = false;
                     return;
                   }
 
-                  source.forEach((GroupThread element) {
-                    if (element.conversation.message
+                  source!.forEach((GroupThread? element) {
+                    if (element!.conversation!.message!
                         .toUpperCase()
                         .contains(_searchMsgCtrl.text.toUpperCase())) {
-                      _chatGroupOpenController.chatMsgSearch.add(element);
+                      _chatGroupOpenController!.chatMsgSearch.add(element);
                     }
                   });
                 },
@@ -1542,7 +1542,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     Center(
                       child: Text(
                         "Members",
-                        style: Get.textTheme.subtitle1.copyWith(
+                        style: Get.textTheme.subtitle1!.copyWith(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1562,8 +1562,8 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                 SizedBox(height: 10),
                 Expanded(
                   child: ListView.separated(
-                      itemCount: _chatGroupOpenController
-                          .chatGroupModel.value.group.users.length,
+                      itemCount: _chatGroupOpenController!
+                          .chatGroupModel.value!.group!.users!.length,
                       physics: BouncingScrollPhysics(),
                       separatorBuilder: (context, index) {
                         return SizedBox(height: 10);
@@ -1571,8 +1571,8 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       itemBuilder: (context, index) {
-                        ChatUser groupUser = _chatGroupOpenController
-                            .chatGroupModel.value.group.users[index];
+                        ChatUser groupUser = _chatGroupOpenController!
+                            .chatGroupModel.value!.group!.users![index];
                         return Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[200],
@@ -1581,7 +1581,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                           child: ListTile(
                             title: Text(
                               "${groupUser.fullName ?? groupUser.email ?? ""}",
-                              style: Get.textTheme.subtitle1
+                              style: Get.textTheme.subtitle1!
                                   .copyWith(fontSize: 14),
                             ),
                             leading: CachedNetworkImage(
@@ -1604,15 +1604,15 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.account_circle_rounded),
                             ),
-                            trailing: _chatGroupOpenController
-                                        .chatGroupModel.value.myRole !=
+                            trailing: _chatGroupOpenController!
+                                        .chatGroupModel.value!.myRole !=
                                     0
                                 ? groupUser.id.toString() ==
-                                        _chatGroupOpenController.id.value
+                                        _chatGroupOpenController!.id.value
                                     ? SizedBox.shrink()
                                     : IconButton(
                                         onPressed: () async {
-                                          await _chatGroupOpenController
+                                          await _chatGroupOpenController!
                                               .removePeople(groupUser.id);
                                         },
                                         icon: Icon(
@@ -1691,7 +1691,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     Icon(Icons.people, color: Get.theme.primaryColor),
                     Text(
                       "User Role",
-                      style: Get.textTheme.subtitle1.copyWith(
+                      style: Get.textTheme.subtitle1!.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1710,7 +1710,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                 SizedBox(height: 10),
                 Text(
                   "Select User",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1730,34 +1730,34 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     icon: Icon(Icons.arrow_drop_down, color: Colors.black),
                     iconSize: 20,
                     underline: SizedBox(),
-                    items: _chatGroupOpenController
-                        .chatGroupModel.value.group.users
+                    items: _chatGroupOpenController!
+                        .chatGroupModel.value!.group!.users!
                         .where((element) =>
                             element.id.toString() !=
-                            _chatGroupOpenController.id.value.toString())
+                            _chatGroupOpenController!.id.value.toString())
                         .map((item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Row(
                           children: [
                             Text(
-                              item.fullName ?? item.username,
+                              item.fullName ?? item.username!,
                               style: Get.textTheme.subtitle1,
                             ),
                           ],
                         ),
                       );
                     }).toList(),
-                    onChanged: (ChatUser value) async {
-                      _chatGroupOpenController.selectedUser.value = value;
+                    onChanged: (ChatUser? value) async {
+                      _chatGroupOpenController!.selectedUser.value = value;
                     },
-                    value: _chatGroupOpenController.selectedUser.value,
+                    value: _chatGroupOpenController!.selectedUser.value,
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
                   "Select Group Role",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1777,23 +1777,23 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     icon: Icon(Icons.arrow_drop_down, color: Colors.black),
                     iconSize: 20,
                     underline: SizedBox(),
-                    items: _chatGroupOpenController.groupRoles.map((item) {
+                    items: _chatGroupOpenController!.groupRoles.map((item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Row(
                           children: [
                             Text(
-                              item.name,
+                              item.name!,
                               style: Get.textTheme.subtitle1,
                             ),
                           ],
                         ),
                       );
                     }).toList(),
-                    onChanged: (GroupRole value) async {
-                      _chatGroupOpenController.selectedGroupRole.value = value;
+                    onChanged: (GroupRole? value) async {
+                      _chatGroupOpenController!.selectedGroupRole.value = value;
                     },
-                    value: _chatGroupOpenController.selectedGroupRole.value,
+                    value: _chatGroupOpenController!.selectedGroupRole.value,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -1806,7 +1806,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                     child: DecoratedBox(
                       decoration: Utils.gradientBtnDecoration,
                       child: ElevatedButton(
-                        onPressed: () => _chatGroupOpenController
+                        onPressed: () => _chatGroupOpenController!
                             .assignRole()
                             .then((value) => Get.back()),
                         style: ElevatedButton.styleFrom(
@@ -1818,7 +1818,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                           "Submit",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headline5!
                               .copyWith(color: Colors.white),
                         ),
                       ),
@@ -1873,7 +1873,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
       child: Container(
           height: 100.h,
           child: Obx(() {
-            if (_chatGroupOpenController.isLoading.value) {
+            if (_chatGroupOpenController!.isLoading.value) {
               return Container();
             } else {
               return AppBar(
@@ -1941,15 +1941,15 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                 "${widget.chatTitle}",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .subtitle1!
                                     .copyWith(
                                         fontSize: 16.sp, color: Colors.white),
                               ),
                               Text(
-                                "${_chatGroupOpenController.chatGroupModel.value.group.users.length.toString()} Participants",
+                                "${_chatGroupOpenController!.chatGroupModel.value!.group!.users!.length.toString()} Participants",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
+                                    .subtitle1!
                                     .copyWith(
                                       fontSize: 10.sp,
                                       color: Colors.white,
@@ -1958,10 +1958,10 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                             ],
                           ),
                         ),
-                        _chatGroupOpenController.chatGroupModel.value.myRole ==
+                        _chatGroupOpenController!.chatGroupModel.value!.myRole ==
                                 1
                             ? PopupMenuButton(
-                                onSelected: (value) async {
+                                onSelected: (dynamic value) async {
                                   if (value == 1) {
                                     onUserRoleClick(context);
                                   } else if (value == 3) {
@@ -1976,27 +1976,27 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                       ),
                                     );
                                   } else if (value == 6) {
-                                    await _chatGroupOpenController.leaveGroup();
+                                    await _chatGroupOpenController!.leaveGroup();
                                   } else if (value == 7) {
-                                    if (_chatGroupOpenController
-                                            .chatGroupModel.value.myRole ==
+                                    if (_chatGroupOpenController!
+                                            .chatGroupModel.value!.myRole ==
                                         1) {
-                                      _chatGroupOpenController
+                                      _chatGroupOpenController!
                                           .deleteChatGroup(widget.groupId);
                                     }
                                   } else if (value == 8) {
-                                    if (_chatGroupOpenController.chatGroupModel
-                                            .value.group.readOnly ==
+                                    if (_chatGroupOpenController!.chatGroupModel
+                                            .value!.group!.readOnly ==
                                         0) {
-                                      await _chatGroupOpenController
+                                      await _chatGroupOpenController!
                                           .chatGroupSetRead("mark");
-                                    } else if (_chatGroupOpenController
+                                    } else if (_chatGroupOpenController!
                                             .chatGroupModel
-                                            .value
-                                            .group
+                                            .value!
+                                            .group!
                                             .readOnly ==
                                         1) {
-                                      await _chatGroupOpenController
+                                      await _chatGroupOpenController!
                                           .chatGroupSetRead("unmark");
                                     }
                                   }
@@ -2027,10 +2027,10 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                     value: 7,
                                   ),
                                   PopupMenuItem(
-                                    child: _chatGroupOpenController
+                                    child: _chatGroupOpenController!
                                                 .chatGroupModel
-                                                .value
-                                                .group
+                                                .value!
+                                                .group!
                                                 .readOnly ==
                                             0
                                         ? Text("Mark as Read Only")
@@ -2040,7 +2040,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                 ],
                               )
                             : PopupMenuButton(
-                                onSelected: (value) async {
+                                onSelected: (dynamic value) async {
                                   if (value == 2) {
                                     onAddNewMemberDialog(context);
                                   } else if (value == 3) {
@@ -2053,7 +2053,7 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
                                       ),
                                     );
                                   } else if (value == 5) {
-                                    await _chatGroupOpenController.leaveGroup();
+                                    await _chatGroupOpenController!.leaveGroup();
                                   }
                                 },
                                 itemBuilder: (context) => [
@@ -2089,11 +2089,11 @@ class _GroupChatOpenPageState extends State<GroupChatOpenPage> {
 }
 
 class GroupMessageItemWidget extends StatelessWidget {
-  final GroupThread groupThread;
-  final String currentUserId;
-  final bool menuVisible;
-  final bool showActions;
-  final Function onTapMenu;
+  final GroupThread? groupThread;
+  final String? currentUserId;
+  final bool? menuVisible;
+  final bool? showActions;
+  final Function? onTapMenu;
   GroupMessageItemWidget(
       {this.groupThread,
       this.currentUserId,
@@ -2107,7 +2107,7 @@ class GroupMessageItemWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: groupThread.userId.toString() == currentUserId
+          crossAxisAlignment: groupThread!.userId.toString() == currentUserId
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: <Widget>[],
@@ -2154,11 +2154,11 @@ class GroupMessageItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: menuVisible ? 10 : 5,
-        bottom: menuVisible ? 10 : 5,
+        top: menuVisible! ? 10 : 5,
+        bottom: menuVisible! ? 10 : 5,
       ),
       child: Row(
-        mainAxisAlignment: groupThread.userId.toString() != currentUserId
+        mainAxisAlignment: groupThread!.userId.toString() != currentUserId
             ? MainAxisAlignment.start
             : MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2169,10 +2169,10 @@ class GroupMessageItemWidget extends StatelessWidget {
             },
             child: Padding(
               padding: EdgeInsets.only(top: 4),
-              child: groupThread.userId.toString() != currentUserId
+              child: groupThread!.userId.toString() != currentUserId
                   ? CachedNetworkImage(
                       imageUrl:
-                          "${AppConfig.domainName}/${groupThread.user.avatarUrl}",
+                          "${AppConfig.domainName}/${groupThread!.user!.avatarUrl}",
                       imageBuilder: (context, imageProvider) => Container(
                         width: 25.w,
                         height: 25.h,

@@ -17,8 +17,8 @@ class ActiveOnlineModel {
     this.message,
   });
 
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
   dynamic message;
 
   factory ActiveOnlineModel.fromJson(Map<String, dynamic> json) =>
@@ -30,7 +30,7 @@ class ActiveOnlineModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
         "message": message,
       };
 }
@@ -42,9 +42,9 @@ class Data {
     this.onlineExamTakenStatus,
   });
 
-  List<OnlineExam> onlineExams;
-  bool timeZone;
-  String onlineExamTakenStatus;
+  List<OnlineExam>? onlineExams;
+  bool? timeZone;
+  String? onlineExamTakenStatus;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         onlineExams: List<OnlineExam>.from(
@@ -54,7 +54,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "online_exams": List<dynamic>.from(onlineExams.map((x) => x.toJson())),
+        "online_exams": List<dynamic>.from(onlineExams!.map((x) => x.toJson())),
         "time_zone": timeZone,
         "onlineExamTakenStatus": onlineExamTakenStatus,
       };
@@ -79,21 +79,21 @@ class OnlineExam {
     this.status,
   });
 
-  int id;
-  String title;
-  int classId;
-  int sectionId;
-  int subjectId;
-  String onlineExamClass;
-  String section;
-  String subject;
-  String startDate;
-  String startTime;
-  String endDate;
-  String endTime;
-  int duration;
-  int percentage;
-  String status;
+  int? id;
+  String? title;
+  int? classId;
+  int? sectionId;
+  int? subjectId;
+  String? onlineExamClass;
+  String? section;
+  String? subject;
+  String? startDate;
+  String? startTime;
+  String? endDate;
+  String? endTime;
+  int? duration;
+  int? percentage;
+  String? status;
 
   factory OnlineExam.fromJson(Map<String, dynamic> json) => OnlineExam(
         id: json["id"],

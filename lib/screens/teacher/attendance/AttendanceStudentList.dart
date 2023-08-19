@@ -25,11 +25,11 @@ import 'attendance_controller.dart';
 
 // ignore: must_be_immutable
 class StudentListAttendance extends StatefulWidget {
-  int classCode;
-  int sectionCode;
-  String url;
-  String date;
-  String token;
+  int? classCode;
+  int? sectionCode;
+  String? url;
+  String? date;
+  String? token;
 
   StudentListAttendance(
       {this.classCode, this.sectionCode, this.url, this.date, this.token});
@@ -49,18 +49,18 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
 
   dynamic classCode;
   dynamic sectionCode;
-  String url;
-  Future<StudentList> students;
-  String date;
+  String? url;
+  Future<StudentList>? students;
+  String? date;
   List<String> absent = [];
   int totalStudent = 0;
   var function = GlobalDatae();
   GlobalKey _key = GlobalKey();
-  String token;
+  String? token;
   bool attendanceDone = false;
   bool isLoading = false;
 
-  Future<AttendanceList> newStudents;
+  Future<AttendanceList>? newStudents;
 
   _StudentListAttendanceState(
       {this.classCode, this.sectionCode, this.url, this.date, this.token});
@@ -96,14 +96,14 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                         "Student attendance not done yet".tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 14),
                       ),
                       Text(
                         "Select Present/Late/Absent/Halfday".tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 14),
                       ),
                     ],
@@ -121,15 +121,15 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                     future: newStudents,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        totalStudent = snapshot.data.attendances.length;
+                        totalStudent = snapshot.data!.attendances.length;
                         return Column(
                           children: [
                             Expanded(
                               child: ListView.builder(
-                                itemCount: snapshot.data.attendances.length,
+                                itemCount: snapshot.data!.attendances.length,
                                 itemBuilder: (context, index) {
                                   return StudentAttendanceRow(
-                                    snapshot.data.attendances[index],
+                                    snapshot.data!.attendances[index],
                                     classCode,
                                     sectionCode,
                                     date,
@@ -152,7 +152,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                                     "Save".tr,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline4
+                                        .headline4!
                                         .copyWith(
                                             color: Colors.white,
                                             fontSize: ScreenUtil().setSp(14)),
@@ -223,7 +223,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
   showAlertDialog(BuildContext context) {
     showDialog<void>(
       barrierDismissible: false,
-      context: _key.currentContext,
+      context: _key.currentContext!,
       builder: (BuildContext context) {
         if (function.getAbsent() == 0) {
           // setDefaultAttendance();
@@ -264,7 +264,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                           'Success'.tr,
                           textAlign: TextAlign.center,
                           maxLines: 1,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
+                          style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.w500, fontSize: 18.0),
                         ),
                       ),
@@ -276,7 +276,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -288,7 +288,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -308,14 +308,14 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                               "OK".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(
                                       color: Colors.white, fontSize: 16.0),
                             ),
                           ),
                           onTap: () {
                             // sentNotificationToSection();
-                            Navigator.pop(_key.currentContext);
+                            Navigator.pop(_key.currentContext!);
                             Navigator.pop(context);
                           },
                         ),

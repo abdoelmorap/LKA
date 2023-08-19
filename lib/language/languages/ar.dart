@@ -341,5 +341,6 @@ const Map<String, String> ar = {
   "Sleep": "مدة النوم",
   "Comment": "تعليقات",
   "StudentGallery": "معرض الصور",
-  "FoodList":"الوجبات","Not_Available":"غير متاح"
+  "FoodList":"الوجبات","Not_Available":"غير متاح",
+  "Activities":"الأنشطة"
 };

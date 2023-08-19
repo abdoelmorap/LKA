@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as bBadget;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infixedu/controller/system_controller.dart';
 import 'package:infixedu/controller/user_controller.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:themify_flutter/themify_flutter.dart';
 
 // Project imports:
 import 'package:infixedu/controller/notification_controller.dart';
@@ -26,7 +25,7 @@ import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
 import '../Home.dart';
 import 'teacher/DBTeacherAttendance.dart';
-
+import 'package:infixedu/nullSafety_dep/themify.dart';
 class DashboardScreen extends StatefulWidget {
   final titles;
   final images;
@@ -48,14 +47,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   PersistentTabController persistentTabController =
       PersistentTabController(initialIndex: 0);
 
-  String _id;
+  String? _id;
 
   static Future<bool> _popCamera(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(
         "Cancel",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.red,
             ),
@@ -67,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Widget yesButton = TextButton(
       child: Text(
         "Yes",
-        style: Theme.of(context).textTheme.headline5.copyWith(
+        style: Theme.of(context).textTheme.headline5!.copyWith(
               fontSize: ScreenUtil().setSp(12),
               color: Colors.green,
             ),
@@ -99,7 +98,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Future.value(false);
   }
 
-  int _studentId;
+  int? _studentId;
   Future initate() async {
     print("ROLE ID ${widget.role} ${widget.role.runtimeType}");
 
@@ -182,12 +181,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 items: [
                   PersistentBottomNavBarItem(
                     inactiveIcon: Icon(
-                      Themify.home,
-                      size: 18.sp,
+                      Icons.home,
+                      size: 25.sp,
                     ),
                     icon: Icon(
-                      Themify.home,
-                      size: 18.sp,
+                      Icons.home,
+                      size: 25.sp,
                     ),
                     title: "Home".tr,
                     activeColorPrimary: Color(-811350).withOpacity(0.9),
@@ -196,36 +195,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   PersistentBottomNavBarItem(
                     inactiveIcon: Obx(() {
                       if (controller.isLoading.value) {
-                        return Badge(
+                        return bBadget.Badge(
                           badgeContent: Text(
                             '0',
                             style: Theme.of(context)
                                 .textTheme
-                                .button
+                                .button!
                                 .copyWith(color: Colors.white),
                           ),
-                          badgeColor: Color(-811350).withOpacity(0.8),
-                          animationType: BadgeAnimationType.fade,
-                          toAnimate: false,
+                          badgeStyle: bBadget.BadgeStyle(badgeColor:Color(-811350)),
+                          // animationType: bBadget.BadgeAnimationType.fade,
+                          // toAnimate: false,
                           child: Icon(
-                            Themify.bell,
+                           Icons.notifications_active,
                             size: 22.sp,
                             color: Colors.grey.withOpacity(0.9),
                           ),
                         );
                       }
-                      return Badge(
+                      return bBadget.Badge(
                         badgeContent: Text(
                           '${controller.notificationCount.value}',
                           style: Theme.of(context)
                               .textTheme
-                              .button
+                              .button!
                               .copyWith(color: Colors.white),
                         ),
-                        badgeColor: Color(-811350),
-                        animationType: BadgeAnimationType.fade,
+                        badgeStyle: bBadget.BadgeStyle(badgeColor:Color(-811350)),
+                        // animationType: bBadget.BadgeAnimationType.fade,
                         child: Icon(
-                          Themify.bell,
+                          Icons.notifications_active,
                           size: 22.sp,
                           color: Colors.grey.withOpacity(0.9),
                         ),
@@ -233,30 +232,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     }),
                     icon: Obx(() {
                       if (controller.isLoading.value) {
-                        return Badge(
+                        return bBadget.Badge(
                           showBadge: false,
-                          badgeColor: Color(-811350).withOpacity(0.8),
-                          animationType: BadgeAnimationType.fade,
-                          toAnimate: false,
+                          badgeStyle: bBadget.BadgeStyle(badgeColor:Color(-811350)),
+                          // animationType: bBadget.BadgeAnimationType.fade,
+                          // toAnimate: false,
                           child: Icon(
-                            Themify.bell,
+                            Icons.notifications_active,
                             size: 22.sp,
                             color: Color(-811350).withOpacity(0.9),
                           ),
                         );
                       }
-                      return Badge(
+                      return bBadget.Badge(
                         badgeContent: Text(
                           '${controller.notificationCount.value}',
                           style: Theme.of(context)
                               .textTheme
-                              .button
+                              .button!
                               .copyWith(color: Colors.white),
                         ),
-                        badgeColor: Color(-811350),
-                        animationType: BadgeAnimationType.fade,
+                        badgeStyle: bBadget.BadgeStyle(badgeColor:Color(-811350)),
+                      // badgeAnimation  :bBadget,
                         child: Icon(
-                          Themify.bell,
+                          Icons.notifications_active,
                           size: 22.sp,
                           color: Color(-811350).withOpacity(0.9),
                         ),

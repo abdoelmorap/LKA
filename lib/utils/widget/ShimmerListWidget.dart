@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerList extends StatelessWidget {
-  final int itemCount;
-  final double height;
+  final int? itemCount;
+  final double? height;
 
   ShimmerList({this.itemCount,this.height});
 

@@ -14,8 +14,8 @@ class ExamRoutineReport {
         this.examRoutines,
     });
 
-    ExamType examType;
-    Map<String, List<ExamRoutine>> examRoutines;
+    ExamType? examType;
+    Map<String, List<ExamRoutine>>? examRoutines;
 
     factory ExamRoutineReport.fromJson(Map<String, dynamic> json) => ExamRoutineReport(
         examType: ExamType.fromJson(json["examType"]),
@@ -23,8 +23,8 @@ class ExamRoutineReport {
     );
 
     Map<String, dynamic> toJson() => {
-        "examType": examType.toJson(),
-        "exam_routines": Map.from(examRoutines).map((k, v) => MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x.toJson())))),
+        "examType": examType!.toJson(),
+        "exam_routines": Map.from(examRoutines!).map((k, v) => MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x.toJson())))),
     };
 }
 
@@ -42,16 +42,16 @@ class ExamRoutine {
     this.endTime,
   });
 
-  int id;
-  DateTime date;
-  String className;
-  String section;
-  String room;
-  String subject;
-  String teacher;
-  String examType;
-  String startTime;
-  String endTime;
+  int? id;
+  DateTime? date;
+  String? className;
+  String? section;
+  String? room;
+  String? subject;
+  String? teacher;
+  String? examType;
+  String? startTime;
+  String? endTime;
 
   factory ExamRoutine.fromJson(Map<String, dynamic> json) => ExamRoutine(
         id: json["id"],
@@ -69,7 +69,7 @@ class ExamRoutine {
   Map<String, dynamic> toJson() => {
         "id": id,
         "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "class": className,
         "section": section,
         "room": room,
@@ -87,8 +87,8 @@ class ExamType {
     this.title,
   });
 
-  int id;
-  String title;
+  int? id;
+  String? title;
 
   factory ExamType.fromJson(Map<String, dynamic> json) => ExamType(
         id: json["id"],

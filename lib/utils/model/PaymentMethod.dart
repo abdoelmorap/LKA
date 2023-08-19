@@ -28,16 +28,16 @@ class PaymentMethod {
     this.schoolId,
   });
 
-  int id;
-  String method;
-  String type;
-  int activeStatus;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  String? method;
+  String? type;
+  int? activeStatus;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   dynamic gatewayId;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
         id: json["id"],
@@ -59,8 +59,8 @@ class PaymentMethod {
         "method": method,
         "type": type,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "gateway_id": gatewayId,
         "created_by": createdBy,
         "updated_by": updatedBy,

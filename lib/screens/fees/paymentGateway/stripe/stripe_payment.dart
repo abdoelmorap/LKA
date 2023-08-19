@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:stripe_sdk/stripe_sdk.dart';
-import 'package:stripe_sdk/stripe_sdk_ui.dart';
+// import 'package:stripe_sdk/stripe_sdk.dart';
+// import 'package:stripe_sdk/stripe_sdk_ui.dart';
 
 // Project imports:
 import 'package:infixedu/config/app_config.dart';
@@ -20,14 +20,14 @@ import 'package:infixedu/screens/fees/model/Fee.dart';
 import 'package:infixedu/utils/model/UserDetails.dart';
 
 class StripePaymentScreen extends StatefulWidget {
-  final String id;
-  final String paidBy;
-  final FeeElement fee;
-  final String email;
-  final String method;
-  final String amount;
-  final UserDetails userDetails;
-  final Function onFinish;
+  final String? id;
+  final String? paidBy;
+  final FeeElement? fee;
+  final String? email;
+  final String? method;
+  final String? amount;
+  final UserDetails? userDetails;
+  final Function? onFinish;
 
   StripePaymentScreen({
     this.id,
@@ -48,12 +48,12 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
   final String postCreateIntentURL = "$stripeServerURL/payment-intent";
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final StripeCard card = StripeCard();
+  // final StripeCard card = StripeCard();
 
-  final Stripe stripe = Stripe(
-    "$stripePublishableKey", //Your Publishable Key
-    // returnUrlForSca: "stripesdk://3ds.gurmatschool.stripesdk.io", //Return URL for SCA
-  );
+  // final Stripe stripe = Stripe(
+  //   "$stripePublishableKey", returnUrlForSca: '', //Your Publishable Key
+  //   // returnUrlForSca: "stripesdk://3ds.gurmatschool.stripesdk.io", //Return URL for SCA
+  // );
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   bool paymentLoading = false;
@@ -75,11 +75,11 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
             },
             child: Column(
               children: [
-                CardForm(
-                  formKey: formKey,
-                  card: card,
-                  displayAnimatedCard: true,
-                ),
+                // CardForm(
+                //   formKey: formKey,
+                //   card: card,
+                //   displayAnimatedCard: true,
+                // ),
                 paymentLoading
                     ? Center(
                         child: CircularProgressIndicator(
@@ -95,13 +95,13 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
                               child: Text(
                                 'Continue'.tr,
                                 textAlign: TextAlign.center,
-                                style: Get.textTheme.subtitle2
+                                style: Get.textTheme.subtitle2!
                                     .copyWith(color: Colors.white),
                               ),
                             ),
                             onPressed: () {
-                              formKey.currentState.validate();
-                              formKey.currentState.save();
+                              formKey.currentState!.validate();
+                              formKey.currentState!.save();
                               buy(context);
                             }),
                       ),
@@ -114,154 +114,154 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
   }
 
   void buy(context) async {
-    final StripeCard stripeCard = card;
-    final String customerEmail = widget.email;
+    // final StripeCard stripeCard = card;
+    // final String? customerEmail = widget.email;
+    //
+    // if (!stripeCard.validateCVC()) {
+    //   showAlertDialog(context, "Error", "CVC not valid.");
+    //   return;
+    // }
+    // if (!stripeCard.validateDate()) {
+    //   showAlertDialog(context, "Errore", "Date not valid.");
+    //   return;
+    // }
+    // if (!stripeCard.validateNumber()) {
+    //   showAlertDialog(context, "Error", "Number not valid.");
+    //   return;
+    // }
 
-    if (!stripeCard.validateCVC()) {
-      showAlertDialog(context, "Error", "CVC not valid.");
-      return;
-    }
-    if (!stripeCard.validateDate()) {
-      showAlertDialog(context, "Errore", "Date not valid.");
-      return;
-    }
-    if (!stripeCard.validateNumber()) {
-      showAlertDialog(context, "Error", "Number not valid.");
-      return;
-    }
+    // setState(() {
+    //   paymentLoading = true;
+    // });
 
-    setState(() {
-      paymentLoading = true;
-    });
-
-    Map<String, dynamic> paymentIntentRes =
-        await createPaymentIntent(stripeCard, customerEmail);
-    print('Payment Intent response => $paymentIntentRes');
-    print("---" * 10);
-    String clientSecret = paymentIntentRes['client_secret'];
-    String paymentMethodId = paymentIntentRes['payment_method'];
-    String status = paymentIntentRes['status'];
-
-    print("Status is => $status");
-    if (status == 'requires_action' || status == 'requires_confirmation') {
-      paymentIntentRes =
-          await confirmPayment3DSecure(clientSecret, paymentMethodId);
-      if (paymentIntentRes['status'] == 'succeeded') {
-        CustomSnackBar().snackBarSuccessBottom("Success! Thanks for buying.");
-        Future.delayed(Duration(seconds: 4), () {
-          setState(() {
-            paymentLoading = false;
-          });
-          Map data = {
-            'id': paymentIntentRes['id'],
-            'status': paymentIntentRes['status'],
-          };
-          widget.onFinish(data);
-          Navigator.of(context).pop();
-        });
-      }else{
-        setState(() {
-          paymentLoading = false;
-        });
-        showAlertDialog(
-            context, "Error", "Payment failed. ${paymentIntentRes['status']}");
-      }
-    } else if (status != 'succeeded') {
-      CustomSnackBar().snackBarWarning("Warning! Canceled Transaction.");
-      Future.delayed(Duration(seconds: 4), () {
-        setState(() {
-          paymentLoading = false;
-        });
-      });
-    } else if (status == 'succeeded') {
-      CustomSnackBar().snackBarSuccessBottom("Success! Thanks for buying.");
-      Future.delayed(Duration(seconds: 4), () {
-        setState(() {
-          paymentLoading = false;
-        });
-        Map data = {
-          'id': paymentIntentRes['id'],
-          'status': paymentIntentRes['status'],
-        };
-        widget.onFinish(data);
-        Navigator.of(context).pop();
-      });
-    } else {
-      CustomSnackBar().snackBarWarning(
-          "Warning! Transaction rejected.\nSomething went wrong");
-      Future.delayed(Duration(seconds: 4), () {
-        setState(() {
-          paymentLoading = false;
-        });
-      });
-    }
+    // Map<String, dynamic> paymentIntentRes =
+    //     await (createPaymentIntent(stripeCard, customerEmail) as Future<Map<String, dynamic>>);
+    // print('Payment Intent response => $paymentIntentRes');
+    // print("---" * 10);
+    // String? clientSecret = paymentIntentRes['client_secret'];
+    // String? paymentMethodId = paymentIntentRes['payment_method'];
+    // String? status = paymentIntentRes['status'];
+    //
+    // print("Status is => $status");
+    // if (status == 'requires_action' || status == 'requires_confirmation') {
+    //   paymentIntentRes =
+    //       await (confirmPayment3DSecure(clientSecret!, paymentMethodId) as Future<Map<String, dynamic>>);
+    //   if (paymentIntentRes['status'] == 'succeeded') {
+    //     CustomSnackBar().snackBarSuccessBottom("Success! Thanks for buying.");
+    //     Future.delayed(Duration(seconds: 4), () {
+    //       setState(() {
+    //         paymentLoading = false;
+    //       });
+    //       Map data = {
+    //         'id': paymentIntentRes['id'],
+    //         'status': paymentIntentRes['status'],
+    //       };
+    //       widget.onFinish!(data);
+    //       Navigator.of(context).pop();
+    //     });
+    //   }else{
+    //     setState(() {
+    //       paymentLoading = false;
+    //     });
+    //     showAlertDialog(
+    //         context, "Error", "Payment failed. ${paymentIntentRes['status']}");
+    //   }
+    // } else if (status != 'succeeded') {
+    //   CustomSnackBar().snackBarWarning("Warning! Canceled Transaction.");
+    //   Future.delayed(Duration(seconds: 4), () {
+    //     setState(() {
+    //       paymentLoading = false;
+    //     });
+    //   });
+    // } else if (status == 'succeeded') {
+    //   CustomSnackBar().snackBarSuccessBottom("Success! Thanks for buying.");
+    //   Future.delayed(Duration(seconds: 4), () {
+    //     setState(() {
+    //       paymentLoading = false;
+    //     });
+    //     Map data = {
+    //       'id': paymentIntentRes['id'],
+    //       'status': paymentIntentRes['status'],
+    //     };
+    //     widget.onFinish!(data);
+    //     Navigator.of(context).pop();
+    //   });
+    // } else {
+    //   CustomSnackBar().snackBarWarning(
+    //       "Warning! Transaction rejected.\nSomething went wrong");
+    //   Future.delayed(Duration(seconds: 4), () {
+    //     setState(() {
+    //       paymentLoading = false;
+    //     });
+    //   });
+    // }
   }
 
-  Future<Map<String, dynamic>> createPaymentIntent(
-      StripeCard stripeCard, String customerEmail) async {
-    String clientSecret;
-    Map<String, dynamic> paymentIntentRes, paymentMethod;
-    try {
-      paymentMethod = await stripe.api.createPaymentMethodFromCard(stripeCard);
-      clientSecret =
-          await postCreatePaymentIntent(customerEmail, paymentMethod['id']);
-      paymentIntentRes = await stripe.api.retrievePaymentIntent(clientSecret);
-    } catch (e) {
-      print("ERROR_CreatePaymentIntentAndSubmit: $e");
-      showAlertDialog(context, "Error", "Something went wrong.");
-    }
-    return paymentIntentRes;
-  }
+  // Future<Map<String, dynamic>?> createPaymentIntent(
+  //     StripeCard stripeCard, String? customerEmail) async {
+  //   String? clientSecret;
+  //   Map<String, dynamic>? paymentIntentRes, paymentMethod;
+  //   try {
+  //     paymentMethod = await stripe.api.createPaymentMethodFromCard(stripeCard);
+  //     clientSecret =
+  //         await postCreatePaymentIntent(customerEmail, paymentMethod['id']);
+  //     paymentIntentRes = await stripe.api.retrievePaymentIntent(clientSecret!);
+  //   } catch (e) {
+  //     print("ERROR_CreatePaymentIntentAndSubmit: $e");
+  //     showAlertDialog(context, "Error", "Something went wrong.");
+  //   }
+  //   return paymentIntentRes;
+  // }
 
-  Future<String> postCreatePaymentIntent(
-      String email, String paymentMethodId) async {
-    final amount = (double.parse(widget.amount.toString()) * 100).toInt();
-    final url = Uri.parse(postCreateIntentURL +
-        "?amount=$amount&payment_method_id=$paymentMethodId&email=$email&currency=$stripeCurrency");
-    print("URL is $url");
-    http.Response response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-    );
-    print('response status code => ${response.statusCode}');
-    log('${response.body}');
-    print("---" * 12);
-    final stripeIntentResponse = stripeIntentResponseFromJson(response.body);
-    return stripeIntentResponse.paymentIntent.clientSecret;
-  }
+  // Future<String?> postCreatePaymentIntent(
+  //     String? email, String? paymentMethodId) async {
+  //   final amount = (double.parse(widget.amount.toString()) * 100).toInt();
+  //   final url = Uri.parse(postCreateIntentURL +
+  //       "?amount=$amount&payment_method_id=$paymentMethodId&email=$email&currency=$stripeCurrency");
+  //   print("URL is $url");
+  //   http.Response response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json'},
+  //   );
+  //   print('response status code => ${response.statusCode}');
+  //   log('${response.body}');
+  //   print("---" * 12);
+  //   final stripeIntentResponse = stripeIntentResponseFromJson(response.body);
+  //   return stripeIntentResponse.paymentIntent!.clientSecret;
+  // }
 
-  Future<Map<String, dynamic>> confirmPayment3DSecure(
-      String clientSecret, String paymentMethodId) async {
-    Map<String, dynamic> paymentIntentRes_3dSecure;
-    try {
-      await stripe
-          .confirmPayment(clientSecret, context,
-              paymentMethodId: paymentMethodId)
-          .then((value) {
-        log("_____");
-        log(value.toString());
-        log("_____");
-      });
-      paymentIntentRes_3dSecure =
-          await stripe.api.retrievePaymentIntent(clientSecret);
-    } catch (e) {
-      print("ERROR_ConfirmPayment3DSecure: $e");
-      setState(() {
-        paymentLoading = false;
-      });
-      showAlertDialog(context, "Error", "$e");
-    }
-    return paymentIntentRes_3dSecure;
-  }
-
-  String getCustomerEmail() {
-    String customerEmail;
-    //Define how to get this info.
-    // -Ask to the customer through a textfield.
-    // -Get it from firebase Account.
-    customerEmail = "alessandro.berti@me.it";
-    return customerEmail;
-  }
+  // Future<Map<String, dynamic>?> confirmPayment3DSecure(
+  //     String clientSecret, String? paymentMethodId) async {
+  //   Map<String, dynamic>? paymentIntentRes_3dSecure;
+  //   try {
+  //     await stripe
+  //         .confirmPayment(clientSecret,
+  //             paymentMethodId: paymentMethodId)
+  //         .then((value) {
+  //       log("_____");
+  //       log(value.toString());
+  //       log("_____");
+  //     });
+  //     paymentIntentRes_3dSecure =
+  //         await stripe.api.retrievePaymentIntent(clientSecret);
+  //   } catch (e) {
+  //     print("ERROR_ConfirmPayment3DSecure: $e");
+  //     setState(() {
+  //       paymentLoading = false;
+  //     });
+  //     showAlertDialog(context, "Error", "$e");
+  //   }
+  //   return paymentIntentRes_3dSecure;
+  // }
+  //
+  // String getCustomerEmail() {
+  //   String customerEmail;
+  //   //Define how to get this info.
+  //   // -Ask to the customer through a textfield.
+  //   // -Get it from firebase Account.
+  //   customerEmail = "alessandro.berti@me.it";
+  //   return customerEmail;
+  // }
 
   showAlertDialog(BuildContext context, String title, String message) {
     setState(() {
@@ -302,7 +302,7 @@ class StripeIntentResponse {
     this.paymentIntent,
   });
 
-  PaymentIntent paymentIntent;
+  PaymentIntent? paymentIntent;
 
   factory StripeIntentResponse.fromJson(Map<String, dynamic> json) =>
       StripeIntentResponse(
@@ -310,7 +310,7 @@ class StripeIntentResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "paymentIntent": paymentIntent.toJson(),
+        "paymentIntent": paymentIntent!.toJson(),
       };
 }
 
@@ -354,40 +354,40 @@ class PaymentIntent {
     this.transferGroup,
   });
 
-  String id;
-  String object;
-  int amount;
-  int amountCapturable;
-  int amountReceived;
+  String? id;
+  String? object;
+  int? amount;
+  int? amountCapturable;
+  int? amountReceived;
   dynamic application;
   dynamic applicationFeeAmount;
   dynamic canceledAt;
   dynamic cancellationReason;
-  String captureMethod;
-  Charges charges;
-  String clientSecret;
-  String confirmationMethod;
-  int created;
-  String currency;
+  String? captureMethod;
+  Charges? charges;
+  String? clientSecret;
+  String? confirmationMethod;
+  int? created;
+  String? currency;
   dynamic customer;
   dynamic description;
   dynamic invoice;
   dynamic lastPaymentError;
-  bool livemode;
-  Metadata metadata;
+  bool? livemode;
+  Metadata? metadata;
   dynamic nextAction;
   dynamic onBehalfOf;
-  String paymentMethod;
-  PaymentMethodOptions paymentMethodOptions;
-  List<String> paymentMethodTypes;
-  String receiptEmail;
+  String? paymentMethod;
+  PaymentMethodOptions? paymentMethodOptions;
+  List<String>? paymentMethodTypes;
+  String? receiptEmail;
   dynamic review;
   dynamic setupFutureUsage;
   dynamic shipping;
   dynamic source;
   dynamic statementDescriptor;
   dynamic statementDescriptorSuffix;
-  String status;
+  String? status;
   dynamic transferData;
   dynamic transferGroup;
 
@@ -443,7 +443,7 @@ class PaymentIntent {
         "canceled_at": canceledAt,
         "cancellation_reason": cancellationReason,
         "capture_method": captureMethod,
-        "charges": charges.toJson(),
+        "charges": charges!.toJson(),
         "client_secret": clientSecret,
         "confirmation_method": confirmationMethod,
         "created": created,
@@ -453,13 +453,13 @@ class PaymentIntent {
         "invoice": invoice,
         "last_payment_error": lastPaymentError,
         "livemode": livemode,
-        "metadata": metadata.toJson(),
+        "metadata": metadata!.toJson(),
         "next_action": nextAction,
         "on_behalf_of": onBehalfOf,
         "payment_method": paymentMethod,
-        "payment_method_options": paymentMethodOptions.toJson(),
+        "payment_method_options": paymentMethodOptions!.toJson(),
         "payment_method_types":
-            List<dynamic>.from(paymentMethodTypes.map((x) => x)),
+            List<dynamic>.from(paymentMethodTypes!.map((x) => x)),
         "receipt_email": receiptEmail,
         "review": review,
         "setup_future_usage": setupFutureUsage,
@@ -482,11 +482,11 @@ class Charges {
     this.url,
   });
 
-  String object;
-  List<dynamic> data;
-  bool hasMore;
-  int totalCount;
-  String url;
+  String? object;
+  List<dynamic>? data;
+  bool? hasMore;
+  int? totalCount;
+  String? url;
 
   factory Charges.fromJson(Map<String, dynamic> json) => Charges(
         object: json["object"],
@@ -498,7 +498,7 @@ class Charges {
 
   Map<String, dynamic> toJson() => {
         "object": object,
-        "data": List<dynamic>.from(data.map((x) => x)),
+        "data": List<dynamic>.from(data!.map((x) => x)),
         "has_more": hasMore,
         "total_count": totalCount,
         "url": url,
@@ -508,7 +508,7 @@ class Charges {
 class Metadata {
   Metadata();
 
-  factory Metadata.fromJson(Map<String, dynamic> json) => Metadata();
+  factory Metadata.fromJson(Map<String, dynamic>? json) => Metadata();
 
   Map<String, dynamic> toJson() => {};
 }
@@ -518,7 +518,7 @@ class PaymentMethodOptions {
     this.card,
   });
 
-  Card card;
+  Card? card;
 
   factory PaymentMethodOptions.fromJson(Map<String, dynamic> json) =>
       PaymentMethodOptions(
@@ -526,7 +526,7 @@ class PaymentMethodOptions {
       );
 
   Map<String, dynamic> toJson() => {
-        "card": card.toJson(),
+        "card": card!.toJson(),
       };
 }
 
@@ -539,7 +539,7 @@ class Card {
 
   dynamic installments;
   dynamic network;
-  String requestThreeDSecure;
+  String? requestThreeDSecure;
 
   factory Card.fromJson(Map<String, dynamic> json) => Card(
         installments: json["installments"],

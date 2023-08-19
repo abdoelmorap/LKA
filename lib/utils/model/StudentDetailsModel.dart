@@ -17,8 +17,8 @@ class StudentDetailsModel {
     this.message,
   });
 
-  bool success;
-  StudentData studentData;
+  bool? success;
+  StudentData? studentData;
   dynamic message;
 
   factory StudentDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -30,7 +30,7 @@ class StudentDetailsModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": studentData.toJson(),
+        "data": studentData!.toJson(),
         "message": message,
       };
 }
@@ -44,11 +44,11 @@ class StudentData {
     this.transport,
   });
 
-  User user;
-  UserDetails userDetails;
-  BloodGroup religion;
-  BloodGroup bloodGroup;
-  Transport transport;
+  User? user;
+  UserDetails? userDetails;
+  BloodGroup? religion;
+  BloodGroup? bloodGroup;
+  Transport? transport;
 
   factory StudentData.fromJson(Map<String, dynamic> json) => StudentData(
         user: User.fromJson(json["user"]),
@@ -65,11 +65,11 @@ class StudentData {
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
-        "userDetails": userDetails.toJson(),
-        "religion": religion.toJson(),
-        "blood_group": bloodGroup.toJson(),
-        "transport": transport.toJson(),
+        "user": user!.toJson(),
+        "userDetails": userDetails!.toJson(),
+        "religion": religion!.toJson(),
+        "blood_group": bloodGroup!.toJson(),
+        "transport": transport!.toJson(),
       };
 }
 
@@ -81,9 +81,9 @@ class Transport {
     this.note,
   });
 
-  String vehicleNo;
-  String vehicleModel;
-  String driverName;
+  String? vehicleNo;
+  String? vehicleModel;
+  String? driverName;
   dynamic note;
 
   factory Transport.fromJson(Map<String, dynamic> json) => Transport(
@@ -106,7 +106,7 @@ class BloodGroup {
     this.name,
   });
 
-  String name;
+  String? name;
 
   factory BloodGroup.fromJson(Map<String, dynamic> json) => BloodGroup(
         name: json["name"],
@@ -178,23 +178,23 @@ class User {
     this.studentRecords,
   });
 
-  int id;
-  int admissionNo;
-  int rollNo;
-  String firstName;
-  String lastName;
-  String fullName;
-  String dateOfBirth;
+  int? id;
+  int? admissionNo;
+  int? rollNo;
+  String? firstName;
+  String? lastName;
+  String? fullName;
+  String? dateOfBirth;
   dynamic caste;
-  String email;
-  String mobile;
-  DateTime admissionDate;
-  String studentPhoto;
-  int age;
+  String? email;
+  String? mobile;
+  DateTime? admissionDate;
+  String? studentPhoto;
+  int? age;
   dynamic height;
   dynamic weight;
-  String currentAddress;
-  String permanentAddress;
+  String? currentAddress;
+  String? permanentAddress;
   dynamic driverId;
   dynamic nationalIdNo;
   dynamic localIdNo;
@@ -204,20 +204,20 @@ class User {
   dynamic aditionalNotes;
   dynamic ifscCode;
   dynamic documentTitle1;
-  String documentFile1;
+  String? documentFile1;
   dynamic documentTitle2;
-  String documentFile2;
+  String? documentFile2;
   dynamic documentTitle3;
-  String documentFile3;
+  String? documentFile3;
   dynamic documentTitle4;
-  String documentFile4;
-  int activeStatus;
+  String? documentFile4;
+  int? activeStatus;
   dynamic customField;
   dynamic customFieldFormName;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int bloodgroupId;
-  int religionId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? bloodgroupId;
+  int? religionId;
   dynamic routeListId;
   dynamic dormitoryId;
   dynamic vechileId;
@@ -227,14 +227,14 @@ class User {
   dynamic classId;
   dynamic sectionId;
   dynamic sessionId;
-  int parentId;
-  int userId;
-  int roleId;
-  int genderId;
-  int schoolId;
-  int academicId;
-  Parents parents;
-  List<StudentRecord> studentRecords;
+  int? parentId;
+  int? userId;
+  int? roleId;
+  int? genderId;
+  int? schoolId;
+  int? academicId;
+  Parents? parents;
+  List<StudentRecord>? studentRecords;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -309,7 +309,7 @@ class User {
         "email": email,
         "mobile": mobile,
         "admission_date":
-            "${admissionDate.year.toString().padLeft(4, '0')}-${admissionDate.month.toString().padLeft(2, '0')}-${admissionDate.day.toString().padLeft(2, '0')}",
+            "${admissionDate!.year.toString().padLeft(4, '0')}-${admissionDate!.month.toString().padLeft(2, '0')}-${admissionDate!.day.toString().padLeft(2, '0')}",
         "student_photo": studentPhoto,
         "age": age,
         "height": height,
@@ -335,8 +335,8 @@ class User {
         "active_status": activeStatus,
         "custom_field": customField,
         "custom_field_form_name": customFieldFormName,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "bloodgroup_id": bloodgroupId,
         "religion_id": religionId,
         "route_list_id": routeListId,
@@ -354,9 +354,9 @@ class User {
         "gender_id": genderId,
         "school_id": schoolId,
         "academic_id": academicId,
-        "parents": parents.toJson(),
+        "parents": parents!.toJson(),
         "student_records":
-            List<dynamic>.from(studentRecords.map((x) => x.toJson())),
+            List<dynamic>.from(studentRecords!.map((x) => x.toJson())),
       };
 }
 
@@ -389,31 +389,31 @@ class Parents {
     this.parentUser,
   });
 
-  int id;
+  int? id;
   dynamic fathersName;
   dynamic fathersMobile;
   dynamic fathersOccupation;
-  String fathersPhoto;
+  String? fathersPhoto;
   dynamic mothersName;
   dynamic mothersMobile;
   dynamic mothersOccupation;
-  String mothersPhoto;
-  String relation;
-  String guardiansName;
-  String guardiansMobile;
-  String guardiansEmail;
-  String guardiansOccupation;
-  String guardiansRelation;
-  String guardiansPhoto;
-  String guardiansAddress;
+  String? mothersPhoto;
+  String? relation;
+  String? guardiansName;
+  String? guardiansMobile;
+  String? guardiansEmail;
+  String? guardiansOccupation;
+  String? guardiansRelation;
+  String? guardiansPhoto;
+  String? guardiansAddress;
   dynamic isGuardian;
-  int activeStatus;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int userId;
-  int schoolId;
-  int academicId;
-  ParentUser parentUser;
+  int? activeStatus;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? userId;
+  int? schoolId;
+  int? academicId;
+  ParentUser? parentUser;
 
   factory Parents.fromJson(Map<String, dynamic> json) => Parents(
         id: json["id"],
@@ -463,12 +463,12 @@ class Parents {
         "guardians_address": guardiansAddress,
         "is_guardian": isGuardian,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "user_id": userId,
         "school_id": schoolId,
         "academic_id": academicId,
-        "parent_user": parentUser.toJson(),
+        "parent_user": parentUser!.toJson(),
       };
 }
 
@@ -508,38 +508,38 @@ class ParentUser {
     this.blockedByMe,
   });
 
-  int id;
+  int? id;
   dynamic fullName;
-  String username;
-  String email;
+  String? username;
+  String? email;
   dynamic usertype;
-  int activeStatus;
+  int? activeStatus;
   dynamic randomCode;
   dynamic notificationToken;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String language;
-  int styleId;
-  int rtlLtl;
-  int selectedSession;
-  int createdBy;
-  int updatedBy;
-  int accessStatus;
-  int schoolId;
-  int roleId;
-  String isAdministrator;
-  int isRegistered;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? language;
+  int? styleId;
+  int? rtlLtl;
+  int? selectedSession;
+  int? createdBy;
+  int? updatedBy;
+  int? accessStatus;
+  int? schoolId;
+  int? roleId;
+  String? isAdministrator;
+  int? isRegistered;
   dynamic deviceToken;
   dynamic stripeId;
   dynamic cardBrand;
   dynamic cardLastFour;
   dynamic verified;
   dynamic trialEndsAt;
-  int walletBalance;
-  String phoneNumber;
+  int? walletBalance;
+  String? phoneNumber;
   dynamic firstName;
-  String avatarUrl;
-  bool blockedByMe;
+  String? avatarUrl;
+  bool? blockedByMe;
 
   factory ParentUser.fromJson(Map<String, dynamic> json) => ParentUser(
         id: json["id"],
@@ -585,8 +585,8 @@ class ParentUser {
         "active_status": activeStatus,
         "random_code": randomCode,
         "notificationToken": notificationToken,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "language": language,
         "style_id": styleId,
         "rtl_ltl": rtlLtl,
@@ -628,18 +628,18 @@ class StudentRecord {
     this.isDefault,
   });
 
-  int id;
-  int classId;
-  int sectionId;
-  String rollNo;
-  int isPromote;
-  int sessionId;
-  int schoolId;
-  int academicId;
-  int studentId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int isDefault;
+  int? id;
+  int? classId;
+  int? sectionId;
+  String? rollNo;
+  int? isPromote;
+  int? sessionId;
+  int? schoolId;
+  int? academicId;
+  int? studentId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? isDefault;
 
   factory StudentRecord.fromJson(Map<String, dynamic> json) => StudentRecord(
         id: json["id"],
@@ -666,8 +666,8 @@ class StudentRecord {
         "school_id": schoolId,
         "academic_id": academicId,
         "student_id": studentId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "is_default": isDefault,
       };
 }
@@ -689,18 +689,18 @@ class UserDetails {
     this.mothersMobile,
   });
 
-  int id;
-  int userId;
-  String fullName;
+  int? id;
+  int? userId;
+  String? fullName;
   dynamic phoneNumber;
-  int admissionNo;
-  List<String> classSection;
+  int? admissionNo;
+  List<String>? classSection;
   dynamic fatherName;
   dynamic fathersMobile;
   dynamic motherName;
-  String guardiansName;
-  String guardiansMobile;
-  String guardiansEmail;
+  String? guardiansName;
+  String? guardiansMobile;
+  String? guardiansEmail;
   dynamic mothersMobile;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
@@ -725,7 +725,7 @@ class UserDetails {
         "full_name": fullName,
         "phone_number": phoneNumber,
         "admission_no": admissionNo,
-        "class_section": List<dynamic>.from(classSection.map((x) => x)),
+        "class_section": List<dynamic>.from(classSection!.map((x) => x)),
         "father_name": fatherName,
         "fathers_mobile": fathersMobile,
         "mother_name": motherName,

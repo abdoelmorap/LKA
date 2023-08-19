@@ -12,8 +12,8 @@ class ClassExamSchedule {
     this.message,
   });
 
-  bool success;
-  List<ClassExamList> data;
+  bool? success;
+  List<ClassExamList>? data;
   dynamic message;
 
   factory ClassExamSchedule.fromJson(Map<String, dynamic> json) => ClassExamSchedule(
@@ -24,7 +24,7 @@ class ClassExamSchedule {
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "message": message,
   };
 }
@@ -36,7 +36,7 @@ class ClassExamList {
   });
 
   dynamic examId;
-  String examName;
+  String? examName;
 
   factory ClassExamList.fromJson(Map<String, dynamic> json) => ClassExamList(
     examId: json["exam_id"],

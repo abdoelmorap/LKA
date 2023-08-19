@@ -1,5 +1,5 @@
 class AdminRoomType {
-  String title;
+  String? title;
   dynamic id;
 
   AdminRoomType({this.title, this.id});

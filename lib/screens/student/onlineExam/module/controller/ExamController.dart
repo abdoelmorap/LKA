@@ -15,7 +15,7 @@ class ExamController extends GetxController {
 
   RxBool isLoading = false.obs;
 
-  Future getAllActiveExam(var id, int recordId) async {
+  Future getAllActiveExam(var id, int? recordId) async {
     try {
       log("URL => ${InfixApi.getOnlineExamModule(id, recordId, _userController.schoolId.value)}");
       isLoading(true);
@@ -45,7 +45,7 @@ class ExamController extends GetxController {
   @override
   void onInit() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     super.onInit();
   }
 }

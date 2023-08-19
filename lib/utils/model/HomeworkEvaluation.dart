@@ -1,15 +1,15 @@
 class StudentHomeworkEvaluation {
   dynamic id;
-  String homeworkDate;
-  String submissionDate;
-  String evaluationDate;
-  String createdBy;
-  String homeworkDetailClass;
-  String section;
-  String subjectName;
-  String marks;
-  String file;
-  String description;
+  String? homeworkDate;
+  String? submissionDate;
+  String? evaluationDate;
+  String? createdBy;
+  String? homeworkDetailClass;
+  String? section;
+  String? subjectName;
+  String? marks;
+  String? file;
+  String? description;
 
   StudentHomeworkEvaluation(
       {this.id,
@@ -57,13 +57,13 @@ class StudentEvaluation {
 
   dynamic id;
   dynamic studentId;
-  String studentName;
+  String? studentName;
   dynamic admissionNo;
   dynamic homeworkId;
   dynamic marks;
-  String teacherComments;
-  String completeStatus;
-  String evaluationStatus;
+  String? teacherComments;
+  String? completeStatus;
+  String? evaluationStatus;
   dynamic file;
 
   // ignore: missing_return

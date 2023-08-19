@@ -19,7 +19,7 @@ class PaymentStatusScreen extends StatefulWidget {
 class _PaymentStatusScreenState extends State<PaymentStatusScreen>
     with SingleTickerProviderStateMixin {
   double _fraction = 0.0;
-  Animation<double> animation;
+  late Animation<double> animation;
 
   @override
   void initState() {
@@ -68,9 +68,9 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen>
 }
 
 class DrawCircle extends CustomPainter {
-  double _fraction;
+ late double _fraction;
 
-  Paint _paint, _paint1;
+ late Paint _paint, _paint1;
 
   DrawCircle(this._fraction) {
     _paint = Paint()

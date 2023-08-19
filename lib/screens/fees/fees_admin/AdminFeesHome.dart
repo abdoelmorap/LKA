@@ -13,7 +13,7 @@ class AdminFeesHome extends StatefulWidget {
   var _titles;
   var _images;
   dynamic id;
-  String profileImage;
+  String? profileImage;
 
   AdminFeesHome(this._titles, this._images);
 
@@ -22,7 +22,7 @@ class AdminFeesHome extends StatefulWidget {
 }
 
 class _AdminFeesHomeState extends State<AdminFeesHome> {
-  bool isTapped;
+  bool? isTapped;
   dynamic currentSelectedIndex;
   var _titles;
   var _images;
@@ -56,7 +56,7 @@ class _AdminFeesHomeState extends State<AdminFeesHome> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  if (_systemController.systemSettings.value.data.feesStatus ==
+                  if (_systemController.systemSettings.value.data!.feesStatus ==
                       0) {
                     print('old fees');
                     AppFunction.getAdminFeePage(context, _titles[index]);

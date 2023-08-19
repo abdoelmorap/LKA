@@ -16,13 +16,13 @@ class FeesTypeScreen extends StatefulWidget {
 }
 
 class _FeesTypeScreenState extends State<FeesTypeScreen> {
-  Future<FeeTypeList> fees;
+  Future<FeeTypeList>? fees;
 
-  String _token;
+  String? _token;
 
-  TextEditingController titleController, descripController;
+  TextEditingController? titleController, descripController;
 
-  int selectedFeeGroup;
+  int? selectedFeeGroup;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
       setState(() {
         _token = value;
         fees = getFeesTypes();
-        fees.then((value) async {
+        fees!.then((value) async {
           getFeesGroups().then((value) {
             setState(() {
               selectedFeeGroup = value.feeGroups.first.id;
@@ -83,9 +83,9 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: snapshot.data.feeTypes.length,
+                itemCount: snapshot.data!.feeTypes.length,
                 itemBuilder: (context, index) {
-                  FeeType feeType = snapshot.data.feeTypes[index];
+                  FeeType feeType = snapshot.data!.feeTypes[index];
 
                   return ListTile(
                     title: Text(
@@ -122,9 +122,9 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                 fees = getFeesTypes();
                               });
                               Utils.showToast('Deleted successfully');
-                              return true;
+                              // return true;
                             } else {
-                              return false;
+                              // return false;
                             }
                           },
                           icon: Icon(
@@ -199,7 +199,7 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                 return DropdownMenuItem<int>(
                                   value: item.id,
                                   child: Text(
-                                    item.name,
+                                    item.name!,
                                     style:
                                         Theme.of(context).textTheme.headline4,
                                   ),
@@ -207,9 +207,9 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                               }).toList(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontSize: 13.0),
-                              onChanged: (value) {
+                              onChanged: (dynamic value) {
                                 state(() {
                                   selectedFeeGroup = value;
                                   print(selectedFeeGroup);
@@ -239,8 +239,8 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                     Uri.parse(InfixApi.adminFeesTypeStore),
                                     headers: Utils.setHeader(_token),
                                     body: jsonEncode({
-                                      'name': titleController.text,
-                                      'description': descripController.text,
+                                      'name': titleController!.text,
+                                      'description': descripController!.text,
                                       'fees_group': selectedFeeGroup,
                                     }),
                                   );
@@ -251,9 +251,9 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                       fees = getFeesTypes();
                                     });
                                     Get.back();
-                                    return true;
+                                    // return true;
                                   } else {
-                                    return false;
+                                    // return false;
                                   }
                                 },
                                 child: new Text("Add".tr),
@@ -288,8 +288,8 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
   void showUpdateDialog(FeeType feeType) {
     titleController = TextEditingController();
     descripController = TextEditingController();
-    titleController.text = feeType.name;
-    descripController.text = feeType.description;
+    titleController!.text = feeType.name!;
+    descripController!.text = feeType.description;
 
     Get.dialog(
       Scaffold(
@@ -335,8 +335,8 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                   Uri.parse(InfixApi.adminFeesTypeUpdate),
                                   headers: Utils.setHeader(_token),
                                   body: jsonEncode({
-                                    'name': titleController.text,
-                                    'description': descripController.text,
+                                    'name': titleController!.text,
+                                    'description': descripController!.text,
                                     'id': feeType.id,
                                     'fees_group': selectedFeeGroup
                                   }),
@@ -348,9 +348,9 @@ class _FeesTypeScreenState extends State<FeesTypeScreen> {
                                     fees = getFeesTypes();
                                   });
                                   Get.back();
-                                  return true;
+                                  // return true;
                                 } else {
-                                  return false;
+                                  // return false;
                                 }
                               },
                               child: new Text("Update".tr),

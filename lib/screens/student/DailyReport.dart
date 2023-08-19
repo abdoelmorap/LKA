@@ -21,9 +21,9 @@ class DailyReportScreen extends StatefulWidget {
 }
 
 class _DailyReportScreenState extends State<DailyReportScreen> {
-  Future<DailyReportModel> dailyReport;
-  DateTime mTimeofDay;
-  String _token;
+  Future<DailyReportModel>? dailyReport;
+  late DateTime mTimeofDay;
+  String? _token;
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                           ListView(
                         children: [
                           rowItem(
-                              0xfff39eaa,
+                              0xffffd402,
                               "MOOD".tr,
                               [
                                 "AfterNoon".tr,
@@ -101,16 +101,21 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                 "Noon".tr,
                               ],
                               [
-                                snapshot.data.afternoon,
-                                snapshot.data.morning,
-                                snapshot.data.noon,
+                                snapshot.data!.afternoon,
+                                snapshot.data!.morning,
+                                snapshot.data!.noon,
                               ],
                               [
                                 "assets/images/happy.png",
                                 "assets/images/sad.png",
                                 "assets/images/wizzy.png"
                               ],
-                              60),
+                              60), singelItemComent(
+                              0xfff39eaa,
+                              "Activities".tr,
+                              snapshot.data!.comment.toString(),
+                              "assets/images/comment.png",
+                              70),
                           rowItem(
                               0xff93CFC4,
                               "FOOD".tr,
@@ -120,9 +125,9 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                 "Snack".tr,
                               ],
                               [
-                                snapshot.data.breakfast,
-                                snapshot.data.lunch,
-                                snapshot.data.snack,
+                                snapshot.data!.breakfast,
+                                snapshot.data!.lunch,
+                                snapshot.data!.snack,
                               ],
                               [
                                 "assets/images/plate.png",
@@ -139,9 +144,9 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                 "Juice".tr,
                               ],
                               [
-                                snapshot.data.water,
-                                snapshot.data.milk,
-                                snapshot.data.juice,
+                                snapshot.data!.water,
+                                snapshot.data!.milk,
+                                snapshot.data!.juice,
                               ],
                               [
                                 "assets/images/empty_water.jpeg",
@@ -152,27 +157,22 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                           singelItem(
                               0xfff39eaa,
                               "Hygiene".tr,
-                              "X " + snapshot.data.hygiene.toString(),
+                              "X " + snapshot.data!.hygiene.toString(),
                               "assets/images/shield.png",
                               70),
                           singelItem(
                               0xff93CFC4,
                               "Temperature".tr,
-                              snapshot.data.temperature.toString(),
+                              snapshot.data!.temperature.toString(),
                               "assets/images/Temperature.png",
                               70),
                           singelItem(
                               0xffffd402,
                               "Sleep".tr,
-                              snapshot.data.sleep.toString() + " Minutes",
+                              snapshot.data!.sleep.toString() + " Minutes",
                               "assets/images/sleep.png",
                               70),
-                          singelItemComent(
-                              0xfff39eaa,
-                              "Comment".tr,
-                              snapshot.data.comment.toString(),
-                              "assets/images/comment.png",
-                              70),
+
                           SizedBox(
                             height: 50,
                           )
@@ -192,7 +192,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
   }
 
   Widget rowItem(int color, String title, List<String> titles,
-      List<int> itemStatus, List<String> itemsImages, double width) {
+      List<int?> itemStatus, List<String> itemsImages, double width) {
     return Container(
       margin: const EdgeInsets.fromLTRB(15.0, 10, 15, 0),
       padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
@@ -431,7 +431,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
       print(jsonData[0]);
       try {
         mTimeofDay =
-            DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay);
+            DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay!);
 
         return DailyReportModel.fromJson(jsonData.last);
       } catch (e) {
@@ -440,6 +440,8 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
     } else {
       print('Failed to load');
     }
+    throw('Failed to load');
+
   }
 
   Future<DailyReportModel> getDailyReport() async {
@@ -454,7 +456,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
       print(jsonData[0]);
       try {
         mTimeofDay =
-            DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay);
+            DateTime.parse(DailyReportModel.fromJson(jsonData.last).dateOfDay!);
 
         return DailyReportModel.fromJson(jsonData.last);
       } catch (e) {
@@ -463,5 +465,6 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
     } else {
       print('Failed to load');
     }
+    throw('Failed to load');
   }
 }

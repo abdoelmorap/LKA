@@ -16,9 +16,9 @@ import 'package:rxdart/rxdart.dart';
 import '../../utils/CustomAppBarWidget.dart';
 
 class ImagePst extends StatefulWidget {
-  final String id;
+  final String? id;
 
-  const ImagePst({Key key, this.id}) : super(key: key);
+  const ImagePst({Key? key, this.id}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ImageStatePst();
@@ -27,7 +27,7 @@ class ImagePst extends StatefulWidget {
 
 class ImageStatePst extends State<ImagePst> {
   TextEditingController postContent = TextEditingController();
-  XFile photo;
+  XFile? photo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,7 @@ class ImageStatePst extends State<ImagePst> {
           child: photo == null
               ? Icon(Icons.import_contacts_sharp)
               : Image.file(
-                  File(photo.path),
+                  File(photo!.path),
                   width: MediaQuery.of(context).size.width,
                 ),
         ),
@@ -75,7 +75,7 @@ class ImageStatePst extends State<ImagePst> {
         Container(
           child: ElevatedButton(
               onPressed: () async {
-                BuildContext myCtxr;
+                late BuildContext myCtxr;
                 showDialog(
                     context: context,
                     builder: (ctxr) {
@@ -84,8 +84,8 @@ class ImageStatePst extends State<ImagePst> {
                         content: CircularProgressIndicator(),
                       );
                     });
-                String _token = "";
-                _token = await (Utils.getStringValue('token'));
+                String? _token = "";
+                _token = await (Utils.getStringValue('token') as FutureOr<String>);
 
                 print(widget.id);
                 var request = http.MultipartRequest(
@@ -98,13 +98,13 @@ class ImageStatePst extends State<ImagePst> {
                   'Authorization': _token,
                 });
                 image.Image resized_img = image.copyResize(
-                    image.decodeImage((await photo.readAsBytes())),
+                    image.decodeImage((await photo!.readAsBytes()))!,
                     width: 800,
                     height: 800);
                 request.files.add(http.MultipartFile.fromBytes(
                     'image_file', image.encodeJpg(resized_img),
                     contentType: MediaType.parse('image/jpeg'),
-                    filename: photo.path.split("/").last));
+                    filename: photo!.path.split("/").last));
                 // request.files.add(http.MultipartFile(
                 //     'image_file',
                 //     (await FlutterImageCompress.compressWithFile(

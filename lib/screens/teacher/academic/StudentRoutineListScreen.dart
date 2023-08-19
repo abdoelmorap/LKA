@@ -33,11 +33,11 @@ class _StudentRoutineState extends State<StudentRoutine>
 
   var _token;
 
-  TabController tabController;
+  TabController? tabController;
 
   List<Widget> tabs = [];
 
-  Future<DayWiseRoutine> routine;
+  Future<DayWiseRoutine>? routine;
 
   Future<DayWiseRoutine> getRoutine(day) async {
     final response = await http.post(Uri.parse(InfixApi.getDayWiseRoutine),
@@ -47,17 +47,17 @@ class _StudentRoutineState extends State<StudentRoutine>
           'class_id': widget.classCode,
           'section_id': widget.sectionCode,
         }));
-    print(response.request.url.path);
+    print(response.request!.url.path);
     print(response.statusCode);
     if (response.statusCode == 200) {
       var data = dayWiseRoutineFromJson(response.body);
-      weeks.addAll(data.smWeekends);
+      weeks.addAll(data.smWeekends!);
       setState(() {
         tabController =
-            TabController(length: data.smWeekends.length, vsync: this);
+            TabController(length: data.smWeekends!.length, vsync: this);
 
-        data.smWeekends.forEach((element) {
-          tabs.add(Text(element.name));
+        data.smWeekends!.forEach((element) {
+          tabs.add(Text(element.name!));
         });
       });
       return data;
@@ -136,7 +136,7 @@ class _StudentRoutineState extends State<StudentRoutine>
                               "Routine".tr,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
+                                  .subtitle1!
                                   .copyWith(
                                       fontSize: 18.sp, color: Colors.white),
                             ),
@@ -173,7 +173,7 @@ class _StudentRoutineState extends State<StudentRoutine>
                     controller: tabController,
                     children: List.generate(tabs.length, (index) {
                       return RoutineListWidget(
-                        dayId: snapshot.data.smWeekends[index].id,
+                        dayId: snapshot.data!.smWeekends![index].id,
                         classId: widget.classCode,
                         sectionId: widget.sectionCode,
                       );
@@ -188,9 +188,9 @@ class _StudentRoutineState extends State<StudentRoutine>
 }
 
 class RoutineListWidget extends StatelessWidget {
-  final int dayId;
-  final int classId;
-  final int sectionId;
+  final int? dayId;
+  final int? classId;
+  final int? sectionId;
   RoutineListWidget({this.dayId, this.classId, this.sectionId});
 
   Future<DayWiseRoutine> getRoutine() async {
@@ -205,7 +205,7 @@ class RoutineListWidget extends StatelessWidget {
           'class_id': classId,
           'section_id': sectionId,
         }));
-    print(response.request.url.path);
+    print(response.request!.url.path);
     print(response.statusCode);
     if (response.statusCode == 200) {
       var data = dayWiseRoutineFromJson(response.body);
@@ -243,7 +243,7 @@ class RoutineListWidget extends StatelessWidget {
                             'Subject'.tr,
                             textAlign: TextAlign.start,
                             style:
-                                Theme.of(context).textTheme.subtitle1.copyWith(
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
@@ -255,7 +255,7 @@ class RoutineListWidget extends StatelessWidget {
                             'Time'.tr,
                             textAlign: TextAlign.start,
                             style:
-                                Theme.of(context).textTheme.subtitle1.copyWith(
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
@@ -267,7 +267,7 @@ class RoutineListWidget extends StatelessWidget {
                             'Room'.tr,
                             textAlign: TextAlign.start,
                             style:
-                                Theme.of(context).textTheme.subtitle1.copyWith(
+                                Theme.of(context).textTheme.subtitle1!.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
@@ -279,31 +279,31 @@ class RoutineListWidget extends StatelessWidget {
                     Expanded(
                       child: ListView.separated(
                           shrinkWrap: true,
-                          itemCount: snapshot.data.classRoutines.length,
+                          itemCount: snapshot.data!.classRoutines!.length,
                           separatorBuilder: (context, index) {
                             return SizedBox(
                               height: 10,
                             );
                           },
                           itemBuilder: (context, routineIndex) {
-                            var getSubjectName = snapshot.data.subjects
+                            var getSubjectName = snapshot.data!.subjects!
                                 .where((element) =>
                                     element.id ==
-                                    snapshot.data.classRoutines[routineIndex]
+                                    snapshot.data!.classRoutines![routineIndex]
                                         .subjectId)
                                 .first;
-                            var getRoomNumber = snapshot.data.rooms
+                            var getRoomNumber = snapshot.data!.rooms!
                                 .where((element) =>
                                     element.id ==
-                                    snapshot.data.classRoutines[routineIndex]
+                                    snapshot.data!.classRoutines![routineIndex]
                                         .roomId)
                                 .first;
                             var startTime = DateFormat.jm().format(
-                                DateFormat("hh:mm:ss").parse(snapshot.data
-                                    .classRoutines[routineIndex].startTime));
+                                DateFormat("hh:mm:ss").parse(snapshot.data!
+                                    .classRoutines![routineIndex].startTime!));
                             var endTime = DateFormat.jm().format(
                                 DateFormat("hh:mm:ss").parse(snapshot
-                                    .data.classRoutines[routineIndex].endTime));
+                                    .data!.classRoutines![routineIndex].endTime!));
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,7 +315,7 @@ class RoutineListWidget extends StatelessWidget {
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 14,
@@ -329,7 +329,7 @@ class RoutineListWidget extends StatelessWidget {
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 14,
@@ -343,7 +343,7 @@ class RoutineListWidget extends StatelessWidget {
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle1
+                                        .subtitle1!
                                         .copyWith(
                                           fontWeight: FontWeight.w100,
                                           fontSize: 14,

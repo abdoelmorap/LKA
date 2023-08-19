@@ -30,40 +30,40 @@ class AddContentScreeen extends StatefulWidget {
 }
 
 class _AddContentScreeenState extends State<AddContentScreeen> {
-  String _id;
+  String? _id;
   dynamic classId;
   dynamic subjectId;
   dynamic sectionId;
-  String _selectedClass;
-  String _selectedSection;
-  String _selectedContentType;
-  String _selectedaAssignDate;
+  String? _selectedClass;
+  String? _selectedSection;
+  String? _selectedContentType;
+  String? _selectedaAssignDate;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  Future<ClassList> classes;
-  Future<SectionList> sections;
-  Future<TeacherSubjectList> subjects;
-  TeacherSubjectList subjectList;
-  DateTime date;
+  Future<ClassList>? classes;
+  Future<SectionList>? sections;
+  Future<TeacherSubjectList>? subjects;
+  TeacherSubjectList? subjectList;
+  late DateTime date;
   String maxDateTime = '2031-11-25';
   String initDateTime = '2019-05-17';
-  String _format;
-  DateTime _dateTime;
+  String? _format;
+  DateTime? _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
-  File _file;
+  File? _file;
   bool isResponse = false;
-  Response response;
+  late Response response;
   Dio dio = new Dio();
   var contentType = [
     'Assignment'.tr,
     'Syllabus'.tr,
     'Other Downloads'.tr
   ];
-  String radioStr = 'admin';
-  int allClasses = 0;
+  String? radioStr = 'admin';
+  int? allClasses = 0;
 
-  String _token;
-  String _schoolId;
+  String? _token;
+  String? _schoolId;
 
   @override
   void initState() {
@@ -87,13 +87,13 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
       Utils.getStringValue('id').then((value) {
         setState(() {
           _id = value;
-          classes = getAllClass(int.parse(_id));
-          classes.then((value) {
+          classes = getAllClass(int.parse(_id!));
+          classes!.then((value) {
             _selectedClass = value.classes[0].name;
             classId = value.classes[0].id;
             _selectedContentType = 'Assignment'.tr;
-            sections = getAllSection(int.parse(_id), classId);
-            sections.then((sectionValue) {
+            sections = getAllSection(int.parse(_id!), classId);
+            sections!.then((sectionValue) {
               _selectedSection = sectionValue.sections[0].name;
               sectionId = sectionValue.sections[0].id;
             });
@@ -130,7 +130,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                   "Save".tr,
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headline4!
                       .copyWith(color: Colors.white),
                 ),
               ),
@@ -140,7 +140,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
 
                 if (title.isNotEmpty &&
                     description.isNotEmpty &&
-                    _file.path.isNotEmpty) {
+                    _file!.path.isNotEmpty) {
                   setState(() {
                     isResponse = true;
                   });
@@ -201,7 +201,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                         'Available for'.tr,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: ScreenUtil().setSp(12)),
                       ),
                     ),
@@ -210,10 +210,10 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                       title: Text("All Admin".tr,
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: ScreenUtil().setSp(12))),
                       value: 'admin',
-                      onChanged: (val) {
+                      onChanged: (dynamic val) {
                         setState(() {
                           radioStr = val;
                           allClasses = 0;
@@ -235,11 +235,11 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                         child: Text("Student".tr,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headline4!
                                 .copyWith(fontSize: ScreenUtil().setSp(12))),
                       ),
                       value: 'student',
-                      onChanged: (val) {
+                      onChanged: (dynamic val) {
                         setState(() {
                           radioStr = val;
                         });
@@ -277,7 +277,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                               setState(() {
                                 _dateTime = dateTime;
                                 _selectedaAssignDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime!.year}-${getAbsoluteDate(_dateTime!.month)}-${getAbsoluteDate(_dateTime!.day)}';
                               });
                             });
                           },
@@ -294,10 +294,10 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                 child: Text(
                                   _selectedaAssignDate == null
                                       ? 'Assign Date'.tr
-                                      : _selectedaAssignDate,
+                                      : _selectedaAssignDate!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12)),
                                 ),
@@ -338,10 +338,10 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                 child: Text(
                                   _file == null
                                       ? 'Select file'.tr
-                                      : _file.path.split('/').last,
+                                      : _file!.path.split('/').last,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           fontSize: ScreenUtil().setSp(12)),
                                   maxLines: 2,
@@ -351,7 +351,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                             Text('Browse'.tr,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headline4!
                                     .copyWith(
                                         decoration: TextDecoration.underline)),
                           ],
@@ -415,8 +415,8 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 15.0),
-        onChanged: (value) {
+        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 15.0),
+        onChanged: (dynamic value) {
           setState(() {
             _selectedContentType = value;
           });
@@ -437,9 +437,9 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
       "created_by": '$_id',
       "all_classes": '$allClasses',
       "content_title": titleController.text,
-      "content_type": _selectedContentType.toLowerCase().substring(0, 2),
+      "content_type": _selectedContentType!.toLowerCase().substring(0, 2),
       "attach_file":
-          await MultipartFile.fromFile(_file.path, filename: _file.path),
+          await MultipartFile.fromFile(_file!.path, filename: _file!.path),
     });
     response = await dio.post(
       InfixApi.uploadContent,
@@ -476,9 +476,9 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     }
   }
 
-  int getCode<T>(T t, String title) {
-    int code;
-    for (var cls in t) {
+  int? getCode(List t, String? title) {
+    int? code;
+    for (var cls in t ) {
       if (cls.name == title) {
         code = cls.id;
         break;
@@ -546,10 +546,10 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                       title: Text("All Student".tr,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(fontSize: 15.0)),
                                       value: 1,
-                                      onChanged: (val) {
+                                      onChanged: (dynamic val) {
                                         setState(() {
                                           allClasses = val;
                                         });
@@ -573,29 +573,29 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                     child: DropdownButton(
                                       elevation: 0,
                                       isExpanded: true,
-                                      items: snapshot.data.classes.map((item) {
+                                      items: snapshot.data!.classes.map((item) {
                                         return DropdownMenuItem<String>(
                                           value: item.name,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 8.0),
-                                            child: Text(item.name),
+                                            child: Text(item.name!),
                                           ),
                                         );
                                       }).toList(),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(fontSize: 15.0),
-                                      onChanged: (value) {
+                                      onChanged: (dynamic value) {
                                         setState(() {
                                           _selectedClass = value;
                                           classId = getCode(
-                                              snapshot.data.classes, value);
+                                              snapshot.data!.classes, value);
 
                                           sections = getAllSection(
-                                              int.parse(_id), classId);
-                                          sections.then((sectionValue) {
+                                              int.parse(_id!), classId);
+                                          sections!.then((sectionValue) {
                                             _selectedSection =
                                                 sectionValue.sections[0].name;
                                             sectionId =
@@ -618,7 +618,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                           child: DropdownButton(
                                             elevation: 0,
                                             isExpanded: true,
-                                            items: secSnap.data.sections
+                                            items: secSnap.data!.sections
                                                 .map((item) {
                                               return DropdownMenuItem<String>(
                                                 value: item.name,
@@ -626,20 +626,20 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 8.0),
-                                                  child: Text(item.name),
+                                                  child: Text(item.name!),
                                                 ),
                                               );
                                             }).toList(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline4
+                                                .headline4!
                                                 .copyWith(fontSize: 15.0),
-                                            onChanged: (value) {
+                                            onChanged: (dynamic value) {
                                               setState(() {
                                                 _selectedSection = value;
 
                                                 sectionId = getCode(
-                                                    secSnap.data.sections,
+                                                    secSnap.data!.sections,
                                                     value);
                                               });
                                             },
@@ -668,7 +668,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                           "Confirm".tr,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline5
+                                              .headline5!
                                               .copyWith(color: Colors.white),
                                         ),
                                       ),
@@ -711,10 +711,10 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
   }
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled');

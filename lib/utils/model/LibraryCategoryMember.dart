@@ -1,6 +1,6 @@
 class LibraryMember {
   dynamic id;
-  String name;
+  String? name;
 
   LibraryMember({this.id, this.name});
 

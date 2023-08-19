@@ -14,8 +14,8 @@ import 'package:infixedu/screens/fees/model/StudentAddPaymentModel.dart';
 import 'package:intl/intl.dart';
 
 class FeesAddPaymentScreen extends StatefulWidget {
-  final int invoiceId;
-  final Function updateData;
+  final int? invoiceId;
+  final Function? updateData;
   FeesAddPaymentScreen({this.invoiceId, this.updateData});
 
   @override
@@ -31,16 +31,16 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
     super.initState();
   }
 
-  File _file;
+  File? _file;
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
     );
     if (result != null) {
       setState(() {
-        _file = File(result.files.single.path);
+        _file = File(result.files.single.path!);
       });
     } else {
       Utils.showToast('Cancelled');
@@ -89,29 +89,29 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                             ),
                             Text(
                               'Invoice'.tr +
-                                  ": ${_controller.addPaymentModel.value.invoiceInfo.invoiceId}",
+                                  ": ${_controller.addPaymentModel.value.invoiceInfo!.invoiceId}",
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             Text(
                               'Due Date'.tr +
-                                  ": ${DateFormat.yMMMd().format(_controller.addPaymentModel.value.invoiceInfo.dueDate)}",
+                                  ": ${DateFormat.yMMMd().format(_controller.addPaymentModel.value.invoiceInfo!.dueDate!)}",
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
                             Text(
                               'Wallet Balance'.tr +
-                                  ": ${_controller.addPaymentModel.value.invoiceInfo.studentInfo.user.walletBalance.toStringAsFixed(2)}",
+                                  ": ${_controller.addPaymentModel.value.invoiceInfo!.studentInfo!.user!.walletBalance!.toStringAsFixed(2)}",
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                             Obx(() {
@@ -122,7 +122,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                                   maxLines: 1,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 );
                               } else {
@@ -131,7 +131,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                                   maxLines: 1,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 );
                               }
@@ -148,7 +148,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     ListView.separated(
@@ -158,10 +158,10 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                         return Divider();
                       },
                       itemCount: _controller
-                          .addPaymentModel.value.invoiceDetails.length,
+                          .addPaymentModel.value.invoiceDetails!.length,
                       itemBuilder: (context, index) {
                         InvoiceDetail invoiceDetails = _controller
-                            .addPaymentModel.value.invoiceDetails[index];
+                            .addPaymentModel.value.invoiceDetails![index];
 
                         return FeesListRow(
                             invoiceDetails: invoiceDetails, index: index);
@@ -178,21 +178,21 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                           "Select Payment Method.".tr,
                           style: Theme.of(context).textTheme.headline4,
                         ),
-                        items: _controller.addPaymentModel.value.paymentMethods
+                        items: _controller.addPaymentModel.value.paymentMethods!
                             .map((item) {
                           return DropdownMenuItem<String>(
                             value: item.paymentMethod,
                             child: Text(
-                              item.paymentMethod,
+                              item.paymentMethod!,
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           );
                         }).toList(),
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontSize: 13.0),
-                        onChanged: (value) {
+                        onChanged: (dynamic value) {
                           _controller.selectedPaymentMethod.value = value;
 
                           _controller.chequeBankOrOthers();
@@ -212,7 +212,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                             "Select Bank".tr,
                             style: Theme.of(context).textTheme.headline4,
                           ),
-                          items: _controller.addPaymentModel.value.bankAccounts
+                          items: _controller.addPaymentModel.value.bankAccounts!
                               .map((item) {
                             return DropdownMenuItem<BankAccount>(
                               value: item,
@@ -224,9 +224,9 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                           }).toList(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headline4!
                               .copyWith(fontSize: 13.0),
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             _controller.selectedBank.value = value;
                           },
                           value: _controller.selectedBank.value,
@@ -278,10 +278,10 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                                                       .tr
                                                   : 'Select Cheque payment slip'
                                                       .tr
-                                              : _file.path.split('/').last,
+                                              : _file!.path.split('/').last,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headline4!
                                               .copyWith(),
                                           maxLines: 2,
                                         ),
@@ -291,7 +291,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                                       'Browse',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
+                                          .headline4!
                                           .copyWith(
                                             decoration:
                                                 TextDecoration.underline,
@@ -344,7 +344,7 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline5
+                                .headline5!
                                 .copyWith(color: Colors.white),
                           ),
                         ),
@@ -365,8 +365,8 @@ class _FeesAddPaymentScreenState extends State<FeesAddPaymentScreen> {
 }
 
 class FeesListRow extends StatefulWidget {
-  final InvoiceDetail invoiceDetails;
-  final int index;
+  final InvoiceDetail? invoiceDetails;
+  final int? index;
   FeesListRow({this.invoiceDetails, this.index});
   @override
   _FeesListRowState createState() => _FeesListRowState();
@@ -375,13 +375,13 @@ class FeesListRow extends StatefulWidget {
 class _FeesListRowState extends State<FeesListRow> {
   final StudentFeesController _controller = Get.put(StudentFeesController());
 
-  double dueAmount;
-  double currentDue;
+  double? dueAmount;
+  double? currentDue;
 
   @override
   void initState() {
-    dueAmount = widget.invoiceDetails.dueAmount;
-    currentDue = widget.invoiceDetails.dueAmount;
+    dueAmount = widget.invoiceDetails!.dueAmount;
+    currentDue = widget.invoiceDetails!.dueAmount;
     print(dueAmount);
     super.initState();
   }
@@ -391,8 +391,8 @@ class _FeesListRowState extends State<FeesListRow> {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title: Text(
-        widget.invoiceDetails.feesTypeName ?? 'NA',
-        style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 14),
+        widget.invoiceDetails!.feesTypeName ?? 'NA',
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 14),
       ),
       subtitle: Column(
         children: <Widget>[
@@ -409,14 +409,14 @@ class _FeesListRowState extends State<FeesListRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        widget.invoiceDetails.amount.toStringAsFixed(2),
+                        widget.invoiceDetails!.amount!.toStringAsFixed(2),
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     ],
@@ -431,7 +431,7 @@ class _FeesListRowState extends State<FeesListRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -454,14 +454,14 @@ class _FeesListRowState extends State<FeesListRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        widget.invoiceDetails.weaver.toStringAsFixed(2),
+                        widget.invoiceDetails!.weaver!.toStringAsFixed(2),
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),
@@ -477,14 +477,14 @@ class _FeesListRowState extends State<FeesListRow> {
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        widget.invoiceDetails.fine.toStringAsFixed(2),
+                        widget.invoiceDetails!.fine!.toStringAsFixed(2),
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                       ),
@@ -513,28 +513,28 @@ class _FeesListRowState extends State<FeesListRow> {
                             if (text.length > 0) {
                               var currentText = double.parse(text.toString());
 
-                              currentDue = dueAmount - currentText;
+                              currentDue = dueAmount! - currentText;
 
-                              if (currentText >= dueAmount) {
+                              if (currentText >= dueAmount!) {
                                 currentDue = 0.0;
 
-                                _controller.addWalletList[widget.index] =
-                                    currentText - dueAmount;
+                                _controller.addWalletList[widget.index!] =
+                                    currentText - dueAmount!;
                               } else {
-                                _controller.addWalletList[widget.index] = 0;
+                                _controller.addWalletList[widget.index!] = 0;
                               }
 
-                              _controller.paidAmountList[widget.index] =
+                              _controller.paidAmountList[widget.index!] =
                                   currentText;
 
-                              _controller.dueList[widget.index] = currentDue;
+                              _controller.dueList[widget.index!] = currentDue;
 
                               _controller.totalPaidAmount.value = _controller
                                   .paidAmountList
                                   .reduce((previousValue, element) =>
                                       previousValue + element);
                             } else {
-                              currentDue = widget.invoiceDetails.dueAmount;
+                              currentDue = widget.invoiceDetails!.dueAmount;
                             }
                           });
                         },
@@ -566,7 +566,7 @@ class _FeesListRowState extends State<FeesListRow> {
                         style: Theme.of(context).textTheme.headline4,
                         onChanged: (text) {
                           if (text.length > 0) {
-                            _controller.noteList[widget.index] = text;
+                            _controller.noteList[widget.index!] = text;
                           }
                         },
                         decoration: InputDecoration(

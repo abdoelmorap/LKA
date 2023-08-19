@@ -19,8 +19,8 @@ class AdminTransportHome extends StatefulWidget {
 }
 
 class _AdminTransportHomeState extends State<AdminTransportHome> {
-  bool isTapped;
-  int currentSelectedIndex;
+  bool? isTapped;
+  int? currentSelectedIndex;
   var _titles;
   var _images;
 

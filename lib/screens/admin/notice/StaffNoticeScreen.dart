@@ -21,11 +21,11 @@ class StaffNoticeScreen extends StatefulWidget {
 }
 
 class _StaffNoticeScreenState extends State<StaffNoticeScreen> {
-  Future<NoticeList> notices;
+  Future<NoticeList>? notices;
 
-  String status;
-  String _token;
-  String _schoolId;
+  String? status;
+  String? _token;
+  String? _schoolId;
   @override
   void initState() {
     Utils.getStringValue('token').then((value) {
@@ -39,7 +39,7 @@ class _StaffNoticeScreenState extends State<StaffNoticeScreen> {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        notices = getNotices(int.parse(value));
+        notices = getNotices(int.parse(value!));
       });
     });
   }
@@ -53,13 +53,13 @@ class _StaffNoticeScreenState extends State<StaffNoticeScreen> {
         future: notices,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.notices.length > 0) {
+            if (snapshot.data!.notices.length > 0) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.separated(
-                  itemCount: snapshot.data.notices.length,
+                  itemCount: snapshot.data!.notices.length,
                   itemBuilder: (context, index) {
-                    return NoticRowLayout(snapshot.data.notices[index]);
+                    return NoticRowLayout(snapshot.data!.notices[index]);
                   },
                   separatorBuilder: (context, index) {
                     return Padding(

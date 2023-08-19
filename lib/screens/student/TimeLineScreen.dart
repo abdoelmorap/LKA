@@ -17,7 +17,7 @@ import 'package:infixedu/utils/widget/TimeLineView.dart';
 
 // ignore: must_be_immutable
 class TimelineScreen extends StatefulWidget {
-  String id;
+  String? id;
 
   TimelineScreen({this.id});
 
@@ -26,9 +26,9 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
-  Future<TimelineList> timelinelist;
+  Future<TimelineList>? timelinelist;
 
-  String _token;
+  String? _token;
   @override
   void initState() {
     Utils.getStringValue('token').then((value) {
@@ -43,7 +43,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
     Utils.getStringValue('id').then((value) {
       setState(() {
         timelinelist = getAllTimeline(
-            widget.id != null ? int.parse(widget.id) : int.parse(value));
+            widget.id != null ? int.parse(widget.id!) : int.parse(value!));
       });
     });
   }
@@ -57,15 +57,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
         future: timelinelist,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.timelines.length > 0) {
+            if (snapshot.data!.timelines.length > 0) {
               return Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: ListView.builder(
                   reverse: true,
                   shrinkWrap: true,
-                  itemCount: snapshot.data.timelines.length,
+                  itemCount: snapshot.data!.timelines.length,
                   itemBuilder: (context, index) {
-                    return TimeLineView(snapshot.data.timelines[index]);
+                    return TimeLineView(snapshot.data!.timelines[index]);
                   },
                 ),
               );

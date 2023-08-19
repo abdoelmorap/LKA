@@ -18,11 +18,11 @@ import 'package:infixedu/utils/widget/StudentSearchRow.dart';
 class StudentListScreen extends StatefulWidget {
   dynamic classCode;
   dynamic sectionCode;
-  String name;
-  String roll;
-  String url;
-  String status;
-  String token;
+  String? name;
+  String? roll;
+  String? url;
+  String? status;
+  String? token;
 
   StudentListScreen(
       {this.classCode,
@@ -48,12 +48,12 @@ class StudentListScreen extends StatefulWidget {
 class _StudentListScreenState extends State<StudentListScreen> {
   dynamic classCode;
   dynamic sectionCode;
-  String name;
-  String roll;
-  String url;
-  Future<StudentList> students;
-  String status;
-  String token;
+  String? name;
+  String? roll;
+  String? url;
+  Future<StudentList>? students;
+  String? status;
+  String? token;
 
   _StudentListScreenState(
       {this.classCode,
@@ -82,12 +82,12 @@ class _StudentListScreenState extends State<StudentListScreen> {
         future: students,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.students.length > 0) {
+            if (snapshot.data!.students.length > 0) {
               return ListView.builder(
-                itemCount: snapshot.data.students.length,
+                itemCount: snapshot.data!.students.length,
                 itemBuilder: (context, index) {
                   return StudentRow(
-                    snapshot.data.students[index],
+                    snapshot.data!.students[index],
                     status: status,
                     token: token,
                   );
@@ -108,7 +108,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   Future<StudentList> getAllStudent() async {
     print(url);
-    final response = await http.get(Uri.parse(url),
+    final response = await http.get(Uri.parse(url!),
         headers: Utils.setHeader(token.toString()));
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

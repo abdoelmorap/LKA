@@ -11,17 +11,17 @@ const double _kCloseProgressThreshold = 0.5;
 
 class BottomSheet extends StatefulWidget {
   const BottomSheet(
-      {Key key,
+      {Key? key,
       this.animationController,
       this.enableDrag = true,
-      @required this.onClosing,
-      @required this.builder})
+      required this.onClosing,
+      required this.builder})
       : assert(enableDrag != null),
         assert(onClosing != null),
         assert(builder != null),
         super(key: key);
 
-  final AnimationController animationController;
+  final AnimationController? animationController;
   final VoidCallback onClosing;
   final WidgetBuilder builder;
   final bool enableDrag;
@@ -41,34 +41,34 @@ class _BottomSheetState extends State<BottomSheet> {
   final GlobalKey _childKey = GlobalKey(debugLabel: 'BottomSheet child');
 
   double get _childHeight {
-    final RenderBox renderBox = _childKey.currentContext.findRenderObject();
+    final RenderBox renderBox = _childKey.currentContext!.findRenderObject() as RenderBox;
     return renderBox.size.height;
   }
 
   bool get _dismissUnderway =>
-      widget.animationController.status == AnimationStatus.reverse;
+      widget.animationController!.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
     if (_dismissUnderway) return;
-    widget.animationController.value -=
-        details.primaryDelta / (_childHeight ?? details.primaryDelta);
+    widget.animationController!.value -=
+        details.primaryDelta! / (_childHeight ?? details.primaryDelta!);
   }
 
   void _handleDragEnd(DragEndDetails details) {
     if (_dismissUnderway) return;
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
       final flingVelocity = -details.velocity.pixelsPerSecond.dy / _childHeight;
-      if (widget.animationController.value > 0.0) {
-        widget.animationController.fling(velocity: flingVelocity);
+      if (widget.animationController!.value > 0.0) {
+        widget.animationController!.fling(velocity: flingVelocity);
       }
       if (flingVelocity < 0.0) widget.onClosing();
-    } else if (widget.animationController.value < _kCloseProgressThreshold) {
-      if (widget.animationController.value > 0.0) {
-        widget.animationController.fling(velocity: -1.0);
+    } else if (widget.animationController!.value < _kCloseProgressThreshold) {
+      if (widget.animationController!.value > 0.0) {
+        widget.animationController!.fling(velocity: -1.0);
       }
       widget.onClosing();
     } else {
-      widget.animationController.forward();
+      widget.animationController!.forward();
     }
   }
 
@@ -112,9 +112,9 @@ class _ModalBottomSheetLayout extends SingleChildLayoutDelegate {
 }
 
 class _ModalBottomSheet<T> extends StatefulWidget {
-  const _ModalBottomSheet({Key key, this.route}) : super(key: key);
+  const _ModalBottomSheet({Key? key, this.route}) : super(key: key);
 
-  final _ModalBottomSheetRoute<T> route;
+  final _ModalBottomSheetRoute<T>? route;
 
   @override
   _ModalBottomSheetState<T> createState() => _ModalBottomSheetState<T>();
@@ -125,7 +125,7 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final localizations = MaterialLocalizations.of(context);
-    String routeLabel;
+    String? routeLabel;
     switch (defaultTargetPlatform) {
       case TargetPlatform.macOS:
       case TargetPlatform.iOS:
@@ -143,11 +143,11 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
         excludeFromSemantics: true,
         onTap: () => Navigator.pop(context),
         child: AnimatedBuilder(
-            animation: widget.route.animation,
+            animation: widget.route!.animation!,
             builder: (context, child) {
               final animationValue = mediaQuery.accessibleNavigation
                   ? 1.0
-                  : widget.route.animation.value;
+                  : widget.route!.animation!.value;
               return Semantics(
                 scopesRoute: true,
                 namesRoute: true,
@@ -157,9 +157,9 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
                   child: CustomSingleChildLayout(
                     delegate: _ModalBottomSheetLayout(animationValue),
                     child: BottomSheet(
-                      animationController: widget.route._animationController,
+                      animationController: widget.route!._animationController,
                       onClosing: () => Navigator.pop(context),
-                      builder: widget.route.builder,
+                      builder: widget.route!.builder!,
                     ),
                   ),
                 ),
@@ -173,11 +173,11 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
     this.builder,
     this.theme,
     this.barrierLabel,
-    RouteSettings settings,
+    RouteSettings? settings,
   }) : super(settings: settings);
 
-  final WidgetBuilder builder;
-  final ThemeData theme;
+  final WidgetBuilder? builder;
+  final ThemeData? theme;
 
   @override
   Duration get transitionDuration => _kBottomSheetDuration;
@@ -186,19 +186,19 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => true;
 
   @override
-  final String barrierLabel;
+  final String? barrierLabel;
 
   @override
   Color get barrierColor => Colors.deepPurpleAccent;
 
-  AnimationController _animationController;
+  AnimationController? _animationController;
 
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
     _animationController =
-        BottomSheet.createAnimationController(navigator.overlay);
-    return _animationController;
+        BottomSheet.createAnimationController(navigator!.overlay!);
+    return _animationController!;
   }
 
   @override
@@ -211,14 +211,14 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
       removeTop: true,
       child: _ModalBottomSheet<T>(route: this),
     );
-    if (theme != null) bottomSheet = Theme(data: theme, child: bottomSheet);
+    if (theme != null) bottomSheet = Theme(data: theme!, child: bottomSheet);
     return bottomSheet;
   }
 }
 
-Future<T> showModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
+Future<T?> showModalBottomSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
 }) {
   assert(context != null);
   assert(builder != null);
@@ -234,8 +234,8 @@ Future<T> showModalBottomSheet<T>({
 }
 
 PersistentBottomSheetController<T> showMyBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
+  required BuildContext context,
+  required WidgetBuilder builder,
 }) {
   assert(context != null);
   assert(builder != null);

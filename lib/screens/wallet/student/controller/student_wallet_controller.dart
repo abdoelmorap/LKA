@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
+// import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
 import 'package:infixedu/config/app_config.dart';
 import 'package:infixedu/controller/user_controller.dart';
@@ -25,9 +25,9 @@ class StudentWalletController extends GetxController {
 
   Rx<Wallet> wallet = Wallet().obs;
 
-  Rx<String> selectedPaymentMethod = "Select Payment Method".tr.obs;
+  Rx<String?> selectedPaymentMethod = "Select Payment Method".tr.obs;
 
-  Rx<BankAccount> selectedBank = BankAccount().obs;
+  Rx<BankAccount?> selectedBank = BankAccount().obs;
 
   Rx<bool> isCheque = false.obs;
 
@@ -37,7 +37,7 @@ class StudentWalletController extends GetxController {
 
   dio.Dio _dio = dio.Dio();
 
-  final plugin = PaystackPlugin();
+  // final plugin = PaystackPlugin();
 
   TextEditingController paymentNoteController = TextEditingController();
   TextEditingController amountController = TextEditingController();
@@ -45,12 +45,12 @@ class StudentWalletController extends GetxController {
   Rx<File> file = File("").obs;
 
   Future pickDocument() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.image,
     );
     if (result != null) {
-      file.value = File(result.files.single.path);
+      file.value = File(result.files.single.path!);
     } else {
       Utils.showToast('Cancelled');
     }
@@ -71,14 +71,14 @@ class StudentWalletController extends GetxController {
         isWalletLoading(false);
         wallet.value = data;
 
-        if (wallet.value.bankAccounts.length != 0) {
-          selectedBank.value = wallet.value.bankAccounts.first;
+        if (wallet.value.bankAccounts!.length != 0) {
+          selectedBank.value = wallet.value.bankAccounts!.first;
         }
 
-        wallet.value.paymentMethods
+        wallet.value.paymentMethods!
             .insert(0, PaymentMethod(method: "Select Payment Method".tr));
 
-        selectedPaymentMethod.value = wallet.value.paymentMethods.first.method;
+        selectedPaymentMethod.value = wallet.value.paymentMethods!.first.method;
       } else {
         throw Exception('Failed to load post');
       }
@@ -102,7 +102,7 @@ class StudentWalletController extends GetxController {
     }
   }
 
-  Future submitPayment({File file, BuildContext context}) async {
+  Future submitPayment({File? file, BuildContext? context}) async {
     if (selectedPaymentMethod.value == "Select Payment Method".tr) {
       CustomSnackBar().snackBarWarning("Select a Payment method first!".tr);
     } else {
@@ -110,7 +110,7 @@ class StudentWalletController extends GetxController {
         final paymentData = dio.FormData.fromMap({
           "amount": amountController.value.text,
           "payment_method": "Cheque",
-          "file": await dio.MultipartFile.fromFile(file.path),
+          "file": await dio.MultipartFile.fromFile(file!.path),
           "note": paymentNoteController.value.text,
         });
         await processPayment(paymentData);
@@ -118,7 +118,7 @@ class StudentWalletController extends GetxController {
         final paymentData = dio.FormData.fromMap({
           "amount": amountController.value.text,
           "payment_method": "Cheque",
-          "file": await dio.MultipartFile.fromFile(file.path),
+          "file": await dio.MultipartFile.fromFile(file!.path),
           "note": paymentNoteController.value.text,
         });
         await processPayment(paymentData);
@@ -133,7 +133,7 @@ class StudentWalletController extends GetxController {
     }
   }
 
-  Future processPayment(dio.FormData formData, {BuildContext context}) async {
+  Future processPayment(dio.FormData formData, {BuildContext? context}) async {
     print('on processPayment');
     log(formData.fields.toString());
     // return;
@@ -191,32 +191,32 @@ class StudentWalletController extends GetxController {
                     },
                   ));
             } else if (selectedPaymentMethod.value == "Paystack") {
-              final finalAmount =
-                  (double.parse("${data['amount']}") * 100).toInt();
-              log(finalAmount.toString());
-              Charge charge = Charge()
-                ..amount = finalAmount
-                ..currency = 'ZAR'
-                ..reference = data['transactionId'].toString()
-                ..email = _email ?? "";
-              log(charge.toString());
-              CheckoutResponse response = await plugin.checkout(
-                context,
-                method: CheckoutMethod.card,
-                charge: charge,
-              );
-
-              if (response.status == true) {
-                print(response);
-                print(response.reference);
-                await confirmWalletPayment(
-                    id: data['id'].toString(),
-                    amount:
-                        double.parse(data['amount'].toString()).toPrecision(2));
-              } else {
-                isPaymentProcessing.value = false;
-                CustomSnackBar().snackBarError(response.message.toString());
-              }
+              // final finalAmount =
+              //     (double.parse("${data['amount']}") * 100).toInt();
+              // log(finalAmount.toString());
+              // Charge charge = Charge()
+              //   ..amount = finalAmount
+              //   ..currency = 'ZAR'
+              //   ..reference = data['transactionId'].toString()
+              //   ..email = _email as String? ?? "";
+              // log(charge.toString());
+              // CheckoutResponse response = await plugin.checkout(
+              //   context!,
+              //   method: CheckoutMethod.card,
+              //   charge: charge,
+              // );
+              //
+              // if (response.status == true) {
+              //   print(response);
+              //   print(response.reference);
+              //   await confirmWalletPayment(
+              //       id: data['id'].toString(),
+              //       amount:
+              //           double.parse(data['amount'].toString()).toPrecision(2));
+              // } else {
+              //   isPaymentProcessing.value = false;
+              //   CustomSnackBar().snackBarError(response.message.toString());
+              // }
             } else if (selectedPaymentMethod.value == "Khalti") {
               Get.to(() => KhaltiInvoicePayment(
                     method: "${data['description']}",
@@ -236,7 +236,7 @@ class StudentWalletController extends GetxController {
         if (error is dio.DioError) {
           isPaymentProcessing(false);
 
-          final errorData = new Map<String, dynamic>.from(error.response.data);
+          final errorData = new Map<String, dynamic>.from(error.response!.data);
 
           String combinedMessage = "";
 
@@ -253,7 +253,7 @@ class StudentWalletController extends GetxController {
     } finally {}
   }
 
-  Future confirmWalletPayment({String id, dynamic amount}) async {
+  Future confirmWalletPayment({String? id, dynamic amount}) async {
     Get.back();
     final formData = dio.FormData.fromMap({
       "id": id,
@@ -279,7 +279,7 @@ class StudentWalletController extends GetxController {
         if (error is dio.DioError) {
           isPaymentProcessing(false);
 
-          final errorData = new Map<String, dynamic>.from(error.response.data);
+          final errorData = new Map<String, dynamic>.from(error.response!.data);
 
           String combinedMessage = "";
 
@@ -319,14 +319,14 @@ class StudentWalletController extends GetxController {
     );
   }
 
-  Rx<String> _email = "".obs;
-  Rx<String> get email => this._email;
+  Rx<String?> _email = "".obs;
+  Rx<String?> get email => this._email;
 
-  Rx<String> _id = "".obs;
-  Rx<String> get id => this._id;
+  Rx<String?> _id = "".obs;
+  Rx<String?> get id => this._id;
 
-  Rx<String> _phone = "".obs;
-  Rx<String> get phone => this._phone;
+  Rx<String?> _phone = "".obs;
+  Rx<String?> get phone => this._phone;
 
   Future getUserData() async {
     await Utils.getStringValue('email').then((emailValue) {
@@ -344,7 +344,7 @@ class StudentWalletController extends GetxController {
   void onInit() {
     getUserData();
     getMyWallet();
-    plugin.initialize(publicKey: payStackPublicKey);
+    // plugin.initialize(publicKey: payStackPublicKey);
     super.onInit();
   }
 }

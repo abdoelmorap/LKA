@@ -32,18 +32,18 @@ class ActiveOnlineExamScreen extends StatefulWidget {
 
 class _ActiveOnlineExamScreenState extends State<ActiveOnlineExamScreen> {
   final UserController _userController = Get.put(UserController());
-  Future<ActiveExamList> exams;
+  Future<ActiveExamList>? exams;
   var id;
 
-  String _token;
+  String? _token;
 
   _ActiveOnlineExamScreenState({this.id});
-  String schoolId;
+  String? schoolId;
 
   @override
   void initState() {
     _userController.selectedRecord.value =
-        _userController.studentRecord.value.records.first;
+        _userController.studentRecord.value.records!.first;
     Utils.getStringValue('token').then((value) {
       _token = value;
     });
@@ -60,7 +60,7 @@ class _ActiveOnlineExamScreenState extends State<ActiveOnlineExamScreen> {
       setState(() {
         id = id != null ? id : value;
         exams = getAllActiveExam(
-            id, _userController.studentRecord.value.records.first.id);
+            id, _userController.studentRecord.value.records!.first.id);
       });
     });
   }
@@ -102,13 +102,13 @@ class _ActiveOnlineExamScreenState extends State<ActiveOnlineExamScreen> {
                   );
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.activeExams.length > 0) {
+                    if (snapshot.data!.activeExams.length > 0) {
                       return ListView.builder(
-                        itemCount: snapshot.data.activeExams.length,
+                        itemCount: snapshot.data!.activeExams.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return ActiveOnlineExamRow(
-                              snapshot.data.activeExams[index]);
+                              snapshot.data!.activeExams[index]);
                         },
                       );
                     } else {
@@ -126,7 +126,7 @@ class _ActiveOnlineExamScreenState extends State<ActiveOnlineExamScreen> {
     );
   }
 
-  Future<ActiveExamList> getAllActiveExam(var id, int recordId) async {
+  Future<ActiveExamList> getAllActiveExam(var id, int? recordId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getStudentOnlineActiveExam(id, recordId)),
         headers: Utils.setHeader(_token.toString()));

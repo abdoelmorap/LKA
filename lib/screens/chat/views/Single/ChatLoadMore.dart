@@ -7,27 +7,27 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/screens/chat/models/ChatMessage.dart';
 import 'package:infixedu/screens/chat/models/ChatMessageOpenModel.dart';
-import 'package:let_log/let_log.dart';
+// import 'package:let_log/let_log.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 import '../../controller/chat_controller.dart';
 
-class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
-  final int userId;
+class ChatLoadMore extends LoadingMoreBase<ChatMessage?> {
+  final int? userId;
   ChatLoadMore(this.userId, this.chatOpenController);
   int pageIndex = 1;
   bool _hasMore = true;
   bool forceRefresh = false;
-  int productsLength = 0;
+  int? productsLength = 0;
   dynamic source;
 
-  final ChatOpenController chatOpenController;
+  final ChatOpenController? chatOpenController;
 
   final ChatController _chatController = GETx.Get.put(ChatController());
 
   Dio _dio = Dio();
   @override
-  void add(ChatMessage element) {
+  void add(ChatMessage? element) {
     super.add(element);
   }
 
@@ -35,7 +35,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
   bool get hasMore => _hasMore;
 
   @override
-  void onStateChanged(LoadingMoreBase<ChatMessage> source) {
+  void onStateChanged(LoadingMoreBase<ChatMessage?> source) {
     print("stateChange");
     super.onStateChanged(source);
   }
@@ -58,7 +58,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
     try {
       //to show loading more clearly, in your app,remove this
       // await Future.delayed(Duration(milliseconds: 500));
-      await chatOpenController.getIdToken();
+      await chatOpenController!.getIdToken();
       var result;
 
       if (this.length == 0) {
@@ -66,7 +66,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
             .get(
           "${InfixApi.getChatOpen}/$userId",
           options: Options(
-            headers: Utils.setHeader(chatOpenController.token.value.toString()),
+            headers: Utils.setHeader(chatOpenController!.token.value.toString()),
           ),
         )
             .catchError((onError) {
@@ -79,12 +79,12 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
           "${InfixApi.chatMsgLoadMore}",
           data: jsonEncode(
             {
-              "ids": chatOpenController.msgIds.toSet().toList().toString(),
+              "ids": chatOpenController!.msgIds.toSet().toList().toString(),
               "user_id": userId,
             },
           ),
           options: Options(
-            headers: Utils.setHeader(chatOpenController.token.value.toString()),
+            headers: Utils.setHeader(chatOpenController!.token.value.toString()),
           ),
         )
             .catchError((onError) {
@@ -101,21 +101,21 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
           if (source.messages.length == 0) {
             this.length = 0;
 
-            if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+            if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
                 "pusher") {
-              chatOpenController.lastConversationId.value = null;
+              chatOpenController!.lastConversationId.value = 0;
             }
           } else {
             if (source.messages.length != 1) {
-              if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+              if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
                   "pusher") {
-                chatOpenController.lastConversationId.value =
+                chatOpenController!.lastConversationId.value =
                     source.messages.entries.first.value.id;
               }
             } else {
-              if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+              if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
                   "pusher") {
-                chatOpenController.lastConversationId.value =
+                chatOpenController!.lastConversationId.value =
                     source.messages.first.id;
               }
             }
@@ -125,12 +125,12 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
         }
         if (source.messages != null && source.messages.length != 0) {
           print(source);
-          Logger.warn(source.messages.length);
+          // Logger.warn(source.messages.length);
           if (source.messages.length != 1) {
             productsLength = source.messages.length;
 
             source.messages.forEach((key, value) {
-              chatOpenController.msgIds.add(value.id);
+              chatOpenController!.msgIds.add(value.id);
             });
 
             if (pageIndex == 1) {
@@ -143,7 +143,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
             productsLength = source.messages.length;
 
             source.messages.forEach((value) {
-              chatOpenController.msgIds.add(value.id);
+              chatOpenController!.msgIds.add(value.id);
             });
 
             if (pageIndex == 1) {
@@ -167,7 +167,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
       isSuccess = true;
     } catch (exception, _) {
       if (exception is DioError) {
-        if (exception.response.statusCode == 404) {
+        if (exception.response!.statusCode == 404) {
           this.length = 0;
         }
       }
@@ -183,19 +183,19 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
     try {
       Map jsonData = {
         "user_id": userId,
-        "last_conversation_id": chatOpenController.lastConversationId.value,
+        "last_conversation_id": chatOpenController!.lastConversationId.value,
       };
-      Logger.debug('jsonCHECK', jsonData);
+      // Logger.debug('jsonCHECK', jsonData);
       final response = await _dio.post(
         InfixApi.newChatMsgCheck,
         options: Options(
-          headers: Utils.setHeader(chatOpenController.token.toString()),
+          headers: Utils.setHeader(chatOpenController!.token.toString()),
         ),
         data: jsonEncode(jsonData),
       );
       final msgCheckResultData = new Map<String, dynamic>.from(response.data);
 
-      Logger.debug('RESPONSE CHECK', msgCheckResultData);
+      // Logger.debug('RESPONSE CHECK', msgCheckResultData);
       print(response.statusCode);
       if (response.statusCode == 200) {
         // print(msgCheckResultData['message']);
@@ -203,12 +203,12 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
         // Logger.debug('NOT NULL CHECK $msgCheckResultData');
 
         data = ChatMessageOpenModel.fromJson(response.data);
-        Logger.warn(data);
+        // Logger.warn(data);
         insert(0, data.messages.entries.first.value);
 
-        chatOpenController.msgIds
+        chatOpenController!.msgIds
             .insert(0, data.messages.entries.first.value.id);
-        chatOpenController.lastConversationId.value =
+        chatOpenController!.lastConversationId.value =
             data.messages.entries.first.value.id;
         onStateChanged(this);
 
@@ -239,7 +239,7 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
       final response = await _dio.post(
         InfixApi.chatSingleMsgDelete,
         options: Options(
-          headers: Utils.setHeader(chatOpenController.token.toString()),
+          headers: Utils.setHeader(chatOpenController!.token.toString()),
         ),
         data: jsonEncode(jsonData),
       );
@@ -247,16 +247,16 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
       final msgCheckResultData = new Map<String, dynamic>.from(response.data);
 
       if (response.statusCode == 200) {
-        Logger.debug('AFTER DELETE CHECK $msgCheckResultData');
+        // Logger.debug('AFTER DELETE CHECK $msgCheckResultData');
 
         print(chatMessage.toJson());
 
-        chatOpenController.msgIds.remove(chatMessage.id);
+        chatOpenController!.msgIds.remove(chatMessage.id);
 
         remove(chatMessage);
 
-        chatOpenController.lastConversationId.value =
-            chatOpenController.msgIds.first;
+        chatOpenController!.lastConversationId.value =
+            chatOpenController!.msgIds.first!;
         onStateChanged(this);
       } else {
         throw Exception('failed to load');
@@ -268,34 +268,34 @@ class ChatLoadMore extends LoadingMoreBase<ChatMessage> {
     }
   }
 
-  Future submitText({Map data, bool hasFile, FormData formData}) async {
+  Future submitText({Map? data, required bool hasFile, FormData? formData}) async {
     EasyLoading.show();
     try {
       final response = await _dio.post(
         InfixApi.submitChatText,
         options: Options(
-          headers: Utils.setHeader(chatOpenController.token.toString()),
+          headers: Utils.setHeader(chatOpenController!.token.toString()),
         ),
         data: hasFile ? formData : jsonEncode(data),
       );
       if (response.statusCode == 200) {
-        Logger.warn("Lenght -> ${this.length}");
-        if (_chatController.chatSettings.value.chatSettings.chatMethod !=
+        // Logger.warn("Lenght -> ${this.length}");
+        if (_chatController.chatSettings.value.chatSettings!.chatMethod !=
             'pusher') {
           var chatMessage = ChatMessage.fromJson(response.data['message']);
 
-          if (chatOpenController.lastConversationId.value == null) {
-            chatOpenController.msgIds.add(chatMessage.id);
+          if (chatOpenController!.lastConversationId.value == null) {
+            chatOpenController!.msgIds.add(chatMessage.id);
             insert(0, chatMessage);
             onStateChanged(this);
-            chatOpenController.lastConversationId.value = chatMessage.id;
+            chatOpenController!.lastConversationId.value = chatMessage.id;
           }
         }
-        if (_chatController.chatSettings.value.chatSettings.chatMethod ==
+        if (_chatController.chatSettings.value.chatSettings!.chatMethod ==
                 'pusher' &&
             this.length == 0) {
           var chatMessage = ChatMessage.fromJson(response.data['message']);
-          chatOpenController.msgIds.add(chatMessage.id);
+          chatOpenController!.msgIds.add(chatMessage.id);
           insert(0, chatMessage);
           onStateChanged(this);
         }

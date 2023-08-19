@@ -21,13 +21,13 @@ class FeesAdminAddPaymentModel {
     this.walletBalance,
   });
 
-  List<FeesType> feesTypes;
-  List<PaymentMethod> paymentMethods;
-  List<BankAccount> bankAccounts;
-  InvoiceInfo invoiceInfo;
-  List<InvoiceDetail> invoiceDetails;
-  StripeInfo stripeInfo;
-  double walletBalance;
+  List<FeesType>? feesTypes;
+  List<PaymentMethod>? paymentMethods;
+  List<BankAccount>? bankAccounts;
+  InvoiceInfo? invoiceInfo;
+  List<InvoiceDetail>? invoiceDetails;
+  StripeInfo? stripeInfo;
+  double? walletBalance;
 
   factory FeesAdminAddPaymentModel.fromJson(Map<String, dynamic> json) =>
       FeesAdminAddPaymentModel(
@@ -45,14 +45,14 @@ class FeesAdminAddPaymentModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "feesTypes": List<dynamic>.from(feesTypes.map((x) => x.toJson())),
+        "feesTypes": List<dynamic>.from(feesTypes!.map((x) => x.toJson())),
         "paymentMethods":
-            List<dynamic>.from(paymentMethods.map((x) => x.toJson())),
-        "bankAccounts": List<dynamic>.from(bankAccounts.map((x) => x.toJson())),
-        "invoiceInfo": invoiceInfo.toJson(),
+            List<dynamic>.from(paymentMethods!.map((x) => x.toJson())),
+        "bankAccounts": List<dynamic>.from(bankAccounts!.map((x) => x.toJson())),
+        "invoiceInfo": invoiceInfo!.toJson(),
         "invoiceDetails":
-            List<dynamic>.from(invoiceDetails.map((x) => x.toJson())),
-        "stripe_info": stripeInfo.toJson(),
+            List<dynamic>.from(invoiceDetails!.map((x) => x.toJson())),
+        "stripe_info": stripeInfo!.toJson(),
         "walletBalance": walletBalance,
       };
 }
@@ -73,18 +73,18 @@ class FeesType {
         this.updatedAt,
     });
 
-    int id;
-    String name;
-    String description;
-    int feesGroupId;
-    String type;
+    int? id;
+    String? name;
+    String? description;
+    int? feesGroupId;
+    String? type;
     dynamic courseId;
-    int createdBy;
-    int updatedBy;
-    int schoolId;
-    int academicId;
-    DateTime createdAt;
-    DateTime updatedAt;
+    int? createdBy;
+    int? updatedBy;
+    int? schoolId;
+    int? academicId;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     factory FeesType.fromJson(Map<String, dynamic> json) => FeesType(
         id: json["id"],
@@ -112,8 +112,8 @@ class FeesType {
         "updated_by": updatedBy,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
     };
 }
 
@@ -133,17 +133,17 @@ class BankAccount {
     this.academicId,
   });
 
-  int id;
-  String bankName;
-  String accountName;
-  String accountNumber;
-  String accountType;
-  int openingBalance;
-  int currentBalance;
+  int? id;
+  String? bankName;
+  String? accountName;
+  String? accountNumber;
+  String? accountType;
+  int? openingBalance;
+  int? currentBalance;
   dynamic note;
-  int activeStatus;
-  int schoolId;
-  int academicId;
+  int? activeStatus;
+  int? schoolId;
+  int? academicId;
 
   factory BankAccount.fromJson(Map<String, dynamic> json) => BankAccount(
         id: json["id"],
@@ -192,20 +192,20 @@ class InvoiceDetail {
     this.updatedAt,
   });
 
-  int id;
-  int feesInvoiceId;
-  int feesType;
-  double amount;
-  double weaver;
-  double fine;
-  double subTotal;
-  double paidAmount;
-  double dueAmount;
-  String note;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  int? feesInvoiceId;
+  int? feesType;
+  double? amount;
+  double? weaver;
+  double? fine;
+  double? subTotal;
+  double? paidAmount;
+  double? dueAmount;
+  String? note;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory InvoiceDetail.fromJson(Map<String, dynamic> json) => InvoiceDetail(
         id: json["id"],
@@ -240,8 +240,8 @@ class InvoiceDetail {
         "note": note,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }
 
@@ -264,21 +264,21 @@ class InvoiceInfo {
     this.recordId,
   });
 
-  int id;
-  String invoiceId;
-  int studentId;
-  int classId;
-  DateTime createDate;
-  DateTime dueDate;
-  String paymentStatus;
+  int? id;
+  String? invoiceId;
+  int? studentId;
+  int? classId;
+  DateTime? createDate;
+  DateTime? dueDate;
+  String? paymentStatus;
   dynamic paymentMethod;
   dynamic bankId;
-  String type;
-  int schoolId;
-  int academicId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int recordId;
+  String? type;
+  int? schoolId;
+  int? academicId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? recordId;
 
   factory InvoiceInfo.fromJson(Map<String, dynamic> json) => InvoiceInfo(
         id: json["id"],
@@ -304,17 +304,17 @@ class InvoiceInfo {
         "student_id": studentId,
         "class_id": classId,
         "create_date":
-            "${createDate.year.toString().padLeft(4, '0')}-${createDate.month.toString().padLeft(2, '0')}-${createDate.day.toString().padLeft(2, '0')}",
+            "${createDate!.year.toString().padLeft(4, '0')}-${createDate!.month.toString().padLeft(2, '0')}-${createDate!.day.toString().padLeft(2, '0')}",
         "due_date":
-            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+            "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
         "payment_status": paymentStatus,
         "payment_method": paymentMethod,
         "bank_id": bankId,
         "type": type,
         "school_id": schoolId,
         "academic_id": academicId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "record_id": recordId,
       };
 }
@@ -324,7 +324,7 @@ class PaymentMethod {
     this.method,
   });
 
-  String method;
+  String? method;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
         method: json["method"],
@@ -358,25 +358,25 @@ class StripeInfo {
     this.schoolId,
   });
 
-  int id;
-  String gatewayName;
-  String gatewayUsername;
-  String gatewayPassword;
+  int? id;
+  String? gatewayName;
+  String? gatewayUsername;
+  String? gatewayPassword;
   dynamic gatewaySignature;
-  String gatewayClientId;
+  String? gatewayClientId;
   dynamic gatewayMode;
-  String gatewaySecretKey;
-  String gatewaySecretWord;
+  String? gatewaySecretKey;
+  String? gatewaySecretWord;
   dynamic gatewayPublisherKey;
   dynamic gatewayPrivateKey;
-  int activeStatus;
-  DateTime createdAt;
+  int? activeStatus;
+  DateTime? createdAt;
   dynamic updatedAt;
   dynamic bankDetails;
   dynamic chequeDetails;
-  int createdBy;
-  int updatedBy;
-  int schoolId;
+  int? createdBy;
+  int? updatedBy;
+  int? schoolId;
 
   factory StripeInfo.fromJson(Map<String, dynamic> json) => StripeInfo(
         id: json["id"],
@@ -413,7 +413,7 @@ class StripeInfo {
         "gateway_publisher_key": gatewayPublisherKey,
         "gateway_private_key": gatewayPrivateKey,
         "active_status": activeStatus,
-        "created_at": createdAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
         "updated_at": updatedAt,
         "bank_details": bankDetails,
         "cheque_details": chequeDetails,

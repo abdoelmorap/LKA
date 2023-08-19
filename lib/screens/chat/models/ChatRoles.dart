@@ -13,12 +13,12 @@ class ChatRoles {
     });
 
     dynamic id;
-    String name;
-    String type;
+    String? name;
+    String? type;
     dynamic activeStatus;
-    String createdBy;
-    String updatedBy;
-    DateTime createdAt;
+    String? createdBy;
+    String? updatedBy;
+    DateTime? createdAt;
     dynamic updatedAt;
     dynamic schoolId;
     dynamic isSaas;
@@ -43,7 +43,7 @@ class ChatRoles {
         "active_status": activeStatus,
         "created_by": createdBy,
         "updated_by": updatedBy,
-        "created_at": createdAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
         "updated_at": updatedAt,
         "school_id": schoolId,
         "is_saas": isSaas,

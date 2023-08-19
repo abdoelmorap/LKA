@@ -16,11 +16,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 
 class GroupMessageWidget extends StatefulWidget {
-  final GroupThread groupThread;
-  final int id;
-  final Function onTapMenu;
-  final bool menuVisible;
-  final bool showActions;
+  final GroupThread? groupThread;
+  final int? id;
+  final Function? onTapMenu;
+  final bool? menuVisible;
+  final bool? showActions;
   GroupMessageWidget(
       {this.groupThread,
       this.id,
@@ -32,7 +32,7 @@ class GroupMessageWidget extends StatefulWidget {
 }
 
 class _GroupMessageWidgetState extends State<GroupMessageWidget> {
-  bool visiblity = false;
+  bool? visiblity = false;
   @override
   void initState() {
     visiblity = widget.menuVisible;
@@ -43,16 +43,16 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
   Widget build(BuildContext context) {
     // return Text(
     //     "ID --> ${widget.groupThread.id} - ${widget.groupThread.message}");
-    if (widget.groupThread.conversation.reply != null) {
+    if (widget.groupThread!.conversation!.reply != null) {
       return replyToMessageWidget();
-    } else if (widget.groupThread.conversation.forwardFrom != null) {
+    } else if (widget.groupThread!.conversation!.forwardFrom != null) {
       return forwardedMessageWidget();
     } else {
       return groupThreadWidget();
     }
   }
 
-  getStatusColor(int chatStatus) {
+  getStatusColor(int? chatStatus) {
     if (chatStatus == 0) {
       return Colors.grey;
     } else if (chatStatus == 1) {
@@ -65,10 +65,10 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
   }
 
   void onTap() {
-    widget.onTapMenu();
+    widget.onTapMenu!();
   }
 
-  getLeadingIcon(int messageType) {
+  getLeadingIcon(int? messageType) {
     if (messageType == 1) {
       //**png jpg jpeg
       return Icons.image;
@@ -122,7 +122,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: widget.groupThread.userId != widget.id
+            mainAxisAlignment: widget.groupThread!.userId != widget.id
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
             children: [
@@ -137,7 +137,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -176,7 +176,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -211,7 +211,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
               Flexible(
                 child: Text(
                   "${conversation.originalFileName}",
-                  style: Get.textTheme.subtitle1.copyWith(
+                  style: Get.textTheme.subtitle1!.copyWith(
                     fontSize: 12,
                     color: Colors.white,
                   ),
@@ -230,8 +230,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.groupThread.userId == widget.id
+        widget.showActions!
+            ? widget.groupThread!.userId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -249,18 +249,18 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "${widget.groupThread.user.fullName ?? "${widget.groupThread.user.email}" ?? ""}",
-                        textAlign: widget.groupThread.userId == widget.id
+                        "${widget.groupThread!.user!.fullName ?? "${widget.groupThread!.user!.email}" ?? ""}",
+                        textAlign: widget.groupThread!.userId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.groupThread.userId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.groupThread!.userId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -273,14 +273,14 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                         width: 5,
                         decoration: BoxDecoration(
                           color: getStatusColor(
-                              widget.groupThread.user.activeStatus),
+                              widget.groupThread!.user!.activeStatus),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
@@ -288,7 +288,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: widget.groupThread.userId != widget.id
+                    borderRadius: widget.groupThread!.userId != widget.id
                         ? BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10),
@@ -299,7 +299,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                             bottomRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
                           ),
-                    color: widget.groupThread.userId != widget.id
+                    color: widget.groupThread!.userId != widget.id
                         ? Color(0xff6F7DB7)
                         : Color(0xff7c31fe),
                   ),
@@ -308,24 +308,24 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                   ),
                   padding: EdgeInsets.all(8),
                   child: Column(
-                    crossAxisAlignment: widget.groupThread.userId != widget.id
+                    crossAxisAlignment: widget.groupThread!.userId != widget.id
                         ? CrossAxisAlignment.start
                         : CrossAxisAlignment.end,
                     children: [
                       Column(
                         crossAxisAlignment:
-                            widget.groupThread.userId != widget.id
+                            widget.groupThread!.userId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
-                          widget.groupThread.conversation.message != null
+                          widget.groupThread!.conversation!.message != null
                               ? Text(
-                                  "${widget.groupThread.conversation.message}",
+                                  "${widget.groupThread!.conversation!.message}",
                                   textAlign:
-                                      widget.groupThread.userId == widget.id
+                                      widget.groupThread!.userId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 12.sp,
                                   ),
@@ -333,21 +333,21 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                               : SizedBox.shrink(),
                           Directionality(
                             textDirection:
-                                widget.groupThread.userId != widget.id
+                                widget.groupThread!.userId != widget.id
                                     ? TextDirection.ltr
                                     : TextDirection.rtl,
-                            child: fileWidget(widget.groupThread.conversation),
+                            child: fileWidget(widget.groupThread!.conversation),
                           ),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: Text(
-                          "${timeago.format(widget.groupThread.createdAt)}",
-                          textAlign: widget.groupThread.userId == widget.id
+                          "${timeago.format(widget.groupThread!.createdAt!)}",
+                          textAlign: widget.groupThread!.userId == widget.id
                               ? TextAlign.right
                               : TextAlign.left,
-                          style: Get.textTheme.subtitle1.copyWith(
+                          style: Get.textTheme.subtitle1!.copyWith(
                             color: Colors.white,
                             fontSize: 8.sp,
                           ),
@@ -356,8 +356,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                     ],
                   ),
                 ),
-                widget.showActions
-                    ? widget.groupThread.userId != widget.id
+                widget.showActions!
+                    ? widget.groupThread!.userId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,
@@ -384,8 +384,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.groupThread.userId == widget.id
+        widget.showActions!
+            ? widget.groupThread!.userId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -403,18 +403,18 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "${widget.groupThread.user.fullName ?? "${widget.groupThread.user.email}" ?? ""}",
-                        textAlign: widget.groupThread.userId == widget.id
+                        "${widget.groupThread!.user!.fullName ?? "${widget.groupThread!.user!.email}" ?? ""}",
+                        textAlign: widget.groupThread!.userId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.groupThread.userId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.groupThread!.userId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -427,34 +427,34 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                         width: 5,
                         decoration: BoxDecoration(
                           color: getStatusColor(
-                              widget.groupThread.user.activeStatus),
+                              widget.groupThread!.user!.activeStatus),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment: widget.groupThread.userId != widget.id
+                  crossAxisAlignment: widget.groupThread!.userId != widget.id
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.end,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.groupThread.userId != widget.id
+                        borderRadius: widget.groupThread!.userId != widget.id
                             ? BorderRadius.only(
                                 topRight: Radius.circular(10),
                               )
                             : BorderRadius.only(
                                 topLeft: Radius.circular(10),
                               ),
-                        color: widget.groupThread.userId != widget.id
+                        color: widget.groupThread!.userId != widget.id
                             ? Color(0xffB9C4F3)
                             : Color(0xffBEACDD),
                       ),
@@ -465,18 +465,18 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.groupThread.userId != widget.id
+                            widget.groupThread!.userId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
-                          widget.groupThread.conversation.reply.message != null
+                          widget.groupThread!.conversation!.reply.message != null
                               ? Column(
                                   crossAxisAlignment:
-                                      widget.groupThread.userId != widget.id
+                                      widget.groupThread!.userId != widget.id
                                           ? CrossAxisAlignment.start
                                           : CrossAxisAlignment.end,
                                   children: [
-                                    widget.groupThread.userId != widget.id
+                                    widget.groupThread!.userId != widget.id
                                         ? Transform(
                                             alignment: Alignment.center,
                                             transform:
@@ -493,12 +493,12 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                                             color: Colors.white,
                                           ),
                                     Text(
-                                      "${widget.groupThread.conversation.reply.message ?? ""}",
+                                      "${widget.groupThread!.conversation!.reply.message ?? ""}",
                                       textAlign:
-                                          widget.groupThread.userId == widget.id
+                                          widget.groupThread!.userId == widget.id
                                               ? TextAlign.right
                                               : TextAlign.left,
-                                      style: Get.textTheme.subtitle1.copyWith(
+                                      style: Get.textTheme.subtitle1!.copyWith(
                                         color: Colors.white,
                                         fontSize: 12.sp,
                                       ),
@@ -514,7 +514,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.groupThread.userId != widget.id
+                        borderRadius: widget.groupThread!.userId != widget.id
                             ? BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -523,7 +523,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
                               ),
-                        color: widget.groupThread.userId != widget.id
+                        color: widget.groupThread!.userId != widget.id
                             ? Color(0xff6F7DB7)
                             : Color(0xff7c31fe),
                       ),
@@ -534,7 +534,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.groupThread.userId != widget.id
+                            widget.groupThread!.userId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
@@ -544,29 +544,29 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                           ),
                           Column(
                             crossAxisAlignment:
-                                widget.groupThread.userId != widget.id
+                                widget.groupThread!.userId != widget.id
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                             children: [
                               Column(
                                 crossAxisAlignment:
-                                    widget.groupThread.userId != widget.id
+                                    widget.groupThread!.userId != widget.id
                                         ? CrossAxisAlignment.start
                                         : CrossAxisAlignment.end,
                                 children: [
-                                  widget.groupThread.conversation.message !=
+                                  widget.groupThread!.conversation!.message !=
                                           null
                                       ? Text(
                                           "''" +
-                                              "${widget.groupThread.conversation.message}" +
+                                              "${widget.groupThread!.conversation!.message}" +
                                               "''",
                                           textAlign:
-                                              widget.groupThread.userId ==
+                                              widget.groupThread!.userId ==
                                                       widget.id
                                                   ? TextAlign.right
                                                   : TextAlign.left,
                                           style:
-                                              Get.textTheme.subtitle1.copyWith(
+                                              Get.textTheme.subtitle1!.copyWith(
                                             color: Colors.white,
                                             fontSize: 12.sp,
                                           ),
@@ -574,19 +574,19 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                                       : SizedBox.shrink(),
                                   SizedBox(height: 10),
                                   fileWidget(
-                                      widget.groupThread.conversation.reply),
+                                      widget.groupThread!.conversation!.reply),
                                 ],
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
-                                  "${timeago.format(widget.groupThread.createdAt)}",
+                                  "${timeago.format(widget.groupThread!.createdAt!)}",
                                   textAlign:
-                                      widget.groupThread.userId == widget.id
+                                      widget.groupThread!.userId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 8.sp,
                                   ),
@@ -599,8 +599,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                     ),
                   ],
                 ),
-                widget.showActions
-                    ? widget.groupThread.userId != widget.id
+                widget.showActions!
+                    ? widget.groupThread!.userId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,
@@ -627,8 +627,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.showActions
-            ? widget.groupThread.userId == widget.id
+        widget.showActions!
+            ? widget.groupThread!.userId == widget.id
                 ? InkWell(
                     customBorder: CircleBorder(),
                     onTap: onTap,
@@ -646,18 +646,18 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "${widget.groupThread.user.fullName ?? "${widget.groupThread.user.email}" ?? ""}",
-                        textAlign: widget.groupThread.userId == widget.id
+                        "${widget.groupThread!.user!.fullName ?? "${widget.groupThread!.user!.email}" ?? ""}",
+                        textAlign: widget.groupThread!.userId == widget.id
                             ? TextAlign.right
                             : TextAlign.left,
-                        style: Get.textTheme.subtitle1.copyWith(
-                          color: widget.groupThread.userId != widget.id
-                              ? visiblity
+                        style: Get.textTheme.subtitle1!.copyWith(
+                          color: widget.groupThread!.userId != widget.id
+                              ? visiblity!
                                   ? Colors.white
                                   : Get.theme.primaryColor
                               : Colors.grey.shade200,
@@ -670,34 +670,34 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                         width: 5,
                         decoration: BoxDecoration(
                           color: getStatusColor(
-                              widget.groupThread.user.activeStatus),
+                              widget.groupThread!.user!.activeStatus),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ],
                   )
                 : SizedBox.shrink(),
-            widget.groupThread.userId != widget.id
+            widget.groupThread!.userId != widget.id
                 ? SizedBox(height: 2.5)
                 : SizedBox.shrink(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment: widget.groupThread.userId != widget.id
+                  crossAxisAlignment: widget.groupThread!.userId != widget.id
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.end,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.groupThread.userId != widget.id
+                        borderRadius: widget.groupThread!.userId != widget.id
                             ? BorderRadius.only(
                                 topRight: Radius.circular(10),
                               )
                             : BorderRadius.only(
                                 topLeft: Radius.circular(10),
                               ),
-                        color: widget.groupThread.userId != widget.id
+                        color: widget.groupThread!.userId != widget.id
                             ? Color(0xffB9C4F3)
                             : Color(0xffBEACDD),
                       ),
@@ -708,36 +708,36 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.groupThread.userId != widget.id
+                            widget.groupThread!.userId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         children: [
-                          widget.groupThread.conversation.forwardFrom != null
+                          widget.groupThread!.conversation!.forwardFrom != null
                               ? Column(
                                   crossAxisAlignment:
-                                      widget.groupThread.userId != widget.id
+                                      widget.groupThread!.userId != widget.id
                                           ? CrossAxisAlignment.start
                                           : CrossAxisAlignment.end,
                                   children: [
                                     Text(
                                       "Forwarded Message",
-                                      textAlign: widget.groupThread.conversation
-                                                  .forwardFrom.fromId ==
+                                      textAlign: widget.groupThread!.conversation!
+                                                  .forwardFrom!.fromId ==
                                               widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                      style: Get.textTheme.subtitle1.copyWith(
+                                      style: Get.textTheme.subtitle1!.copyWith(
                                         color: Colors.white,
                                         fontSize: 12.sp,
                                       ),
                                     ),
                                     Text(
-                                      "${widget.groupThread.conversation.forwardFrom.message ?? ""}",
+                                      "${widget.groupThread!.conversation!.forwardFrom!.message ?? ""}",
                                       textAlign:
-                                          widget.groupThread.userId == widget.id
+                                          widget.groupThread!.userId == widget.id
                                               ? TextAlign.right
                                               : TextAlign.left,
-                                      style: Get.textTheme.subtitle1.copyWith(
+                                      style: Get.textTheme.subtitle1!.copyWith(
                                         color: Colors.white,
                                         fontSize: 12.sp,
                                       ),
@@ -753,7 +753,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: widget.groupThread.userId != widget.id
+                        borderRadius: widget.groupThread!.userId != widget.id
                             ? BorderRadius.only(
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
@@ -762,7 +762,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                                 bottomRight: Radius.circular(10),
                                 bottomLeft: Radius.circular(10),
                               ),
-                        color: widget.groupThread.userId != widget.id
+                        color: widget.groupThread!.userId != widget.id
                             ? Color(0xff6F7DB7)
                             : Color(0xff7c31fe),
                       ),
@@ -773,7 +773,7 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment:
-                            widget.groupThread.userId != widget.id
+                            widget.groupThread!.userId != widget.id
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
@@ -783,29 +783,29 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                           ),
                           Column(
                             crossAxisAlignment:
-                                widget.groupThread.userId != widget.id
+                                widget.groupThread!.userId != widget.id
                                     ? CrossAxisAlignment.start
                                     : CrossAxisAlignment.end,
                             children: [
                               Column(
                                 crossAxisAlignment:
-                                    widget.groupThread.userId != widget.id
+                                    widget.groupThread!.userId != widget.id
                                         ? CrossAxisAlignment.start
                                         : CrossAxisAlignment.end,
                                 children: [
-                                  widget.groupThread.conversation.message !=
+                                  widget.groupThread!.conversation!.message !=
                                           null
                                       ? Text(
                                           "''" +
-                                              "${widget.groupThread.conversation.message}" +
+                                              "${widget.groupThread!.conversation!.message}" +
                                               "''",
                                           textAlign:
-                                              widget.groupThread.userId ==
+                                              widget.groupThread!.userId ==
                                                       widget.id
                                                   ? TextAlign.right
                                                   : TextAlign.left,
                                           style:
-                                              Get.textTheme.subtitle1.copyWith(
+                                              Get.textTheme.subtitle1!.copyWith(
                                             color: Colors.white,
                                             fontSize: 12.sp,
                                           ),
@@ -813,19 +813,19 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                                       : SizedBox.shrink(),
                                   SizedBox(height: 10),
                                   fileWidget(widget
-                                      .groupThread.conversation.forwardFrom),
+                                      .groupThread!.conversation!.forwardFrom),
                                 ],
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
-                                  "${timeago.format(widget.groupThread.createdAt)}",
+                                  "${timeago.format(widget.groupThread!.createdAt!)}",
                                   textAlign:
-                                      widget.groupThread.userId == widget.id
+                                      widget.groupThread!.userId == widget.id
                                           ? TextAlign.right
                                           : TextAlign.left,
-                                  style: Get.textTheme.subtitle1.copyWith(
+                                  style: Get.textTheme.subtitle1!.copyWith(
                                     color: Colors.white,
                                     fontSize: 8.sp,
                                   ),
@@ -838,8 +838,8 @@ class _GroupMessageWidgetState extends State<GroupMessageWidget> {
                     ),
                   ],
                 ),
-                widget.showActions
-                    ? widget.groupThread.userId != widget.id
+                widget.showActions!
+                    ? widget.groupThread!.userId != widget.id
                         ? InkWell(
                             customBorder: CircleBorder(),
                             onTap: onTap,

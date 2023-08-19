@@ -21,8 +21,8 @@ import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class StudentStudyMaterialMain extends StatefulWidget {
-  String id;
-  String type;
+  String? id;
+  String? type;
 
   StudentStudyMaterialMain({this.id, this.type});
 
@@ -33,9 +33,9 @@ class StudentStudyMaterialMain extends StatefulWidget {
 
 class _StudentStudyMaterialMainState extends State<StudentStudyMaterialMain> {
   final UserController _userController = Get.put(UserController());
-  Future<UploadedContentList> assignments;
-  String _token;
-  String _id;
+  Future<UploadedContentList>? assignments;
+  String? _token;
+  String? _id;
 
   @override
   void initState() {
@@ -46,8 +46,8 @@ class _StudentStudyMaterialMainState extends State<StudentStudyMaterialMain> {
       setState(() {
         _id = idValue;
         assignments = fetchAssignment(
-            widget.id != null ? int.parse(widget.id) : int.parse(idValue),
-            _userController.studentRecord.value.records.first.id,
+            widget.id != null ? int.parse(widget.id!) : int.parse(idValue!),
+            _userController.studentRecord.value.records!.first.id,
             widget.type);
       });
     });
@@ -80,7 +80,7 @@ class _StudentStudyMaterialMainState extends State<StudentStudyMaterialMain> {
                 _userController.selectedRecord.value = record;
                 setState(() {
                   assignments = fetchAssignment(
-                      widget.id != null ? int.parse(widget.id) : int.parse(_id),
+                      widget.id != null ? int.parse(widget.id!) : int.parse(_id!),
                       record.id,
                       widget.type);
                 });
@@ -94,12 +94,12 @@ class _StudentStudyMaterialMainState extends State<StudentStudyMaterialMain> {
                 future: assignments,
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot != null) {
-                    if (snapshot.data.uploadedContents.length > 0) {
+                    if (snapshot.data!.uploadedContents.length > 0) {
                       return ListView.builder(
-                        itemCount: snapshot.data.uploadedContents.length,
+                        itemCount: snapshot.data!.uploadedContents.length,
                         itemBuilder: (context, index) {
                           return StudyMaterialListRow(
-                              snapshot.data.uploadedContents[index]);
+                              snapshot.data!.uploadedContents[index]);
                         },
                       );
                     } else {
@@ -118,7 +118,7 @@ class _StudentStudyMaterialMainState extends State<StudentStudyMaterialMain> {
   }
 
   Future<UploadedContentList> fetchAssignment(
-      dynamic id, int recordId, String type) async {
+      dynamic id, int? recordId, String? type) async {
     String url;
 
     if (type == 'as') {

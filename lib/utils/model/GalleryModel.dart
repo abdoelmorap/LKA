@@ -2,7 +2,7 @@ class GalleryModel {
   GalleryModel({
     this.data,
   });
-  List<Data> data;
+  List<Data>? data;
 
   GalleryModel.fromJson(Map<String, dynamic> json) {
     data = List.from(json["DATA"]).map((e) => Data.fromJson(e)).toList();
@@ -10,7 +10,7 @@ class GalleryModel {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['DATA'] = data.map((e) => e.toJson()).toList();
+    _data['DATA'] = data!.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -25,13 +25,13 @@ class Data {
     this.updateAt,
     this.updatedAt,
   });
-  int id;
-  String image;
-  String content;
-  int studentId;
-  String createdAt;
-  String updateAt;
-  String updatedAt;
+  int? id;
+  String? image;
+  String? content;
+  int? studentId;
+  String? createdAt;
+  String? updateAt;
+  String? updatedAt;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -36,9 +36,9 @@ class _NoticDetailsLayoutState extends State<NoticDetailsLayout> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                notice.title,
+                notice.title!,
                 maxLines: 1,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: ScreenUtil().setSp(20),
                     ),
@@ -47,9 +47,9 @@ class _NoticDetailsLayoutState extends State<NoticDetailsLayout> {
                 height: 5.0,
               ),
               Text(
-                notice.date,
+                notice.date!,
                 maxLines: 1,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       fontWeight: FontWeight.w300,
                       fontSize: ScreenUtil().setSp(16.0),
                     ),
@@ -61,7 +61,7 @@ class _NoticDetailsLayoutState extends State<NoticDetailsLayout> {
                 '''
               ${notice.destails ?? ""}
               ''',
-                textStyle: Theme.of(context).textTheme.headline4.copyWith(
+                textStyle: Theme.of(context).textTheme.headline4!.copyWith(
                       fontWeight: FontWeight.w300,
                       fontSize: ScreenUtil().setSp(14.0),
                     ),

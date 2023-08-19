@@ -1,9 +1,9 @@
 class ClassExamResult{
-  String examName;
-  String subject;
+  String? examName;
+  String? subject;
   dynamic marks;
   dynamic obtains;
-  String grade;
+  String? grade;
 
 
   ClassExamResult({this.examName, this.subject, this.marks, this.obtains,
