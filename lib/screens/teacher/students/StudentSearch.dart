@@ -38,6 +38,7 @@ class _StudentSearchState extends State<StudentSearch> {
   TextEditingController nameController = TextEditingController();
   TextEditingController rollController = TextEditingController();
   Future<ClassList>? classes;
+  Future<AdminClassList>? classesAdminRole;
   Future<SectionList>? sections;
   String? url;
   String? status;
@@ -58,20 +59,41 @@ class _StudentSearchState extends State<StudentSearch> {
         setState(() {
           rule = ruleValue;
           Utils.getStringValue('id').then((value) async{
-            classes = await getAllClass(int.parse(_id!));
 
-            setState(() {
-              _id = value;
-              classes!.then((value) {
-                _selectedClass = value.classes[0].name;
-                classId = value.classes[0].id;
-                sections = getAllSection(int.parse(_id!), classId);
-                sections!.then((sectionValue) {
-                  _selectedSection = sectionValue.sections[0].name;
-                  sectionId = sectionValue.sections[0].id;
+              if (rule == "1" || rule == "5") {
+                classesAdminRole =  getAllClassRuleAdmin(int.parse(value!));
+
+
+                setState(() {
+                  _id = value;
+                  classesAdminRole!.then((value) {
+                    _selectedClass = value.classes[0].name;
+                    classId = value.classes[0].id;
+                    sections = getAllSection(int.parse(_id!), classId);
+                    sections!.then((sectionValue) {
+                      _selectedSection = sectionValue.sections[0].name;
+                      sectionId = sectionValue.sections[0].id;
+                    });
+                  });
                 });
-              });
-            });
+
+              }else{
+                classes =  getAllClass(int.parse(value!));
+                setState(() {
+                  _id = value;
+                  classes!.then((value) {
+                    _selectedClass = value.classes[0].name;
+                    classId = value.classes[0].id;
+                    sections = getAllSection(int.parse(_id!), classId);
+                    sections!.then((sectionValue) {
+                      _selectedSection = sectionValue.sections[0].name;
+                      sectionId = sectionValue.sections[0].id;
+                    });
+                  });
+                });
+              }
+
+
           });
         });
       });
@@ -89,8 +111,68 @@ class _StudentSearchState extends State<StudentSearch> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder<ClassList>(
+          child: !(rule == "1" || rule == "5")?FutureBuilder<ClassList>(
             future: classes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView(
+                  children: <Widget>[
+                    getClassDropdown(snapshot.data!.classes),
+                    FutureBuilder<SectionList>(
+                      future: sections,
+                      builder: (context, secSnap) {
+                        if (secSnap.hasData) {
+                          return getSectionDropdown(secSnap.data!.sections);
+                        } else {
+                          return Center(child: CupertinoActivityIndicator());
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: Theme.of(context).textTheme.headline4,
+                        controller: nameController,
+                        decoration: InputDecoration(
+                            hintText: "Search by name".tr,
+                            labelText: "Name".tr,
+                            labelStyle: Theme.of(context).textTheme.headline4,
+                            errorStyle: TextStyle(
+                                color: Colors.pinkAccent, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            )),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: Theme.of(context).textTheme.headline4,
+                        controller: rollController,
+                        decoration: InputDecoration(
+                            hintText: "Search by roll".tr,
+                            labelText: "Roll".tr,
+                            labelStyle: Theme.of(context).textTheme.headline4,
+                            errorStyle: TextStyle(
+                                color: Colors.pinkAccent, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            )),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return Center(child: CupertinoActivityIndicator());
+              }
+            },
+          ):FutureBuilder<AdminClassList>(
+            future: classesAdminRole,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView(
@@ -334,7 +416,7 @@ class _StudentSearchState extends State<StudentSearch> {
     return code;
   }
 
-  Future getAllClass(int id) async {
+  Future<ClassList> getAllClass(int id) async {
     print(rule);
     final response = await http.get(Uri.parse(InfixApi.getClassById(id)),
         headers: Utils.setHeader(_token.toString()));
@@ -342,16 +424,32 @@ class _StudentSearchState extends State<StudentSearch> {
     print(response.body);
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      if (rule == "1" || rule == "5") {
-        return AdminClassList.fromJson(jsonData['data']['teacher_classes']);
-      } else {
+      // if (rule == "1" || rule == "5") {
+      //   return AdminClassList.fromJson(jsonData['data']['teacher_classes']);
+      // } else {
         return ClassList.fromJson(jsonData['data']['teacher_classes']);
-      }
+      // }
     } else {
       throw Exception('Failed to load');
     }
   }
-
+  Future<AdminClassList> getAllClassRuleAdmin(int id) async {
+    print(rule);
+    final response = await http.get(Uri.parse(InfixApi.getClassById(id)),
+        headers: Utils.setHeader(_token.toString()));
+    print(InfixApi.getClassById(id));
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      // if (rule == "1" || rule == "5") {
+        return AdminClassList.fromJson(jsonData['data']['teacher_classes']);
+      // } else {
+      // return ClassList.fromJson(jsonData['data']['teacher_classes']);
+      // }
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
   Future<SectionList> getAllSection(dynamic id, dynamic classId) async {
     final response = await http.get(
         Uri.parse(InfixApi.getSectionById(id, classId)),

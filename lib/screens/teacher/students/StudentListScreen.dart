@@ -4,14 +4,17 @@ import 'dart:convert';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:infixedu/screens/teacher/PostImage.dart';
 
 // Project imports:
 import 'package:infixedu/utils/CustomAppBarWidget.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/model/Student.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/utils/widget/StudentSearchRow.dart';
 
 // ignore: must_be_immutable
@@ -78,7 +81,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
       appBar: CustomAppBarWidget(title: 'Students List'),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: FutureBuilder<StudentList>(
+      body:FutureBuilder<StudentList>(
         future: students,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -86,6 +89,29 @@ class _StudentListScreenState extends State<StudentListScreen> {
               return ListView.builder(
                 itemCount: snapshot.data!.students.length,
                 itemBuilder: (context, index) {
+                  if(index==0){
+                    return Column(
+                        children: [
+                     Padding(padding: EdgeInsets.all(5),child:  ElevatedButton(onPressed: (){
+
+                       Get.to(() => ImagePst(
+                                 id: classCode.toString(),
+                               ));
+                       // Navigator.push(
+                       //     context,
+                       //     ScaleRoute(
+                       //         page: ImagePst(
+                       //           id: classCode.toString(),
+                       //         )));
+                     }, child: Padding(child: Text(
+                         "Post Images Of The Day"
+                     ),padding: EdgeInsets.all(5),),),),StudentRow(
+                        snapshot.data!.students[index],
+                        status: status,
+                        token: token,
+                      )
+                    ],crossAxisAlignment:CrossAxisAlignment.end);
+                  }else
                   return StudentRow(
                     snapshot.data!.students[index],
                     status: status,
@@ -102,8 +128,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
             );
           }
         },
-      ),
-    );
+      ), );
   }
 
   Future<StudentList> getAllStudent() async {

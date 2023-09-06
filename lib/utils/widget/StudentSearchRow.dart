@@ -77,21 +77,21 @@ class _StudentRowState extends State<StudentRow> {
             subtitle: Text('${student.classSection}',
                 style: Theme.of(context).textTheme.headline4),
           ),
-          Positioned(
-            child: IconButton(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    ScaleRoute(
-                        page: ImagePst(
-                      id: student.id.toString(),
-                    )));
-              },
-              color: Colors.cyan,
-            ),
-            right: 0,
-          )
+          // Positioned(
+          //   child: IconButton(
+          //     icon: Icon(Icons.camera),
+          //     onPressed: () {
+          //       Navigator.push(
+          //           context,
+          //           ScaleRoute(
+          //               page: ImagePst(
+          //             id: student.id.toString(),
+          //           )));
+          //     },
+          //     color: Colors.cyan,
+          //   ),
+          //   right: 0,
+          // )
         ],
       ),
       // Container(

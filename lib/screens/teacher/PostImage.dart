@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart' as image;
 import 'package:image_picker/image_picker.dart';
@@ -27,22 +29,67 @@ class ImagePst extends StatefulWidget {
 
 class ImageStatePst extends State<ImagePst> {
   TextEditingController postContent = TextEditingController();
-  XFile? photo;
+  List<XFile>? photo;
+  String GroupId="";
+  double loading = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: CustomAppBarWidget(
         title: "Send Post",
       ),
       body: ListView(children: [
-        Center(
-          child: photo == null
+        SizedBox(height: 25,),
+      photo == null
               ? Icon(Icons.import_contacts_sharp)
-              : Image.file(
-                  File(photo!.path),
-                  width: MediaQuery.of(context).size.width,
-                ),
-        ),
+              :Container(child:  GridView.builder(itemBuilder: (context,indx){
+      if (indx==photo!.length!-1) {
+        return  Container(child: Stack(children: [SizedBox(width: 10000,height: 1000000000,)
+          ,SizedBox(child: ClipRRect(
+            borderRadius: BorderRadius.circular(20), // Image border
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(48), // Image radius
+              child:Image.file(
+                File(photo![indx].path),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),height: 1555,width: 1555,),
+
+
+         Align(child: GestureDetector(onTap: ()=>openCamera(),
+            child: Icon(Icons.add,size: 60,),
+          ),alignment: Alignment.center,),GestureDetector(child: Icon(Icons.close_rounded,color: Colors.red,),onTap: (){
+            photo!.removeAt(indx);
+            setState(() {
+
+            });
+          },)
+        ]
+        ),width: 10000,height: 1000000000,);
+      } else
+        return  SizedBox(child: ClipRRect(
+          borderRadius: BorderRadius.circular(20), // Image border
+          child: SizedBox.fromSize(
+            size: Size.fromRadius(48), // Image radius
+            child:Image.file(
+              File(photo![indx].path),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),height: 1555,width: 1555,);
+        //   Image.file(
+        //   File(photo![indx].path),
+        // );
+
+
+      },itemCount: photo!.length,    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 6.0,
+        mainAxisSpacing: 2.0,
+      ),),height: MediaQuery.of(context).size.height/3,)
+,
         Column(children: [
           SizedBox(
             height: 5,
@@ -75,36 +122,50 @@ class ImageStatePst extends State<ImagePst> {
         Container(
           child: ElevatedButton(
               onPressed: () async {
-                late BuildContext myCtxr;
-                showDialog(
-                    context: context,
-                    builder: (ctxr) {
-                      myCtxr = ctxr;
-                      return AlertDialog(
-                        content: CircularProgressIndicator(),
-                      );
-                    });
-                String? _token = "";
-                _token = await (Utils.getStringValue('token') as FutureOr<String>);
 
+                String? _token = "";
+                _token = await (Utils.getStringValue('token'));
+String? _fullName='';
                 print(widget.id);
-                var request = http.MultipartRequest(
-                    "POST", Uri.parse(InfixApi.postImage + "/${widget.id}"));
+                _fullName=await  Utils.getStringValue('full_name');
+                var request = MultipartRequest(
+                    "POST", Uri.parse(InfixApi.postImage + "/${widget.id}"), onProgress: (int bytes, int totalBytes) {
+
+                  loading=(bytes/totalBytes);
+             // if(loading==.25
+             // ||loading==.35||loading==.50||loading==.65||loading==.75||loading==.90||loading==.100){
+               EasyLoading.showProgress(loading, status: 'Uploading...\n${(loading * 100).toStringAsFixed(0)}%');
+
+             // }
+
+                },);
                 request.fields['content'] = postContent.text;
                 request.fields['student_id'] = widget.id.toString();
+                request.fields['ISGroup'] = GroupId;
+                request.fields['TeacherName'] = _fullName??'';
+                request.fields['count'] = photo!.length.toString();
                 request.headers.addAll({
                   'Content-type': 'application/json',
                   'Accept': 'application/json',
-                  'Authorization': _token,
+                  'Authorization': _token!,
                 });
-                image.Image resized_img = image.copyResize(
-                    image.decodeImage((await photo!.readAsBytes()))!,
-                    width: 800,
-                    height: 800);
-                request.files.add(http.MultipartFile.fromBytes(
-                    'image_file', image.encodeJpg(resized_img),
-                    contentType: MediaType.parse('image/jpeg'),
-                    filename: photo!.path.split("/").last));
+
+                //used Code
+                for(var p in photo!){
+                  image.Image resized_img = image.copyResize(
+                      image.decodeImage((await p!.readAsBytes()))!,
+                      width: 800,
+                      height: 800);
+                  request.files.add(http.MultipartFile.fromBytes(
+                      'image_file'+photo!.indexOf(p)!.toString(), image.encodeJpg(resized_img),
+                      contentType: MediaType.parse('image/jpeg'),
+                      filename: p!.path.split("/").last));
+                }
+
+
+
+
+
                 // request.files.add(http.MultipartFile(
                 //     'image_file',
                 //     (await FlutterImageCompress.compressWithFile(
@@ -118,7 +179,8 @@ class ImageStatePst extends State<ImagePst> {
                 //     filename: photo!.path.split("/").last));
 
                 request.send().then((response) {
-                  Navigator.of(myCtxr).pop();
+                  EasyLoading.dismiss();
+
                   print(response.reasonPhrase);
                   if (response.statusCode == 201) {
                     showDialog(
@@ -143,7 +205,7 @@ class ImageStatePst extends State<ImagePst> {
                         builder: (ctx) {
                           return AlertDialog(
                             content:
-                                Text("Posted Failed Please Try Again later"),
+                                Text("Posted Failed Please Try Again later "+response.reasonPhrase.toString()),
                           );
                         });
                   }
@@ -152,9 +214,7 @@ class ImageStatePst extends State<ImagePst> {
               child: Text("Send")),
           margin: EdgeInsets.fromLTRB(20, 20, 20, 50),
         ),
-        SizedBox(
-          height: 100,
-        )
+
       ]),
     );
   }
@@ -163,38 +223,82 @@ class ImageStatePst extends State<ImagePst> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
+      GroupId =widget.id.toString()+Random().nextInt(54844).toString()+DateTime.now().millisecondsSinceEpoch.toString();
+
       openCamera();
     });
   }
 
   openCamera() async {
     final ImagePicker _picker = ImagePicker();
-    showDialog(
-        context: context,
-        builder: (ctxe) {
-          return AlertDialog(
-            content: Text("SelectImageSource"),
-            actions: [
-              ElevatedButton(
-                  onPressed: () async {
-                    photo =
-                        (await _picker.pickImage(source: ImageSource.camera));
-                    Navigator.of(ctxe).pop();
+    if(photo==null){
+      photo =    await _picker.pickMultiImage(
+          imageQuality: 40, maxHeight: 800, maxWidth: 800);}else{
+      photo!.addAll((
+          await _picker.pickMultiImage(
+              imageQuality: 40, maxHeight: 800, maxWidth: 800)));
+    }
+    setState(() {});
+    // showDialog(
+    //     context: context,
+    //     builder: (ctxe) {
+    //       return AlertDialog(
+    //         content: Text("SelectImageSource"),
+    //         actions: [
+    //           ElevatedButton(
+    //               onPressed: () async {
+    //                 // photo =
+    //                 //     (await _picker.pickMultiImage(source: ImageSource.camera));
+    //                 // Navigator.of(ctxe).pop();
+    //                 //
+    //                 // setState(() {});
+    //               },
+    //               child: Text("Camera")),
+    //           ElevatedButton(
+    //               onPressed: () async {
+    //                 // photo =
+    //                 //     (await _picker.pickMultiImage(source: ImageSource.gallery));
+    //                 // Navigator.of(ctxe).pop();
+    //                 photo =    await _picker.pickMultiImage(
+    //                     imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    //                 setState(() {});
+    //               },
+    //               child: Text("Gallery"))
+    //         ],
+    //       );
+    //     });
+  }
+}
 
-                    setState(() {});
-                  },
-                  child: Text("Camera")),
-              ElevatedButton(
-                  onPressed: () async {
-                    photo =
-                        (await _picker.pickImage(source: ImageSource.gallery));
-                    Navigator.of(ctxe).pop();
+class MultipartRequest extends http.MultipartRequest {
+  /// Creates a new [MultipartRequest].
+  MultipartRequest(
+      String method,
+      Uri url, {
+        required this.onProgress,
+      }) : super(method, url);
 
-                    setState(() {});
-                  },
-                  child: Text("Gallery"))
-            ],
-          );
-        });
+  final void Function(int bytes, int totalBytes) onProgress;
+
+  /// Freezes all mutable fields and returns a single-subscription [ByteStream]
+  /// that will emit the request body.
+  http.ByteStream finalize() {
+    final byteStream = super.finalize();
+    if (onProgress == null) return byteStream;
+
+    final total = this.contentLength;
+    int bytes = 0;
+
+    final t = StreamTransformer.fromHandlers(
+      handleData: (List<int> data, EventSink<List<int>> sink) {
+        bytes += data.length;
+        onProgress(bytes, total);
+        if(total >= bytes) {
+          sink.add(data);
+        }
+      },
+    );
+    final stream = byteStream.transform(t);
+    return http.ByteStream(stream);
   }
 }

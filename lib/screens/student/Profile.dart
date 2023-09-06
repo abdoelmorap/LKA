@@ -195,18 +195,15 @@ class _ProfileState extends State<Profile> {
                                   child: Text("Show Daily Report"))
                               : ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PushReport(
-                                                  name: _studentDetails
-                                                      .studentData!
-                                                      .user!
-                                                      .fullName,
-                                                  id: _studentDetails
-                                                      .studentData!.user!.id
-                                                      .toString(),
-                                                )));
+                             Get.to( PushReport(
+                               name: _studentDetails
+                                   .studentData!
+                                   .user!
+                                   .fullName,
+                               id: _studentDetails
+                                   .studentData!.user!.id
+                                   .toString(),
+                             ));
                                     // _studentDetails.studentData.user.id
                                   },
                                   child: Text(

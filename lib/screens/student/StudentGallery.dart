@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:file_utils/file_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infixedu/config/app_config.dart';
 import 'package:infixedu/screens/student/studyMaterials/StudyMaterialViewer.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
@@ -20,6 +23,8 @@ import '../../utils/CustomAppBarWidget.dart';
 import '../../utils/Utils.dart';
 import '../../utils/model/GalleryModel.dart';
 import 'package:http/http.dart' as http;
+
+import '../../utils/model/StudentDetailsModel.dart';
 
 class StudentGallery extends StatefulWidget {
   @override
@@ -45,106 +50,146 @@ class _stateStudentGallery extends State<StudentGallery> {
             if (data.hasData) {
               return ListView.builder(
                 itemBuilder: (ctx, index) {
+                  int currentIndexPage =1;
+
                   var photo = "";
                   String image = photo.isEmpty || photo == ''
                       ? '${AppConfig.domainName}/public/uploads/staff/demo/staff.jpg'
                       : InfixApi.root + photo;
-                  return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.all(10),
-                      child: Column(children: [
-                        Stack(
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                                radius: 25.0,
-                                backgroundImage: NetworkImage(image),
-                                backgroundColor: Colors.grey,
-                              ),
-                              title: Text(
-                                "",
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                            ),
-                          ],
-                        ),
-                        data.data!.data![index].image!.isNotEmpty
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: CachedNetworkImage(
-                                    width: MediaQuery.of(context).size.width,
-                                    imageUrl:
-                                        "${InfixApi.root}public/images/${data.data!.data![index].image}",
-                                    progressIndicatorBuilder: (BuildContext,
-                                        String, DownloadProgress) {
-                                      return Container(
-                                        child: CircularProgressIndicator(),
-                                        width: 100,
-                                        height: 100,
-                                      );
-                                    }),
-                              )
-                            : SizedBox.shrink(),
-                        Container(
-                          child: Text(
-                            data.data!.data![index].content!,
-                            textAlign: TextAlign.justify,
-                          ),
-                          width: MediaQuery.of(context).size.width - 50,
-                        ),
-                        Row(children: [
-                          SizedBox(
-                            width: 10,
-                            height: 50,
-                          ),
-                          // Container(
-                          //   padding: const EdgeInsets.all(4.0),
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.orange,
-                          //     shape: BoxShape.circle,
-                          //   ),
-                          //   child: Icon(
-                          //     Icons.thumb_up,
-                          //     size: 25.0,
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
-                          const SizedBox(width: 4.0),
-                          Container(
-                            padding: const EdgeInsets.all(4.0),
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              shape: BoxShape.circle,
-                            ),
-                            child: GestureDetector(
-                              child: Icon(
-                                Icons.download,
-                                size: 25.0,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                downloadFile(
-                                    InfixApi.root +
-                                        "public/images/" +
-                                        data.data!.data![index].image!,
-                                    context,
-                                    data.data!.data![index].image);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 4.0),
-                        ])
-                      ]));
+
+                  return PostContainer(data,index,image);
                 },
-                itemCount: data.data!.data!.length,
+                itemCount: data.data!.dATA!.length,
               );
             }
             return Container();
           },
         ));
   }
+Widget PostContainer(data,index,image){
+ return Card(
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+      child: Column(children: [
+        Stack(
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                radius: 25.0,
+                backgroundImage: NetworkImage(image),
+                backgroundColor: Colors.grey,
+              ),
+              title: Text(
+                data.data!.dATA![index].TeacherName??'',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+          ],
+        ),
+        data.data!.dATA![index].images!.length!=0
+            ? Padding(
+          padding:
+          const EdgeInsets.symmetric(vertical: 8.0),
+          child:
 
+
+          CarouselSlider.builder(
+            itemCount: data.data!.dATA![index].images!.length,
+            itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                Container(
+                  child:       CachedNetworkImage(
+                      width: MediaQuery.of(context).size.width,
+                      imageUrl:
+                      "${InfixApi.root}public/images/${data.data!.dATA![index].images![itemIndex].url}",
+                      progressIndicatorBuilder: (BuildContext,
+                          String, DownloadProgress) {
+                        return Container(
+                          child: CircularProgressIndicator(),
+                          width: 100,
+                          height: 100,
+                        );
+                      }),
+                ), options:  CarouselOptions(
+              height: 400,
+              aspectRatio: 16/9,
+              viewportFraction: 1,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: false,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              enlargeFactor: 0.3,
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (myIndex, reason) {
+
+                setState(() {
+                  data.data!.dATA![index].CurrentIndex=myIndex;
+                });
+              }
+          ),
+          ),
+
+        )
+            : SizedBox.shrink(),
+        data.data!.dATA![index].images!.length!=0?  DotsIndicator(
+          dotsCount: data.data!.dATA![index].images!.length==0?1:data.data!.dATA![index].images!.length,
+          position: data.data!.dATA![index].images!.length==0?0:  data.data!.dATA![index].CurrentIndex,
+        ) : SizedBox.shrink(),
+        Container(
+          child: Text(
+            data.data!.dATA![index].content!,
+            textAlign: TextAlign.justify,style: GoogleFonts.butterflyKids(fontSize: 29,color: Colors.pink,fontWeight: FontWeight.bold),
+          ),
+          width: MediaQuery.of(context).size.width - 50,
+        ),
+        Row(children: [
+          SizedBox(
+            width: 10,
+            height: 50,
+          ),
+          // Container(
+          //   padding: const EdgeInsets.all(4.0),
+          //   decoration: BoxDecoration(
+          //     color: Colors.orange,
+          //     shape: BoxShape.circle,
+          //   ),
+          //   child: Icon(
+          //     Icons.thumb_up,
+          //     size: 25.0,
+          //     color: Colors.white,
+          //   ),
+          // ),
+          const SizedBox(width: 4.0),
+          Container(
+            padding: const EdgeInsets.all(4.0),
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              shape: BoxShape.circle,
+            ),
+            child: GestureDetector(
+              child: Icon(
+                Icons.download,
+                size: 25.0,
+                color: Colors.white,
+              ),
+              onTap: () {
+                downloadFile(
+                  InfixApi.root +
+                      "public/images/" +
+                      data.data!.dATA![index].images![ data.data!.dATA![index].CurrentIndex??0].url.toString(),
+                  context,
+
+                  data.data!.dATA![index].images![ data.data!.dATA![index].CurrentIndex??0].url.toString(),);
+              },
+            ),
+          ),
+          const SizedBox(width: 4.0),
+        ])
+      ]));
+}
   Future fetchContent() async {
     // final response = await http.get(Uri.parse(InfixApi.getAllContent()),
     //     headers: Utils.setHeader(_token));
@@ -160,11 +205,12 @@ class _stateStudentGallery extends State<StudentGallery> {
   @override
   void initState() {
     super.initState();
-    super.initState();
     Utils.getStringValue('token').then((value) {
       setState(() {
         _token = value;
+
       });
+
     })
       ..then((value) {
         stGallery = _StGallery();
@@ -193,26 +239,26 @@ class _stateStudentGallery extends State<StudentGallery> {
         var received = ((receivedBytes / totalBytes) * 100);
         var progress =
             ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
+        if (received == 35.0) {
+          Utils.showToast(
+              "Download Is 35%."
+                  .tr);
+
+
+        }
+        if (received == 75.0) {
+          Utils.showToast(
+              "Download Is 75%."
+                  .tr);
+
+
+        }
         if (received == 100.0) {
-          if (url.contains('.pdf')) {
             Utils.showToast(
                 "Download Completed. File is also available in your download folder."
                     .tr);
-            Navigator.push(
-                context,
-                ScaleRoute(
-                    page: DownloadViewer(
-                        title: title, filePath: InfixApi.root + url)));
-          } else {
-            // ignore: deprecated_member_use
-            await canLaunch(InfixApi.root + url)
-                // ignore: deprecated_member_use
-                ? await launch(InfixApi.root + url)
-                : throw 'Could not launch ${InfixApi.root + url}';
-          }
-          Utils.showToast(
-              "Download Completed. File is also available in your download folder."
-                  .tr);
+
+
         }
       });
     } catch (e) {
@@ -223,11 +269,15 @@ class _stateStudentGallery extends State<StudentGallery> {
   }
 
   Future<GalleryModel> _StGallery() async {
+
     var id = await Utils.getIntValue("studentId") ??
-        await Utils.getIntValue("myStudentId");
-    final response = await http.get(Uri.parse(InfixApi.getPosts + "/$id"),
+        await Utils.getIntValue("myStudentId")??  await Utils.getIntValue("childID");
+
+
+
+    final response = await http.get(Uri.parse(InfixApi.getPosts + "/${id!}"),
         headers: Utils.setHeader(_token.toString()));
-    print(id);
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       print(jsonData);

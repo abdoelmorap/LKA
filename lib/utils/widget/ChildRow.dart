@@ -9,6 +9,8 @@ import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/model/Child.dart';
 
+import '../Utils.dart';
+
 // ignore: must_be_immutable
 class ChildRow extends StatefulWidget {
   Child child;
@@ -33,6 +35,7 @@ class _ChildRowState extends State<ChildRow> {
         : InfixApi.root + child.photo!;
     return InkWell(
       onTap: () {
+        saveSomeData();
         Get.to(() => DashboardScreen(
               AppFunction.students,
               AppFunction.studentIcons,
@@ -80,5 +83,8 @@ class _ChildRowState extends State<ChildRow> {
         ],
       ),
     );
+  }
+  saveSomeData() async{
+    await Utils.saveIntValue("childID",child.id);
   }
 }

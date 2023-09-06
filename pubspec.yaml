@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 2.8.20+47
+version: 5.0.0+60
 
 
 environment:
@@ -83,7 +83,9 @@ dependencies:
   image:
   image_picker:
   image_picker_android:
+  dots_indicator: ^3.0.0
   flutter_image_compress:
+
 
 
 
@@ -115,12 +117,6 @@ flutter:
    - assets/locale/
 
 fonts:
-  - family: Themify
-    fonts:
-      - asset: assets/fonts/Themify.ttf
-  - family: ThemifyFont
-    fonts:
-      - asset: font/Themify.ttf
   - family: popins
     fonts:
       - asset: fonts/poppins_medium.ttf

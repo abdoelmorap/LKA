@@ -42,6 +42,13 @@ class _PushReportState extends State<PushReport> {
   String? juice = "0";
 
   TextEditingController Hygiene = TextEditingController();
+  TextEditingController breakDetails = TextEditingController();
+  TextEditingController lunchDetails = TextEditingController();
+  TextEditingController SnaksDetails = TextEditingController();
+
+  TextEditingController Activities = TextEditingController();
+  TextEditingController Toilet1 = TextEditingController();
+  TextEditingController Toilet2 = TextEditingController();
 
   TextEditingController Temperature = TextEditingController();
 
@@ -51,10 +58,13 @@ class _PushReportState extends State<PushReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
+
         appBar: CustomAppBarWidget(
           title: "Send Student Report",
         ),
-        body: SingleChildScrollView(
+        body:
+        SingleChildScrollView(
           reverse: false,
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -246,40 +256,7 @@ class _PushReportState extends State<PushReport> {
                 width: MediaQuery.of(context).size.width,
                 height: 2,
                 child: ColoredBox(color: Color(0xff93cfc4)),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                width: MediaQuery.of(context).size.width,
-                height: 2,
-                child: ColoredBox(color: Color(0xff93cfc4)),
-              ),
-              Text(
-                "Activities".tr,
-                style: TextStyle(
-                    color: Color(0xff93cfc4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                child: TextFormField(
-                  controller: Comment,
-                  decoration: new InputDecoration(
-                    fillColor: Color(0xFFFFFFFF),
-                    border: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: new BorderSide(color: Colors.teal)),
-                  ),
-                  maxLines: 5,
-                ),
-                margin: EdgeInsets.all(5),
-                width: MediaQuery.of(context).size.width * 90 / 100,
-              ),   SizedBox(
+              ),  SizedBox(
                 height: 20,
               ),
               Align(
@@ -296,63 +273,76 @@ class _PushReportState extends State<PushReport> {
               SizedBox(
                 height: 20,
               ),
-              GridView.count(
-                  primary: false,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  children: [
+
                     Container(
-                      child: Column(
-                        children: [
-                          Text("BreakFast".tr),
-                          DropdownButton<String>(
-                            value: Breakfast,
-                            icon: const Icon(Icons.arrow_downward),
-                            elevation: 16,
-                            style: const TextStyle(
-                              color: Color(0xff93cfc4),
+                      child: Row(children: [
+                        SizedBox(width: 15,),
+                        Column(
+                          children: [
+                            Text("BreakFast".tr),
+                            DropdownButton<String>(
+                              value: Breakfast,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              style: const TextStyle(
+                                color: Color(0xff93cfc4),
+                              ),
+                              underline: Container(
+                                height: 2,
+                                color: Color(0xff93cfc4),
+                              ),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  Breakfast = value;
+                                });
+                              },
+                              items: ["0", "1", "2", "3"]
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: value == "0"
+                                      ? Image.asset(
+                                    "assets/images/na.png",
+                                    width: 35,
+                                  )
+                                      : value == "1"
+                                      ? Image.asset(
+                                    "assets/images/plate.png",
+                                    width: 35,
+                                  )
+                                      : value == "2"
+                                      ? Image.asset(
+                                    "assets/images/halfdish.webp",
+                                    width: 35,
+                                  )
+                                      : Image.asset(
+                                    "assets/images/fulldish.jpg",
+                                    width: 35,
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            underline: Container(
-                              height: 2,
-                              color: Color(0xff93cfc4),
+                          ],
+                        ),     Container(
+                          child: TextField(
+                            controller: breakDetails,
+                            decoration: new InputDecoration(
+                              fillColor: Color(0xFFFFFFFF),
+                              border: new OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: new BorderSide(color: Colors.teal)),
                             ),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                Breakfast = value;
-                              });
-                            },
-                            items: ["0", "1", "2", "3"]
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: value == "0"
-                                    ? Image.asset(
-                                        "assets/images/na.png",
-                                        width: 35,
-                                      )
-                                    : value == "1"
-                                        ? Image.asset(
-                                            "assets/images/plate.png",
-                                            width: 35,
-                                          )
-                                        : value == "2"
-                                            ? Image.asset(
-                                                "assets/images/halfdish.webp",
-                                                width: 35,
-                                              )
-                                            : Image.asset(
-                                                "assets/images/fulldish.jpg",
-                                                width: 35,
-                                              ),
-                              );
-                            }).toList(),
                           ),
-                        ],
-                      ),
+                          width: MediaQuery.of(context).size.width*60/100
+                          ,margin: EdgeInsets.all(5),
+                          alignment: Alignment.center,
+                          height: 40,
+                        ),
+                      ],)
                     ),
-                    Column(
+          Row(children: [
+            SizedBox(width: 15,), Column(
                       children: [
                         Text("Lunch".tr),
                         DropdownButton<String>(
@@ -398,9 +388,27 @@ class _PushReportState extends State<PushReport> {
                           }).toList(),
                         ),
                       ],
-                    ),
-                    Column(
-                      children: [
+                    ),   Container(
+              child: TextField(
+                maxLines: 1,
+                controller: lunchDetails,
+                decoration: new InputDecoration(
+                  fillColor: Color(0xFFFFFFFF),
+                  border: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: new BorderSide(color: Colors.teal)),
+                ),
+              ),
+              width: MediaQuery.of(context).size.width*60/100
+              ,margin: EdgeInsets.all(5),
+              alignment: Alignment.center,
+              height: 40,
+            ),
+          ],),
+
+          Row(children: [
+            SizedBox(width: 15,), Column(
+          children: [
                         Text("Snack".tr),
                         DropdownButton<String>(
                           value: Snack,
@@ -445,9 +453,24 @@ class _PushReportState extends State<PushReport> {
                             );
                           }).toList(),
                         )
-                      ],
-                    ),
-                  ]),
+
+                  ]), Container(
+            child: TextField(
+              maxLines: 1,
+              controller: SnaksDetails,
+              decoration: new InputDecoration(
+                fillColor: Color(0xFFFFFFFF),
+                border: new OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: new BorderSide(color: Colors.teal)),
+              ),
+            ),
+            width: MediaQuery.of(context).size.width*60/100
+            ,margin: EdgeInsets.all(5),
+            alignment: Alignment.center,
+            height: 40,
+          ),
+          ]),
               Container(
                 margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
                 width: MediaQuery.of(context).size.width,
@@ -651,13 +674,61 @@ class _PushReportState extends State<PushReport> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 3,
-                children: [
+                children: [  Column(
+                  children: [
+                    Text("Hands".tr),
+                    Container(
+                      child: TextField(
+                        controller: Hygiene,
+                        decoration: new InputDecoration(
+                          fillColor: Color(0xFFFFFFFF),
+                          border: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: new BorderSide(color: Colors.teal)),
+                        ),
+                      ),
+                      width: 65,
+                      margin: EdgeInsets.all(5),
+                      alignment: Alignment.center,
+                      height: 35,
+                    ),
+                    Image.asset(
+                      "assets/images/shield.png",
+                      width: 50,
+                      height: 50,
+                    )
+                  ],
+                ),  Column(
+                  children: [
+                    Text("Toilet1".tr),
+                    Container(
+                      child: TextField(
+                        controller: Toilet1,
+                        decoration: new InputDecoration(
+                          fillColor: Color(0xFFFFFFFF),
+                          border: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: new BorderSide(color: Colors.teal)),
+                        ),
+                      ),
+                      width: 65,
+                      margin: EdgeInsets.all(5),
+                      alignment: Alignment.center,
+                      height: 35,
+                    ),
+                    Image.asset(
+                      "assets/images/toolet1.png",
+                      width: 50,
+                      height: 50,
+                    )
+                  ],
+                ),
                   Column(
                     children: [
-                      Text("Hygiene".tr),
+                      Text("Toilet2".tr),
                       Container(
                         child: TextField(
-                          controller: Hygiene,
+                          controller: Toilet2,
                           decoration: new InputDecoration(
                             fillColor: Color(0xFFFFFFFF),
                             border: new OutlineInputBorder(
@@ -671,7 +742,7 @@ class _PushReportState extends State<PushReport> {
                         height: 35,
                       ),
                       Image.asset(
-                        "assets/images/shield.png",
+                        "assets/images/toolet2.jpg",
                         width: 50,
                         height: 50,
                       )
@@ -721,11 +792,81 @@ class _PushReportState extends State<PushReport> {
                       "assets/images/Temperature.png",
                       width: 50,
                       height: 50,
-                    )
+                    ),
                   ]),
                 ],
               ),
-
+              Container(
+                margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
+                width: MediaQuery.of(context).size.width,
+                height: 2,
+                child: ColoredBox(color: Color(0xff93cfc4)),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Comment".tr,
+                style: TextStyle(
+                    color: Color(0xff93cfc4),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                child: TextFormField(
+                  controller: Comment,
+                  decoration: new InputDecoration(
+                    fillColor: Color(0xFFFFFFFF),
+                    border: new OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: new BorderSide(color: Colors.teal)),
+                  ),
+                  maxLines: 5,
+                ),
+                margin: EdgeInsets.all(5),
+                width: MediaQuery.of(context).size.width * 90 / 100,
+              ),   SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
+                width: MediaQuery.of(context).size.width,
+                height: 2,
+                child: ColoredBox(color: Color(0xff93cfc4)),
+              ),
+              Text(
+                "Activities".tr,
+                style: TextStyle(
+                    color: Color(0xff93cfc4),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                child: TextFormField(
+                  controller: Activities,
+                  decoration: new InputDecoration(
+                    fillColor: Color(0xFFFFFFFF),
+                    border: new OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: new BorderSide(color: Colors.teal)),
+                  ),
+                  maxLines: 5,
+                ),
+                margin: EdgeInsets.all(5),
+                width: MediaQuery.of(context).size.width * 90 / 100,
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 child: ElevatedButton(
                     onPressed: () async {
@@ -794,6 +935,13 @@ class _PushReportState extends State<PushReport> {
                             "milk": milk,
                             "juice": juice,
                             "Hygiene": Hygiene.text,
+                            "Activity": Activities.text,
+                            "breakfast_details": breakDetails.text,
+                            "launch_details": lunchDetails.text,
+                            "snaks_details": SnaksDetails.text,
+                            "ToiletNo1": Toilet1.text,
+                            "ToiletNo2": Toilet2.text,
+
                             "Temperature": Temperature.text ?? 37.5,
                             "Sleep": Sleep.text,
                             "Comment": Comment.text ?? "Good Mood"
@@ -830,8 +978,9 @@ class _PushReportState extends State<PushReport> {
                     child: Text("Send")),
                 margin: EdgeInsets.fromLTRB(20, 20, 20, 50),
               ),
-            ],
+          SizedBox(height: 400,)  ],
           ),
+
         ));
   }
 

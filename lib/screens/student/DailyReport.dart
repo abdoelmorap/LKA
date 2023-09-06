@@ -113,10 +113,10 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                               60), singelItemComent(
                               0xfff39eaa,
                               "Activities".tr,
-                              snapshot.data!.comment.toString(),
+                              snapshot.data!.Activity.toString(),
                               "assets/images/comment.png",
                               70),
-                          rowItem(
+                          rowItemFood(
                               0xff93CFC4,
                               "FOOD".tr,
                               [
@@ -133,7 +133,11 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                 "assets/images/plate.png",
                                 "assets/images/halfdish.webp",
                                 "assets/images/fulldish.jpg"
-                              ],
+                              ],[
+                            snapshot.data!.breakfast_details.toString(),
+                            snapshot.data!.launch_details.toString(),
+                            snapshot.data!.snaks_details.toString(),
+                          ],
                               60),
                           rowItem(
                               0xffffd402,
@@ -154,12 +158,30 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                 "assets/images/full_water.jpeg",
                               ],
                               25),
-                          singelItem(
-                              0xfff39eaa,
-                              "Hygiene".tr,
-                              "X " + snapshot.data!.hygiene.toString(),
-                              "assets/images/shield.png",
-                              70),
+
+
+Row(children: [
+  SizedBox(width: 12),
+  rowDeffrentItem(
+      0xff93CFC4,
+      "Toilet1".tr,
+      "X"+    snapshot.data!.ToiletNo1.toString(),
+      "assets/images/toolet1.png",
+      60),  rowDeffrentItem(
+      0xff93CFC4,
+      "Toilet2".tr,
+      "X"+    snapshot.data!.ToiletNo2.toString(),
+      "assets/images/toolet2.jpg",
+      60),
+  rowDeffrentItem(
+      0xff93CFC4,
+      "Hands".tr,
+     "X"+ snapshot.data!.hygiene.toString(),
+      "assets/images/shield.png",
+      60),
+
+
+],),
                           singelItem(
                               0xff93CFC4,
                               "Temperature".tr,
@@ -172,7 +194,12 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                               snapshot.data!.sleep.toString() + " Minutes",
                               "assets/images/sleep.png",
                               70),
-
+                          singelItemComent(
+                              0xfff39eaa,
+                              "Comment".tr,
+                              snapshot.data!.comment.toString(),
+                              "assets/images/comment.png",
+                              70),
                           SizedBox(
                             height: 50,
                           )
@@ -310,7 +337,135 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
       width: MediaQuery.of(context).size.width,
     );
   }
+  Widget rowItemFood(int color, String title, List<String> titles,
+      List<int?> itemStatus, List<String> itemsImages, List<String> foodDetails, double width) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(15.0, 10, 15, 0),
+      padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+      decoration: BoxDecoration(
+          border: Border(
+              left: BorderSide(
+                color: Color(color),
+                width: 5,
+              ))),
+      child: Column(
+        children: [
+          Container(
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
+            ),
+            height: 35,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.fromLTRB(100.0, 0, 100, 0),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Column(
+             children: [
+              Container(
+                child: Row(children: [
+                  Column(
+                    children: [   SizedBox(height: 10,),
+                      Text(titles[0]),
+                      itemStatus[0] == 1
+                          ? Image.asset(
+                        itemsImages[0],
+                        width: width,
+                      )
+                          : itemStatus[0] == 2
+                          ? Image.asset(
+                        itemsImages[1],
+                        width: width,
+                      )
+                          : itemStatus[0] == 3
+                          ? Image.asset(
+                        itemsImages[2],
+                        width: width,
+                      )
+                          : Image.asset(
+                        "assets/images/na.png",
+                        width: 70,
+                      ),
+                      SizedBox(height: 25,)    ],
 
+                  ),SizedBox(width: 10,),
+  Container(child:
+  Text(foodDetails[1],style: TextStyle(fontSize: 16),textAlign: TextAlign.justify,)
+    ,width: 250,)                ],),
+               // right: 0,
+              ),
+              Container(
+                child:Row(children: [ Column(
+                  children: [   SizedBox(height: 10,),
+                    Text(titles[1]),
+                    itemStatus[1] == 1
+                        ? Image.asset(
+                      itemsImages[0],
+                      width: width,
+                    )
+                        : itemStatus[1] == 2
+                        ? Image.asset(
+                      itemsImages[1],
+                      width: width,
+                    )
+                        : itemStatus[1] == 3
+                        ? Image.asset(
+                      itemsImages[2],
+                      width: width,
+                    )
+                        : Image.asset(
+                      "assets/images/na.png",
+                      width: 70,
+                    ),
+                    SizedBox(height: 25,)   ],
+                ),
+                  Container(child:                   Text(foodDetails[0],)
+                    ,width: 250,)     ])
+              //  left: 0,
+              ),
+              Container(
+                child: Row(children: [
+Column(
+                  children: [   SizedBox(height: 10,),
+                    Text(titles[2]),
+                    itemStatus[2] == 1
+                        ? Image.asset(
+                      itemsImages[0],
+                      width: width,
+                    )
+                        : itemStatus[2] == 2
+                        ? Image.asset(
+                      itemsImages[1],
+                      width: width,
+                    )
+                        : itemStatus[2] == 3
+                        ? Image.asset(
+                      itemsImages[2],
+                      width: width,
+                    )
+                        : Image.asset(
+                      "assets/images/na.png",
+                      width: 70,
+                    ),
+                 SizedBox(height: 25,) ],
+                ),     Container(child:
+                  Text(foodDetails[2],)
+                    ,width: 250,)     ],)
+
+              )
+            ],
+          )
+        ],
+      ),
+      // height: 150,
+      width: MediaQuery.of(context).size.width,
+    );
+  }
   Widget singelItem(int color, String title, String itemStatus,
       String itemsImages, double width) {
     return Container(
@@ -361,6 +516,57 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
       width: MediaQuery.of(context).size.width,
     );
   }
+  Widget rowDeffrentItem(int color, String title, String itemStatus,
+      String itemsImages, double width) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(2.0, 2, 2, 2),
+      //padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+      decoration: BoxDecoration(
+          border: Border(
+              left: BorderSide(
+                color: Color(color),
+                width: 5,
+              ))),
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xff93cfc4),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
+            ),
+            height: 35,
+            alignment: Alignment.center,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  itemsImages,
+                  width: width,
+                ),
+                Text(
+                  "$itemStatus",
+                  style: TextStyle(fontSize: 25),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+      height: 170,
+
+      width: MediaQuery.of(context).size.width/3 -10,
+    );
+  }
 
   Widget singelItemComent(int color, String title, String itemStatus,
       String itemsImages, double width) {
@@ -402,11 +608,11 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                       width: MediaQuery.of(context).size.width * 80 / 100,
                       child: Text(
                         "$itemStatus",
-                        style: TextStyle(fontSize: 25),
+                        style: TextStyle(fontSize: 16),
                       ))
                 ],
               ),
-            )
+            ),SizedBox(height: 35,)
           ],
         ),
         width: MediaQuery.of(context).size.width,

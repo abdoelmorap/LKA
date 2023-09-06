@@ -5,6 +5,12 @@ class DailyReportModel {
   int? noon;
   int? afternoon;
   int? breakfast;
+  String? breakfast_details;
+  String? launch_details;
+  String? snaks_details;
+  String? Activity;
+  int? ToiletNo1;
+  int? ToiletNo2;
   int? lunch;
   int? snack;
   int? water;
@@ -57,6 +63,12 @@ class DailyReportModel {
       this.sleep,
       this.comment,
       this.dateOfDay,
+        this.breakfast_details,
+        this.launch_details,
+        this.snaks_details,
+        this.Activity,
+        this.ToiletNo1,
+        this.ToiletNo2,
       this.createdAt,
       this.updatedAt,
       this.admissionNo,
@@ -90,6 +102,12 @@ class DailyReportModel {
     afternoon = json['afternoon'];
     breakfast = json['Breakfast'];
     lunch = json['Lunch'];
+    breakfast_details = json['breakfast_details'];
+    launch_details = json['launch_details'];
+    snaks_details = json['snaks_details'];
+    Activity = json['Activity'];
+    ToiletNo1 = json['ToiletNo1'];
+    ToiletNo2 = json['ToiletNo2'];
     snack = json['Snack'];
     water = json['water'];
     milk = json['milk'];
