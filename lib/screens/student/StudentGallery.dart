@@ -79,10 +79,16 @@ Widget PostContainer(data,index,image){
                 backgroundImage: NetworkImage(image),
                 backgroundColor: Colors.grey,
               ),
-              title: Text(
-                data.data!.dATA![index].TeacherName??'',
-                style: Theme.of(context).textTheme.headline6,
-              ),
+              title: Column(children: [SizedBox(height: 5,),
+                Text(
+                  data.data!.dATA![index].TeacherName??'',
+                  style: GoogleFonts.bubblegumSans(fontSize: 21,color: Colors.pink,fontWeight: FontWeight.bold),
+                ),SizedBox(height: 0 ,),Text(
+                  "${ DateTime.parse(data.data!.dATA![index].images[0]!.createdAt).day.toString()}/${
+                      DateTime.parse(data.data!.dATA![index].images[0]!.createdAt).month.toString()}/${ DateTime.parse(data.data!.dATA![index].images[0]!.createdAt).year.toString()}",
+                  textAlign: TextAlign.justify,style:  Theme.of(context).textTheme.headline6?.copyWith(fontSize: 12),
+                ),
+              ],crossAxisAlignment: CrossAxisAlignment.start,)
             ),
           ],
         ),
@@ -97,18 +103,20 @@ Widget PostContainer(data,index,image){
             itemCount: data.data!.dATA![index].images!.length,
             itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                 Container(
-                  child:       CachedNetworkImage(
-                      width: MediaQuery.of(context).size.width,
-                      imageUrl:
-                      "${InfixApi.root}public/images/${data.data!.dATA![index].images![itemIndex].url}",
-                      progressIndicatorBuilder: (BuildContext,
-                          String, DownloadProgress) {
-                        return Container(
-                          child: CircularProgressIndicator(),
-                          width: 100,
-                          height: 100,
-                        );
-                      }),
+                  child:
+                    CachedNetworkImage(
+                        width: MediaQuery.of(context).size.width,
+                        height: double.infinity,
+                        imageUrl:
+                        "${InfixApi.root}public/images/${data.data!.dATA![index].images![itemIndex].url}",
+                        progressIndicatorBuilder: (BuildContext,
+                            String, DownloadProgress) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+
+                          );
+                        }),
+
                 ), options:  CarouselOptions(
               height: 400,
               aspectRatio: 16/9,
@@ -141,10 +149,11 @@ Widget PostContainer(data,index,image){
         Container(
           child: Text(
             data.data!.dATA![index].content!,
-            textAlign: TextAlign.justify,style: GoogleFonts.butterflyKids(fontSize: 29,color: Colors.pink,fontWeight: FontWeight.bold),
+            textAlign: TextAlign.justify,style: GoogleFonts.butterflyKids(fontSize: 29,color: Colors.pink,fontWeight: FontWeight.w900),
           ),
           width: MediaQuery.of(context).size.width - 50,
         ),
+
         Row(children: [
           SizedBox(
             width: 10,
